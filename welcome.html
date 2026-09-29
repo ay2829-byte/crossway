@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Crossway: the free project tracker</title>
+<meta name="description" content="Crossway is a free, simple project tracker with tables, Kanban boards and a calendar. Sign up with Google in one click.">
+<meta property="og:title" content="Crossway">
+<meta property="og:description" content="Run your projects like a pro. Free forever.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"%3E%3Crect width="32" height="32" rx="9" fill="%230073EA"/%3E%3Cpath d="M8 23.5C14 23.5 18 8.5 24 8.5" fill="none" stroke="%23fff" stroke-width="3.4" stroke-linecap="round"/%3E%3Cpath d="M8 8.5C14 8.5 18 23.5 24 23.5" fill="none" stroke="%23fff" stroke-opacity=".5" stroke-width="3.4" stroke-linecap="round"/%3E%3Ccircle cx="24" cy="8.5" r="3.1" fill="%2300C875"/%3E%3C/svg%3E">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#07081A; --bg2:#0C0E24; --card:#111331; --card2:#161940;
+  --ink:#F4F5FB; --ink2:#C9CCE0; --muted:#9296B4; --faint:#62668A;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.14);
+  --blue:#5B7BFF; --orange:#FF6B3D; --green:#17C3A0; --violet:#A36BFF;
+  --s-todo:#848A9C; --s-doing:#EE8E0B; --s-wait:#8E44CF; --s-stuck:#D32A44; --s-done:#00A862;
+  --font:"Poppins",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --display:"Poppins",ui-sans-serif,system-ui,sans-serif;
+  --dw:700; --dls:-.035em;
+  --logo:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:24px}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;z-index:40;transition:background .25s,border-color .25s,backdrop-filter .25s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(7,8,26,.72);backdrop-filter:blur(14px) saturate(1.4);border-bottom-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:30px;height:74px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{height:22px;width:auto}
+.wordmark{font:800 26px/1 var(--logo);letter-spacing:-.04em;color:var(--ink)}
+.links{display:flex;gap:26px;font-size:15px;color:var(--ink2)}
+.links a{text-decoration:none;transition:color .15s}
+.links a:hover{color:#fff}
+.nav .sp{flex:1}
+.btn{background:none;display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:11px 22px;font-weight:600;font-size:15px;border:1px solid transparent;text-decoration:none;white-space:nowrap;transition:transform .2s,background .2s,box-shadow .2s,color .2s}
+.btn svg{width:16px;height:16px;transition:transform .2s}
+.btn:hover svg{transform:translateX(4px)}
+.btn.white{background:#fff;color:#0B0D25;box-shadow:0 0 0 0 rgba(91,123,255,.5),0 10px 30px rgba(91,123,255,.35)}
+.btn.white:hover{transform:translateY(-2px);box-shadow:0 0 0 6px rgba(91,123,255,.18),0 16px 40px rgba(91,123,255,.45)}
+.btn.ghost{color:var(--ink2);border-color:var(--line2)}
+.btn.ghost:hover{color:#fff;border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.05)}
+.btn.plain{color:var(--ink2);padding-inline:10px}
+.btn.plain:hover{color:#fff}
+.btn.xl{padding:17px 34px;font-size:18px}
+
+/* hero */
+.hero{position:relative;padding-top:150px;overflow:hidden;isolation:isolate}
+.lanes{position:absolute;inset:0;z-index:-2;pointer-events:none}
+.lane{position:absolute;height:120px;border-radius:999px;filter:blur(48px);opacity:.55;will-change:transform}
+.lane.l1{top:120px;width:70vw;background:var(--blue);animation:drift1 16s ease-in-out infinite}
+.lane.l2{top:300px;width:44vw;background:var(--orange);animation:drift2 19s ease-in-out infinite}
+.lane.l3{top:480px;width:62vw;background:var(--green);animation:drift3 22s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translateX(-45vw)}50%{transform:translateX(55vw)}}
+@keyframes drift2{0%,100%{transform:translateX(90vw)}50%{transform:translateX(-10vw)}}
+@keyframes drift3{0%,100%{transform:translateX(-30vw)}50%{transform:translateX(60vw)}}
+.grain{position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:26px 26px;mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 30%,transparent 80%)}
+.hero .center{text-align:center;display:flex;flex-direction:column;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line2);background:rgba(255,255,255,.04);backdrop-filter:blur(8px);border-radius:999px;padding:6px 14px 6px 6px;font-size:14px;color:var(--ink2);margin-bottom:28px}
+.pill b{background:linear-gradient(90deg,var(--blue),var(--violet));color:#fff;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;letter-spacing:.02em}
+h1{font:var(--dw) clamp(52px,8.4vw,124px)/.94 var(--display);letter-spacing:var(--dls);margin:0;text-wrap:balance}
+h1 .line{display:block}
+.rot{display:inline-grid;vertical-align:bottom;overflow:hidden;height:1.02em;padding-bottom:.08em}
+.rot span{grid-area:1/1;transform:translateY(110%);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .4s;background:linear-gradient(95deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.rot span.on{transform:translateY(0);opacity:1}
+.rot span.out{transform:translateY(-110%);opacity:0}
+.sub{font-size:clamp(17px,1.6vw,21px);color:var(--ink2);max-width:40ch;margin:28px auto 0;text-wrap:balance}
+.starts{margin-top:34px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.starts p{margin:0;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:720px}
+.chip{border:1px solid var(--line2);background:rgba(255,255,255,.035);border-radius:999px;padding:9px 17px;font-size:15px;font-weight:500;color:var(--ink2);display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 0 0 var(--c);transition:box-shadow .2s}
+.chip:hover{color:#fff;border-color:rgba(255,255,255,.3);transform:translateY(-1px)}
+.chip[aria-pressed="true"]{color:#fff;border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,transparent)}
+.chip[aria-pressed="true"] i{box-shadow:0 0 12px 2px var(--c)}
+.ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:34px}
+.fine{margin-top:18px;font-size:14px;color:var(--faint);display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.fine span{display:inline-flex;align-items:center;gap:6px}
+.fine svg{width:14px;height:14px;color:var(--green)}
+
+/* 3D stage */
+.stage{position:relative;margin:70px auto 0;max-width:1100px;perspective:1600px;padding-bottom:40px}
+.glow{position:absolute;inset:8% 6% 0;background:conic-gradient(from 200deg at 50% 50%,var(--blue),var(--violet),var(--orange),var(--green),var(--blue));filter:blur(80px);opacity:.45;z-index:0;border-radius:40px}
+.tilt{position:relative;z-index:1;transform-style:preserve-3d;transform:rotateX(var(--rx,22deg)) rotateY(var(--ry,0deg)) scale(var(--sc,.94));transform-origin:50% 0;transition:transform .12s linear}
+.mock{background:#FFFFFF;color:#1D1F2C;border-radius:20px;overflow:hidden;font-size:13px;box-shadow:0 50px 120px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.12);text-align:left}
+.mbar{display:flex;align-items:center;gap:7px;padding:12px 16px;background:#F4F5F8;border-bottom:1px solid #E6E8EE}
+.mbar i{width:11px;height:11px;border-radius:50%}
+.mbar .url{margin-left:14px;font-size:12px;color:#8A8FA3;background:#fff;border:1px solid #E6E8EE;border-radius:7px;padding:3px 12px}
+.mbody{display:grid;grid-template-columns:200px minmax(0,1fr);min-height:420px}
+.mside{background:#F3F4F7;padding:16px 12px;display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:#3A3D4D}
+.mside .lg{display:flex;align-items:center;gap:7px;font:800 17px var(--logo);letter-spacing:-.04em;color:#16152B;margin:0 0 14px 6px}
+.mside .lg svg{height:14px}
+.mside .it{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px}
+.mside .it.on{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.06),0 0 0 1px #EDEEF2;font-weight:600}
+.mside .it b{width:9px;height:9px;border-radius:3px}
+.mside h6{margin:12px 8px 4px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9EAE}
+.mmain{padding:20px 22px;min-width:0}
+.mtitle{font:700 22px/1.2 var(--font);letter-spacing:-.02em}
+.mdesc{color:#6C7082;font-size:12.5px;margin:2px 0 12px}
+.mtabs{display:flex;gap:16px;font-size:12px;color:#6C7082;border-bottom:1px solid #EDEEF2;margin-bottom:14px}
+.mtabs span{padding-bottom:8px}
+.mtabs .on{color:#1D1F2C;box-shadow:inset 0 -2px 0 #3B5BDB}
+.mgname{font-weight:600;font-size:13.5px;color:var(--g);margin:12px 0 6px}
+.mtable{border:1px solid #E3E5EB;border-left:4px solid var(--g);border-radius:8px;overflow:hidden}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) 54px 118px 92px 74px;height:34px;border-top:1px solid #E3E5EB}
+.mrow:first-child{border-top:0}
+.mrow.h{height:28px;font-size:11px;color:#9A9EAE}
+.mrow>div{display:flex;align-items:center;justify-content:center;border-left:1px solid #E3E5EB;white-space:nowrap;overflow:hidden}
+.mrow>div:first-child{justify-content:flex-start;padding-left:12px;border-left:0;font-weight:500}
+.st{color:#fff;font-weight:600;font-size:12px;background:var(--c);transition:background .4s;text-shadow:0 1px 1px rgba(0,0,0,.2)}
+.st.flip{animation:pop .55s ease}
+@keyframes pop{40%{transform:scale(1.08)}}
+.mav{width:22px;height:22px;border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:grid;place-items:center}
+.mbar2{width:56px;height:6px;border-radius:3px;background:#EEF0F4;overflow:hidden}
+.mbar2 i{display:block;height:100%;background:#00A862;transition:width .5s}
+.float{position:absolute;z-index:3;background:rgba(17,19,49,.78);backdrop-filter:blur(14px);border:1px solid var(--line2);border-radius:16px;padding:13px 16px;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--ink);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.float small{display:block;color:var(--muted);font-size:12px}
+.f1{top:40px;right:-30px;animation:bob 6s ease-in-out infinite}
+.f2{bottom:90px;left:-40px;animation:bob 7s ease-in-out -2s infinite}
+.f3{top:180px;left:-54px;animation:bob 8s ease-in-out -4s infinite}
+@keyframes bob{50%{transform:translateY(-10px)}}
+.ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none}
+.ic svg{width:17px;height:17px}
+.ring{width:44px;height:44px}
+
+/* ticker */
+.ticker{border-block:1px solid var(--line);background:var(--bg2);overflow:hidden;padding-block:18px;margin-top:40px}
+.track{display:flex;gap:14px;width:max-content;animation:tick 38s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+.tk{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:999px;padding:7px 8px 7px 16px;font-size:14px;color:var(--ink2);white-space:nowrap;background:rgba(255,255,255,.02)}
+.tk .s{color:#fff;font-weight:600;font-size:12px;border-radius:999px;padding:3px 10px;background:var(--c)}
+
+/* sections */
+section.block{padding-block:120px}
+.kick{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--c,var(--blue));margin-bottom:14px;display:block}
+.shead{max-width:760px;margin-bottom:56px}
+.shead h2,.big h2{font:var(--dw) clamp(38px,5vw,72px)/.98 var(--display);letter-spacing:var(--dls);margin:0;text-wrap:balance}
+.shead p{color:var(--ink2);font-size:19px;margin:18px 0 0;max-width:52ch}
+.grad{background:linear-gradient(95deg,var(--blue),var(--violet) 45%,var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px}
+.tile{position:relative;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;overflow:hidden;min-height:260px;display:flex;flex-direction:column;gap:10px;isolation:isolate}
+.tile::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--c) 22%,transparent),transparent 60%);opacity:0;transition:opacity .3s}
+.tile:hover::before{opacity:1}
+.tile:hover{border-color:color-mix(in srgb,var(--c) 45%,transparent)}
+.tile h3{margin:0;font-size:22px;font-weight:600;letter-spacing:-.02em}
+.tile p{margin:0;color:var(--muted);max-width:42ch}
+.w3{grid-column:span 3}.w2{grid-column:span 2}.w4{grid-column:span 4}
+.demo{margin-top:auto;padding-top:18px}
+.kb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.kh{font-size:11.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.kh i{width:8px;height:8px;border-radius:2px;background:var(--c)}
+.kc{background:var(--card2);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:9px;padding:9px 11px;font-size:13px;font-weight:500;margin-bottom:8px;transition:transform .25s}
+.kc small{display:block;color:var(--muted);font-weight:400}
+.tile:hover .kc.mv{transform:translateX(calc(100% + 10px)) rotate(2deg)}
+.calg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.calg span{background:var(--card2);border-radius:7px;min-height:38px;padding:4px 6px;font-size:11px;color:var(--faint);display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.calg span.t{outline:2px solid var(--blue);color:#fff}
+.calg em{font-style:normal;font-size:10px;color:#fff;background:color-mix(in srgb,var(--c) 45%,transparent);border-left:2px solid var(--c);border-radius:3px;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zero{font:var(--dw) clamp(90px,11vw,150px)/.85 var(--display);letter-spacing:var(--dls);background:linear-gradient(160deg,#fff,#7E8BC9);-webkit-background-clip:text;background-clip:text;color:transparent;margin-top:auto}
+.upd{display:flex;gap:10px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:11px 13px;font-size:13.5px;margin-top:8px}
+.upd .mav{width:28px;height:28px;font-size:10px;flex:none}
+.upd small{color:var(--faint)}
+.cl{display:flex;align-items:center;gap:9px;font-size:14px;padding:3px 0}
+.cl i{width:16px;height:16px;border-radius:5px;border:1.5px solid var(--faint);display:grid;place-items:center;flex:none}
+.cl i.d{background:var(--s-done);border-color:var(--s-done)}
+.cl i.d svg{width:10px;height:10px}
+.cl.d span{text-decoration:line-through;color:var(--muted)}
+.lock{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap}
+.lock span{font-size:13px;border:1px solid var(--line2);border-radius:999px;padding:6px 12px;color:var(--ink2);display:inline-flex;gap:7px;align-items:center}
+.lock svg{width:14px;height:14px;color:var(--green)}
+.big{padding-block:40px 120px;text-align:center}
+.big h2{max-width:16ch;margin:0 auto}
+.big h2 .strike{position:relative;color:var(--faint)}
+.big h2 .strike::after{content:"";position:absolute;left:-2%;right:-2%;top:52%;height:.09em;background:var(--orange);border-radius:9px;transform:rotate(-3deg)}
+.big p{color:var(--ink2);font-size:19px;margin:22px auto 0;max-width:46ch}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{border-top:1px solid var(--line2);padding-top:24px}
+.step .n{font:var(--dw) 56px/1 var(--display);letter-spacing:var(--dls);color:transparent;-webkit-text-stroke:1.5px var(--c);margin-bottom:14px}
+.step h3{margin:0 0 8px;font-size:21px;font-weight:600}
+.step p{margin:0;color:var(--muted)}
+.final{padding-block:0 120px}
+.finalbox{position:relative;border-radius:32px;padding:2px;background:conic-gradient(from var(--ang,0deg),var(--blue),var(--violet),var(--orange),var(--green),var(--blue));animation:spin 6s linear infinite}
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes spin{to{--ang:360deg}}
+.finalin{background:radial-gradient(120% 140% at 50% 0%,#1A1E52 0,var(--bg) 60%);border-radius:30px;padding:90px 32px;text-align:center;overflow:hidden;position:relative}
+.finalin h2{font:var(--dw) clamp(40px,6vw,88px)/.95 var(--display);letter-spacing:var(--dls);margin:0 auto 18px;max-width:14ch}
+.finalin p{color:var(--ink2);font-size:19px;margin:0 0 34px}
+footer{border-top:1px solid var(--line);padding-block:30px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+footer .wordmark{font-size:20px}
+footer .brand svg{height:17px}
+footer a{text-decoration:none}
+footer a:hover{color:#fff}
+footer .sp{flex:1}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* auth modal */
+.scrim{position:fixed;inset:0;background:rgba(3,4,14,.66);backdrop-filter:blur(8px);z-index:60;display:grid;place-items:center;padding:16px;animation:fade .25s ease}
+@keyframes fade{from{opacity:0}}
+.modal{width:min(440px,100%);background:linear-gradient(180deg,#15183E,#0E1030);border:1px solid var(--line2);border-radius:26px;box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 0 1px rgba(91,123,255,.15),0 0 80px rgba(91,123,255,.18);padding:36px 32px 26px;position:relative;animation:rise .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{transform:translateY(16px) scale(.98);opacity:0}}
+.modal .x{position:absolute;top:14px;right:14px;border:0;background:none;width:36px;height:36px;border-radius:50%;color:var(--muted);font-size:22px}
+.modal .x:hover{background:rgba(255,255,255,.06);color:#fff}
+.modal .brand{margin-bottom:20px}
+.modal h2{margin:0 0 6px;font:var(--dw) 32px/1.05 var(--display);letter-spacing:var(--dls)}
+.modal .sub2{margin:0 0 20px;color:var(--muted);font-size:15px}
+.usecase{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;border-radius:999px;padding:4px 12px;margin-bottom:18px;color:#fff;background:color-mix(in srgb,var(--c) 22%,transparent);border:1px solid color-mix(in srgb,var(--c) 55%,transparent)}
+.usecase i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--line2);background:rgba(255,255,255,.96);color:#15172E;border-radius:14px;padding:13px;font-weight:600;font-size:15px;transition:transform .15s}
+.gbtn:hover{transform:translateY(-1px)}
+.gbtn .g{width:20px;height:20px;border-radius:50%;background:conic-gradient(#4285F4 0 25%,#34A853 0 50%,#FBBC05 0 75%,#EA4335 0);display:grid;place-items:center}
+.gbtn .g::after{content:"";width:12px;height:12px;border-radius:50%;background:#fff}
+.or{display:flex;align-items:center;gap:12px;color:var(--faint);font-size:12px;text-transform:uppercase;letter-spacing:.1em;margin:18px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line2)}
+.modal form{display:flex;flex-direction:column;gap:12px}
+.modal label{font-size:13.5px;font-weight:500;color:var(--ink2);display:flex;flex-direction:column;gap:6px}
+.modal input{border:1px solid var(--line2);border-radius:13px;padding:12px 14px;font-size:15px;background:rgba(255,255,255,.04);color:#fff}
+.modal input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(91,123,255,.22)}
+.modal .btn.white{justify-content:center;border-radius:13px;padding:14px;margin-top:4px}
+.swap{text-align:center;margin-top:16px;font-size:14.5px;color:var(--muted)}
+.swap button{border:0;background:none;color:#fff;font-weight:600;padding:0;text-decoration:underline;text-underline-offset:3px}
+.legal{text-align:center;font-size:12px;color:var(--faint);margin-top:14px}
+.msg.err{background:rgba(214,58,79,.14);border-color:rgba(214,58,79,.45);color:#FFB3BE}
+.fgt{border:0;background:none;color:var(--muted);font-size:13.5px;padding:0;align-self:flex-end;margin-top:-4px}
+.fgt:hover{color:#fff}
+.legal a{color:var(--ink2)}
+.msg{font-size:14px;border-radius:12px;padding:10px 12px;background:rgba(23,195,160,.12);border:1px solid rgba(23,195,160,.35);color:#9FF0DD;margin-bottom:14px}
+
+@media (max-width:1060px){.f1{right:0}.f2,.f3{left:0}.mbody{grid-template-columns:1fr}.mside{display:none}}
+@media (max-width:900px){
+  .links{display:none}
+  .bento{grid-template-columns:1fr}.w2,.w3,.w4{grid-column:auto}
+  .steps{grid-template-columns:1fr}
+  .f3{display:none}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .nav .wrap{gap:10px}.nav .btn{padding:9px 14px;font-size:14px}.nav .btn.white svg{display:none}.wordmark{font-size:23px}
+  .hero{padding-top:118px}
+  .mrow{grid-template-columns:minmax(0,1fr) 40px 104px}
+  .mrow>div:nth-child(4),.mrow>div:nth-child(5){display:none}
+  .f1{top:-18px;right:6px;padding:10px 12px;font-size:13px}.f2{display:none}
+  .stage{margin-top:48px}
+  section.block{padding-block:80px}
+  .tile{padding:22px;min-height:0}
+  .finalin{padding:64px 20px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}html{scroll-behavior:auto}.reveal{opacity:1;transform:none}.tilt{transform:none}}
+
+</style>
+</head>
+<body>
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Crossway home"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg><span class="wordmark">crossway</span></a>
+    <nav class="links"><a href="#features">Features</a><a href="#how">How it works</a><a href="#free">Pricing</a></nav>
+    <span class="sp"></span>
+    <button class="btn plain" data-auth="signin">Log in</button>
+    <button class="btn white" data-auth="signup">Get started <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="lanes" aria-hidden="true"><i class="lane l1"></i><i class="lane l2"></i><i class="lane l3"></i></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="wrap center">
+      <span class="pill"><b>FREE</b>Unlimited projects. No credit card.</span>
+      <h1><span class="line">Run your</span><span class="line"><span class="rot" id="rot" aria-live="polite"></span></span><span class="line">like a pro.</span></h1>
+      <p class="sub">Crossway is the free, ridiculously simple tracker for everything you're juggling. Tables, boards and a calendar in one clean place.</p>
+      <div class="starts"><p>Start with</p><div class="chips" id="chips" role="group" aria-label="Start with"></div></div>
+      <div class="ctas">
+        <button class="btn white xl" data-auth="signup">Start free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+        <a class="btn ghost xl" href="#features">See what's inside</a>
+      </div>
+      <div class="fine"><span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>Sign up with Google in one click</span><span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>Your data stays private</span></div>
+
+      <div class="stage" id="stage" aria-hidden="true">
+        <div class="glow"></div>
+        <div class="tilt" id="tilt">
+          <div class="mock">
+            <div class="mbar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><span class="url">crossway.app</span></div>
+            <div class="mbody">
+              <div class="mside">
+                <div class="lg"><svg viewBox="0 0 176 181"><rect width="176" height="50" rx="25" fill="#3B5BDB"/><rect y="65.5" width="94" height="50" rx="25" fill="#F2643D"/><rect y="131" width="176" height="50" rx="25" fill="#12A38A"/></svg>crossway</div>
+                <div class="it">All tasks</div><div class="it">Today</div><div class="it">Upcoming</div>
+                <h6>Projects</h6><div id="mproj"></div>
+              </div>
+              <div class="mmain">
+                <div class="mtitle" id="mtitle"></div><div class="mdesc" id="mdesc"></div>
+                <div class="mtabs"><span class="on">Main table</span><span>Kanban</span><span>Calendar</span></div>
+                <div id="mgroups"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="float f1"><span class="ic" style="background:rgba(0,168,98,.18);color:#3DDC97"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span><div><b id="fmsg">Homepage copy is done</b><small>Just now</small></div></div>
+        <div class="float f2"><svg class="ring" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="5"/><circle id="ringArc" cx="22" cy="22" r="18" fill="none" stroke="#3DDC97" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="80" transform="rotate(-90 22 22)" style="transition:stroke-dashoffset .6s"/></svg><div><b id="fpct">30%</b><small>of this project done</small></div></div>
+        <div class="float f3"><span class="ic" style="background:rgba(255,107,61,.18);color:#FF8A63"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" stroke-linecap="round"/></svg></span><div><b id="fdue">3 due this week</b><small>Nothing overdue</small></div></div>
+      </div>
+    </div>
+    <div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="shead reveal"><span class="kick">Features</span><h2>Everything you need. <span class="grad">Nothing you pay for.</span></h2><p>Three ways to see the same work, plus the details that keep it moving.</p></div>
+      <div class="bento">
+        <div class="tile w4 reveal" style="--c:#F2643D"><span class="kick">Kanban</span><h3>Drag work from start to done</h3><p>Hover this card and watch a task move along.</p>
+          <div class="demo"><div class="kb">
+            <div><div class="kh" style="--c:var(--s-todo)"><i></i>Not started</div><div class="kc" style="--c:var(--s-todo)">Launch email<small>Oct 6</small></div><div class="kc" style="--c:var(--s-todo)">Load testing<small>Oct 8</small></div></div>
+            <div><div class="kh" style="--c:var(--s-doing)"><i></i>Working on it</div><div class="kc mv" style="--c:var(--s-doing)">Case study<small>Oct 3</small></div><div class="kc" style="--c:var(--s-doing)">Analytics events<small>Oct 4</small></div></div>
+            <div><div class="kh" style="--c:var(--s-done)"><i></i>Done</div><div class="kc" style="--c:var(--s-done)">Brand logo<small>Sep 24</small></div></div>
+          </div></div></div>
+        <div class="tile w2 reveal" style="--c:#5B7BFF" id="free"><span class="kick">Pricing</span><h3>Every feature, free</h3><p>No seats, no tiers, no trial that runs out.</p><div class="zero">$0</div></div>
+        <div class="tile w3 reveal" style="--c:#17C3A0"><span class="kick">Calendar</span><h3>Plan the month at a glance</h3><p>Running late? Drag a task to another day and it's rescheduled.</p>
+          <div class="demo"><div class="calg" id="miniCal"></div></div></div>
+        <div class="tile w3 reveal" style="--c:#A36BFF"><span class="kick">Details</span><h3>Checklists, notes and updates</h3><p>Break big work into steps and keep everyone in the loop.</p>
+          <div class="demo">
+            <div class="cl d"><i class="d"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 5.2l2 2 4-4.4"/></svg></i><span>Wireframes</span></div>
+            <div class="cl d"><i class="d"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 5.2l2 2 4-4.4"/></svg></i><span>High fidelity mockups</span></div>
+            <div class="cl"><i></i><span>Handoff notes</span></div>
+            <div class="upd"><span class="mav" style="background:#12A38A">MC</span><div><b>Maya</b> <small>2h ago</small><br>Mockups are ready for review.</div></div>
+          </div></div>
+        <div class="tile w3 reveal" style="--c:#EE8E0B"><span class="kick">Main table</span><h3>Status you can read from across the room</h3><p>Big color coded cells, owners, due dates, progress and timelines. Resize any column.</p></div>
+        <div class="tile w3 reveal" style="--c:#17C3A0"><span class="kick">Privacy</span><h3>Yours, and only yours</h3><p>Every account is walled off at the database level. Nobody else sees your work.</p>
+          <div class="lock"><span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>Google sign in</span><span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>Private by default</span><span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>Dark mode</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="big">
+    <div class="wrap reveal">
+      <h2>Stop paying <span class="strike">per seat</span> to move a card.</h2>
+      <p>Crossway gives you the board, the table and the calendar without the invoice. Keep your money for things that matter.</p>
+    </div>
+  </section>
+
+  <section class="block" id="how" style="padding-top:0">
+    <div class="wrap">
+      <div class="shead reveal"><span class="kick">How it works</span><h2>Up and running before your coffee cools.</h2></div>
+      <div class="steps">
+        <div class="step reveal" style="--c:#5B7BFF"><div class="n">01</div><h3>Sign up</h3><p>Continue with Google or use your email. Your first project is waiting for you.</p></div>
+        <div class="step reveal" style="--c:#FF6B3D"><div class="n">02</div><h3>Add your tasks</h3><p>Type a task, press Enter. Status, owner and due date are one click each.</p></div>
+        <div class="step reveal" style="--c:#17C3A0"><div class="n">03</div><h3>Track it to done</h3><p>Flip between table, board and calendar and watch the progress ring fill up.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap reveal">
+      <div class="finalbox"><div class="finalin">
+        <h2>Your next project starts <span class="grad">right here.</span></h2>
+        <p>Free forever. Set up in under a minute.</p>
+        <button class="btn white xl" data-auth="signup">Get started free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+      </div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg><span class="wordmark">crossway</span></a>
+    <span>© 2026 Crossway</span><span class="sp"></span>
+    <a href="privacy">Privacy</a><a href="terms">Terms</a><button class="btn plain" data-auth="signin" style="padding:0">Log in</button>
+  </div>
+</footer>
+
+<div class="scrim" id="authModal" hidden role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="modal" id="modal"></div></div>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ST={todo:["Not started","#848A9C"],doing:["Working on it","#EE8E0B"],wait:["Waiting","#8E44CF"],stuck:["Stuck","#D32A44"],done:["Done","#00A862"]};
+const AV={AY:"#3B5BDB",MC:"#12A38A",JL:"#F2643D",SR:"#8E44CF",PK:"#0B84A5"};
+const CASES={
+  projects:{label:"Projects",word:"launch",a:"#5B7BFF",b:"#A36BFF",title:"Website launch",desc:"New marketing site, live by end of month.",due:"3 due this week",
+    groups:[["This sprint","#579BFC",[["Finalize homepage copy","AY","doing","Oct 2",67],["Design signup screens","MC","wait","Oct 3",50],["Fix mobile nav","JL","stuck","Sep 30",20],["Analytics events","AY","todo","Oct 4",0]]],["Completed","#00C875",[["Pick domain and hosting","AY","done","Sep 24",100]]]]},
+  job:{label:"Job search",word:"job hunt",a:"#17C3A0",b:"#5B7BFF",title:"Job search",desc:"Applications, interviews and follow ups.",due:"2 interviews this week",
+    groups:[["Active","#579BFC",[["Recruiter phone screen","AY","doing","Oct 1",50],["Portfolio case study","AY","doing","Oct 4",40],["Follow up on referral","AY","wait","Oct 2",0],["Tailor resume for PM role","AY","todo","Oct 5",0]]],["Completed","#00C875",[["Update LinkedIn","AY","done","Sep 26",100]]]]},
+  school:{label:"School",word:"semester",a:"#A36BFF",b:"#FF6B3D",title:"Fall semester",desc:"Assignments, group work and exams.",due:"4 assignments due",
+    groups:[["This week","#A25DDC",[["Marketing case write up","AY","doing","Oct 1",60],["Stats problem set","SR","todo","Oct 3",0],["Group deck outline","PK","wait","Oct 2",30],["Read chapters 6 and 7","AY","todo","Oct 4",0]]],["Submitted","#00C875",[["Reading response","AY","done","Sep 25",100]]]]},
+  freelance:{label:"Freelance",word:"side hustle",a:"#FF6B3D",b:"#FFC247",title:"Client work",desc:"Deliverables, feedback rounds and invoices.",due:"2 invoices to send",
+    groups:[["In progress","#FDAB3D",[["Logo concepts for Brightside","AY","doing","Oct 2",70],["Landing page revisions","AY","wait","Oct 3",40],["Send September invoice","AY","todo","Sep 30",0],["Kickoff call notes","AY","doing","Oct 1",50]]],["Delivered","#00C875",[["Brand guide PDF","AY","done","Sep 22",100]]]]},
+  team:{label:"Team",word:"team",a:"#5B7BFF",b:"#17C3A0",title:"Q4 planning",desc:"Goals, owners and deadlines for the quarter.",due:"5 due this week",
+    groups:[["Owners assigned","#579BFC",[["Draft Q4 goals","MC","doing","Oct 1",60],["Budget review","JL","stuck","Sep 30",10],["Hiring plan","SR","todo","Oct 5",0],["Offsite agenda","PK","wait","Oct 3",30]]],["Done","#00C875",[["Q3 retro notes","PK","done","Sep 23",100]]]]},
+  personal:{label:"Personal",word:"whole life",a:"#FF6B3D",b:"#A36BFF",title:"Life admin",desc:"Errands, bills and plans.",due:"2 errands this week",
+    groups:[["To do","#FDAB3D",[["Renew car registration","AY","todo","Oct 4",0],["Book dentist","AY","todo","Oct 9",0],["Plan weekend trip","AY","doing","Oct 2",40],["Gym 4x this week","AY","doing","Oct 5",50]]],["Done","#00C875",[["Pay rent","AY","done","Sep 28",100]]]]}
+};
+const KEYS=Object.keys(CASES);let pick="projects",userPicked=false;
+/* rotating word */
+$("rot").innerHTML=KEYS.map(k=>`<span data-k="${k}" style="--a:${CASES[k].a};--b:${CASES[k].b}">${CASES[k].word}</span>`).join("");
+function showWord(k){document.querySelectorAll("#rot span").forEach(s=>{if(s.dataset.k===k){s.classList.remove("out");s.classList.add("on")}else if(s.classList.contains("on")){s.classList.remove("on");s.classList.add("out");setTimeout(()=>s.classList.remove("out"),650)}})}
+/* chips */
+const CC={projects:"#5B7BFF",job:"#17C3A0",school:"#A36BFF",freelance:"#FF6B3D",team:"#4FC3F7",personal:"#FFC247"};
+$("chips").innerHTML=KEYS.map(k=>`<button class="chip" style="--c:${CC[k]}" data-case="${k}" aria-pressed="${k===pick}"><i></i>${CASES[k].label}</button>`).join("");
+function setPick(k){pick=k;document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x.dataset.case===k));showWord(k);drawMock()}
+$("chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;userPicked=true;setPick(b.dataset.case)});
+/* mock */
+function drawMock(){const c=CASES[pick];$("mtitle").textContent=c.title;$("mdesc").textContent=c.desc;$("fdue").textContent=c.due;
+  $("mproj").innerHTML=KEYS.slice(0,4).map((k,i)=>`<div class="it ${k===pick?"on":""}"><b style="background:${["#3B5BDB","#12A38A","#8E44CF","#F2643D"][i]}"></b>${CASES[k].title}</div>`).join("");
+  $("mgroups").innerHTML=c.groups.map(([g,gc,rows],gi)=>`<div style="--g:${gc}"><div class="mgname">${esc(g)}</div><div class="mtable">
+    <div class="mrow h"><div>Task</div><div>Owner</div><div>Status</div><div>Due</div><div>Progress</div></div>
+    ${rows.map((r,i)=>`<div class="mrow"><div>${esc(r[0])}</div><div><span class="mav" style="background:${AV[r[1]]}">${r[1]}</span></div><div class="st" data-g="${gi}" data-i="${i}" style="--c:${ST[r[2]][1]}">${ST[r[2]][0]}</div><div>${r[3]}</div><div><span class="mbar2"><i data-p="${gi}-${i}" style="width:${r[4]}%"></i></span></div></div>`).join("")}</div></div>`).join("");
+  ring();}
+function ring(){const all=CASES[pick].groups.flatMap(g=>g[2]),d=all.filter(r=>r[2]==="done").length,p=Math.round(d/all.length*100);$("fpct").textContent=p+"%";$("ringArc").style.strokeDashoffset=113.1*(1-p/100)}
+setPick(pick);
+/* live: tasks move along, and the headline word cycles until someone picks */
+if(!reduce){
+  let tickN=0;
+  setInterval(()=>{tickN++;
+    if(!userPicked&&tickN%2===0){const k=KEYS[(KEYS.indexOf(pick)+1)%KEYS.length];setPick(k);return}
+    const rows=CASES[pick].groups[0][2],open=rows.map((r,i)=>[r,i]).filter(([r])=>r[2]!=="done");if(!open.length)return;
+    const [r,i]=open[0],order=["todo","doing","wait","done"];r[2]=r[2]==="stuck"?"doing":order[Math.min(order.indexOf(r[2])+1,3)];r[4]=r[2]==="done"?100:Math.min(95,r[4]+30);
+    const cell=document.querySelector(`#mgroups .st[data-g="0"][data-i="${i}"]`);if(cell){cell.style.setProperty("--c",ST[r[2]][1]);cell.textContent=ST[r[2]][0];cell.classList.remove("flip");void cell.offsetWidth;cell.classList.add("flip")}
+    const bar=document.querySelector(`[data-p="0-${i}"]`);if(bar)bar.style.width=r[4]+"%";
+    if(r[2]==="done")$("fmsg").textContent=(r[0].length>22?r[0].slice(0,20)+"…":r[0])+" is done";
+    ring();
+    if(rows.every(x=>x[2]==="done"))setTimeout(()=>{rows.forEach((x,j)=>{x[2]=["doing","wait","stuck","todo"][j%4];x[4]=[50,30,10,0][j%4]});drawMock()},2400);
+  },2400);
+}
+/* ticker */
+const TK=[["Finalize homepage copy","doing"],["Recruiter phone screen","done"],["Stats problem set","wait"],["Send September invoice","todo"],["Budget review","stuck"],["Brand logo","done"],["Plan weekend trip","doing"],["Q4 goals","wait"],["Launch email","todo"],["Portfolio case study","done"],["Fix mobile nav","stuck"],["Book dentist","todo"]];
+const tk=TK.map(([t,s])=>`<span class="tk">${esc(t)}<span class="s" style="--c:${ST[s][1]}">${ST[s][0]}</span></span>`).join("");$("track").innerHTML=tk+tk;
+/* 3D tilt: flattens as you scroll, follows the mouse a little */
+const tilt=$("tilt"),stage=$("stage");let mx=0,my=0;
+function upd(){if(reduce)return;const r=stage.getBoundingClientRect(),vh=innerHeight;const t=Math.min(1,Math.max(0,(vh-r.top)/(vh*.9)));
+  const rx=22*(1-t)+my*-4,sc=.92+.08*t;tilt.style.setProperty("--rx",rx.toFixed(2)+"deg");tilt.style.setProperty("--ry",(mx*6).toFixed(2)+"deg");tilt.style.setProperty("--sc",sc.toFixed(3))}
+addEventListener("scroll",()=>{$("nav").classList.toggle("scrolled",scrollY>10);upd()},{passive:true});
+addEventListener("resize",upd);
+stage.addEventListener("pointermove",e=>{const r=stage.getBoundingClientRect();mx=(e.clientX-r.left)/r.width-.5;my=(e.clientY-r.top)/r.height-.5;upd()});
+stage.addEventListener("pointerleave",()=>{mx=0;my=0;upd()});
+upd();
+/* tile spotlight */
+document.querySelectorAll(".tile").forEach(t=>t.addEventListener("pointermove",e=>{const r=t.getBoundingClientRect();t.style.setProperty("--mx",(e.clientX-r.left)+"px");t.style.setProperty("--my",(e.clientY-r.top)+"px")}));
+/* reveal on scroll (content is visible without JS or motion) */
+const io="IntersectionObserver" in window&&!reduce?new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}}),{rootMargin:"0px 0px -8% 0px"}):null;
+document.querySelectorAll(".reveal").forEach(el=>{const r=el.getBoundingClientRect();if(!io||r.top<innerHeight)el.classList.add("in");else io.observe(el)});
+/* mini calendar */
+(function(){const ev={3:["Launch email","#848A9C"],8:["Case study","#EE8E0B"],11:["Analytics","#EE8E0B"],16:["Brand logo","#00A862"],18:["Load test","#8E44CF"],23:["Q4 goals","#5B7BFF"],25:["Dentist","#D32A44"]};let h="";for(let d=1;d<=28;d++)h+=`<span class="${d===10?"t":""}">${d}${ev[d]?`<em style="--c:${ev[d][1]}">${ev[d][0]}</em>`:""}</span>`;$("miniCal").innerHTML=h})();
+/* auth (Supabase) */
+const cfg=window.WORKBOARD_CONFIG||{};
+const sb=(window.supabase&&cfg.supabaseUrl&&!/YOUR_/.test(cfg.supabaseUrl+cfg.supabaseAnonKey))?window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey):null;
+const APP=location.origin+location.pathname.replace(/welcome(\.html)?$/,"");
+const saveUse=()=>{try{localStorage.setItem("cw_usecase",pick)}catch(_){}};
+let mode="signup",lastFocus=null,busy=false;
+function goApp(){location.href=APP||"./"}
+if(sb)sb.auth.getSession().then(({data})=>{if(data.session){document.querySelectorAll('[data-auth]').forEach(b=>{b.dataset.auth="app";if(b.classList.contains("plain"))b.textContent="My board";else b.firstChild.nodeValue="Open my board "})}});
+const friendly=e=>{const t=(e&&e.message)||"Something went wrong. Try again.";if(/Invalid login/i.test(t))return"That email and password don't match. Try again or reset your password.";if(/not confirmed/i.test(t))return"Confirm your email first. Check your inbox for the link.";if(/already registered/i.test(t))return"That email already has an account. Log in instead.";if(/rate limit/i.test(t))return"Too many attempts right now. Wait a minute, or continue with Google.";return t};
+function drawModal(msg,err){const up=mode==="signup",fg=mode==="forgot",c=CASES[pick];
+  $("modal").innerHTML=`<button class="x" id="closeAuth" aria-label="Close">×</button>
+  <a class="brand" href="#top"><svg viewBox="0 0 176 181" height="20" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg><span class="wordmark" style="font-size:22px">crossway</span></a>
+  <h2 id="authTitle">${fg?"Reset your password":up?"Let's get you moving.":"Welcome back."}</h2>
+  <p class="sub2">${fg?"We'll email you a link to set a new one.":up?"Free forever. Takes less than a minute.":"Log in to pick up where you left off."}</p>
+  ${up?`<span class="usecase" style="--c:${CC[pick]}"><i></i>Starting with ${esc(c.label)}</span>`:""}
+  ${msg?`<div class="msg ${err?"err":""}">${esc(msg)}</div>`:""}
+  ${fg?"":`<button class="gbtn" id="gAuth"><span class="g"></span>Continue with Google</button><div class="or">or</div>`}
+  <form id="authForm">
+    ${up?`<label>Full name<input id="aName" autocomplete="name" required maxlength="60"></label>`:""}
+    <label>Email<input id="aEmail" type="email" autocomplete="email" required></label>
+    ${fg?"":`<label>Password<input id="aPass" type="password" minlength="6" autocomplete="${up?"new-password":"current-password"}" required></label>`}
+    ${mode==="signin"?`<button type="button" class="fgt" data-mode="forgot">Forgot password?</button>`:""}
+    <button class="btn white" type="submit">${fg?"Send reset link":up?"Create my account":"Log in"}</button>
+  </form>
+  <div class="swap">${fg?`<button data-mode="signin">Back to log in</button>`:up?`Already have an account? <button data-mode="signin">Log in</button>`:`New to Crossway? <button data-mode="signup">Create an account</button>`}</div>
+  <p class="legal">By continuing you agree to the <a href="terms">Terms</a> and <a href="privacy">Privacy Policy</a>.</p>`;}
+function openAuth(m){if(m==="app"){goApp();return}mode=m;lastFocus=document.activeElement;drawModal(sb?"":"Almost ready: add your Supabase details to config.js.",!sb);$("authModal").hidden=false;document.body.style.overflow="hidden";setTimeout(()=>{const f=$("modal").querySelector("input");f&&f.focus()},80)}
+function closeAuth(){$("authModal").hidden=true;document.body.style.overflow="";lastFocus&&lastFocus.focus&&lastFocus.focus()}
+document.addEventListener("click",async e=>{const a=e.target.closest("[data-auth]");if(a){openAuth(a.dataset.auth);return}
+  const m=e.target.closest("[data-mode]");if(m){mode=m.dataset.mode;drawModal();return}
+  if(e.target.id==="closeAuth"||e.target.id==="authModal"){closeAuth();return}
+  if(e.target.closest("#gAuth")&&sb&&!busy){busy=true;saveUse();const{error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:APP}});busy=false;if(error)drawModal(friendly(error),true)}});
+document.addEventListener("submit",async e=>{if(e.target.id!=="authForm")return;e.preventDefault();if(!sb||busy)return;busy=true;
+  const btn=e.target.querySelector("button[type=submit]");btn.disabled=true;btn.style.opacity=.7;
+  const email=$("aEmail").value.trim(),pass=$("aPass")?$("aPass").value:"";
+  try{
+    if(mode==="signup"){saveUse();const{data,error}=await sb.auth.signUp({email,password:pass,options:{emailRedirectTo:APP,data:{full_name:$("aName").value.trim()}}});if(error)throw error;
+      if(data.session)goApp();else{mode="signin";drawModal("Almost there! Check your inbox and click the link to confirm your email.")}}
+    else if(mode==="signin"){const{error}=await sb.auth.signInWithPassword({email,password:pass});if(error)throw error;goApp()}
+    else{const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:APP});if(error)throw error;mode="signin";drawModal("Check your inbox for a link to reset your password.")}
+  }catch(err){drawModal(friendly(err),true)}finally{busy=false}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("authModal").hidden)closeAuth()});
+if(location.hash==="#login")openAuth("signin");
+})();
+</script>
+</body>
+</html>
