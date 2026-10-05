@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Crossway: the free project tracker</title>
-<meta name="description" content="Crossway is a free, simple project tracker with tables, Kanban boards and a calendar. Sign up with Google in one click.">
+<title>Crossway: free tools for your work and your hiring</title>
+<meta name="description" content="Crossway is a free home for your work. Crossway tracks every project. Junction matches people and companies, no applications needed.">
 <meta property="og:title" content="Crossway">
-<meta property="og:description" content="Run your projects like a pro. Free forever.">
+<meta property="og:description" content="Free tools for your work and your next job. Crossway for projects, Junction for hiring.">
 <meta property="og:image" content="logo.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"%3E%3Crect width="32" height="32" rx="9" fill="%230073EA"/%3E%3Cpath d="M8 23.5C14 23.5 18 8.5 24 8.5" fill="none" stroke="%23fff" stroke-width="3.4" stroke-linecap="round"/%3E%3Cpath d="M8 8.5C14 8.5 18 23.5 24 23.5" fill="none" stroke="%23fff" stroke-opacity=".5" stroke-width="3.4" stroke-linecap="round"/%3E%3Ccircle cx="24" cy="8.5" r="3.1" fill="%2300C875"/%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
@@ -59,7 +59,7 @@ a{color:inherit}
 .btn.xl{padding:17px 34px;font-size:18px}
 
 /* hero */
-.hero{position:relative;padding-top:150px;overflow:hidden;isolation:isolate}
+.hero{position:relative;padding-top:118px;overflow:hidden;isolation:isolate}
 .lanes{position:absolute;inset:0;z-index:-2;pointer-events:none}
 .lane{position:absolute;height:120px;border-radius:999px;filter:blur(48px);opacity:.55;will-change:transform}
 .lane.l1{top:120px;width:70vw;background:var(--blue);animation:drift1 16s ease-in-out infinite}
@@ -72,13 +72,13 @@ a{color:inherit}
 .hero .center{text-align:center;display:flex;flex-direction:column;align-items:center}
 .pill{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line2);background:rgba(255,255,255,.04);backdrop-filter:blur(8px);border-radius:999px;padding:6px 14px 6px 6px;font-size:14px;color:var(--ink2);margin-bottom:28px}
 .pill b{background:linear-gradient(90deg,var(--blue),var(--violet));color:#fff;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;letter-spacing:.02em}
-h1{font:var(--dw) clamp(52px,8.4vw,124px)/.94 var(--display);letter-spacing:var(--dls);margin:0;text-wrap:balance}
+h1{font:var(--dw) clamp(48px,6.6vw,96px)/.95 var(--display);letter-spacing:var(--dls);margin:0;text-wrap:balance}
 h1 .line{display:block}
 .rot{display:inline-grid;vertical-align:bottom;overflow:hidden;height:1.02em;padding-bottom:.08em}
 .rot span{grid-area:1/1;transform:translateY(110%);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .4s;background:linear-gradient(95deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
 .rot span.on{transform:translateY(0);opacity:1}
 .rot span.out{transform:translateY(-110%);opacity:0}
-.sub{font-size:clamp(17px,1.6vw,21px);color:var(--ink2);max-width:40ch;margin:28px auto 0;text-wrap:balance}
+.sub{font-size:clamp(17px,1.5vw,20px);color:var(--ink2);max-width:46ch;margin:22px auto 0;text-wrap:balance}
 .starts{margin-top:34px;display:flex;flex-direction:column;align-items:center;gap:12px}
 .starts p{margin:0;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
 .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:720px}
@@ -147,6 +147,47 @@ h1 .line{display:block}
 
 /* sections */
 section.block{padding-block:120px}
+.hdoors{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px;width:100%;max-width:880px;text-align:left}
+.hd{position:relative;border:1px solid var(--line2);background:rgba(255,255,255,.04);backdrop-filter:blur(10px);border-radius:22px;padding:22px 24px;display:flex;flex-direction:column;gap:10px;overflow:hidden;isolation:isolate;transition:border-color .2s,transform .2s}
+.hd:hover{border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+.hd::before{content:"";position:absolute;right:-60px;top:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,var(--c) 0%,transparent 65%);opacity:.35;z-index:-1}
+.hdt{display:flex;align-items:center;gap:9px;font-weight:700;font-size:19px;letter-spacing:-.02em}
+.hdt svg{width:20px;height:20px}
+.hd p{margin:0;color:var(--ink2);font-size:15px}
+.hd p .nr{color:#fff;font-weight:700}
+.hda{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.hda .btn{padding:10px 18px;font-size:14.5px}
+.by{font-size:12.5px;font-weight:500;color:var(--muted);letter-spacing:0}
+.hdt .new,.stag .new{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:rgba(23,195,160,.16);color:#3DDC97}
+.navjob{padding:9px 16px;font-size:14.5px}
+@media (max-width:760px){.hdoors{grid-template-columns:1fr}.navjob{display:none}}
+
+.sol{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.solc{position:relative;border-radius:28px;padding:36px;border:1px solid var(--line);background:var(--card);overflow:hidden;display:flex;flex-direction:column;gap:18px;isolation:isolate;transition:border-color .25s,transform .25s}
+.solc:hover{border-color:var(--line2);transform:translateY(-3px)}
+.solc::before{content:"";position:absolute;right:-140px;bottom:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,var(--c) 0%,transparent 65%);opacity:.26;z-index:-1}
+.stag{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--ink)}
+.stag svg{width:22px;height:22px}
+.stag .new{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:99px;background:rgba(23,195,160,.16);color:#3DDC97}
+.solc h3{font:var(--dw) clamp(30px,3.2vw,44px)/1.04 var(--display);letter-spacing:var(--dls);margin:0;max-width:16ch;text-wrap:balance}
+.solc p{color:var(--ink2);margin:0;font-size:17px;max-width:46ch}
+.solc ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;color:var(--ink2);font-size:15px}
+.solc li{display:flex;gap:12px;align-items:center}
+.solc li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
+.solc .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.prev{border-radius:18px;background:rgba(255,255,255,.035);border:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:8px}
+.pr{display:grid;grid-template-columns:minmax(0,1fr) 112px 52px;gap:12px;align-items:center;font-size:13.5px;color:var(--ink2)}
+.pr span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pr .st{border-radius:6px;padding:6px 0;text-align:center;color:#fff;font-weight:600;font-size:12px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mt{aspect-ratio:5/4;border-radius:16px;position:relative;display:grid;place-items:center;color:#1E1838;text-align:center}
+.mt b{display:block;font-size:22px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.mt small{display:block;font-size:11px;opacity:.65;font-weight:500;margin-top:2px}
+.mt .sc{position:absolute;top:8px;left:8px;background:#fff;color:#222;border-radius:99px;font-size:11px;font-weight:700;padding:2px 8px}
+.finalacts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+@media (max-width:900px){.sol{grid-template-columns:1fr}.solc{padding:26px}}
+@media (max-width:480px){.mt b{font-size:17px}.pr{grid-template-columns:minmax(0,1fr) 96px;}.pr span:last-child{display:none}}
+
 .kick{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--c,var(--blue));margin-bottom:14px;display:block}
 .shead{max-width:760px;margin-bottom:56px}
 .shead h2,.big h2{font:var(--dw) clamp(38px,5vw,72px)/.98 var(--display);letter-spacing:var(--dls);margin:0;text-wrap:balance}
@@ -263,14 +304,33 @@ footer .sp{flex:1}
 }
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}html{scroll-behavior:auto}.reveal{opacity:1;transform:none}.tilt{transform:none}}
 
+
+/* intro: c. opens into crossway. */
+.wordmark .dot{color:#FF6B3D}
+.intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg);transition:background-color .7s ease}
+.intro.fly{background-color:transparent;pointer-events:none}
+.iw{font:800 clamp(72px,15vw,190px)/1 var(--logo);letter-spacing:-.04em;color:var(--ink);display:flex;align-items:baseline;white-space:nowrap;transform-origin:0 0;will-change:transform}
+.iw .mid{display:inline-flex;overflow:hidden;width:0;transition:width .95s cubic-bezier(.7,0,.2,1)}
+.iw .mid i{font-style:normal;display:inline-block;opacity:0;transform:translateY(.4em);transition:opacity .45s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.iw.open .mid i{opacity:1;transform:none}
+.iw .dot{color:#FF6B3D;display:inline-block;animation:dotpop .55s cubic-bezier(.3,1.6,.5,1) both .15s}
+.iw .c{display:inline-block;animation:cin .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes dotpop{from{transform:scale(0)}}
+@keyframes cin{from{opacity:0;transform:translateY(.15em)}}
+.intro-on .nav .brand .wordmark{opacity:0}
+.nav .brand .wordmark{transition:opacity .2s}
+@media (prefers-reduced-motion:reduce){.intro{display:none}}
 </style>
 </head>
 <body>
+<div class="intro" id="intro" aria-hidden="true"><div class="iw" id="iw"><span class="c">c</span><span class="mid"><i style="transition-delay:120ms">r</i><i style="transition-delay:175ms">o</i><i style="transition-delay:230ms">s</i><i style="transition-delay:285ms">s</i><i style="transition-delay:340ms">w</i><i style="transition-delay:395ms">a</i><i style="transition-delay:450ms">y</i></span><span class="dot">.</span></div></div>
+<script>(function(){var r=matchMedia("(prefers-reduced-motion: reduce)").matches,seen=false;try{seen=sessionStorage.getItem("cwIntro")==="1"}catch(e){}if(r||seen){var x=document.getElementById("intro");x&&x.remove();return}document.documentElement.classList.add("intro-on");document.documentElement.style.overflow="hidden"})();</script>
 <header class="nav" id="nav">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Crossway home"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg><span class="wordmark">crossway</span></a>
-    <nav class="links"><a href="#features">Features</a><a href="#how">How it works</a><a href="#free">Pricing</a></nav>
+    <a class="brand" href="#top" aria-label="Crossway home"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg><span class="wordmark">crossway<span class="dot">.</span></span></a>
+    <nav class="links"><a href="#solutions">Solutions</a><a href="#features">Features</a><a href="#junction">Junction</a><a href="#free">Pricing</a></nav>
     <span class="sp"></span>
+    <a class="btn ghost navjob" href="junction?join=seeker">Junction</a>
     <button class="btn plain" data-auth="signin">Log in</button>
     <button class="btn white" data-auth="signup">Get started <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
   </div>
@@ -281,13 +341,13 @@ footer .sp{flex:1}
     <div class="lanes" aria-hidden="true"><i class="lane l1"></i><i class="lane l2"></i><i class="lane l3"></i></div>
     <div class="grain" aria-hidden="true"></div>
     <div class="wrap center">
-      <span class="pill"><b>FREE</b>Unlimited projects. No credit card.</span>
+      <span class="pill"><b>FREE</b>Two tools. One account. No credit card.</span>
       <h1><span class="line">Run your</span><span class="line"><span class="rot" id="rot" aria-live="polite"></span></span><span class="line">like a pro.</span></h1>
-      <p class="sub">Crossway is the free, ridiculously simple tracker for everything you're juggling. Tables, boards and a calendar in one clean place.</p>
-      <div class="starts"><p>Start with</p><div class="chips" id="chips" role="group" aria-label="Start with"></div></div>
-      <div class="ctas">
-        <button class="btn white xl" data-auth="signup">Start free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
-        <a class="btn ghost xl" href="#features">See what's inside</a>
+      <p class="sub">Crossway is a free home for your work. Track every project with Crossway. Get hired on your skills, or hire your next teammate, with Junction.</p>
+      <div class="starts" hidden><p>Start with</p><div class="chips" id="chips" role="group" aria-label="Start with"></div></div>
+      <div class="hdoors">
+        <div class="hd" style="--c:#5B7BFF"><div class="hdt"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg>Crossway</div><p>Plan projects and track every task. Free forever.</p><div class="hda"><button class="btn white" data-auth="signup">Start a project <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button></div></div>
+        <div class="hd" style="--c:#A36BFF"><div class="hdt"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg>Junction<span class="by">by Crossway</span><span class="new">New</span></div><p><b class="nr">No Resumes.</b> Prove your skills with daily drills, earn nods and win company challenges. Companies meet their 10 best matches.</p><div class="hda"><a class="btn white" href="junction?join=seeker">Join Junction <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn ghost" href="junction?join=company">I'm hiring</a></div></div>
       </div>
       <div class="fine"><span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>Sign up with Google in one click</span><span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>Your data stays private</span></div>
 
@@ -318,9 +378,42 @@ footer .sp{flex:1}
     <div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
   </section>
 
+
+  <section class="block" id="solutions">
+    <div class="wrap">
+      <div class="shead reveal"><span class="kick">Our solutions</span><h2>Two tools. <span class="grad">One Crossway account.</span></h2><p>Run your work in Crossway. Get hired on your skills, or build your team, in Junction. Sign in once and switch between them anytime.</p></div>
+      <div class="sol">
+        <article class="solc reveal" style="--c:#5B7BFF">
+          <span class="stag"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg>Crossway</span>
+          <h3>Plan it. Track it. Ship it.</h3>
+          <p>The free project tracker for everything you're juggling. Tables, boards, a timeline and a calendar in one clean place.</p>
+          <div class="prev" aria-hidden="true">
+            <div class="pr"><span>Homepage copy</span><span class="st" style="background:#00A862">Done</span><span>Oct 2</span></div>
+            <div class="pr"><span>Signup screens</span><span class="st" style="background:#EE8E0B">Working on it</span><span>Oct 3</span></div>
+            <div class="pr"><span>Mobile navigation</span><span class="st" style="background:#8E44CF">Waiting</span><span>Oct 5</span></div>
+            <div class="pr"><span>Launch email</span><span class="st" style="background:#848A9C">Not started</span><span>Oct 8</span></div>
+          </div>
+          <ul><li>Table, Kanban, Timeline and Calendar views</li><li>Share projects with your team</li><li>Import from Excel or Monday</li></ul>
+          <div class="acts"><button class="btn white" data-auth="signup">Start a project <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button><a class="btn ghost" href="#features">See features</a></div>
+        </article>
+        <article class="solc reveal" id="junction" style="--c:#A36BFF">
+          <span class="stag"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg>Junction<span class="by">by Crossway</span><span class="new">New</span></span>
+          <h3>No Resumes.</h3>
+          <p>Show what you can do instead. Answer a daily drill, post proof of your work, earn nods from people and companies, and win challenges from real teams. Companies see their 10 best matches, blind, and invite them straight to interview.</p>
+          <div class="prev" aria-hidden="true"><div class="tiles">
+            <div class="mt" style="background:linear-gradient(140deg,#DCE3FF,#B4C3FF)"><span class="sc">96</span><div><b>SQL</b><small>3 yrs · Product</small></div></div>
+            <div class="mt" style="background:linear-gradient(140deg,#FFE3D8,#FFC1A8)"><span class="sc">91</span><div><b>SEO</b><small>4 yrs · Growth</small></div></div>
+            <div class="mt" style="background:linear-gradient(140deg,#D3F2E9,#A6E3D2)"><span class="sc">88</span><div><b>Python</b><small>2 yrs · Data</small></div></div>
+          </div></div>
+          <ul><li>Daily drills, streaks and weekly leagues</li><li>Nods and company challenges that build your record</li><li>Blind top 10 matching, names unlock on yes</li><li>Message the people and companies you connect with</li></ul>
+          <div class="acts"><a class="btn white" href="junction?join=company">I'm hiring <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn ghost" href="junction?join=seeker">Join as a job seeker</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
   <section class="block" id="features">
     <div class="wrap">
-      <div class="shead reveal"><span class="kick">Features</span><h2>Everything you need. <span class="grad">Nothing you pay for.</span></h2><p>Three ways to see the same work, plus the details that keep it moving.</p></div>
+      <div class="shead reveal"><span class="kick">Crossway</span><h2>Everything you need. <span class="grad">Nothing you pay for.</span></h2><p>Three ways to see the same work, plus the details that keep it moving.</p></div>
       <div class="bento">
         <div class="tile w4 reveal" style="--c:#F2643D"><span class="kick">Kanban</span><h3>Drag work from start to done</h3><p>Hover this card and watch a task move along.</p>
           <div class="demo"><div class="kb">
@@ -366,9 +459,9 @@ footer .sp{flex:1}
   <section class="final">
     <div class="wrap reveal">
       <div class="finalbox"><div class="finalin">
-        <h2>Your next project starts <span class="grad">right here.</span></h2>
+        <h2>Your next project, or your next hire, <span class="grad">starts here.</span></h2>
         <p>Free forever. Set up in under a minute.</p>
-        <button class="btn white xl" data-auth="signup">Get started free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+        <div class="finalacts"><button class="btn white xl" data-auth="signup">Start a project <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button><a class="btn ghost xl" href="junction?join=seeker">Join Junction</a></div>
       </div></div>
     </div>
   </section>
@@ -376,9 +469,9 @@ footer .sp{flex:1}
 
 <footer>
   <div class="wrap">
-    <a class="brand" href="#top"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg><span class="wordmark">crossway</span></a>
+    <a class="brand" href="#top"><svg viewBox="0 0 176 181" aria-hidden="true"><rect width="176" height="50" rx="25" fill="#5B7BFF"/><rect y="65.5" width="94" height="50" rx="25" fill="#FF6B3D"/><rect y="131" width="176" height="50" rx="25" fill="#17C3A0"/></svg><span class="wordmark">crossway<span class="dot">.</span></span></a>
     <span>© 2026 Crossway</span><span class="sp"></span>
-    <a href="privacy">Privacy</a><a href="terms">Terms</a><button class="btn plain" data-auth="signin" style="padding:0">Log in</button>
+    <a href="#features">Crossway</a><a href="junction">Junction</a><a href="privacy">Privacy</a><a href="terms">Terms</a><button class="btn plain" data-auth="signin" style="padding:0">Log in</button>
   </div>
 </footer>
 
@@ -501,5 +594,23 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("authModal").hid
 if(location.hash==="#login")openAuth("signin");
 })();
 </script>
+<script>
+(function(){
+  var intro=document.getElementById("intro");if(!intro)return;
+  var iw=document.getElementById("iw"),mid=iw.querySelector(".mid"),root=document.documentElement;
+  function done(){root.classList.remove("intro-on");root.style.overflow="";intro.remove();try{sessionStorage.setItem("cwIntro","1")}catch(e){}}
+  setTimeout(function(){mid.style.width=mid.scrollWidth+"px";iw.classList.add("open")},700);
+  setTimeout(function(){
+    var t=document.querySelector(".nav .brand .wordmark");if(!t){done();return}
+    var a=iw.getBoundingClientRect(),b=t.getBoundingClientRect(),s=b.width/a.width;
+    iw.style.transition="transform .85s cubic-bezier(.7,0,.2,1)";
+    iw.style.transform="translate("+(b.left-a.left)+"px,"+(b.top-a.top)+"px) scale("+s+")";
+    intro.classList.add("fly");
+    setTimeout(done,880);
+  },2000);
+  intro.addEventListener("click",done);
+})();
+</script>
+
 </body>
 </html>
