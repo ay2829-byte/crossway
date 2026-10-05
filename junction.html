@@ -1068,6 +1068,8 @@ function authSheet(role,view,msg){
   const f=$("#modalRoot input");f&&f.focus();
 }
 const here=()=>location.origin+location.pathname;
+/* remember where to come back to, in case the sign in returns to the Crossway page */
+const markNext=role=>{try{localStorage.setItem("cw_next",JSON.stringify({to:location.pathname.replace(/\/[^/]*$/,"/")+"junction?as="+role,at:Date.now()}))}catch(_){}};
 function setIntent(r){try{localStorage.setItem("paths_intent",r)}catch(_){}}
 function takeIntent(){let r=new URLSearchParams(location.search).get("as");try{r=r||localStorage.getItem("paths_intent");localStorage.removeItem("paths_intent")}catch(_){}
   if(location.search)history.replaceState(null,"",here()+location.hash);return r==="company"||r==="seeker"?r:null}
@@ -1079,7 +1081,7 @@ async function doAuth(f){
     setIntent(role);
     if(f.id==="fSignin"){need(await sb.auth.signInWithPassword({email,password:pass}))}
     if(f.id==="fSignup"){const meta=role==="company"?{company:$("#aCo").value.trim()}:{full_name:$("#aName").value.trim()};
-      const d=need(await sb.auth.signUp({email,password:pass,options:{emailRedirectTo:here()+"?as="+role,data:meta}}));
+      markNext(role);const d=need(await sb.auth.signUp({email,password:pass,options:{emailRedirectTo:here()+"?as="+role,data:meta}}));
       if(!d.session)authSheet(role,"signin",{text:"Check your inbox and click the link to confirm your email. Then sign in here."})}
     if(f.id==="fForgot"){need(await sb.auth.resetPasswordForEmail(email,{redirectTo:here()+"?as="+role}));authSheet(role,"signin",{text:"Check your inbox for a link to reset your password."})}
     if(f.id==="fReset"){need(await sb.auth.updateUser({password:pass}));S.recover=false;closeSheet();toast("Password updated");const{data}=await sb.auth.getSession();onSession(data.session)}
@@ -1090,12 +1092,12 @@ async function google(){
   const role=S.authRole;
   if(PREVIEW){toast("Google sign in works on your live site. Using the email form here.");return}
   setIntent(role);
-  const{error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:here()+"?as="+role}});
+  markNext(role);const{error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:here()+"?as="+role}});
   if(error)authSheet(role,S.authView,{err:1,text:friendly(error)});
 }
 
 /* ---------- session ---------- */
-async function onSession(sess,intentOverride){
+async function onSession(sess,intentOverride){try{if(sess&&sess.user)localStorage.removeItem("cw_next")}catch(_){}
   if(S.recover)return;
   const u=sess&&sess.user;
   if(!u){S.user=null;S.role=null;S.loading=false;stopPoll();renderTop();renderLanding();
