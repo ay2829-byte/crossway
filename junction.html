@@ -793,6 +793,20 @@ textarea.code,.ptx.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,m
 .ppick svg{width:15px;height:15px}
 .ppick.good svg{color:var(--good)}.ppick.bad svg{color:#D6455D}
 .skeep{margin-bottom:-4px}
+/* answered drill folds away */
+.drill.folding{animation:fold .45s ease forwards}
+@keyframes fold{to{opacity:0;transform:scale(.98)}}
+.drillmini{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:14px 18px;border-radius:20px;background:linear-gradient(135deg,#ECF8F3 0%,#F6FBF9 50%,#F1F3FF 100%);border:1px solid rgba(15,154,128,.2);color:#222;animation:rise .35s ease}
+.drillmini.bad{background:linear-gradient(135deg,#FFF4EC 0%,#FFF9F3 50%,#F3F1FF 100%);border-color:rgba(242,100,61,.18)}
+.drillmini:hover{border-color:rgba(0,0,0,.2)}
+.dmf{width:38px;height:38px;border-radius:12px;background:#fff;display:grid;place-items:center;flex:none;color:#F2643D}
+.dmf svg{width:20px;height:20px}
+.dmt{display:flex;flex-direction:column;min-width:0;flex:1}
+.dmt b{font-weight:600;font-size:15px}
+.dmt span{font-size:13px;color:#555}
+.dmc{display:inline-flex;align-items:center;gap:4px;font-weight:600;font-size:13.5px;white-space:nowrap}
+.dmc svg{width:16px;height:16px}
+@media (max-width:520px){.dmc{display:none}}
 </style>
 </head>
 <body>
@@ -1110,7 +1124,13 @@ async function load(){
 let pollT=null;
 function startPoll(){stopPoll();pollT=setInterval(()=>{if(document.visibilityState==="visible"&&!$("#modalRoot").innerHTML&&!S.menu)refresh(true)},20000)}
 function stopPoll(){clearInterval(pollT);pollT=null}
-async function refresh(quiet){try{await load();render()}catch(err){if(!quiet)toast(friendly(err))}}
+/* Background refreshes must never wipe what someone is typing */
+function typingNow(){const a=document.activeElement;if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&a.closest("#main,#modalRoot"))return true;
+  return [...document.querySelectorAll("#main textarea,#main input:not([type=checkbox]):not([type=radio])")].some(x=>x.value&&x.value.trim())}
+function saveDrafts(){const keep=[];document.querySelectorAll("#main textarea,#main input:not([type=checkbox]):not([type=radio])").forEach(x=>{const k=x.id?"#"+x.id:x.dataset.cmin?`[data-cmin="${x.dataset.cmin}"]`:null;if(k&&x.value)keep.push([k,x.value])});
+  const open=[...document.querySelectorAll("#main details[open]")].map(d=>d.className);const f=document.activeElement,fk=f&&(f.id?"#"+f.id:f.dataset&&f.dataset.cmin?`[data-cmin="${f.dataset.cmin}"]`:null);
+  return()=>{keep.forEach(([k,v])=>{const x=document.querySelector("#main "+k);if(x&&!x.value)x.value=v});open.forEach(c=>{const d=c&&document.querySelector("#main details."+c.split(" ")[0]);if(d)d.open=true});if(fk){const x=document.querySelector("#main "+fk);if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(_){}}}}}
+async function refresh(quiet){if(quiet&&typingNow())return;try{await load();const back=saveDrafts();render();back()}catch(err){if(!quiet)toast(friendly(err))}}
 
 /* ---------- company ---------- */
 function renderCo(){
@@ -1575,10 +1595,11 @@ function renderToday(){
 const LETS="ABCD";
 function drillBox(T,st){const dr=T.drill,ans=T.answer;if(!dr||!(dr.options||[]).length)return"";
   const done=!!ans&&dr.answer!=null,s=dr.stats||{total:0,correct:0,by:[0,0,0,0]},pct=s.total?Math.round(s.correct/s.total*100):0,mine=done?ans.data.choice:S.dpick,right=done&&ans.data.correct;
+  if(done&&!S.drillJust&&!S.drillOpen)return `<button class="drillmini ${right?"good":"bad"}" data-act="dexp" aria-label="Show today's drill answer"><span class="dmf">${FLAME}</span><span class="dmt"><b>Today's drill is done</b><span>${right?`You got it right`:`The answer was ${LETS[dr.answer]}`} · ${pct}% of people got it right · New question tomorrow</span></span><span class="dmc">See answer ${svg('<path d="M9 6l6 6-6 6"/>')}</span></button>`;
   const opts=dr.options.map((o,i)=>{const cls=done?(i===dr.answer?"right":i===mine?"wrong":"dim"):(i===S.dpick?"on":""),share=done&&s.total?Math.round(s.by[i]/s.total*100):0;
     return `<button type="button" class="opt ${cls}" ${done?"disabled":`data-act="dpick" data-i="${i}"`} aria-pressed="${i===mine}">${done?`<i class="fill" style="width:${share}%"></i>`:""}<span class="ol">${done&&i===dr.answer?I.check:done&&i===mine?I.x:LETS[i]}</span><span class="ot">${esc(o)}</span>${done?`<span class="op">${share}%</span>`:""}</button>`}).join("");
   return `<section class="drill ${done?"done":""}">
-    <div class="dh"><span class="dk">${FLAME}Daily drill · ${TRACK[T.track]||"Product"}</span><span class="dk2">${done?(right?"Correct · +15 points":"Not quite · +10 points"):"One question · +10 points, +5 if you're right"}</span></div>
+    <div class="dh"><span class="dk">${FLAME}Daily drill · ${TRACK[T.track]||"Product"}</span><span class="dk2">${done?`${right?"Correct · +15 points":"Not quite · +10 points"}${S.drillOpen?` · <button class="ulink" data-act="dhide" style="font-size:13px">Hide</button>`:""}`:"One question · +10 points, +5 if you're right"}</span></div>
     <h2>${esc(dr.prompt)}</h2>
     <div class="opts">${opts}</div>
     ${done?`<div class="dres ${right?"good":"bad"}"><b>${right?"You got it.":`The answer is ${LETS[dr.answer]}.`}</b><p>${esc(dr.explain||"")}</p>${dr.source?`<span class="src">${esc(dr.source)}</span>`:""}</div>
@@ -1701,9 +1722,11 @@ document.addEventListener("click",async e=>{
   if(a==="eduadd"){const f=$("#uF").value.trim(),s=$("#uS").value.trim();if(!f&&!s){toast("Add a field of study or a school.");return}D.edu=(D.edu||[]).concat([{degree:$("#uD").value,field:f,school:s,year:$("#uY").value.trim()}]);$("#edBody").innerHTML=edBody("edu");return}
   if(a==="stab"){const prevTab=S.stab;S.stab=el.dataset.t;S.preview=false;render();window.scrollTo(0,0);if((prevTab==="community")!==(S.stab==="community")&&S.today){const tr=S.ftrack===undefined?S.today.track:S.ftrack;API.feed(tr,null,S.stab==="community"?(S.fkind||null):null).then(f=>{S.feed=f;renderS()}).catch(()=>{})}return}
   if(a==="ctab"){S.ctab=el.dataset.t;closeSheet();render();window.scrollTo(0,0);return}
+  if(a==="dexp"||a==="dhide"){S.drillOpen=a==="dexp";S.drillJust=false;const sec=$(".drillmini")||$(".drill.done");if(sec&&S.today)sec.outerHTML=drillBox(S.today,S.today.streak||{});return}
   if(a==="dpick"){S.dpick=+el.dataset.i;document.querySelectorAll(".opt[data-act=dpick]").forEach(b=>{const on=+b.dataset.i===S.dpick;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});const lb=$("[data-act=drill]");if(lb)lb.disabled=false;return}
   if(a==="drill"){if(S.dpick==null){toast("Pick an answer first.");return}const tx=($("#drillTxt")&&$("#drillTxt").value.trim())||"";el.disabled=true;
-    try{const r=await act(()=>API.answerMcq(d,S.dpick,tx));S.dpick=null;await loadSocial();renderToday();toast(`${r.correct?"Correct! +15 points":"Not quite. +10 points"} · ${S.today.streak.days} day streak`)}catch(_){el.disabled=false}return}
+    try{const r=await act(()=>API.answerMcq(d,S.dpick,tx));S.dpick=null;S.drillJust=true;S.drillOpen=false;await loadSocial();renderToday();
+      clearTimeout(S.drillT);S.drillT=setTimeout(()=>{S.drillJust=false;const sec=$(".drill.done");if(sec&&!S.drillOpen){sec.classList.add("folding");setTimeout(()=>{const s2=$(".drill.done");if(s2&&S.today)s2.outerHTML=drillBox(S.today,S.today.streak||{})},450)}},20000);toast(`${r.correct?"Correct! +15 points":"Not quite. +10 points"} · ${S.today.streak.days} day streak`)}catch(_){el.disabled=false}return}
   if(a==="ftrack"){S.ftrack=el.dataset.v||null;try{S.feed=await API.feed(S.ftrack,null,S.role==="seeker"&&S.stab==="community"?(S.fkind||null):null)}catch(err){toast(friendly(err))}render();return}
   if(a==="fkind"){S.fkind=el.dataset.v||null;const tr=S.ftrack===undefined?(S.today&&S.today.track):S.ftrack;try{S.feed=await API.feed(tr,null,S.fkind)}catch(err){toast(friendly(err))}render();return}
   if(a==="postsk"){const v=el.dataset.v;S.postSk=S.postSk||[];if(S.postSk.includes(v))S.postSk=S.postSk.filter(x=>x!==v);else if(S.postSk.length<3)S.postSk.push(v);else{toast("Up to 3 skills.");return}const keep=$("#postTxt").value;$("#postSk").innerHTML=postSkBtns();$("#postTxt").value=keep;return}
@@ -1761,6 +1784,7 @@ function expEditor(){
     ${D.exp.length>1?`<p class="hint">Drag the handle or use the arrows to change the order. The top role shows first.</p>`:""}
     <div class="xform"><h3>${S.xEdit>=0?"Edit role":"Add a role"}</h3>
     <div class="fg"><div class="f"><label for="xT">Title</label><input id="xT" maxlength="80" placeholder="Product Analyst" value="${esc(e.t)}"></div><div class="f"><label for="xC">Company</label><input id="xC" maxlength="80" autocomplete="off" placeholder="Start typing, then pick it" value="${esc(e.co)}"></div>
+    <div class="f full"><label for="xW">Company website <span class="hint" style="font-weight:400">optional, for the logo</span></label><input id="xW" maxlength="120" autocomplete="off" placeholder="stripe.com" value="${esc(e.dom||"")}"></div>
     <div class="f"><label for="xS">Start</label><input id="xS" type="month" max="${nowYM()}" value="${esc(e.start||"")}"></div><div class="f"><label for="xE">End</label><input id="xE" type="month" max="${nowYM()}" value="${esc(e.current?"":(e.end||""))}" ${e.current?"disabled":""}></div>
     <label class="sw f full" style="flex-direction:row"><input type="checkbox" id="xNow" ${e.current?"checked":""}><span class="tr"></span>I currently work here</label>
     <div class="f full"><label for="xB">What I did</label><textarea id="xB" maxlength="700" style="min-height:96px" placeholder="One point per line, up to 4. Start with a verb and a result.&#10;Ran the funnel analysis behind a checkout redesign that lifted conversion 9%">${esc((e.bullets||[]).join("\n"))}</textarea></div></div>
@@ -1782,7 +1806,7 @@ function readExp(strict){const t=$("#xT").value.trim(),co=$("#xC").value.trim(),
   if(!t&&!co&&!st&&!bullets.length)return null;
   if(!t||!co){if(strict)toast("Add a title and company.");return false}
   if(en&&st&&en<st){if(strict)toast("The end date is before the start date.");return false}
-  const prev=S.xEdit>=0?D.exp[S.xEdit]:null,dom=S.xDom||(prev&&prev.co===co?prev.dom||"":"");const e={t,co,dom,start:st,end:en,current:cur,bullets};const m=expMonths(e);e.y=m?Math.max(1,Math.round(m/12)):(S.xEdit>=0?D.exp[S.xEdit].y||1:1);return e}
+  const prev=S.xEdit>=0?D.exp[S.xEdit]:null,dom=hostOf(($("#xW")&&$("#xW").value)||"")||S.xDom||(prev&&prev.co===co?prev.dom||"":"");const e={t,co,dom,start:st,end:en,current:cur,bullets};const m=expMonths(e);e.y=m?Math.max(1,Math.round(m/12)):(S.xEdit>=0?D.exp[S.xEdit].y||1:1);return e}
 function readEdu(strict){const f=$("#uF").value.trim(),s=$("#uS").value.trim(),y=$("#uY").value.trim();
   if(!f&&!s&&!y)return null;if(!f&&!s){if(strict)toast("Add a field of study or a school.");return false}
   return{degree:$("#uD").value,field:f,school:s,year:y}}
@@ -1832,8 +1856,13 @@ function myAva(s){const c=S.me||{};return `<span class="ava" style="width:${s}px
 let UNIS=null,UNIP=null,UNIMAP=null,uniRerendered=false;
 const STOPW=new Set(["of","the","and","at","for","in","de","la","&"]);
 const acr=n=>n.split(/[\s,\-()]+/).filter(w=>w&&!STOPW.has(w.toLowerCase())).map(w=>w[0]).join("").toLowerCase();
-function loadUnis(){if(UNIP)return UNIP;UNIP=(async()=>{try{const r=await fetch(window.UNIS_URL||"universities.json");const d=await r.json();UNIS=d.map(([n,dom,cc])=>({n,dom,cc,l:n.toLowerCase(),a:acr(n)}));UNIMAP=new Map(UNIS.map(u=>[u.l,u]))}catch(_){UNIS=[];UNIMAP=new Map()}return UNIS})();return UNIP}
-function schoolDom(name){if(!name)return"";if(!UNIMAP){loadUnis().then(()=>{if(!uniRerendered){uniRerendered=true;rerenderLogos()}});return""}const u=UNIMAP.get(String(name).toLowerCase().trim());return u?u.dom:""}
+function loadUnis(){if(UNIP)return UNIP;UNIP=(async()=>{
+    const srcs=[window.UNIS_URL||"universities.json","https://cdn.jsdelivr.net/gh/Hipo/university-domains-list@master/world_universities_and_domains.json"];
+    for(const u of srcs){try{const r=await fetch(u);if(!r.ok)continue;const d=await r.json();if(!Array.isArray(d)||!d.length)continue;
+      const rows=Array.isArray(d[0])?d:d.map(x=>[x.name,(x.domains||[])[0]||"",x.alpha_two_code||""]);const seen=new Set();
+      UNIS=rows.filter(([n])=>n&&!seen.has(n.toLowerCase())&&seen.add(n.toLowerCase())).map(([n,dom,cc])=>({n,dom,cc,l:n.toLowerCase(),a:acr(n)}));UNIMAP=new Map(UNIS.map(u=>[u.l,u]));return UNIS}catch(_){}}
+    UNIP=null;return null})();return UNIP}
+function schoolDom(name){if(!name)return"";if(!UNIMAP){if(!uniRerendered)loadUnis().then(ok=>{if(ok&&!uniRerendered){uniRerendered=true;rerenderLogos()}});return""}const u=UNIMAP.get(String(name).toLowerCase().trim());return u?u.dom:""}
 function schoolLogo(e,show){const nm=show?e.school:"";const d=nm?schoolDom(nm):"";return logoBox(nm||"School",d?FAV(d):"","edu",CAP)}
 function rerenderLogos(){try{if($("#edBody")&&$("#uS"))return;if(!$("#modalRoot").innerHTML)render()}catch(_){}}
 function searchUnis(q){q=q.toLowerCase().trim();if(q.length<2||!UNIS)return[];const out=[];
@@ -1853,11 +1882,13 @@ function comboShow(inp,items,kind){let box=inp.parentNode.querySelector(".sugg")
   if(!box){box=document.createElement("div");box.className="sugg";box.setAttribute("role","listbox");inp.parentNode.appendChild(box)}
   S.combo={inp,items,kind,i:-1};
   box.innerHTML=items.map((u,i)=>`<button type="button" class="sgi" role="option" data-act="sgpick" data-i="${i}">${logoBox(u.n,FAV(u.dom),kind==="uni"?"edu":"",kind==="uni"?CAP:null)}<span><b>${esc(u.n)}</b><small>${esc(u.dom||"")}${u.cc?" · "+esc(u.cc):""}</small></span></button>`).join("")+(kind==="uni"?`<div class="sgn">Not listed? Just type the full name.</div>`:"")}
+function comboMsg(inp,msg){let box=inp.parentNode.querySelector(".sugg");if(!box){box=document.createElement("div");box.className="sugg";inp.parentNode.appendChild(box)}S.combo={inp,items:[],kind:"msg",i:-1};box.innerHTML=`<div class="sgn">${esc(msg)}</div>`}
 function comboHide(){document.querySelectorAll(".sugg").forEach(b=>b.remove());S.combo=null}
-function comboPick(i){const c=S.combo;if(!c)return;const u=c.items[i];c.inp.value=u.n;if(c.kind==="co")S.xDom=u.dom||"";comboHide();c.inp.focus()}
+function comboPick(i){const c=S.combo;if(!c)return;const u=c.items[i];c.inp.value=u.n;if(c.kind==="co"){S.xDom=u.dom||"";const w=$("#xW");if(w&&u.dom)w.value=u.dom}comboHide();c.inp.focus()}
 let coT=null;
 document.addEventListener("input",async e=>{const t=e.target;
-  if(t.id==="uS"){await loadUnis();if(t.value!==$("#uS")?.value)return;comboShow(t,searchUnis(t.value),"uni");return}
+  if(t.id==="uS"){if(!UNIS&&t.value.trim().length>=2)comboMsg(t,"Loading schools…");const ok=await loadUnis();const cur=$("#uS");if(!cur||t.value!==cur.value)return;
+    if(!ok){comboMsg(t,"Couldn't load the school list. Type the full name instead.");return}const r=searchUnis(t.value);if(!r.length&&t.value.trim().length>=2){comboMsg(t,"No match. Keep typing the full name, that works too.");return}comboShow(t,r,"uni");return}
   if(t.id==="xC"){S.xDom="";clearTimeout(coT);const v=t.value;coT=setTimeout(async()=>{const r=await searchCos(v);if($("#xC")&&$("#xC").value===v)comboShow($("#xC"),r,"co")},180)}});
 document.addEventListener("focusin",e=>{if(e.target.id==="uS")loadUnis()});
 document.addEventListener("keydown",e=>{const c=S.combo;if(!c||e.target!==c.inp)return;const box=c.inp.parentNode.querySelector(".sugg");if(!box)return;const opts=[...box.querySelectorAll(".sgi")];
