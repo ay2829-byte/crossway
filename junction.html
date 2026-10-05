@@ -840,6 +840,11 @@ textarea.code,.ptx.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,m
 .srt span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .board li.clk{cursor:pointer;transition:background .15s}
 .board li.clk:hover{background:var(--surface)}
+.mb.pend{opacity:.6}
+.mb.fail{background:#fff1f0!important;color:#b42318!important;border:1px solid #fecdca}
+.mb.fail p{color:#b42318}
+.mb.fail small{color:#b42318;white-space:normal;text-align:right}
+.mb.fail small .ulink{color:inherit;font-weight:600;margin-left:4px}
 </style>
 </head>
 <body>
@@ -2244,7 +2249,7 @@ async function goNotif(g){
 
 /* ---------- messages ---------- */
 async function openMsgs(threadId){S.msg.open=true;S.msg.thread=threadId||null;await refreshMsgs();if(!threadId&&window.innerWidth>760&&S.msg.threads[0])await selectThread(S.msg.threads[0].id)}
-async function refreshMsgs(quiet){try{if(S.msg.thread)S.msg.list=await API.messages(S.msg.thread);S.msg.threads=await API.threads()}catch(err){if(!quiet)toast(friendly(err))}renderMsgs();refreshInbox()}
+async function refreshMsgs(quiet){try{if(S.msg.thread){const loc=(S.msg.list||[]).filter(x=>x.pending||x.failed);S.msg.list=(await API.messages(S.msg.thread)).concat(loc)}S.msg.threads=await API.threads()}catch(err){if(!quiet)toast(friendly(err))}renderMsgs();refreshInbox()}
 async function selectThread(id){S.msg.thread=id;try{S.msg.list=await API.messages(id)}catch(err){toast(friendly(err))}S.msg.threads=await API.threads().catch(()=>S.msg.threads);renderMsgs(true);refreshInbox()}
 function threadRow(t){const w=t.who||{};
   return `<button class="tr2 ${S.msg.thread===t.id?"on":""}" data-act="mthread" data-id="${t.id}">${tAva(w,44)}<span class="tt"><span class="tn"><b>${esc(w.label)}</b><small>${t.last?agoS(t.last.at):""}</small></span><span class="tl ${t.unread?"un":""}">${t.last?(t.last.mine?"You: ":"")+esc(t.last.body):"No messages yet"}</span></span>${t.unread?`<i class="ud"></i>`:""}</button>`}
@@ -2258,7 +2263,7 @@ function renderMsgs(scrollEnd){
     conv=`<div class="mconv"><div class="mch"><button class="xbtn mback" data-act="mback" aria-label="Back">${ICN.back}</button>${tAva(w,40)}<div class="mcn"><b>${esc(w.label)}</b><small>${w.company?"Company":t.kind==="hire"?"Candidate":"Job seeker · "+(TRACK[w.track]||"")}</small></div><button class="ulink" data-act="mblock" data-u="${t.other}" data-on="${t.blocked?0:1}">${t.blocked?"Unblock":"Block"}</button></div>
       
       <div class="mbody" id="mbody">${S.msg.list.map((m,i)=>{const prev=S.msg.list[i-1];const sep=!prev||dayKey(prev.at)!==dayKey(m.at)?`<div class="msep">${new Date(m.at).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}</div>`:"";
-        return `${sep}<div class="mb ${m.mine?"me":""}"><p>${esc(m.body)}</p><small>${new Date(m.at).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></div>`}).join("")||`<div class="bempty"><p>Say hi. Keep it friendly and specific.</p></div>`}</div>
+        return `${sep}<div class="mb ${m.mine?"me":""} ${m.pending?"pend":""} ${m.failed?"fail":""}"><p>${esc(m.body)}</p><small>${m.failed?`Not sent. ${esc(m.failed)} <button class="ulink" data-act="mretry" data-id="${m.id}">Retry</button>`:m.pending?"Sending…":new Date(m.at).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></div>`}).join("")||`<div class="bempty"><p>Say hi. Keep it friendly and specific.</p></div>`}</div>
       ${blocked?`<div class="mnote">${t.blocked?"You blocked this person. Unblock to message again.":"You can't reply to this conversation."}</div>`:`<div class="mcomp"><textarea id="msgIn" data-t="${t.id}" rows="1" maxlength="2000" placeholder="Write a message"></textarea><button class="btn dark" data-act="msend" aria-label="Send">${ICN.send}</button></div>`}</div>`}
   const html=`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Messages</h2><span style="width:36px"></span></div><div class="msheet ${t?"has":""}">${list}${conv}</div>`;
   const sheet=$("#modalRoot .sheet.msg");
@@ -2266,8 +2271,11 @@ function renderMsgs(scrollEnd){
   const mi=$("#msgIn");if(mi){mi.value=keep;if(scrollEnd||!keep)mi.focus()}
   const mb=$("#mbody");if(mb)mb.scrollTop=mb.scrollHeight;
 }
-async function sendMsg(){const mi=$("#msgIn");if(!mi)return;const body=mi.value.trim();if(!body)return;const tid=mi.dataset.t||S.msg.thread;if(!tid){toast("Pick a conversation first");return}S.msg.thread=tid;mi.value="";
-  try{const m=await API.send(tid,body);S.msg.list.push(m);renderMsgs(true);S.msg.threads=await API.threads();renderMsgs(true)}catch(err){mi.value=body;toast(friendly(err))}}
+async function sendMsg(retry){const mi=$("#msgIn");if(!mi&&!retry)return;const body=retry?retry.body:mi.value.trim();if(!body)return;const tid=(mi&&mi.dataset.t)||S.msg.thread;if(!tid){toast("Pick a conversation first");return}S.msg.thread=tid;if(mi)mi.value="";
+  const tmp=retry||{id:"tmp"+Date.now(),body,mine:true,at:new Date().toISOString()};tmp.pending=true;tmp.failed="";if(!retry)S.msg.list=(S.msg.list||[]).concat(tmp);renderMsgs(true);
+  try{const m=await API.send(tid,body);if(!m||!m.id)throw new Error("The server didn't confirm the message. Run the latest Junction SQL in Supabase.");
+    S.msg.list=S.msg.list.map(x=>x===tmp?m:x);renderMsgs(true);S.msg.threads=await API.threads().catch(()=>S.msg.threads);renderMsgs(true)}
+  catch(err){tmp.pending=false;tmp.failed=friendly(err);renderMsgs(true);toast(tmp.failed)}}
 async function startMsg(other,invite){try{const id=await API.startThread(other,invite);closeSheet();await openMsgs(id);await selectThread(id)}catch(err){toast(friendly(err))}}
 setInterval(()=>{if(S.msg.open&&document.visibilityState==="visible"&&$("#modalRoot .sheet.msg"))refreshMsgs(true)},7000);
 
@@ -2283,6 +2291,7 @@ document.addEventListener("click",async e=>{
   if(a==="mthread"){await selectThread(el.dataset.id);return}
   if(a==="mback"){S.msg.thread=null;renderMsgs();return}
   if(a==="msend"){await sendMsg();return}
+  if(a==="mretry"){const m=(S.msg.list||[]).find(x=>x.id===el.dataset.id);if(m)await sendMsg(m);return}
   if(a==="mblock"){const on=el.dataset.on==="1";try{await API.block(el.dataset.u,on);toast(on?"Blocked. They can't message you anymore.":"Unblocked.");await refreshMsgs(true)}catch(err){toast(friendly(err))}return}
   if(a==="msgto"){await startMsg(el.dataset.u,null);return}
   if(a==="msginv"){e.stopPropagation();await startMsg(null,el.dataset.inv);return}
