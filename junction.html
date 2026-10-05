@@ -681,6 +681,118 @@ textarea.code,.ptx.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,m
   .hib{width:36px;height:36px}
 }
 @media (max-width:440px){.acctbtn .nm{display:none}}
+/* logos, photos, pickers */
+.logo{position:relative;overflow:hidden}
+.logo em{font-style:normal}
+.logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:15%;background:#fff;border-radius:inherit}
+.logo.hasimg{background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.07)}
+.logo.hasimg>em,.logo.hasimg>svg{visibility:hidden}
+.logo.big{width:72px;height:72px;border-radius:18px;font-size:22px}
+.lw{display:inline-flex;flex:none}.lw .logo{width:100%;height:100%;border-radius:12px}
+.ava img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.phrow{display:flex;gap:16px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:18px}
+.phrow>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.phrow b{font-weight:600}
+.phacts{display:flex;gap:14px;align-items:center;margin-top:6px}
+.shb .f{position:relative}
+.sugg{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;background:var(--bg);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.14);max-height:330px;overflow:auto;padding:6px}
+.sgi{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:8px;border-radius:10px}
+.sgi:hover,.sgi.on{background:var(--surface)}
+.sgi .logo{width:36px;height:36px;border-radius:10px;font-size:12px}
+.sgi .logo svg{width:18px;height:18px}
+.sgi>span:last-child{display:flex;flex-direction:column;min-width:0}
+.sgi b{font-weight:500;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sgi small{color:var(--muted);font-size:12px}
+.sgn{font-size:12px;color:var(--muted);padding:6px 8px 4px}
+.board .bc{display:flex;align-items:center;gap:9px;min-width:0}
+.board .bc>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.board .bc .ava{flex:none}
+/* orbit + comments */
+.pava{padding:0;border-radius:50%;flex:none;display:inline-flex}
+.pwn{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pname{padding:0;font-weight:600;font-size:15px;color:var(--ink);text-align:left}
+.pname:hover{text-decoration:underline;text-underline-offset:3px}
+.orb{display:inline-flex;align-items:center;gap:5px;border-radius:99px;padding:6px 14px;font-weight:600;font-size:13.5px;color:#fff;background:linear-gradient(95deg,#5B7BFF,#A36BFF 55%,#FF6B3D);box-shadow:0 4px 14px rgba(124,91,255,.25);transition:transform .15s,box-shadow .15s}
+.orb:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(124,91,255,.35)}
+.orb svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+.orb.on{background:var(--surface);color:var(--ink2);box-shadow:none}
+.orb.sm{padding:3px 10px;font-size:12px}
+.orb.sm svg{width:13px;height:13px}
+.orbl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:inherit;margin-top:8px;font-size:13.5px;font-weight:500}
+.orbl span{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(95deg,#5B7BFF,#A36BFF 50%,#FF6B3D);-webkit-background-clip:text;background-clip:text;color:transparent}
+.orbl b{font-weight:700}
+.orbl svg{width:15px;height:15px;stroke:#7C6BFF;fill:none;stroke-width:2}
+.orbl i{width:3px;height:3px;border-radius:50%;background:var(--faint)}
+.idtop .orbl{justify-content:center}
+.cmbtn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:99px;border:1px solid var(--line);font-weight:600;font-size:13.5px;color:var(--ink2)}
+.cmbtn:hover{border-color:var(--ink2)}
+.cmbtn svg{width:17px;height:17px}
+.cmbtn .cn:empty{display:none}
+.cmts:empty{display:none}
+.cmts{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+.cml{display:flex;flex-direction:column;gap:12px}
+.cmi{display:flex;gap:10px;align-items:flex-start}
+.cmav{padding:0;flex:none;display:inline-flex;border-radius:50%}
+.cmb2{background:var(--surface);border-radius:4px 16px 16px 16px;padding:9px 13px;min-width:0;flex:1}
+.cmh{display:flex;align-items:baseline;gap:8px}
+.cmh b{font-weight:600;font-size:13.5px}
+.cmh small{color:var(--faint);font-size:12px}
+.cmh .ulink{margin-left:auto;font-size:12px;color:var(--muted)}
+.cmb2 p{margin:3px 0 0;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.cmin{display:flex;gap:10px;align-items:flex-end}
+.cmin textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:18px;padding:9px 14px;font:inherit;font-size:14px;background:var(--bg);color:var(--ink);outline:none;min-height:40px}
+.cmin textarea:focus{border-color:var(--ink2)}
+.ptop{display:flex;gap:20px;align-items:center}
+.ptxt{min-width:0}
+.ptxt h2{margin:0;font-size:26px;letter-spacing:-.03em}
+.ptxt p{margin:4px 0 0;color:var(--muted)}
+.ptxt .orbl{justify-content:flex-start}
+.pacts{display:flex;gap:10px;margin-top:14px;align-items:center}
+.psh{font-size:17px;margin:4px 0 12px}
+.bic.orbn{background:linear-gradient(135deg,#EEF1FF,#F4EEFF);color:#7C6BFF}
+@media (max-width:520px){.ptop{flex-direction:column;text-align:center}.ptxt .orbl,.pacts{justify-content:center}}
+.bic.orbn svg{fill:none;stroke:currentColor;stroke-width:1.8}
+
+.orbl span.o1{background-image:linear-gradient(95deg,#5B7BFF,#A36BFF)}
+.orbl span.o2{background-image:linear-gradient(95deg,#FF6B3D,#F5A524)}
+/* multiple choice drill */
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.opt{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.75);border:1.5px solid rgba(0,0,0,.08);font-size:15.5px;font-weight:500;color:#222;transition:border-color .15s,transform .1s,background .15s}
+.opt:not([disabled]):hover{border-color:#222;transform:translateY(-1px)}
+.opt .ol{position:relative;z-index:1;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none;font-weight:700;font-size:13px;background:#F1F1F3;color:#555}
+.opt .ol svg{width:16px;height:16px}
+.opt .ot{position:relative;z-index:1;flex:1;line-height:1.4}
+.opt .op{position:relative;z-index:1;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;color:#555}
+.opt .fill{position:absolute;left:0;top:0;bottom:0;background:rgba(0,0,0,.05);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.opt.on{border-color:#222;background:#fff;box-shadow:0 0 0 1px #222}
+.opt.on .ol{background:#222;color:#fff}
+.opt.right{border-color:#0B8A6F;background:#fff}
+.opt.right .fill{background:rgba(11,138,111,.14)}
+.opt.right .ol{background:#0B8A6F;color:#fff}
+.opt.wrong{border-color:#D6455D;background:#fff}
+.opt.wrong .fill{background:rgba(214,69,93,.10)}
+.opt.wrong .ol{background:#D6455D;color:#fff}
+.opt.dim{opacity:.75}
+.opt[disabled]{cursor:default}
+.dres{margin-top:16px;border-radius:16px;padding:14px 16px;background:rgba(255,255,255,.8)}
+.dres b{font-size:16px}
+.dres.good b{color:#0B8A6F}.dres.bad b{color:#C2334B}
+.dres p{margin:6px 0 0;font-size:15px;line-height:1.55;color:#333}
+.dres .src{display:inline-block;margin-top:8px;font-size:12.5px;color:#777}
+.dstat{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:14px;color:#444;flex-wrap:wrap}
+.dstat b{color:#222}
+.dbar{width:120px;height:8px;border-radius:9px;background:rgba(0,0,0,.08);overflow:hidden;flex:none}
+.dbar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#12A38A,#3DDC97)}
+.dwhy{margin-top:14px}
+.dwhy summary{cursor:pointer;font-weight:600;font-size:14px;color:#555;list-style:none}
+.dwhy summary::-webkit-details-marker{display:none}
+.dwhy summary::before{content:"+ ";font-weight:700}
+.dwhy[open] summary::before{content:"– "}
+.dwhy textarea{margin-top:10px}
+.ppick{display:inline-flex;align-items:center;gap:8px;font-size:14px;padding:7px 12px;border-radius:10px;margin:2px 0 8px;background:var(--surface)}
+.ppick svg{width:15px;height:15px}
+.ppick.good svg{color:var(--good)}.ppick.bad svg{color:#D6455D}
+.skeep{margin-bottom:-4px}
 </style>
 </head>
 <body>
@@ -773,9 +885,9 @@ const LIVE={
   async role(){return need(await sb.rpc("paths_role"))},
   async register(role){return need(await sb.rpc("paths_register",{p_role:role}))},
   async seeker(){return normC(need(await sb.from("paths_seekers").select("*").eq("user_id",S.user.id).single()))},
-  async saveSeeker(c){need(await sb.from("paths_seekers").update({name:c.name,sample_url:c.sample,open:c.open,profile:profOf(c),schools:(c.edu||[]).map(e=>e.school||""),updated_at:new Date().toISOString()}).eq("user_id",S.user.id))},
+  async saveSeeker(c){need(await sb.from("paths_seekers").update({name:c.name,photo_url:c.photo||"",sample_url:c.sample,open:c.open,profile:profOf(c),schools:(c.edu||[]).map(e=>e.school||""),updated_at:new Date().toISOString()}).eq("user_id",S.user.id))},
   async company(){return need(await sb.from("paths_companies").select("*").eq("user_id",S.user.id).single())},
-  async saveCompany(name,website){need(await sb.from("paths_companies").update({name,website}).eq("user_id",S.user.id))},
+  async saveCompany(name,website,logo){need(await sb.from("paths_companies").update({name,website,logo_url:logo||""}).eq("user_id",S.user.id))},
   async myJobs(){return need(await sb.from("paths_jobs").select("*").eq("company_id",S.user.id).order("created_at",{ascending:false})).map(r=>({...r.data,id:r.id,open:r.open,created:r.created_at}))},
   async createJob(d){const r=need(await sb.from("paths_jobs").insert({data:d,company_id:S.user.id}).select().single());return{...r.data,id:r.id,open:r.open,created:r.created_at}},
   async setJobOpen(id,open){need(await sb.from("paths_jobs").update({open}).eq("id",id))},
@@ -806,7 +918,8 @@ const DEMO=(()=>{
     people.push({user_id:"s"+i,code:((i*2654435761+977)%4096).toString(16).toUpperCase().padStart(3,"0"),name:pick(FIRST)+" "+pick(LAST),photo_url:"",sample_url:rnd()<.6?"portfolio.example/case-study":"",open:rnd()<.93,
       profile:{headline:pick(HEAD[tr]),about:"",yrs:y,roles:[tr],locs,remote:rnd()<.6,pay:Math.round((72+y*7+rnd()*22)/5)*5,sponsor:rnd()<.22,skills:[...sk],exp:[{t:pick(TITLES[tr]),co:pick(COS),y:Math.max(1,y)}],edu:[{degree:pick(["Bachelor's","Bachelor's","Master's","MBA","Bootcamp"]),field:pick({engineering:["Computer Science","Software Engineering"],product:["Business","Computer Science","Economics"],growth:["Marketing","Business"],ops:["Finance","Economics","Business"],data:["Statistics","Computer Science","Mathematics"]}[tr]),year:String(2026-y-Math.floor(rnd()*2))}]},schools:[pick(["State University","City College","Tech Institute","Riverside University","Northfield College"])]});}
   const me={user_id:"me",code:"A17",name:"Jordan Rivera",photo_url:"",sample_url:"jordanrivera.design/checkout-redesign",open:true,
-    profile:{headline:"Product analyst moving into PM",about:"I turn product data into decisions. At Pebble Pay I ran the analytics behind a checkout redesign that lifted conversion 9%, and I wrote the PRDs for two of the features that came out of it.",yrs:2,roles:["product"],locs:["Austin"],remote:true,pay:100,sponsor:false,skills:["SQL","Product analytics","PRDs","User research","Figma","A/B testing","Amplitude","Excel"],exp:[{t:"Product Analyst",co:"Pebble Pay",start:"2023-07",end:"",current:true,y:2,bullets:["Ran the funnel analysis behind a checkout redesign that lifted conversion 9%","Wrote PRDs for two features that came out of it","Built the weekly product metrics dashboard in SQL"]},{t:"Growth Intern",co:"Junction",start:"2022-06",end:"2022-12",current:false,y:1,bullets:["Set up the first A/B tests on onboarding emails"]}],edu:[{degree:"Bachelor's",field:"Business Analytics",year:"2023"}]},schools:["Riverside University"]};
+    profile:{headline:"Product analyst moving into PM",about:"I turn product data into decisions. At Pebble Pay I ran the analytics behind a checkout redesign that lifted conversion 9%, and I wrote the PRDs for two of the features that came out of it.",yrs:2,roles:["product"],locs:["Austin"],remote:true,pay:100,sponsor:false,skills:["SQL","Product analytics","PRDs","User research","Figma","A/B testing","Amplitude","Excel"],exp:[{t:"Product Analyst",co:"Pebble Pay",start:"2023-07",end:"",current:true,y:2,bullets:["Ran the funnel analysis behind a checkout redesign that lifted conversion 9%","Wrote PRDs for two features that came out of it","Built the weekly product metrics dashboard in SQL"]},{t:"Growth Intern",co:"Duolingo",dom:"duolingo.com",start:"2022-06",end:"2022-12",current:false,y:1,bullets:["Set up the first A/B tests on onboarding emails"]}],edu:[{degree:"Bachelor's",field:"Business Analytics",year:"2023"}]},schools:["The University of Texas at Austin"]};
+  me.photo_url="";
   people.unshift(me);
   const co={user_id:"co",name:"Fieldnote",website:""};
   const day=864e5,now=Date.now();
@@ -828,7 +941,7 @@ const DEMO=(()=>{
     async role(){return role},async register(r){role=r;return r},
     async seeker(){return normC(clone(me))},
     async saveSeeker(c){me.name=c.name;me.sample_url=c.sample;me.open=c.open;me.profile=clone(profOf(c));me.schools=(c.edu||[]).map(e=>e.school||"")},
-    async company(){return clone(co)},async saveCompany(n,w){co.name=n;co.website=w;coNames.co=n},
+    async company(){return clone(co)},async saveCompany(n,w,l){co.name=n;co.website=w;co.logo_url=l||"";coNames.co=n},
     async myJobs(){return jobs.filter(j=>j.company_id==="co").map(r=>({...clone(r.data),id:r.id,open:r.open,created:r.created_at})).sort((a,b)=>b.created.localeCompare(a.created))},
     async createJob(d){const r={id:"j"+Date.now(),company_id:"co",open:true,created_at:new Date().toISOString(),data:clone(d)};jobs.push(r);return{...clone(d),id:r.id,open:true,created:r.created_at}},
     async setJobOpen(id,o){const j=jobs.find(x=>x.id===id);if(j)j.open=o},
@@ -870,10 +983,10 @@ function renderTop(){
   let right="";
   if(S.user&&S.role){
     const nm=S.role==="company"?(S.co&&S.co.name)||"Your company":(S.me&&S.me.name)||S.user.email||"You";
-    const photo=S.role==="seeker"&&S.me&&S.me.photo;
+    const photo=S.role==="seeker"?(S.me&&S.me.photo):(S.co&&S.co.logo_url);
     right=`${headIcons()}<div class="acct"><button class="acctbtn" data-act="menu" aria-haspopup="true" aria-expanded="${S.menu}"><span class="nm">${esc(nm)}</span><span class="ava" style="background:var(--surface)">${photo?`<img src="${esc(photo)}" alt="">`:esc(ini(nm))}</span></button>
       ${S.menu?`<div class="menu" role="menu"><div class="mhd"><b>${S.role==="company"?"Company account":"Job seeker account"}</b><span>${esc(S.user.email||"")}</span></div>
-        <a class="mi" href="./">Open Crossway</a>${S.role==="company"?`<button class="mi" data-act="coname">Company details</button>`:`<button class="mi" data-act="edit" data-s="basics">Edit profile</button>`}<button class="mi" data-act="signout">Sign out</button></div>`:""}</div>`;
+        ${S.isAdmin?`<a class="mi" href="stats">Junction stats</a>`:""}<a class="mi" href="./">Open Crossway</a>${S.role==="company"?`<button class="mi" data-act="coname">Company details</button>`:`<button class="mi" data-act="edit" data-s="basics">Edit profile</button>`}<button class="mi" data-act="signout">Sign out</button></div>`:""}</div>`;
   }else if(S.user){
     right=`<div class="navlinks"><button data-act="signout">Sign out</button></div>`;
   }else{
@@ -989,6 +1102,8 @@ async function load(){
     const[me,myInv,openJobs]=await Promise.all([API.seeker(),API.myInvites(),API.openJobs()]);
     Object.assign(S,{me,myInv,openJobs});
   }
+  await loadLogos();
+  if(S.isAdmin===undefined)API.isAdmin().then(v=>{S.isAdmin=v;if(v)renderTop()}).catch(()=>{});
   try{await loadSocial();S.socialErr=null}catch(err){S.socialErr=friendly(err);console.warn(err)}
   refreshInbox();
 }
@@ -1067,7 +1182,7 @@ function renderSheet(){
         ${c.about?`<div class="dsec"><h3>About</h3><p class="about" style="font-size:15px">${esc(c.about)}</p></div>`:""}
         <div class="dsec"><h3>Skills</h3><div class="tags">${c.skills.slice().sort((a,b)=>(j.must.includes(b)*2+j.nice.includes(b))-(j.must.includes(a)*2+j.nice.includes(a))).map(s=>`<span class="tagl ${j.must.includes(s)||j.nice.includes(s)?"hit":""}">${esc(s)}</span>`).join("")||`<span class="hint">No skills listed</span>`}</div></div>
         ${c.exp.length?`<div class="dsec"><h3>Experience</h3><div class="xp">${c.exp.map(expItem).join("")}</div></div>`:""}
-        ${(c.edu||[]).length?`<div class="dsec"><h3>Education</h3><div class="xp">${c.edu.map(e=>`<div class="xpi"><span class="logo edu">${CAP}</span><div><b>${eduLine(e)}</b><span>${e.school?esc(e.school):"School unlocks when they accept"}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")}</div></div>`:""}
+        ${(c.edu||[]).length?`<div class="dsec"><h3>Education</h3><div class="xp">${c.edu.map(e=>`<div class="xpi">${schoolLogo(e,!!e.school)}<div><b>${eduLine(e)}</b><span>${e.school?esc(e.school):"School unlocks when they accept"}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")}</div></div>`:""}
         <div class="dsec"><h3>Looking for</h3><div class="facts">
           <div class="fact">${I.brief}<div><b>${c.roles.map(x=>TRACK[x]).join(", ")||"Open to"} roles</b><span>${yrs(c.yrs)} of experience</span></div></div>
           <div class="fact">${I.pin}<div><b>${esc(c.locs.join(", ")||"Flexible on location")}</b><span>${c.remote?"Also open to remote":"In person or hybrid"}</span></div></div>
@@ -1098,10 +1213,10 @@ function newJob(){
   $("#nT").focus();
 }
 const skBtns=()=>ALLSK.map(s=>`<button type="button" class="tagl pick ${draft.must.includes(s)?"on":draft.nice.includes(s)?"on2":""}" data-act="sk" data-v="${esc(s)}">${esc(s)}</button>`).join("");
-function coSheet(first){
+function coSheet(first){S.coLogoDraft=null;
   openSheet(`<div class="shh">${first?`<span style="width:36px"></span>`:`<button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button>`}<h2>${first?"Welcome to Junction":"Company details"}</h2><span style="width:36px"></span></div>
     <div class="shb">${first?`<p style="font-size:16px">Job seekers see this name on your invites.</p>`:""}<div class="f"><label for="coN">Company name</label><input id="coN" maxlength="80" value="${esc((S.co&&S.co.name)||"")}" placeholder="Fieldnote"></div>
-    <div class="f"><label for="coW">Website (optional)</label><input id="coW" maxlength="120" value="${esc((S.co&&S.co.website)||"")}" placeholder="fieldnote.co"></div></div>
+    ${coLogoBlock()}<div class="f"><label for="coW">Website (optional)</label><input id="coW" maxlength="120" value="${esc((S.co&&S.co.website)||"")}" placeholder="fieldnote.co"></div></div>
     <div class="shf"><button class="btn dark" data-act="cosave">${first?"Continue":"Save"}</button></div>`,true);
   $("#coN").focus();
 }
@@ -1119,11 +1234,11 @@ function renderSeeker(){
      <div class="steps3">${[["basics","Who you are","Headline and a short about"],["skills","Your skills","Pick what you're good at"],["prefs","What you want","Roles, cities and pay"]].map(([k,t,d])=>`<button class="step3 ${sl.find(x=>x.k===k).ok?"done":""}" data-act="edit" data-s="${k}"><b>${t}</b><span>${d}</span></button>`).join("")}</div></div>`:"";
   const hello=pv?`<div class="hello"><h1>How companies see you</h1><p>No name, no photo. Just your skills, your work and your badges.</p></div>`
     :`<div class="hello"><h1>Your profile</h1><p>${pct<60?"Companies match on what you add here. No resume needed.":"This is what companies match on. Keep it sharp."}</p></div>${setup}
-     ${done.length?done.map(o=>`<div class="invite done"><div class="from"><span class="logo">${esc(ini(o.company))}</span><div><b style="font-weight:600">${esc(o.company)} · ${esc(o.job.title)}</b><div class="meta" style="margin-top:0">${SLABEL[o.status]}${o.slot?" · Interview "+esc(o.slot):""}</div></div>${o.status!=="declined"?`<button class="btn line sm2" data-act="msginv" data-inv="${o.id}">Message</button>`:""}</div></div>`).join(""):""}`;
+     ${done.length?done.map(o=>`<div class="invite done"><div class="from">${coLogo(o.company)}<div><b style="font-weight:600">${esc(o.company)} · ${esc(o.job.title)}</b><div class="meta" style="margin-top:0">${SLABEL[o.status]}${o.slot?" · Interview "+esc(o.slot):""}</div></div>${o.status!=="declined"?`<button class="btn line sm2" data-act="msginv" data-inv="${o.id}">Message</button>`:""}</div></div>`).join(""):""}`;
   $("#main").innerHTML=`<div class="cpage">${hello}
    <div class="layout">
      <aside class="idcard">
-       <div class="idtop">${pv?seekerTile(c,112):`<span class="ava" style="width:112px;height:112px;font-size:38px;background:${grad(c)}">${c.photo?`<img src="${esc(c.photo)}" alt="">`:esc(ini(c.name))}</span>`}<h2>${pv?"Candidate #"+esc(c.code):esc(c.name||"Your name")}</h2><p>${esc(c.headline||"Add a headline")}</p></div>
+       <div class="idtop">${pv?seekerTile(c,112):`<span class="ava" style="width:112px;height:112px;font-size:38px;background:${grad(c)}">${c.photo?`<img src="${esc(c.photo)}" alt="">`:esc(ini(c.name))}</span>`}<h2>${pv?"Candidate #"+esc(c.code):esc(c.name||"Your name")}</h2><p>${esc(c.headline||"Add a headline")}</p>${pv?"":orbitLine(S.badges[c.id])}</div>
        ${record(S.badges[c.id])}${badgeRow(S.badges[c.id],1,1)}
        <div class="idstats"><div><b>${c.yrs}</b><span>${c.yrs===1?"year":"years"} experience</span></div><div><b>${c.pay?"$"+c.pay+"k":"Open"}</b><span>minimum pay</span></div></div>
        ${pv?`<div class="pv">Your name and photo unlock for a company only after you accept their invite.</div>`
@@ -1141,7 +1256,7 @@ function renderSeeker(){
          <div class="fact">${I.pass}<div><b>${c.sponsor?"Needs sponsorship":"No sponsorship needed"}</b><span>Work authorization</span></div></div></div></section>
        <section class="sect"><div class="secth"><h2>Skills</h2>${ed("skills")}</div><div class="tags">${c.skills.map(s=>`<span class="tagl">${esc(s)}</span>`).join("")||`<span class="hint">No skills yet</span>`}</div></section>
        <section class="sect"><div class="secth"><h2>Experience</h2>${ed("exp")}</div><div class="xp">${c.exp.map(expItem).join("")||`<span class="hint">Nothing added yet</span>`}</div></section>
-       <section class="sect"><div class="secth"><h2>Education</h2>${ed("edu")}</div><div class="xp">${(c.edu||[]).map(e=>`<div class="xpi"><span class="logo edu">${CAP}</span><div><b>${eduLine(e)}</b><span>${pv?"School shown after you accept":esc(e.school||"School not added")}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")||`<span class="hint">Add your degree. Companies see the degree, field and year. The school name unlocks only after you accept an invite.</span>`}</div></section>
+       <section class="sect"><div class="secth"><h2>Education</h2>${ed("edu")}</div><div class="xp">${(c.edu||[]).map(e=>`<div class="xpi">${schoolLogo(e,!pv)}<div><b>${eduLine(e)}</b><span>${pv?"School shown after you accept":esc(e.school||"School not added")}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")||`<span class="hint">Add your degree. Companies see the degree, field and year. The school name unlocks only after you accept an invite.</span>`}</div></section>
        <section class="sect"><div class="secth"><h2>Proof of work</h2>${ed("sample")}</div>${c.sample?`<div class="sample"><span class="logo">${I.link}</span><div style="min-width:0"><b>${esc(pv?"Work sample on file":c.sample)}</b><span class="hint">${pv?"The link unlocks after you accept":"Companies see the link after you accept their invite."}</span></div></div>`:`<p class="hint" style="font-size:15px">Add a case study or project. Profiles with proof of work rank higher.</p>`}</section>
        ${pv?"":`<section class="sect"><div class="secth"><h2>Open roles on Junction</h2></div>${fits.length?`<div class="stand">${fits.map(({j,r})=>{const m=j.must.filter(s=>!c.skills.includes(s));
           const lab=!r.fails.length&&r.s>=75?["fit-strong","Strong fit"]:!r.fails.length?["fit-maybe","Possible fit"]:["fit-no","Not a fit yet"];
@@ -1151,7 +1266,7 @@ function renderSeeker(){
    </div></div>`;
 }
 function invHero(x){const j=x.job;
-  return `<div class="invite"><div><div class="from"><span class="logo">${esc(ini(x.company))}</span><div><b style="font-weight:600">${esc(x.company)}</b><div class="meta" style="margin-top:0">wants to meet you</div></div></div>
+  return `<div class="invite"><div><div class="from">${coLogo(x.company)}<div><b style="font-weight:600">${esc(x.company)}</b><div class="meta" style="margin-top:0">wants to meet you</div></div></div>
       <h2>${esc(j.title)}</h2><div class="meta">${esc(place(j))} · $${j.pay[0]}k to $${j.pay[1]}k${j.sponsor?" · Sponsors visas":""}</div>
       ${x.msg?`<blockquote>"${esc(x.msg)}"</blockquote>`:""}</div>
     <div><span class="lbl">Pick a time</span><div class="times" style="margin-top:10px">${x.slots.map((s,i)=>{const[d,t]=splitSlot(s);return `<button class="time ${x.pick===i?"on":""}" data-act="cslot" data-id="${x.id}" data-i="${i}"><b>${esc(d)}</b><span>${esc(t)}</span></button>`}).join("")}</div>
@@ -1167,11 +1282,11 @@ function editSheet(k){
   const f=$("#edBody input,#edBody textarea");f&&f.focus();
 }
 function edBody(k){
-  if(k==="basics")return `<div class="fg"><div class="f"><label for="eN">Name</label><input id="eN" data-d="name" maxlength="60" value="${esc(D.name)}"><span class="hint">Hidden until you accept an invite.</span></div>
+  if(k==="basics")return `<div class="fg"><div class="f"><label for="eN">Name</label><input id="eN" data-d="name" maxlength="60" value="${esc(D.name)}"><span class="hint">Companies see it only after you accept their invite.</span></div>
     <div class="f"><label for="eY">Years of experience</label><input id="eY" type="number" min="0" max="45" data-d="yrs" value="${calcYears(D.exp)??D.yrs}" ${calcYears(D.exp)!=null?"disabled":""}>${calcYears(D.exp)!=null?`<span class="hint">Worked out from your experience dates.</span>`:""}</div>
     <div class="f full"><label for="eH">Headline</label><input id="eH" data-d="headline" maxlength="90" value="${esc(D.headline)}" placeholder="Product analyst moving into PM"></div>
     <div class="f full"><label for="eA">About</label><textarea id="eA" data-d="about" maxlength="600" placeholder="What you do best, in two or three sentences">${esc(D.about||"")}</textarea><span class="hint">Leave your name out of this so matching stays blind.</span></div></div>
-    <p class="hint">Photo: ${D.photo?"we use your Google photo.":"sign in with Google to use your Google photo."} Companies only see it after you accept their invite.</p>`;
+    ${photoBlock()}`;
   if(k==="prefs")return `<div class="f"><span class="lbl">Roles</span><div class="tags">${Object.keys(TRACK).map(r=>`<button class="tagl pick ${D.roles.includes(r)?"on":""}" data-act="dtog" data-f="roles" data-v="${r}">${TRACK[r]}</button>`).join("")}</div><span class="hint">Your first pick sets your tile color.</span></div>
     <div class="f"><span class="lbl">Cities</span><div class="tags">${CITIES.map(r=>`<button class="tagl pick ${D.locs.includes(r)?"on":""}" data-act="dtog" data-f="locs" data-v="${r}">${r}</button>`).join("")}</div></div>
     <div class="f"><label for="eP">Minimum pay ($k a year)</label><input id="eP" type="number" min="0" step="5" data-d="pay" value="${D.pay||""}" style="max-width:200px"></div>
@@ -1209,7 +1324,8 @@ document.addEventListener("click",async e=>{
   if(a==="pick"){el.disabled=true;try{await API.register(el.dataset.r);S.role=null;const u=S.user;S.user=null;await onSession({user:u})}catch(err){toast(friendly(err));el.disabled=false}return}
   if(a==="coname"){S.menu=false;renderTop();coSheet(false);return}
   if(a==="cosave"){const n=$("#coN").value.trim(),w=$("#coW").value.trim();if(!n){toast("Add your company name.");return}
-    await act(()=>API.saveCompany(n,w));S.co={...S.co,name:n,website:w};closeSheet();render();if(!S.jobs.length)newJob();return}
+    let L=S.coLogoDraft!=null?S.coLogoDraft:((S.co&&S.co.logo_url)||"");if(isAutoLogo(L))L=hostOf(w)?FAV(hostOf(w)):"";
+    await act(()=>API.saveCompany(n,w,L));S.co={...S.co,name:n,website:w,logo_url:L};S.logos=S.logos||{};if(L)S.logos[n]=L;else delete S.logos[n];S.coLogoDraft=null;closeSheet();render();if(!S.jobs.length)newJob();return}
   if(a==="job"){S.job=el.dataset.id;S.tab="top";render();return}
   if(a==="tab"){S.tab=el.dataset.t;render();return}
   if(a==="toggleJob"){const j=job();await act(()=>API.setJobOpen(j.id,!j.open),j.open?"Role closed. It's hidden from job seekers.":"Role reopened.");j.open=!j.open;render();return}
@@ -1279,7 +1395,7 @@ async function boot(){
 
 
 /* ================= Today: Daily Drill, streaks, nods, Challenges, leagues ================= */
-const DRILLS={"engineering": ["Find two numbers in an array that add up to a target. Can you do it in O(n)? Explain your approach.", "How would you design a URL shortener? Cover how you store links and how it scales.", "What happens when you type a URL into a browser and press Enter?", "Reverse a linked list. Write it in any language and explain the time and space complexity.", "When would you pick a SQL database over a NoSQL one? Give a real example.", "Check if a string is a palindrome, ignoring spaces and capital letters. Write the function.", "An API is slow, but only for some users. How do you debug it?", "Explain binary search and its Big O to someone who just started coding.", "Design a rate limiter that allows 100 requests per minute per user.", "Merge two sorted arrays into one sorted array without using a built in sort.", "What is the difference between a process and a thread? When does it matter?", "Find the first character in a string that doesn't repeat. Walk through your solution."], "product": ["Signups dropped 20% overnight. What are the first three things you check?", "You can ship only one of these next sprint: dark mode, faster checkout, or referral rewards. Which one, and why?", "How would you measure whether a new onboarding checklist is working?", "A big customer asks for a feature nobody else wants. How do you respond?", "Pick an app you use every day. What is one change you would make, and how would you test it?", "Engineering says your feature will take three times longer than planned. What do you do?", "Write a one line problem statement for a food delivery app whose orders keep arriving cold.", "What is one metric you would never use on its own to judge a feature, and why?", "Daily active users went up but revenue went down. What could explain it?", "How would you decide whether to build, buy, or partner for a new chat feature?", "Your team disagrees on a design. How do you get to a decision by Friday?", "What would you cut from the first version of a habit tracking app?"], "growth": ["Your cost per signup from paid ads doubled this week. Where do you look first?", "Write two subject lines for a win back email to users who left 30 days ago.", "Which single experiment would you run to raise trial to paid conversion?", "A referral program brings lots of signups but few active users. What is going wrong?", "How would you choose between SEO and paid social for a brand new B2B tool?", "Name one onboarding step you would remove to boost activation, and how you would test it.", "Your A/B test shows a 3% lift on a small sample. Do you ship it?", "What is a good north star metric for a language learning app, and why?", "How would you grow a newsletter from zero to 1,000 readers in a month?", "Churn jumps right after the first billing cycle. What three things would you try?", "Write a one sentence value proposition for a budgeting app for students.", "Which channel would you test first for a new local gym, and why?"], "ops": ["Support tickets doubled after a launch. How do you triage the next 48 hours?", "Two teams want the same budget. How do you decide who gets it?", "How would you estimate the number of coffee shops in Austin?", "Monthly revenue missed forecast by 15%. How do you explain it to leadership?", "Which three numbers would you put on a one page weekly dashboard for a startup?", "A key vendor raises prices by 30%. What are your options?", "How would you cut onboarding time for new sales reps in half?", "What would you check before approving a new pricing tier?", "A process takes ten manual steps every week. How do you decide whether to automate it?", "Sales and product disagree about why deals are lost. How do you find out the truth?", "How would you plan headcount for a support team growing 20% a quarter?", "What makes a good quarterly goal? Write one for a customer success team."], "data": ["Describe in plain words a SQL query that finds the top 5 customers by revenue last month.", "A dashboard shows a sudden spike in users at 3am. How do you check whether it is real?", "Mean or median for reporting delivery times? Explain your choice.", "How would you find duplicate user accounts in a signups table?", "Your model is 95% accurate but useless. How can that happen?", "Which chart would you use to show monthly revenue by product line, and why?", "Explain a p value to a sales manager in two sentences.", "Two data sources disagree on yesterday's order count. What do you check?", "What is one thing you always check before trusting a new dataset?", "How would you measure the impact of a price change when you cannot run an A/B test?", "Retention dropped for users from one country. How do you dig in?", "Describe a cohort analysis you would run for a subscription app."]};
+const DRILLS={"product": [{"id": 1001, "prompt": "Instagram started as a check-in app with a different name. What was it called?", "options": ["Picplz", "Gowalla", "Burbn", "Hipstamatic"], "answer": 2, "explain": "Kevin Systrom and Mike Krieger stripped Burbn down to photos, filters and likes, then relaunched it as Instagram in October 2010.", "source": "Instagram, 2010"}, {"id": 1002, "prompt": "Slack was built inside a company that was originally making what?", "options": ["A photo sharing app", "An online game", "An email client", "A payments tool"], "answer": 1, "explain": "Tiny Speck was building a game called Glitch. When the game failed, the team turned its internal chat tool into Slack.", "source": "Tiny Speck, 2013"}, {"id": 1003, "prompt": "YouTube's founders first pitched it as what?", "options": ["A TV listings guide", "A video dating site", "A home movie archive", "A video ad network"], "answer": 1, "explain": "The early slogan was \"Tune In, Hook Up.\" Nobody uploaded dating videos, so they opened it up to any video.", "source": "YouTube, 2005"}, {"id": 1004, "prompt": "When the first iPhone launched in 2007, what was missing?", "options": ["A touchscreen", "Email", "A web browser", "An App Store for third party apps"], "answer": 3, "explain": "Apple pushed web apps at first. The App Store arrived in July 2008 with about 500 apps.", "source": "Apple, 2008"}, {"id": 1005, "prompt": "Slack found that teams who sent a certain number of messages almost never churned. What was the number?", "options": ["10,000", "200", "2,000", "500"], "answer": 2, "explain": "Stewart Butterfield said teams that had exchanged 2,000 messages had really tried Slack, and about 93% of them kept using it.", "source": "Slack, Stewart Butterfield"}, {"id": 1006, "prompt": "What does Amazon write before building a new product?", "options": ["A press release and FAQ", "A detailed Gantt chart", "A pitch deck", "A pricing sheet"], "answer": 0, "explain": "Amazon's Working Backwards process starts with a mock press release and FAQ, written as if the product had already launched.", "source": "Amazon, Working Backwards"}, {"id": 1007, "prompt": "In 2017 Twitter changed its character limit for most languages. From 140 to what?", "options": ["200", "240", "500", "280"], "answer": 3, "explain": "Twitter doubled the limit to 280 in November 2017 after tests showed people rarely hit the new cap.", "source": "Twitter, 2017"}, {"id": 1008, "prompt": "Quibi raised about $1.75 billion. How long after launch did it announce it was shutting down?", "options": ["About 18 months", "About 3 weeks", "About 2 years", "About 6 months"], "answer": 3, "explain": "Quibi launched in April 2020 and announced its shutdown in October 2020. Short videos made only for phones didn't stick.", "source": "Quibi, 2020"}, {"id": 1009, "prompt": "Amazon's Fire Phone flopped. Roughly how big was the write down Amazon took in 2014?", "options": ["$170 million", "$700 million", "$1.7 billion", "$17 million"], "answer": 0, "explain": "Amazon wrote down about $170 million, mostly unsold phone inventory.", "source": "Amazon, Q3 2014"}, {"id": 1010, "prompt": "In 2011 Netflix tried to spin its DVD business into a separate service, then reversed within weeks. What was it called?", "options": ["Qwikster", "Netflix Classic", "DVDFlix", "Redbox"], "answer": 0, "explain": "Qwikster lasted about a month. Together with a price hike, the move cost Netflix around 800,000 subscribers that quarter.", "source": "Netflix, 2011"}, {"id": 1011, "prompt": "What price did Google charge for the Glass Explorer Edition in 2013?", "options": ["$299", "$3,000", "$1,500", "$799"], "answer": 2, "explain": "The $1,500 price, privacy worries and no clear use case kept Glass a niche product.", "source": "Google, 2013"}, {"id": 1012, "prompt": "Instagram Stories launched in 2016 with a format openly borrowed from which app?", "options": ["Snapchat", "Periscope", "Vine", "Tumblr"], "answer": 0, "explain": "Kevin Systrom said Snapchat deserved credit for the format. Within a year Instagram Stories had more daily users than Snapchat.", "source": "Instagram, 2016"}, {"id": 1013, "prompt": "The Sean Ellis test asks users how they'd feel if they could no longer use your product. What share saying \"very disappointed\" signals product market fit?", "options": ["25%", "10%", "40%", "75%"], "answer": 2, "explain": "Ellis found products crossing 40% \"very disappointed\" usually grew well. Superhuman used this test to steer its roadmap.", "source": "Sean Ellis; Superhuman"}, {"id": 1014, "prompt": "When Steve Jobs returned to Apple in 1997, how many core products did he cut the lineup down to?", "options": ["4", "1", "8", "12"], "answer": 0, "explain": "He drew a 2 by 2 grid of consumer and pro, desktop and portable, and kept one great product in each box.", "source": "Apple, 1997"}, {"id": 1015, "prompt": "Gmail launched with 1 GB of free storage on a date that made people think it was a joke. Which date?", "options": ["October 31, 2005", "January 1, 2004", "April 1, 2004", "July 4, 2003"], "answer": 2, "explain": "Launching on April Fools' Day with 1 GB, far more than rivals offered, made many people assume it was a prank.", "source": "Google, 2004"}, {"id": 1016, "prompt": "The \"milkshake\" story, about the job customers hire a product to do, comes from which thinker?", "options": ["Clayton Christensen", "Marty Cagan", "Steve Blank", "Peter Drucker"], "answer": 0, "explain": "Christensen's team found people bought morning milkshakes to make a long, boring commute more bearable. That became Jobs to be Done.", "source": "Clayton Christensen"}, {"id": 1017, "prompt": "What do the letters in the RICE prioritization score stand for?", "options": ["Reach, Insight, Cost, Execution", "Revenue, Impact, Cost, Effort", "Risk, Impact, Confidence, Engagement", "Reach, Impact, Confidence, Effort"], "answer": 3, "explain": "Intercom created RICE so teams could compare ideas with one number: reach times impact times confidence, divided by effort.", "source": "Intercom"}, {"id": 1018, "prompt": "In the Kano model, what are features users expect and only notice when they're missing?", "options": ["Performance features", "Indifferent features", "Delighters", "Basic (must be) features"], "answer": 3, "explain": "Basic features don't make anyone happy, but leaving them out makes people angry. Think of a hotel room without hot water.", "source": "Noriaki Kano, 1984"}, {"id": 1019, "prompt": "Dropbox's 2008 demo video sent its beta waitlist from about 5,000 people to roughly how many overnight?", "options": ["15,000", "75,000", "750,000", "7,500"], "answer": 1, "explain": "Drew Houston posted a short demo filled with inside jokes for the Digg crowd, and the waitlist jumped to about 75,000.", "source": "Dropbox, 2008"}, {"id": 1020, "prompt": "Google once tested how many shades of blue for its links?", "options": ["12", "41", "100", "4"], "answer": 1, "explain": "Marissa Mayer's team tested 41 shades. The winning blue was later credited with around $200 million a year in extra ad revenue.", "source": "Google"}, {"id": 1021, "prompt": "How much did The New York Times pay for Wordle in 2022?", "options": ["About $100 million", "Nothing, it was a gift", "About $50,000", "An amount in the low seven figures"], "answer": 3, "explain": "Josh Wardle built Wordle for his partner. The Times bought it for an undisclosed sum in the low seven figures.", "source": "The New York Times, 2022"}, {"id": 1022, "prompt": "Nvidia was founded in 1993 in what kind of place?", "options": ["A garage", "A Starbucks", "A booth at a Denny's", "A college dorm"], "answer": 2, "explain": "Jensen Huang and his cofounders planned the company in a booth at a Denny's in San Jose. Huang had worked at Denny's as a teenager.", "source": "Nvidia, 1993"}, {"id": 1023, "prompt": "Facebook launched News Feed in 2006 and users protested. What happened next?", "options": ["It moved into a separate app", "Facebook removed it within a week", "It became opt in only", "Feed stayed, Facebook added privacy controls, and usage grew"], "answer": 3, "explain": "Zuckerberg apologized for how it was rolled out and added privacy settings, but kept Feed. Engagement went up.", "source": "Facebook, 2006"}, {"id": 1024, "prompt": "Microsoft's Office assistant Clippy was switched off by default in which release?", "options": ["Office XP", "Office 365", "Office 95", "Office 2013"], "answer": 0, "explain": "Office XP in 2001 turned Clippy off by default, and Microsoft even made fun of him in the ads. He was removed entirely in Office 2007.", "source": "Microsoft, 2001"}, {"id": 1025, "prompt": "Spotify's Discover Weekly playlist first launched in which year?", "options": ["2009", "2019", "2012", "2015"], "answer": 3, "explain": "Discover Weekly launched in July 2015 and passed a billion streams within its first 10 weeks.", "source": "Spotify, 2015"}], "growth": [{"id": 2001, "prompt": "Hotmail grew to millions of users largely because of what?", "options": ["Paying users to sign up", "TV ads", "A partnership with AOL", "A signup line added to the bottom of every email"], "answer": 3, "explain": "Every email ended with \"PS: I love you. Get your free email at Hotmail.\" Each message became an ad.", "source": "Hotmail, 1996"}, {"id": 2002, "prompt": "Dropbox's referral program rewarded whom?", "options": ["Only the new user", "Only the person who invited", "Neither, it was a contest", "Both the person who invited and the friend who joined"], "answer": 3, "explain": "A double sided reward gave both people extra free storage, so asking a friend felt like a favor, not a sales pitch.", "source": "Dropbox, 2008"}, {"id": 2003, "prompt": "Drew Houston said referrals raised Dropbox's signups by about how much, for good?", "options": ["6%", "16%", "60%", "600%"], "answer": 2, "explain": "Referrals drove a lasting 60% lift in signups, which is why the referral program became central to Dropbox's growth.", "source": "Dropbox, 2010"}, {"id": 2004, "prompt": "In its early days PayPal paid people cash to sign up and refer friends. Roughly what did the bonus start at?", "options": ["$20", "$200", "$1", "50 cents"], "answer": 0, "explain": "PayPal started around $20 and lowered it to $10 and then $5 as growth took off. It was expensive, but it worked.", "source": "PayPal, 1999 to 2000"}, {"id": 2005, "prompt": "Airbnb found early hosts and guests with which growth hack?", "options": ["Letting hosts cross post listings to Craigslist", "Partnering with Marriott", "Buying Super Bowl ads", "Paying influencers on Instagram"], "answer": 0, "explain": "Airbnb built an integration so hosts could repost their listings on Craigslist, tapping into its huge audience.", "source": "Airbnb, around 2010"}, {"id": 2006, "prompt": "To keep the company alive in 2008, Airbnb's founders sold what?", "options": ["Concert tickets", "Election themed cereal boxes", "Custom t shirts", "Their own furniture"], "answer": 1, "explain": "They sold Obama O's and Cap'n McCain's cereal and raised about $30,000.", "source": "Airbnb, 2008"}, {"id": 2007, "prompt": "Dollar Shave Club's 2012 launch video went viral. Roughly what did it cost to make?", "options": ["$450", "$45,000", "$4,500", "$450,000"], "answer": 2, "explain": "The low budget video brought in about 12,000 orders in the first two days.", "source": "Dollar Shave Club, 2012"}, {"id": 2008, "prompt": "Unilever bought Dollar Shave Club in 2016 for about how much?", "options": ["$100 million", "$300 million", "$1 billion", "$10 billion"], "answer": 2, "explain": "About $1 billion in cash, just four years after the viral video.", "source": "Unilever, 2016"}, {"id": 2009, "prompt": "Facebook's growth team found new users stuck around once they reached what?", "options": ["1 post a day for a week", "7 friends in 10 days", "100 friends in a month", "3 photos in the first hour"], "answer": 1, "explain": "Chamath Palihapitiya's team rebuilt onboarding around getting new users to 7 friends in 10 days.", "source": "Facebook growth team"}, {"id": 2010, "prompt": "Obama's 2008 campaign A/B tested its signup page. About how much did the best version raise signups?", "options": ["40%", "4%", "400%", "140%"], "answer": 0, "explain": "A family photo and a \"Learn More\" button lifted signups by about 40.6%, worth an estimated $60 million in donations.", "source": "Obama campaign, 2008"}, {"id": 2011, "prompt": "Who coined the term \"growth hacker\" in 2010?", "options": ["Sean Ellis", "Andrew Chen", "Paul Graham", "Seth Godin"], "answer": 0, "explain": "Sean Ellis used it for people whose every decision is judged by its effect on growth.", "source": "Sean Ellis, 2010"}, {"id": 2012, "prompt": "Which of these is NOT one of Dave McClure's AARRR \"pirate metrics\"?", "options": ["Referral", "Awareness", "Activation", "Retention"], "answer": 1, "explain": "AARRR stands for Acquisition, Activation, Retention, Referral and Revenue.", "source": "Dave McClure, 2007"}, {"id": 2013, "prompt": "New Coke launched in 1985. How long until the original formula came back as Coca-Cola Classic?", "options": ["9 months", "2 years", "79 days", "7 days"], "answer": 2, "explain": "Taste tests favored New Coke, but fans revolted over losing the original. It returned after 79 days.", "source": "Coca-Cola, 1985"}, {"id": 2014, "prompt": "The \"Share a Coke\" campaign, which printed first names on bottles, started in which country?", "options": ["United States", "Japan", "Australia", "United Kingdom"], "answer": 2, "explain": "It launched in Australia in 2011 and was later rolled out in more than 70 countries.", "source": "Coca-Cola, 2011"}, {"id": 2015, "prompt": "How long is Zappos' famous return window?", "options": ["14 days", "365 days", "90 days", "30 days"], "answer": 1, "explain": "Free shipping both ways and a year to return made buying shoes online feel risk free.", "source": "Zappos"}, {"id": 2016, "prompt": "How did Gmail spread when it launched in 2004?", "options": ["Invite only, with a few invites per user", "Paid search ads", "Free gifts for signing up", "Bundled with Windows"], "answer": 0, "explain": "The scarcity made Gmail invites a status symbol, and some sold on eBay.", "source": "Google, 2004"}, {"id": 2017, "prompt": "Robinhood built a huge waitlist before launch. Roughly how many people joined it?", "options": ["About 10 million", "About 10,000", "About 100,000", "About 1 million"], "answer": 3, "explain": "People could move up the line by referring friends, which made the waitlist itself a growth engine.", "source": "Robinhood, 2014 to 2015"}, {"id": 2018, "prompt": "About how many people signed up for Instagram on its first day?", "options": ["250,000", "2.5 million", "250", "25,000"], "answer": 3, "explain": "Instagram got about 25,000 signups in its first 24 hours and hit 1 million in about two months.", "source": "Instagram, 2010"}, {"id": 2019, "prompt": "Tinder's early growth started in what setting?", "options": ["High schools", "College campuses, beginning with USC", "Corporate offices", "Gyms"], "answer": 1, "explain": "The team signed up whole sororities and fraternities at USC so new users found plenty of people right away.", "source": "Tinder, 2012"}, {"id": 2020, "prompt": "What LTV to CAC ratio is a common rule of thumb for healthy unit economics?", "options": ["1 to 3", "1 to 1", "At least 3 to 1", "At least 20 to 1"], "answer": 2, "explain": "Around 3 to 1 means each customer earns about three times what it cost to get them. Much higher can mean you're underinvesting in growth.", "source": "SaaS benchmark"}, {"id": 2021, "prompt": "In viral growth, what does a K factor above 1 mean?", "options": ["Each user brings in more than one new user on average", "Churn is below 1% a month", "Paid ads are profitable", "Growth has stopped"], "answer": 0, "explain": "With K above 1, the user base grows on its own without paid marketing.", "source": "Viral loops"}, {"id": 2022, "prompt": "When did the original Pepsi Challenge blind taste tests begin?", "options": ["1975", "1955", "1995", "2005"], "answer": 0, "explain": "In blind tests more people picked Pepsi, so Pepsi made the results the center of its ads.", "source": "PepsiCo, 1975"}, {"id": 2023, "prompt": "Old Spice's \"The Man Your Man Could Smell Like\" campaign launched in which year?", "options": ["2010", "2003", "1998", "2016"], "answer": 0, "explain": "The ad and its follow up personalized response videos turned an old fashioned brand into a viral hit.", "source": "Old Spice, 2010"}, {"id": 2024, "prompt": "How did LinkedIn first grow its network?", "options": ["By letting users import email contacts to invite", "Through a Super Bowl ad", "By paying recruiters", "By buying Facebook ads"], "answer": 0, "explain": "Importing address books and suggesting connections helped every new user pull in more users.", "source": "LinkedIn, 2003 to 2004"}, {"id": 2025, "prompt": "What made Wordle spread so fast in late 2021?", "options": ["Email reminders", "An app store feature", "A shareable grid of colored squares that hid the answer", "Paid influencers"], "answer": 2, "explain": "The emoji grid let people brag without spoiling the puzzle, and everyone played the same word each day.", "source": "Wordle, 2021"}], "ops": [{"id": 3001, "prompt": "In February 2008 Starbucks closed about 7,100 US stores for a few hours. Why?", "options": ["A software outage", "To retrain baristas on making espresso", "A labor strike", "A coffee shortage"], "answer": 1, "explain": "Howard Schultz shut stores for about three hours so baristas could relearn how to pull a good espresso shot.", "source": "Starbucks, 2008"}, {"id": 3002, "prompt": "In the 1982 Tylenol crisis, roughly how many bottles did Johnson & Johnson recall?", "options": ["310 million", "300,000", "3 million", "31 million"], "answer": 3, "explain": "Recalling about 31 million bottles cost roughly $100 million, and is still a classic case of putting safety first.", "source": "Johnson & Johnson, 1982"}, {"id": 3003, "prompt": "At Toyota, what lets any worker stop the production line when they spot a problem?", "options": ["The poka yoke switch", "The andon cord", "The kanban board", "The kaizen bell"], "answer": 1, "explain": "Pulling the andon cord stops the line so problems are fixed at the source instead of passed down the line.", "source": "Toyota Production System"}, {"id": 3004, "prompt": "Southwest Airlines flies only one type of plane. Which one?", "options": ["Airbus A320", "Boeing 777", "Boeing 737", "Embraer E190"], "answer": 2, "explain": "One type means simpler training, maintenance and spare parts, which helps keep costs low.", "source": "Southwest Airlines"}, {"id": 3005, "prompt": "Southwest became famous in the early 1970s for turning a plane around at the gate in how long?", "options": ["45 minutes", "25 minutes", "10 minutes", "90 minutes"], "answer": 2, "explain": "Short of cash, Southwest had to sell a plane and keep its schedule with three. The 10 minute turn made that possible.", "source": "Southwest Airlines, 1972"}, {"id": 3006, "prompt": "Roughly how fast can Zara take a new design from the studio to stores?", "options": ["About a year", "About 2 to 3 weeks", "About 2 days", "About 6 months"], "answer": 1, "explain": "Making much of its clothing close to home in Spain lets Zara react to trends in weeks instead of seasons.", "source": "Inditex"}, {"id": 3007, "prompt": "What has Costco charged for its hot dog and soda combo since 1985?", "options": ["$4.99", "$1.50", "$0.99", "$2.50"], "answer": 1, "explain": "Costco has kept the price frozen for decades as a loss leader that builds loyalty.", "source": "Costco"}, {"id": 3008, "prompt": "Amazon Prime launched in 2005 at what annual price?", "options": ["$119", "$99", "$49", "$79"], "answer": 3, "explain": "Prime started at $79 a year for unlimited two day shipping.", "source": "Amazon, 2005"}, {"id": 3009, "prompt": "What was the name of the McDonald brothers' 1948 assembly line kitchen?", "options": ["Lean Kitchen", "Six Sigma", "Just in Time", "The Speedee Service System"], "answer": 3, "explain": "They cut the menu to a few items and ran the kitchen like a factory line, so food came out in seconds.", "source": "McDonald's, 1948"}, {"id": 3010, "prompt": "In 2000 Blockbuster reportedly passed on buying Netflix for how much?", "options": ["$5 billion", "$5 million", "$50 million", "$500 million"], "answer": 2, "explain": "Reed Hastings offered to sell Netflix for about $50 million. Blockbuster declined and filed for bankruptcy in 2010.", "source": "Netflix, 2000"}, {"id": 3011, "prompt": "A Kodak engineer built the first digital camera in which year?", "options": ["1975", "1995", "1965", "1985"], "answer": 0, "explain": "Steve Sasson's prototype took 23 seconds to record an image. Kodak held back on digital to protect its film business.", "source": "Kodak, 1975"}, {"id": 3012, "prompt": "Six Sigma quality methods were developed at which company?", "options": ["General Electric", "Ford", "Toyota", "Motorola"], "answer": 3, "explain": "Engineer Bill Smith introduced it at Motorola in 1986. GE made it famous in the 1990s.", "source": "Motorola, 1986"}, {"id": 3013, "prompt": "In 1973 FedEx founder Fred Smith reportedly kept the company afloat by doing what?", "options": ["Winning about $27,000 at blackjack in Las Vegas", "Taking out a credit card loan", "Selling his house", "Getting a government contract"], "answer": 0, "explain": "With fuel money running out, Smith flew to Las Vegas and won enough to make payroll for another week.", "source": "FedEx, 1973"}, {"id": 3014, "prompt": "When Lehman Brothers filed for bankruptcy in 2008, about how large were its assets?", "options": ["$64 billion", "$6.4 trillion", "$6 billion", "$639 billion"], "answer": 3, "explain": "It is still the largest bankruptcy filing in US history.", "source": "Lehman Brothers, 2008"}, {"id": 3015, "prompt": "WeWork pulled its IPO in 2019. About how high had its private valuation been?", "options": ["$470 billion", "$470 million", "$47 billion", "$4.7 billion"], "answer": 2, "explain": "Investors balked once its losses and governance issues were public, and the valuation collapsed.", "source": "WeWork, 2019"}, {"id": 3016, "prompt": "Using the rule of 72, about how many years does it take money to double at 8% a year?", "options": ["72 years", "6 years", "9 years", "12 years"], "answer": 2, "explain": "Divide 72 by the growth rate: 72 divided by 8 is 9.", "source": "Rule of 72"}, {"id": 3017, "prompt": "In which year did Netflix stop its DVD by mail service?", "options": ["2013", "2023", "2020", "2017"], "answer": 1, "explain": "Netflix shipped its last red envelopes in September 2023, about 25 years after it started.", "source": "Netflix, 2023"}, {"id": 3018, "prompt": "Walmart pioneered moving goods straight from inbound trucks to outbound trucks with almost no storage. What is that called?", "options": ["Drop shipping", "Kanban", "Just in case", "Cross docking"], "answer": 3, "explain": "Cross docking cuts warehouse time and inventory costs, a big part of Walmart's low prices.", "source": "Walmart"}, {"id": 3019, "prompt": "What is Jeff Bezos's \"two pizza\" rule?", "options": ["Teams should be small enough to feed with two pizzas", "Never hold more than two meetings a day", "Ship two features per sprint", "Always test two versions of every page"], "answer": 0, "explain": "Small teams communicate faster and own their work end to end.", "source": "Amazon"}, {"id": 3020, "prompt": "The 80/20 rule is named after which economist?", "options": ["Adam Smith", "John Maynard Keynes", "Milton Friedman", "Vilfredo Pareto"], "answer": 3, "explain": "Pareto noticed about 80% of Italy's land was owned by about 20% of the people. The pattern shows up everywhere.", "source": "Pareto principle"}, {"id": 3021, "prompt": "What kind of business was Berkshire Hathaway before Warren Buffett turned it into a holding company?", "options": ["A bank", "A textile maker", "A railroad", "An insurance company"], "answer": 1, "explain": "Buffett later called buying a struggling textile mill one of his biggest mistakes, then used it to buy better businesses.", "source": "Berkshire Hathaway"}, {"id": 3022, "prompt": "After Enron collapsed in 2001, which accounting firm went down with it?", "options": ["Deloitte", "Ernst & Young", "KPMG", "Arthur Andersen"], "answer": 3, "explain": "Arthur Andersen was convicted of obstruction for shredding Enron documents and lost its clients. The Supreme Court later overturned the conviction, but by then the firm was gone.", "source": "Enron, 2001 to 2002"}, {"id": 3023, "prompt": "In March 2021 the Ever Given container ship blocked the Suez Canal for about how long?", "options": ["6 months", "6 days", "6 weeks", "6 hours"], "answer": 1, "explain": "Hundreds of ships waited, and the blockage held up an estimated $9 billion of trade a day.", "source": "Suez Canal, 2021"}, {"id": 3024, "prompt": "Elizabeth Holmes, founder of Theranos, was found guilty of fraud in which year?", "options": ["2016", "2019", "2022", "2024"], "answer": 2, "explain": "A jury convicted her in January 2022 on four counts of defrauding investors.", "source": "Theranos trial, 2022"}, {"id": 3025, "prompt": "The Boeing 737 MAX was grounded worldwide in which year after two crashes?", "options": ["2021", "2017", "2015", "2019"], "answer": 3, "explain": "Regulators grounded it in March 2019. It returned to service in the US in late 2020 after software and training changes.", "source": "Boeing, 2019"}], "data": [{"id": 4001, "prompt": "In World War II, Abraham Wald told the military to add armor where returning planes had NO bullet holes. Why?", "options": ["Planes hit in those spots never made it back", "Pilots asked for it", "Bullets bounce off the wings", "Those areas were lighter"], "answer": 0, "explain": "This is survivorship bias. The data only came from planes that survived, so the missing holes showed where hits were fatal.", "source": "Abraham Wald, 1943"}, {"id": 4002, "prompt": "UC Berkeley's 1973 admissions looked biased against women overall, but not within most departments. What is this called?", "options": ["The base rate fallacy", "Regression to the mean", "Selection bias", "Simpson's paradox"], "answer": 3, "explain": "Women applied more often to very competitive departments. Adding the departments together reversed the pattern.", "source": "UC Berkeley, 1973"}, {"id": 4003, "prompt": "What does Anscombe's quartet show?", "options": ["Datasets with nearly identical summary stats can look completely different when plotted", "Averages beat medians", "Correlation proves causation", "Four data points are enough for a trend"], "answer": 0, "explain": "Francis Anscombe made four datasets with the same means, variances and correlation to show why you should always plot your data.", "source": "Francis Anscombe, 1973"}, {"id": 4004, "prompt": "To win the $1 million Netflix Prize, how much did a team have to improve on Netflix's own recommendation algorithm?", "options": ["10%", "25%", "1%", "50%"], "answer": 0, "explain": "BellKor's Pragmatic Chaos crossed 10% in 2009. Netflix never fully used the winning model because it was too complex to run.", "source": "Netflix Prize, 2009"}, {"id": 4005, "prompt": "Moneyball's Oakland A's found an undervalued stat that predicted winning. Which one?", "options": ["Runs batted in", "Stolen bases", "Batting average", "On base percentage"], "answer": 3, "explain": "Getting on base, including by walking, mattered more than the market valued it, so the A's bought it cheaply.", "source": "Oakland A's, 2002"}, {"id": 4006, "prompt": "Which retailer was reported in 2012 to predict pregnancies from shopping data?", "options": ["Walmart", "Costco", "Amazon", "Target"], "answer": 3, "explain": "Target's model spotted patterns like unscented lotion and supplements. It became a classic case on data and privacy.", "source": "The New York Times, 2012"}, {"id": 4007, "prompt": "What famously went wrong with Google Flu Trends in the 2012 to 2013 flu season?", "options": ["It leaked patient data", "It badly overestimated flu cases", "It missed the flu season entirely", "It only worked in Europe"], "answer": 1, "explain": "It predicted about double the doctor visits the CDC actually saw. Search behavior shifted and the model overfit.", "source": "Nature, 2013"}, {"id": 4008, "prompt": "In a right skewed distribution like household income, how do the mean and median usually compare?", "options": ["The mean is higher than the median", "The median is higher than the mean", "They're equal", "There's no pattern"], "answer": 0, "explain": "A few very high values pull the mean up, which is why median income is usually the fairer number.", "source": "Statistics basics"}, {"id": 4009, "prompt": "In SQL, which clause filters groups after GROUP BY?", "options": ["HAVING", "LIMIT", "WHERE", "ORDER BY"], "answer": 0, "explain": "WHERE filters rows before grouping. HAVING filters the grouped results, like HAVING COUNT(*) > 5.", "source": "SQL"}, {"id": 4010, "prompt": "What does a LEFT JOIN return?", "options": ["All rows from the right table", "Only rows that match in both tables", "All rows from the left table, plus matches from the right", "Every possible pair of rows"], "answer": 2, "explain": "Rows with no match on the right still show up, with NULLs in the right side columns.", "source": "SQL"}, {"id": 4011, "prompt": "What does a p value of 0.03 mean?", "options": ["If there were no real effect, results this extreme would show up about 3% of the time", "There's a 3% chance the hypothesis is true", "97% of users preferred the change", "The effect is 3% large"], "answer": 0, "explain": "A p value measures how surprising the data is under \"no effect.\" It does not tell you the probability that you're right.", "source": "Statistics basics"}, {"id": 4012, "prompt": "Ice cream sales and drownings rise together. What's the best explanation?", "options": ["It's a data error", "Hot weather drives both", "Ice cream causes drowning", "Drowning boosts ice cream sales"], "answer": 1, "explain": "A confounding variable, summer heat, moves both. It's the classic reminder that correlation isn't causation.", "source": "Statistics basics"}, {"id": 4013, "prompt": "In an A/B test, what happens if you keep checking and stop as soon as it looks significant?", "options": ["You get many more false positives", "Nothing changes", "You get more accurate results", "You need fewer users"], "answer": 0, "explain": "Peeking gives random noise many chances to look like a win. Fix the sample size in advance or use sequential testing.", "source": "Experimentation"}, {"id": 4014, "prompt": "Under Benford's law, how often does the leading digit 1 show up in many real world datasets?", "options": ["About 50% of the time", "About 30% of the time", "About 5% of the time", "About 11% of the time"], "answer": 1, "explain": "Smaller leading digits are more common. Auditors use this to flag made up numbers.", "source": "Benford's law"}, {"id": 4015, "prompt": "What did Florence Nightingale's 1858 rose chart show?", "options": ["Death rates were falling", "Battle wounds were the top cause of death", "Hospitals were overstaffed", "Most soldiers died from preventable disease, not battle wounds"], "answer": 3, "explain": "Her chart helped convince the British government to invest in sanitation.", "source": "Florence Nightingale, 1858"}, {"id": 4016, "prompt": "In 1854 John Snow mapped cholera deaths in London. What did the map point to?", "options": ["A contaminated water pump on Broad Street", "A hospital", "Bad air from the river", "A local market"], "answer": 0, "explain": "Deaths clustered around one pump. Once its handle was removed, cases dropped, an early win for data driven public health.", "source": "John Snow, 1854"}, {"id": 4017, "prompt": "The Literary Digest polled over 2 million people and predicted Landon would beat FDR in 1936. Why was it so wrong?", "options": ["The math was wrong", "Too few people were polled", "Voters lied", "The sample skewed wealthy, drawn from car and phone owners"], "answer": 3, "explain": "A huge but biased sample beat a small fair one at nothing. FDR won in a landslide.", "source": "Literary Digest, 1936"}, {"id": 4018, "prompt": "What does a cohort retention chart show?", "options": ["What share of users who joined in the same period keep coming back over time", "Users by country", "Revenue by product", "Total users each month"], "answer": 0, "explain": "Grouping users by signup period shows whether newer cohorts retain better than older ones.", "source": "Product analytics"}, {"id": 4019, "prompt": "Goodhart's law says what?", "options": ["Data grows twice as fast each year", "When a measure becomes a target, it stops being a good measure", "Every metric has an equal opposite", "More data always beats better models"], "answer": 1, "explain": "Once people are rewarded on a number, they find ways to move the number without moving the goal.", "source": "Charles Goodhart, 1975"}, {"id": 4020, "prompt": "Before the Challenger launch in 1986, engineers looked at O ring problems from past flights. What mistake did that analysis make?", "options": ["It used too much data", "It ignored the weather forecast", "It left out flights with no O ring problems, hiding the cold temperature pattern", "It only used simulations"], "answer": 2, "explain": "With all flights included, the link between cold and O ring failure is clear. Edward Tufte later made this a classic case.", "source": "Rogers Commission, 1986"}, {"id": 4021, "prompt": "In 2020 England missed about 16,000 COVID cases in its reporting. What caused it?", "options": ["A hacked server", "A typo in a formula", "A power outage", "An old Excel file format ran out of rows"], "answer": 3, "explain": "Results were stored in the older .xls format, which caps at 65,536 rows, so extra rows were silently dropped.", "source": "Public Health England, 2020"}, {"id": 4022, "prompt": "The influential 2010 Reinhart and Rogoff paper on debt and growth had what error?", "options": ["A spreadsheet formula left out several countries", "It used the wrong decade", "It mixed up two currencies", "It used fake data"], "answer": 0, "explain": "A graduate student found the Excel range skipped rows. Fixing it weakened the paper's headline finding.", "source": "Herndon, Ash and Pollin, 2013"}, {"id": 4023, "prompt": "In SQL, how is COUNT(column) different from COUNT(*)?", "options": ["COUNT(column) is always faster", "COUNT(column) skips NULL values", "COUNT(*) skips duplicates", "There's no difference"], "answer": 1, "explain": "COUNT(*) counts rows, while COUNT(column) counts only rows where that column has a value.", "source": "SQL"}, {"id": 4024, "prompt": "In a normal distribution, about what share of values fall within one standard deviation of the mean?", "options": ["99.7%", "68%", "95%", "50%"], "answer": 1, "explain": "About 68% within one, 95% within two, and 99.7% within three standard deviations.", "source": "Statistics basics"}, {"id": 4025, "prompt": "Which SQL window function numbers rows within each group, like ranking orders per customer?", "options": ["COUNT()", "GROUP BY", "ROW_NUMBER()", "DISTINCT"], "answer": 2, "explain": "ROW_NUMBER() OVER (PARTITION BY customer ORDER BY date) gives each customer's orders 1, 2, 3 and so on.", "source": "SQL"}], "engineering": [{"id": 5001, "prompt": "In 2012 Knight Capital lost about $440 million in 45 minutes. What caused it?", "options": ["A rogue trader", "A power outage", "A cyberattack", "A bad software deployment that revived old code"], "answer": 3, "explain": "One of eight servers didn't get the new code and ran an old, dead feature that fired off millions of trades.", "source": "Knight Capital, 2012"}, {"id": 5002, "prompt": "Why was NASA's Mars Climate Orbiter lost in 1999?", "options": ["A solar storm", "A collision with a moon", "One team used imperial units and another used metric", "A dead battery"], "answer": 2, "explain": "Thruster data was in pound force seconds but the software expected newton seconds. The probe flew too low into the atmosphere.", "source": "NASA, 1999"}, {"id": 5003, "prompt": "Why did the first Ariane 5 rocket blow up in 1996?", "options": ["A 64 bit number was squeezed into a 16 bit integer and overflowed", "A fuel leak", "Bad weather", "A wiring fault"], "answer": 0, "explain": "Code reused from Ariane 4 couldn't handle Ariane 5's faster flight, and the overflow crashed the guidance system.", "source": "ESA, 1996"}, {"id": 5004, "prompt": "The 2014 Heartbleed bug was found in which widely used library?", "options": ["OpenSSL", "Log4j", "Apache Struts", "Bash"], "answer": 0, "explain": "A missing bounds check let attackers read server memory, which could expose passwords and private keys.", "source": "Heartbleed, 2014"}, {"id": 5005, "prompt": "In 2016, removing the tiny npm package \"left-pad\" broke builds around the world. About how long was it?", "options": ["110 lines", "11,000 lines", "11 lines", "1,100 lines"], "answer": 2, "explain": "Thousands of projects depended on it indirectly. npm changed its rules on unpublishing packages afterward.", "source": "npm, 2016"}, {"id": 5006, "prompt": "What triggered the big AWS S3 outage in February 2017?", "options": ["A hurricane", "A typo in a command that took down more servers than intended", "A DDoS attack", "An expired certificate"], "answer": 1, "explain": "An engineer debugging billing meant to remove a few servers, and one mistyped input removed far more.", "source": "AWS, 2017"}, {"id": 5007, "prompt": "In July 2024 a faulty CrowdStrike update crashed about how many Windows devices?", "options": ["85 million", "85,000", "850 million", "8.5 million"], "answer": 3, "explain": "Microsoft estimated 8.5 million machines, grounding flights and taking hospitals and banks offline.", "source": "Microsoft, 2024"}, {"id": 5008, "prompt": "What is the time complexity of binary search on a sorted array?", "options": ["O(n log n)", "O(n)", "O(log n)", "O(1)"], "answer": 2, "explain": "Each step halves what's left, so a million items take about 20 steps.", "source": "Algorithms"}, {"id": 5009, "prompt": "What is the average time to look up a key in a hash map?", "options": ["O(n)", "O(n\u00b2)", "O(log n)", "O(1)"], "answer": 3, "explain": "Hashing jumps straight to the bucket. Many collisions can make it slower in the worst case.", "source": "Data structures"}, {"id": 5010, "prompt": "Who created Git in 2005?", "options": ["Guido van Rossum", "Linus Torvalds", "Tim Berners Lee", "Bjarne Stroustrup"], "answer": 1, "explain": "Torvalds built Git in a few weeks after the Linux kernel lost free access to BitKeeper.", "source": "Git, 2005"}, {"id": 5011, "prompt": "Microsoft bought GitHub in 2018 for how much?", "options": ["$2.5 billion", "$750 million", "$7.5 billion", "$75 billion"], "answer": 2, "explain": "Microsoft paid $7.5 billion in stock. Many developers worried, but GitHub kept running independently.", "source": "Microsoft, 2018"}, {"id": 5012, "prompt": "What caused the Year 2000 (Y2K) problem?", "options": ["Clocks couldn't count past midnight", "Computers ran out of memory", "Software stored years as two digits", "Leap years broke calendars"], "answer": 2, "explain": "To save memory, years like 1999 were stored as 99, so 2000 could read as 1900. Fixes cost hundreds of billions worldwide.", "source": "Y2K"}, {"id": 5013, "prompt": "What is the Year 2038 problem?", "options": ["Leap seconds stop working", "32 bit Unix time overflows in January 2038", "IPv4 addresses run out", "GPS dates reset"], "answer": 1, "explain": "Signed 32 bit counters of seconds since 1970 max out on January 19, 2038. Systems are moving to 64 bit time.", "source": "Unix time"}, {"id": 5014, "prompt": "According to the CAP theorem, when the network splits, a distributed system must choose between what?", "options": ["Consistency and availability", "Speed and cost", "Memory and storage", "Security and privacy"], "answer": 0, "explain": "During a partition you either reject some requests to stay consistent, or answer them and risk stale data.", "source": "Eric Brewer, 2000"}, {"id": 5015, "prompt": "Which HTTP status code means you've sent too many requests?", "options": ["429", "301", "500", "404"], "answer": 0, "explain": "429 Too Many Requests tells clients to back off, often with a Retry After header.", "source": "HTTP"}, {"id": 5016, "prompt": "What is the worst case time complexity of quicksort?", "options": ["O(n)", "O(n log n)", "O(log n)", "O(n\u00b2)"], "answer": 3, "explain": "Bad pivots, like always picking the first item of a sorted list, make it quadratic. Random pivots avoid this in practice.", "source": "Algorithms"}, {"id": 5017, "prompt": "Facebook, Instagram and WhatsApp went down for about six hours in October 2021. What caused it?", "options": ["A bad network configuration change that withdrew its BGP routes", "A ransomware attack", "A data center fire", "An expired domain"], "answer": 0, "explain": "Facebook's servers disappeared from the internet, and even the badge readers that engineers needed to get in stopped working.", "source": "Meta, 2021"}, {"id": 5018, "prompt": "Who created the Python programming language?", "options": ["Dennis Ritchie", "James Gosling", "Brendan Eich", "Guido van Rossum"], "answer": 3, "explain": "Van Rossum started Python as a holiday project in late 1989 and named it after Monty Python.", "source": "Python"}, {"id": 5019, "prompt": "JavaScript was first written in about how long, in 1995?", "options": ["2 years", "10 months", "10 days", "10 weeks"], "answer": 2, "explain": "Brendan Eich built the first version at Netscape in about 10 days. Some quirks from that rush are still around.", "source": "Netscape, 1995"}, {"id": 5020, "prompt": "What is the standard way to prevent SQL injection?", "options": ["Hiding error messages", "Parameterized queries", "Encrypting the database", "Longer passwords"], "answer": 1, "explain": "Placeholders keep user input as data, so it can never run as part of the SQL command.", "source": "OWASP"}, {"id": 5021, "prompt": "Which HTTP method is meant to be idempotent, so repeating it has the same effect as doing it once?", "options": ["PUT", "CONNECT", "POST", "PATCH"], "answer": 0, "explain": "PUT replaces a resource, so sending it twice leaves the same result. POST can create duplicates.", "source": "HTTP"}, {"id": 5022, "prompt": "Phil Karlton said there are only two hard things in computer science. Cache invalidation and what?", "options": ["Naming things", "Recursion", "Regular expressions", "Sorting"], "answer": 0, "explain": "It's a long running joke because both really are hard to get right.", "source": "Phil Karlton"}, {"id": 5023, "prompt": "How are containers like Docker different from virtual machines?", "options": ["Containers share the host's operating system kernel", "Containers each run a full operating system", "Containers can't use the network", "Containers only run on Linux laptops"], "answer": 0, "explain": "Sharing the kernel makes containers start in seconds and use far less memory than full virtual machines.", "source": "Containers"}, {"id": 5024, "prompt": "What caused the deadly Therac 25 radiation overdoses in the 1980s?", "options": ["A software race condition", "Operator training", "A power surge", "A broken sensor"], "answer": 0, "explain": "When operators typed fast, the software could fire high power beams without the safety shield in place.", "source": "Therac 25, 1985 to 1987"}, {"id": 5025, "prompt": "Linus Torvalds first released the Linux kernel in which year?", "options": ["1981", "1991", "2001", "1998"], "answer": 1, "explain": "He posted it as \"just a hobby, won't be big and professional.\" It now runs most of the world's servers.", "source": "Linux, 1991"}]};
 const SOFT=["Clear thinker","Sharp insight","Great writer","Creative","Data driven","Helpful"];
 const TIERS=[["Bronze","#C8834A"],["Silver","#8E9AAF"],["Gold","#E3A72F"],["Diamond","#4FB3E8"]];
 const localDay=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
@@ -1316,6 +1432,7 @@ const topNods=b=>b&&b.top&&b.top.length?`<div class="topnods">${b.top.map(t=>`<s
 Object.assign(LIVE,{
   async today(day,track){return need(await sb.rpc("jx_today",{p_day:day,p_track:track||null}))},
   async answerDrill(day,text){return need(await sb.rpc("jx_answer_drill",{p_day:day,p_text:text}))},
+  async answerMcq(day,choice,text){return need(await sb.rpc("jx_answer_mcq",{p_day:day,p_choice:choice,p_text:text||""}))},
   async postProof(day,data,skills){return need(await sb.rpc("jx_post_proof",{p_day:day,p_data:data,p_skills:skills}))},
   async feed(track,before,kind){return need(await sb.rpc("jx_feed",{p_track:track||null,p_before:before||null,p_kind:kind||null}))},
   async postUpdate(day,text,skills){return need(await sb.rpc("jx_post_update",{p_day:day,p_text:text,p_skills:skills}))},
@@ -1334,7 +1451,9 @@ Object.assign(LIVE,{
   const P=DEMO._people,me=DEMO._me,uid=()=>DEMO.demoRole==="company"?"co":"me";
   const trackOf=id=>((P.find(p=>p.user_id===id)||{}).profile||{}).roles?.[0]||"product";
   const codeOf=id=>(P.find(p=>p.user_id===id)||{}).code||"???";
-  const bank=[];Object.entries(DRILLS).forEach(([t,a])=>a.forEach((q,i)=>bank.push({id:{product:100,growth:200,ops:300,data:400,engineering:500}[t]+i+1,track:t,prompt:q})));
+  const bank=[];Object.entries(DRILLS).forEach(([t,a])=>a.forEach(q=>bank.push({...q,track:t})));
+  const fakeStats=(dr,d)=>{const h=hash(String(dr.id)+d),tot=180+h%420,ok=Math.round(tot*(.38+(h%40)/100));const rest=tot-ok,w=[1,2,3].map(k=>1+((h>>(k*3))%5)),ws=w.reduce((a,b)=>a+b,0);let wi=0;
+    const by=[0,1,2,3].map(i=>i===dr.answer?ok:Math.round(rest*w[wi++]/ws));const diff=tot-by.reduce((a,b)=>a+b,0);by[dr.answer===0?1:0]+=diff;return{total:tot,correct:ok,by}};
   const drillFor=(t,d)=>{const b=bank.filter(x=>x.track===t);const n=b.length;return b[((dayDiff(d,"2026-01-01")%n)+n)%n]};
   const today=localDay(),now=Date.now(),H=36e5;
   const posts=[],nods=[],act=new Set(),chal=[];let nid=1;
@@ -1348,10 +1467,10 @@ Object.assign(LIVE,{
     growth:["Look at which campaigns changed, then check if conversion on the landing page dropped. Often it's the page, not the ads.","Subject lines: 'We saved your spot' and 'Here's what you missed in 30 days'."],
     data:["Count orders per source by hour and compare timestamps. Nine times out of ten it's a timezone or late arriving data issue.","Median. A few very late deliveries would drag the mean up and hide what most customers feel."],
     ops:["Group tickets by cause, fix the top one with the product team, and post a known issues page so people stop asking."]};
-  ["product","growth","data","ops"].forEach(t=>{const ps=peers(t);const y=drillFor(t,addDay(today,-1)),td=drillFor(t,today);
-    (sample[t]||[]).forEach((txt,i)=>{const a=ps[i%ps.length];if(!a)return;
-      const p=addPost({author:a.user_id,kind:"drill",track:t,day:addDay(today,-1),drill_id:y.id,data:{text:txt},ago:(20+i*3)*H});addNods(p,[9,6,4,2][i]||1,["Clear thinker","Sharp insight","Data driven"]);
-      const p2=addPost({author:ps[(i+3)%ps.length].user_id,kind:"drill",track:t,day:today,drill_id:td.id,data:{text:"Short version: "+txt},ago:(2+i)*H});addNods(p2,[5,3,1,1][i]||0,["Clear thinker","Sharp insight"]);});});
+  const why=["Read about this in a case study last semester. The lesson stuck with me.","Guessed between two of them. The explanation makes total sense now.","This one comes up in interviews a lot. Worth knowing the numbers.","Knew it. The bigger lesson is how fast they changed course once the data was in.","Got lucky on this one, but I'm adding it to my notes."];
+  ["product","growth","data","ops","engineering"].forEach(t=>{const ps=peers(t);[addDay(today,-1),today].forEach((dy,k)=>{const dr=drillFor(t,dy);
+    for(let i=0;i<4;i++){const a=ps[(i+k*4)%Math.max(1,ps.length)];if(!a)continue;const ch=i===3?(dr.answer+1)%4:dr.answer;
+      const p=addPost({author:a.user_id,kind:"drill",track:t,day:dy,drill_id:dr.id,data:{choice:ch,correct:ch===dr.answer,pick:dr.options[ch],text:why[(i+k)%why.length]},ago:((k?2:20)+i*3)*H});addNods(p,[7,4,2,1][i],["Clear thinker","Sharp insight"])}})});
   const pr=peers("product"),gr=peers("growth"),da=peers("data");
   const proofs=[[pr[2],"product","Cut onboarding from 7 steps to 3",{problem:"Only 31% of new users finished setup.",did:"Mapped every step, removed two, merged two, and tested a checklist against the old flow.",result:"Setup completion went from 31% to 52% in three weeks."},["User research","A/B testing","Figma"],7,5*H],
     [da[1],"data","Built a churn early warning dashboard",{problem:"Customer success heard about churn after it happened.",did:"Scored accounts weekly on usage drops and support tickets in SQL, then piped it into a Looker dashboard.",result:"The team now reaches out 3 weeks earlier on average."},["SQL","Looker","Python"],11,9*H],
@@ -1373,7 +1492,7 @@ Object.assign(LIVE,{
   gr.slice(3,6).forEach((a,i)=>{const p=addPost({author:a.user_id,kind:"challenge",track:"growth",day:addDay(today,-2),challenge_id:c3.id,skills:c3.skills,data:{text:["Three emails over two weeks: what's new, a personal note from the founder, then a 30% comeback offer.","Ask why they left in one click, then send a fix for that exact reason.","Offer a pause plan instead of cancelling next time, and win back with a free month now."][i]},ago:(30+i*4)*H});if(i===1)p.winner=true;addNods(p,[3,7,2][i],["Creative","Sharp insight"])});
   const fakePts={};P.forEach((p,i)=>{if(p.user_id!=="me")fakePts[p.user_id]=Math.round(((i*37)%180)+(i%3)*10)});
   const visible=(p,v)=>p.author===v||(p.kind==="challenge"?(()=>{const c=chal.find(c=>c.id===p.challenge_id);return c&&(new Date(c.ends_at)<=Date.now()||c.company_id===v)})():p.kind==="drill"?(dayDiff(today,p.day)>1||posts.some(m=>m.author===v&&m.kind==="drill"&&m.day>=p.day)||DEMO.demoRole==="company"):true);
-  const pj=(p,v)=>{const c=p.challenge_id&&chal.find(c=>c.id===p.challenge_id);return{...JSON.parse(JSON.stringify(p)),author_id:p.author,code:codeOf(p.author),mine:p.author===v,nods:nods.filter(n=>n.post_id===p.id).length,my_nods:nods.filter(n=>n.post_id===p.id&&n.giver===v).map(n=>n.skill),prompt:p.drill_id?(bank.find(b=>b.id===p.drill_id)||{}).prompt:null,challenge:c?{id:c.id,title:c.title,company:c.company,ended:new Date(c.ends_at)<=Date.now()}:null}};
+  const pj=(p,v)=>{const c=p.challenge_id&&chal.find(c=>c.id===p.challenge_id);const au=P.find(x=>x.user_id===p.author)||{},showN=p.author===v||DEMO.demoRole!=="company";return{...JSON.parse(JSON.stringify(p)),author_id:p.author,code:codeOf(p.author),name:showN?au.name||"":"",photo:showN?au.photo_url||"":"",mine:p.author===v,nods:nods.filter(n=>n.post_id===p.id).length,my_nods:nods.filter(n=>n.post_id===p.id&&n.giver===v).map(n=>n.skill),prompt:p.drill_id?(bank.find(b=>b.id===p.drill_id)||{}).prompt:null,challenge:c?{id:c.id,title:c.title,company:c.company,ended:new Date(c.ends_at)<=Date.now()}:null}};
   function streak(u,d){const days=[...act].filter(k=>k.startsWith(u+"|")).map(k=>k.split("|")[1]).sort();let s=0,f=0,run=0;if(!days.length)return{days:0,freezes:0,today:false};
     for(let x=days[0];x<=d;x=addDay(x,1)){if(days.includes(x)){s++;run++;if(run%7===0)f=Math.min(2,f+1)}else if(x<d){if(f>0&&s>0)f--;else{s=0;run=0}}}return{days:s,freezes:f,today:days.includes(d)}}
   const weekStart=()=>{const d=new Date();const k=(d.getDay()+6)%7;d.setDate(d.getDate()-k);d.setHours(0,0,0,0);return d};
@@ -1383,22 +1502,25 @@ Object.assign(LIVE,{
   Object.assign(DEMO,{
     _soc:{posts,nods,chal,codeOf,jp,c1,c2},
     async today(d,track){const u=uid(),t=u==="me"?(me.profile.roles[0]||"product"):(track||"product");const dr=drillFor(t,d);const ans=posts.find(p=>p.author===u&&p.kind==="drill"&&p.day===d);
-      const out={day:d,track:t,role:DEMO.demoRole,drill:{id:dr.id,prompt:dr.prompt,track:t},answer:ans?pj(ans,u):null,nods:{allowance:allowance(u,d),used:nods.filter(n=>n.giver===u&&n.day===d).length}};
+      const out={day:d,track:t,role:DEMO.demoRole,drill:{id:dr.id,prompt:dr.prompt,track:t,options:dr.options,...(ans?{answer:dr.answer,explain:dr.explain,source:dr.source,stats:(()=>{const s=fakeStats(dr,d);if(ans){s.total++;s.by[ans.data.choice]++;if(ans.data.correct)s.correct++}return s})()}:{})},answer:ans?pj(ans,u):null,nods:{allowance:allowance(u,d),used:nods.filter(n=>n.giver===u&&n.day===d).length}};
       if(u==="me"){const s=streak("me",d);out.streak={...s,last7:[...act].filter(k=>k.startsWith("me|")).map(k=>k.split("|")[1]).filter(x=>dayDiff(d,x)<7&&dayDiff(d,x)>=0).sort()};
-        const grp=P.filter(p=>(p.profile.roles[0]||"product")===t&&(p.user_id==="me"||(hash(p.code)%3)===1)).slice(0,24).map(p=>({code:p.code,points:pointsOf(p.user_id),me:p.user_id==="me"})).sort((a,b)=>b.points-a.points||a.code.localeCompare(b.code));
+        const grp=P.filter(p=>(p.profile.roles[0]||"product")===t&&(p.user_id==="me"||(hash(p.code)%3)===1)).slice(0,24).map(p=>({code:p.code,name:p.name,photo:p.photo_url||"",points:pointsOf(p.user_id),me:p.user_id==="me"})).sort((a,b)=>b.points-a.points||a.code.localeCompare(b.code));
         grp.forEach((g,i)=>g.rank=i+1);const mine=grp.find(g=>g.me);out.league={tier:tiers.me,board:grp.filter(g=>g.rank<=10||g.me),me:{rank:mine.rank,points:mine.points,size:grp.length}}}
       return JSON.parse(JSON.stringify(out))},
     async answerDrill(d,text){if(text.trim().length<10)err("Write a little more. At least a sentence.");if(posts.some(p=>p.author==="me"&&p.kind==="drill"&&p.day===d))err("You already answered today's drill");
       const t=me.profile.roles[0]||"product";addPost({author:"me",kind:"drill",track:t,day:d,drill_id:drillFor(t,d).id,data:{text:text.trim()}});act.add("me|"+d);return"ok"},
+    async answerMcq(d,choice,text){if(!(choice>=0&&choice<=3))err("Pick one of the four answers");if(posts.some(p=>p.author==="me"&&p.kind==="drill"&&p.day===d))err("You already answered today's drill");
+      const t=me.profile.roles[0]||"product",dr=drillFor(t,d),ok=choice===dr.answer;addPost({author:"me",kind:"drill",track:t,day:d,drill_id:dr.id,data:{choice,correct:ok,pick:dr.options[choice],text:(text||"").trim()}});act.add("me|"+d);
+      const s=fakeStats(dr,d);s.total++;s.by[choice]++;if(ok)s.correct++;return{correct:ok,answer:dr.answer,explain:dr.explain,source:dr.source,stats:s}},
     async postProof(d,data,skills){if((data.title||"").trim().length<3)err("Give your post a title");addPost({author:"me",kind:"proof",track:me.profile.roles[0]||"product",day:d,data,skills});act.add("me|"+d);return"ok"},
     async postUpdate(d,text,skills){if(text.trim().length<5)err("Write a little more");addPost({author:"me",kind:"post",track:me.profile.roles[0]||"product",day:d,data:{text:text.trim()},skills});act.add("me|"+d);return"ok"},
-    async feed(track,before,kind){const u=uid();return posts.filter(p=>(!track||p.track===track)&&(!kind||p.kind===kind)&&(!before||p.created_at<before)&&visible(p,u)).sort((a,b)=>b.created_at.localeCompare(a.created_at)).slice(0,20).map(p=>pj(p,u))},
+    async feed(track,before,kind){const u=uid();return posts.filter(p=>(!track||p.track===track)&&(!kind||p.kind===kind)&&!(p.kind==="drill"&&!(p.data.text||"").trim())&&(!before||p.created_at<before)&&visible(p,u)).sort((a,b)=>b.created_at.localeCompare(a.created_at)).slice(0,20).map(p=>pj(p,u))},
     async drillTop(d,track){const u=uid(),t=track||(me.profile.roles[0]||"product");if(u==="me"&&!posts.some(p=>p.author==="me"&&p.kind==="drill"&&p.day===d))return[];
-      return posts.filter(p=>p.kind==="drill"&&p.day===d&&p.track===t).map(p=>pj(p,u)).sort((a,b)=>b.nods-a.nods).slice(0,5)},
+      return posts.filter(p=>p.kind==="drill"&&p.day===d&&p.track===t&&(p.data.text||"").trim()).map(p=>pj(p,u)).sort((a,b)=>b.nods-a.nods).slice(0,5)},
     async nod(post,skill,d){const u=uid(),p=posts.find(x=>x.id===post);if(!p)err("Post not found");if(p.author===u)err("You can't nod your own post");
       const used=nods.filter(n=>n.giver===u&&n.day===d).length,al=allowance(u,d);if(used>=al)err("You're out of nods for today. They refill tomorrow.");
       if(nods.some(n=>n.giver===u&&n.post_id===p.id&&n.skill===skill))err("You've already nodded this post for "+skill);
-      nods.push({giver:u,receiver:p.author,post_id:p.id,skill,day:d,from_company:u==="co",created_at:new Date().toISOString()});return al-used-1},
+      (u==="me"&&act.add("me|"+d)),nods.push({giver:u,receiver:p.author,post_id:p.id,skill,day:d,from_company:u==="co",created_at:new Date().toISOString()});return al-used-1},
     async challenges(){const u=uid();return chal.filter(c=>c.company_id===u||new Date(c.ends_at)>Date.now()-7*864e5).map(c=>({...JSON.parse(JSON.stringify(c)),open:new Date(c.ends_at)>Date.now(),owner:c.company_id===u,answers:posts.filter(p=>p.challenge_id===c.id).length,answered:posts.some(p=>p.challenge_id===c.id&&p.author===u),winners:posts.filter(p=>p.challenge_id===c.id&&p.winner).length})).sort((a,b)=>(b.open-a.open)||a.ends_at.localeCompare(b.ends_at))},
     async createChallenge(o){if((o.title||"").trim().length<5)err("Give the challenge a clear title");const c=mk({company_id:"co",company:(DEMO._co&&DEMO._co.name)||"Fieldnote",title:o.title.trim(),body:o.body||"",track:o.track,skills:o.skills||[],job_id:o.job||null,ends_at:new Date(Date.now()+o.hours*H).toISOString(),created_at:new Date().toISOString()});return c.id},
     async answerChallenge(id,text,d){const c=chal.find(x=>x.id===id);if(!c||new Date(c.ends_at)<=Date.now())err("This challenge has closed");if(text.trim().length<20)err("Write a bit more so they can see how you think");
@@ -1432,17 +1554,11 @@ function renderToday(){
   const st=T.streak||{days:0,last7:[],freezes:0,today:false};
   const pend=S.myInv.filter(i=>i.status==="invited");
   const sl=strength(c),pct=Math.round(sl.filter(x=>x.ok).length/sl.length*100);
-  const sub=st.today?`You're on a ${st.days} day streak. Nice. Come back tomorrow to keep it going.`:st.days?`Answer today's drill to keep your ${st.days} day streak alive.`:"Answer today's drill to start your streak. It takes about two minutes.";
+  const sub=st.today?`You're on a ${st.days} day streak. Nice. Come back tomorrow to keep it going.`:st.days?`Answer the drill, post or give a nod to keep your ${st.days} day streak alive.`:"Answer today's drill, post or give a nod to start your streak.";
   const nudge=pct<60?`<button class="nudge" data-act="stab" data-t="profile"><b>Finish your profile</b><span>Companies match on your profile. You're ${pct}% done.</span>${svg('<path d="M9 6l6 6-6 6"/>')}</button>`:"";
   const ans=T.answer;
-  const drill=T.drill?`<section class="drill ${ans?"done":""}">
-      <div class="dh"><span class="dk">${FLAME}Daily drill · ${TRACK[T.track]||"Product"}</span><span class="dk2">${ans?"Done for today":"About 2 minutes · +10 points"}</span></div>
-      <h2>${esc(T.drill.prompt)}</h2>
-      ${ans?`<div class="myans"><span class="lbl">Your answer</span><p>${esc(ans.data.text)}</p><span class="hint">${NOD.replace('class="i"','class="i" style="width:15px;height:15px;vertical-align:-3px"')} ${ans.nods} ${ans.nods===1?"nod":"nods"} so far</span></div>`
-      :`<textarea id="drillTxt" class="${T.track==="engineering"?"code":""}" maxlength="1500" placeholder="${T.track==="engineering"?"Explain your approach, then write the code.":"Think out loud. Short is fine."}"></textarea>
-        <div class="drow"><span class="hint">Posted under your code, so it stays blind.</span><button class="btn dark" data-act="drill">${FLAME}Submit and ${st.days?"keep":"start"} your streak</button></div>`}
-    </section>`:"";
-  const top=ans&&S.top&&S.top.length?`<div class="sech2"><h2>Top answers today</h2><span class="hint">Nod the ones that taught you something.</span></div><div class="plist">${S.top.filter(p=>!p.mine).map(p=>postCard(p,{compact:1})).join("")||`<p class="hint">You're one of the first to answer today. Check back later.</p>`}</div>`:"";
+  const drill=drillBox(T,st);
+  const top=ans&&S.top&&S.top.length?`<div class="sech2"><h2>Top takes today</h2><span class="hint">Why people picked what they picked. Nod the ones that taught you something.</span></div><div class="plist">${S.top.filter(p=>!p.mine).map(p=>postCard(p,{compact:1})).join("")||`<p class="hint">You're one of the first to answer today. Check back later.</p>`}</div>`:"";
   const chs=(S.chals||[]).filter(x=>x.open);
   const chRow=chs.length?`<div class="sech2"><h2>Live challenges</h2><span class="hint">Real problems from companies. The best answers can get invited straight to interviews.</span></div>
     <div class="chrow">${chs.map(chCard).join("")}</div>`:"";
@@ -1456,21 +1572,36 @@ function renderToday(){
     ${pend.map(invHero).join("")}${nudge}
     <div class="tgrid"><div class="tmain">${drill}${top}${chRow}${feed}</div><aside class="tside">${streakCard(st)}${nodsCard()}${leagueCard()}</aside></div></div>`;
 }
+const LETS="ABCD";
+function drillBox(T,st){const dr=T.drill,ans=T.answer;if(!dr||!(dr.options||[]).length)return"";
+  const done=!!ans&&dr.answer!=null,s=dr.stats||{total:0,correct:0,by:[0,0,0,0]},pct=s.total?Math.round(s.correct/s.total*100):0,mine=done?ans.data.choice:S.dpick,right=done&&ans.data.correct;
+  const opts=dr.options.map((o,i)=>{const cls=done?(i===dr.answer?"right":i===mine?"wrong":"dim"):(i===S.dpick?"on":""),share=done&&s.total?Math.round(s.by[i]/s.total*100):0;
+    return `<button type="button" class="opt ${cls}" ${done?"disabled":`data-act="dpick" data-i="${i}"`} aria-pressed="${i===mine}">${done?`<i class="fill" style="width:${share}%"></i>`:""}<span class="ol">${done&&i===dr.answer?I.check:done&&i===mine?I.x:LETS[i]}</span><span class="ot">${esc(o)}</span>${done?`<span class="op">${share}%</span>`:""}</button>`}).join("");
+  return `<section class="drill ${done?"done":""}">
+    <div class="dh"><span class="dk">${FLAME}Daily drill · ${TRACK[T.track]||"Product"}</span><span class="dk2">${done?(right?"Correct · +15 points":"Not quite · +10 points"):"One question · +10 points, +5 if you're right"}</span></div>
+    <h2>${esc(dr.prompt)}</h2>
+    <div class="opts">${opts}</div>
+    ${done?`<div class="dres ${right?"good":"bad"}"><b>${right?"You got it.":`The answer is ${LETS[dr.answer]}.`}</b><p>${esc(dr.explain||"")}</p>${dr.source?`<span class="src">${esc(dr.source)}</span>`:""}</div>
+      <div class="dstat"><span class="dbar"><i style="width:${pct}%"></i></span><span><b>${s.correct.toLocaleString("en-US")}</b> of ${s.total.toLocaleString("en-US")} people got it right today · ${pct}%</span></div>
+      ${(ans.data.text||"").trim()?`<div class="myans"><span class="lbl">Your take</span><p>${esc(ans.data.text)}</p><span class="hint">${NOD.replace('class="i"','class="i" style="width:15px;height:15px;vertical-align:-3px"')} ${ans.nods} ${ans.nods===1?"nod":"nods"} so far</span></div>`:""}`
+    :`<details class="dwhy"><summary>Add your take (optional)</summary><textarea id="drillTxt" maxlength="1000" placeholder="Why this answer? Your take shows in Top takes so people can nod it."></textarea></details>
+      <div class="drow"><span class="hint">A new question every day. Answering, posting or giving a nod keeps your streak going.</span><button class="btn dark" data-act="drill" ${S.dpick==null?"disabled":""}>${FLAME}Lock in answer</button></div>`}
+  </section>`}
 function composer(mini){const c=S.me;
-  return `<div class="composer ${mini?"mini":""}"><span class="ava" style="width:44px;height:44px;font-size:13px;background:${grad(c)}">${esc(c.code)}</span><div class="cbody">
+  return `<div class="composer ${mini?"mini":""}">${myAva(44)}<div class="cbody">
     <textarea id="postTxt" maxlength="1200" placeholder="Share a win, something you learned, or a question for the community"></textarea>
     <div class="crow"><div class="tags" id="postSk">${postSkBtns()}</div><div class="cacts"><button class="btn ghost" data-act="proof">Share a case study</button><button class="btn dark" data-act="postnew">Post</button></div></div>
-    <span class="hint">Posts show under your code, Candidate #${esc(c.code)}. Tag up to 3 skills so people can nod you for them. +5 points</span></div></div>`}
+    <span class="hint">Job seekers see your name and photo. Companies see your code until you accept their invite. Tag up to 3 skills so people can nod you for them. +5 points</span></div></div>`}
 const postSkBtns=()=>[...new Set([...(S.postSk||[]),...(S.me.skills||[]).slice(0,8),...SOFT.slice(0,2)])].slice(0,10).map(s=>`<button type="button" class="tagl pick ${(S.postSk||[]).includes(s)?"on":""}" data-act="postsk" data-v="${esc(s)}">${esc(s)}</button>`).join("");
 const KINDS=[[null,"Everything"],["post","Posts"],["drill","Drills"],["proof","Proof of work"],["challenge","Challenges"]];
 function renderCommunity(){
   const T=S.today;if(!T){renderToday();return}
   const ft=S.ftrack===undefined?(T.track||null):S.ftrack,fk=S.fkind||null;
   $("#main").innerHTML=`<div class="cpage tpage">
-    <div class="hello"><h1>Community</h1><p>Wins, lessons and questions from people in your field. Everyone shows as a code, so it's the work that counts.</p></div>
+    <div class="hello"><h1>Community</h1><p>Wins, lessons and questions from people in your field. See what everyone is working on.</p></div>
     <div class="tgrid"><div class="tmain">
       ${composer(false)}
-      <div class="filters"><div class="fchips">${[[T.track,"Your field"],[null,"Everyone"]].map(([k,l])=>`<button class="tagl pick ${ft===k?"on":""}" data-act="ftrack" data-v="${k||""}">${l}</button>`).join("")}</div>
+      <div class="filters"><div class="fchips">${[[T.track,"Your field"],[null,"Everyone"]].concat(S.role==="seeker"?[["orbit","Your orbit"]]:[]).map(([k,l])=>`<button class="tagl pick ${ft===k?"on":""}" data-act="ftrack" data-v="${k||""}">${l}</button>`).join("")}</div>
         <div class="fchips">${KINDS.map(([k,l])=>`<button class="tagl pick ${fk===k?"on":""}" data-act="fkind" data-v="${k||""}">${l}</button>`).join("")}</div></div>
       <div class="plist">${(S.feed||[]).map(p=>postCard(p)).join("")||`<p class="hint">Nothing here yet. Be the first to post.</p>`}</div>
       ${(S.feed||[]).length?`<div class="caught">${(S.feed||[]).length>=20?`<button class="btn line" data-act="more">Show older posts</button>`:""}<p>You're all caught up.</p></div>`:""}
@@ -1480,22 +1611,23 @@ function streakCard(st){
   const d=S.today.day,days=[];for(let i=6;i>=0;i--){const x=addDay(d,-i);days.push({x,on:(st.last7||[]).includes(x),lab:new Date(x+"T12:00:00Z").toLocaleDateString("en-US",{weekday:"narrow",timeZone:"UTC"}),today:i===0})}
   return `<section class="scard streak"><div class="srow"><span class="flame ${st.days>0||st.today?"lit":""} ${st.today?"done":""}">${FLAME}</span><div><b class="sbig">${st.days}</b><span>day streak</span></div></div>
     <div class="week">${days.map(w=>`<span class="${w.on?"on":""} ${w.today?"td":""}"><i></i>${w.lab}</span>`).join("")}</div>
+    <p class="hint skeep">Answer the drill, post or give a nod each day to keep it going.</p>
     <p class="hint">${SNOW.replace('class="i"','class="i" style="width:15px;height:15px;vertical-align:-3px"')} ${st.freezes} streak ${st.freezes===1?"freeze":"freezes"}. Every 7 days in a row earns one, so a missed day won't break your streak.</p></section>`}
 function nodsCard(){const n=S.today.nods,left=Math.max(0,n.allowance-n.used);
   return `<section class="scard"><div class="srow"><span class="nodic">${NODF()}</span><div><b class="sbig">${left}</b><span>of ${n.allowance} nods left today</span></div></div><div class="bar nb"><i style="width:${n.allowance?left/n.allowance*100:0}%"></i></div>
     <p class="hint">Nod great answers for a specific skill. Every 7 day streak adds 2 more a day, and Gold and Diamond leagues get extra.</p></section>`}
 function leagueCard(){const L=S.today.league;if(!L||!L.me)return"";const[n,c]=TIERS[L.tier||0];
   return `<section class="scard league" style="--tc:${c}"><div class="lhd"><span class="shield">${svg('<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/>')}</span><div><b>${n} league</b><span>#${L.me.rank} of ${L.me.size} · ${L.me.points} points this week</span></div></div>
-    <ol class="board">${L.board.map(r=>`<li class="${r.me?"me":""} ${r.rank<=Math.max(1,Math.ceil(L.me.size*.2))?"up":""}"><span class="rk">${r.rank}</span><span class="bc">${r.me?"You":"#"+esc(r.code)}</span><span class="pt">${r.points}</span></li>`).join("")}</ol>
+    <ol class="board">${L.board.map(r=>`<li class="${r.me?"me":""} ${r.rank<=Math.max(1,Math.ceil(L.me.size*.2))?"up":""}"><span class="rk">${r.rank}</span><span class="bc">${personAva({code:r.code,name:r.me?(S.me&&S.me.name):r.name,photo:r.me?(S.me&&S.me.photo):r.photo,track:(S.today&&S.today.track)},24)}<span>${r.me?"You":r.name?esc(r.name):"#"+esc(r.code)}</span></span><span class="pt">${r.points}</span></li>`).join("")}</ol>
     <p class="hint">Top 20% move up on Monday. Drills, proof posts, challenge answers and nods you receive all earn points.</p></section>`}
 function chCard(c){
-  return `<button class="chc ${c.open?"":"closed"}" data-act="chopen" data-id="${c.id}"><div class="chtop"><span class="logo">${esc(ini(c.company))}</span><div><b>${esc(c.company)}</b><span>${TRACK[c.track]||""}</span></div><span class="cd ${c.open?"":"off"}">${BOLT}${leftTxt(c.ends_at)}</span></div>
+  return `<button class="chc ${c.open?"":"closed"}" data-act="chopen" data-id="${c.id}"><div class="chtop">${coLogo(c.company)}<div><b>${esc(c.company)}</b><span>${TRACK[c.track]||""}</span></div><span class="cd ${c.open?"":"off"}">${BOLT}${leftTxt(c.ends_at)}</span></div>
     <h3>${esc(c.title)}</h3><div class="chft"><span>${c.answers} ${c.answers===1?"answer":"answers"}</span>${c.owner?`<span class="go">View answers</span>`:c.answered?`<span class="ok">${I.check}Answered</span>`:c.open?`<span class="go">Answer</span>`:`<span class="go">See winners</span>`}</div></button>`}
 function postCard(p,o){o=o||{};
   const kind=p.winner?`<span class="pk win">${TROPHY}Challenge winner</span>`:`<span class="pk ${p.kind==='post'?'pst':''}">${{drill:"Daily drill",proof:"Proof of work",challenge:"Challenge answer",post:"Post"}[p.kind]}</span>`;
-  const who=p.mine?"You":"Candidate #"+esc(p.code);
+  const who=p.mine?"You":p.name?esc(p.name):"Candidate #"+esc(p.code);
   let body="";
-  if(p.kind==="drill")body=`${o.compact?"":`<p class="pq">${esc(p.prompt||"")}</p>`}<p class="ptx ${p.track==="engineering"?"code":""}">${esc(p.data.text)}</p>`;
+  if(p.kind==="drill")body=`${o.compact?"":`<p class="pq">${esc(p.prompt||"")}</p>`}${p.data.pick?`<div class="ppick ${p.data.correct?"good":"bad"}">${p.data.correct?I.check:I.x}<span>Picked <b>${esc(p.data.pick)}</b></span></div>`:""}${(p.data.text||"").trim()?`<p class="ptx ${p.track==="engineering"&&!p.data.pick?"code":""}">${esc(p.data.text)}</p>`:""}`;
   else if(p.kind==="proof")body=`<h3 class="ptl">${esc(p.data.title)}</h3><dl class="pdl">${p.data.problem?`<div><dt>Problem</dt><dd>${esc(p.data.problem)}</dd></div>`:""}${p.data.did?`<div><dt>What I did</dt><dd>${esc(p.data.did)}</dd></div>`:""}${p.data.result?`<div><dt>Result</dt><dd>${esc(p.data.result)}</dd></div>`:""}</dl>${p.mine&&p.data.link?`<span class="hint">${I.link.replace('class="i"','class="i" style="width:15px;height:15px;vertical-align:-3px"')} ${esc(p.data.link)} (shown to companies after you accept)</span>`:""}`;
   else if(p.kind==="post")body=`<p class="ptx big">${esc(p.data.text)}</p>`;
   else body=`${p.challenge&&!o.inChallenge?`<p class="pq">Answer to ${esc(p.challenge.company)}: ${esc(p.challenge.title)}</p>`:""}<p class="ptx">${esc(p.data.text)}</p>`;
@@ -1503,12 +1635,13 @@ function postCard(p,o){o=o||{};
   const foot=p.mine?`<span class="nodc">${NODF()}<b>${p.nods}</b> ${p.nods===1?"nod":"nods"}</span>`
     :`<button class="nodb ${p.my_nods.length?"did":""} ${S.justNod===p.id?"pop":""}" data-act="nod" data-id="${p.id}">${p.my_nods.length?NODF():NOD}${p.my_nods.length?"Nodded":"Nod"}${p.nods?`<span class="nn">${p.nods}</span>`:""}</button>${p.my_nods.length?`<span class="hint">You nodded: ${p.my_nods.map(esc).join(", ")}</span>`:""}${S.role==="seeker"?`<span class="sp"></span><button class="ulink" data-act="msgto" data-u="${p.author_id}">Message</button>`:""}`;
   const extra=o.owner?`<span class="sp"></span><button class="ulink" data-act="winner" data-id="${p.id}" data-on="${p.winner?0:1}">${p.winner?"Remove winner":"Mark as winner"}</button><button class="btn line sm2" data-act="chinvite" data-id="${p.author_id}">Invite</button>`:"";
-  return `<article class="post ${p.winner?"winp":""}"><div class="ph"><span class="ava" style="width:40px;height:40px;font-size:12px;background:${grad({code:p.code,roles:[p.track]})}">${esc(p.code)}</span><div class="pw"><b>${who}</b><span>${TRACK[p.track]||""} · ${agoS(p.created_at)}</span></div>${kind}</div>${body}${sk}<div class="pf">${foot}${extra}</div></article>`;
+  const canOrb=!p.mine&&p.author_id&&S.role;
+  return `<article class="post ${p.winner?"winp":""}" data-pid="${p.id}"><div class="ph"><button class="pava" data-act="person" data-u="${p.author_id}" aria-label="Open profile">${p.mine?myAva(40):personAva(p,40)}</button><div class="pw"><span class="pwn"><button class="pname" data-act="person" data-u="${p.author_id}">${who}</button>${canOrb?orbBtn(p.author_id,p.orbiting,1):""}</span><span>${TRACK[p.track]||""} · ${agoS(p.created_at)}</span></div>${kind}</div>${body}${sk}<div class="pf">${foot}<button class="cmbtn" data-act="cmts" data-id="${p.id}" aria-label="Comments">${CMT}<span class="cn">${p.comments||""}</span></button>${extra}</div><div class="cmts" data-cm="${p.id}">${S.cmOpen&&S.cmOpen[p.id]?commentsInner(p.id):""}</div></article>`;
 }
 function findPost(id){return (S.feed||[]).concat(S.top||[],S.chAns||[]).find(p=>p.id===id)}
 function nodSheet(id){const p=findPost(id);if(!p)return;const n=S.today.nods,left=n.allowance-n.used;
   const opts=[...new Set([...(p.skills||[]),...SOFT])];
-  openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Nod Candidate #${esc(p.code)}</h2><span style="width:36px"></span></div>
+  openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Nod ${p.name?esc(p.name):"Candidate #"+esc(p.code)}</h2><span style="width:36px"></span></div>
     <div class="shb"><p style="font-size:15px">What did they show? Your nod counts toward their profile${S.role==="company"?" as a company nod":""}.</p>
     <div class="tags">${opts.map(s=>`<button class="tagl pick ${p.my_nods.includes(s)?"on":""}" ${p.my_nods.includes(s)?"disabled":`data-act="donod" data-id="${p.id}" data-v="${esc(s)}"`}>${esc(s)}</button>`).join("")}</div>
     <p class="hint">${left} ${left===1?"nod":"nods"} left today. You can nod a post once for each skill, and the same person again on their other posts.</p></div>`,true)}
@@ -1526,7 +1659,7 @@ const pskBtns=()=>[...new Set([...(S.me.skills||[]),...ALLSK])].slice(0,40).map(
 async function chSheet(id){const c=(S.chals||[]).find(x=>x.id===id);if(!c)return;
   S.chOpen=id;const canSee=c.owner||!c.open||c.answered;
   S.chAns=canSee?await API.challengeAnswers(id):[];
-  const head=`<div class="chhead"><div class="chtop"><span class="logo">${esc(ini(c.company))}</span><div><b>${esc(c.company)}</b><span>${TRACK[c.track]||""}</span></div><span class="cd ${c.open?"":"off"}">${BOLT}${leftTxt(c.ends_at)}</span></div>
+  const head=`<div class="chhead"><div class="chtop">${coLogo(c.company)}<div><b>${esc(c.company)}</b><span>${TRACK[c.track]||""}</span></div><span class="cd ${c.open?"":"off"}">${BOLT}${leftTxt(c.ends_at)}</span></div>
     <h2 class="cht">${esc(c.title)}</h2>${c.body?`<p class="about" style="font-size:15.5px">${esc(c.body)}</p>`:""}${(c.skills||[]).length?`<div class="psk">${c.skills.map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:""}</div>`;
   let mid="";
   if(S.role==="seeker"&&c.open&&!c.answered)mid=`<div class="f"><label for="chTxt">Your answer</label><textarea id="chTxt" maxlength="3000" style="min-height:150px" placeholder="Show how you think. Bullet points are fine."></textarea><span class="hint">Other job seekers see answers only after it closes. ${esc(c.company)} sees them right away. +20 points.</span></div>`;
@@ -1568,7 +1701,9 @@ document.addEventListener("click",async e=>{
   if(a==="eduadd"){const f=$("#uF").value.trim(),s=$("#uS").value.trim();if(!f&&!s){toast("Add a field of study or a school.");return}D.edu=(D.edu||[]).concat([{degree:$("#uD").value,field:f,school:s,year:$("#uY").value.trim()}]);$("#edBody").innerHTML=edBody("edu");return}
   if(a==="stab"){const prevTab=S.stab;S.stab=el.dataset.t;S.preview=false;render();window.scrollTo(0,0);if((prevTab==="community")!==(S.stab==="community")&&S.today){const tr=S.ftrack===undefined?S.today.track:S.ftrack;API.feed(tr,null,S.stab==="community"?(S.fkind||null):null).then(f=>{S.feed=f;renderS()}).catch(()=>{})}return}
   if(a==="ctab"){S.ctab=el.dataset.t;closeSheet();render();window.scrollTo(0,0);return}
-  if(a==="drill"){const t=$("#drillTxt").value.trim();el.disabled=true;try{await act(()=>API.answerDrill(d,t));await loadSocial();renderToday();toast(`Nice. ${S.today.streak.days} day streak. +10 points`)}catch(_){el.disabled=false}return}
+  if(a==="dpick"){S.dpick=+el.dataset.i;document.querySelectorAll(".opt[data-act=dpick]").forEach(b=>{const on=+b.dataset.i===S.dpick;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});const lb=$("[data-act=drill]");if(lb)lb.disabled=false;return}
+  if(a==="drill"){if(S.dpick==null){toast("Pick an answer first.");return}const tx=($("#drillTxt")&&$("#drillTxt").value.trim())||"";el.disabled=true;
+    try{const r=await act(()=>API.answerMcq(d,S.dpick,tx));S.dpick=null;await loadSocial();renderToday();toast(`${r.correct?"Correct! +15 points":"Not quite. +10 points"} · ${S.today.streak.days} day streak`)}catch(_){el.disabled=false}return}
   if(a==="ftrack"){S.ftrack=el.dataset.v||null;try{S.feed=await API.feed(S.ftrack,null,S.role==="seeker"&&S.stab==="community"?(S.fkind||null):null)}catch(err){toast(friendly(err))}render();return}
   if(a==="fkind"){S.fkind=el.dataset.v||null;const tr=S.ftrack===undefined?(S.today&&S.today.track):S.ftrack;try{S.feed=await API.feed(tr,null,S.fkind)}catch(err){toast(friendly(err))}render();return}
   if(a==="postsk"){const v=el.dataset.v;S.postSk=S.postSk||[];if(S.postSk.includes(v))S.postSk=S.postSk.filter(x=>x!==v);else if(S.postSk.length<3)S.postSk.push(v);else{toast("Up to 3 skills.");return}const keep=$("#postTxt").value;$("#postSk").innerHTML=postSkBtns();$("#postTxt").value=keep;return}
@@ -1578,7 +1713,7 @@ document.addEventListener("click",async e=>{
   if(a==="nod"){nodSheet(el.dataset.id);return}
   if(a==="donod"){const p=findPost(el.dataset.id),sk=el.dataset.v;el.disabled=true;
     try{await act(()=>API.nod(p.id,sk,d));[S.feed,S.top,S.chAns].forEach(arr=>(arr||[]).forEach(x=>{if(x.id===p.id&&x!==p){x.nods++;x.my_nods.push(sk)}}));p.nods++;p.my_nods.push(sk);S.today.nods.used++;S.justNod=p.id;setTimeout(()=>{S.justNod=null},900);closeSheet();
-      if(S.chOpen&&(S.chAns||[]).some(x=>x.id===p.id)){await chSheet(S.chOpen)}render();toast(`You nodded Candidate #${p.code} for ${sk}.`)}catch(_){el.disabled=false}return}
+      if(S.chOpen&&(S.chAns||[]).some(x=>x.id===p.id)){await chSheet(S.chOpen)}render();toast(`You nodded ${p.name||"Candidate #"+p.code} for ${sk}.`)}catch(_){el.disabled=false}return}
   if(a==="proof"){proofSheet();return}
   if(a==="pskill"){const v=el.dataset.v;if(S.pskills.includes(v))S.pskills=S.pskills.filter(x=>x!==v);else if(S.pskills.length<5)S.pskills.push(v);else{toast("Up to 5 skills.");return}$("#psk").innerHTML=pskBtns();return}
   if(a==="postproof"){const data={title:$("#pT").value.trim(),problem:$("#pP").value.trim(),did:$("#pD").value.trim(),result:$("#pR").value.trim(),link:$("#pL").value.trim()};
@@ -1613,19 +1748,19 @@ function calcYears(exp){const iv=(exp||[]).filter(e=>e.start).map(e=>[ymNum(e.st
   if(!iv.length)return null;let tot=0,[s,e]=iv[0];for(const[a,b]of iv.slice(1)){if(a<=e+1)e=Math.max(e,b);else{tot+=e-s+1;[s,e]=[a,b]}}tot+=e-s+1;return Math.floor(tot/12)}
 function expWhen(e){const m=expMonths(e);if(m==null)return e.y?yrs(e.y):"";return `${fmtYM(e.start)} to ${e.current||!e.end?"Present":fmtYM(e.end)} · ${durTxt(m)}`}
 function expItem(e){const b=(e.bullets||[]).filter(Boolean);
-  return `<div class="xpi xpe"><span class="logo">${esc(ini(e.co||"?"))}</span><div style="min-width:0"><b>${esc(e.t)}</b><span>${esc(e.co)}${expWhen(e)?" · "+esc(expWhen(e)):""}</span>${b.length?`<ul class="xb">${b.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</div></div>`}
+  return `<div class="xpi xpe">${logoBox(e.co,e.dom?FAV(e.dom):"")}<div style="min-width:0"><b>${esc(e.t)}</b><span>${esc(e.co)}${expWhen(e)?" · "+esc(expWhen(e)):""}</span>${b.length?`<ul class="xb">${b.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</div></div>`}
 const mv=(arr,i,j)=>{if(j<0||j>=arr.length)return;const[x]=arr.splice(i,1);arr.splice(j,0,x)};
 const rowCtl=(kind,i,n)=>`<div class="rctl"><button class="xbtn" data-act="${kind}up" data-i="${i}" aria-label="Move up" ${i===0?"disabled":""}>${svg('<path d="M6 15l6-6 6 6"/>')}</button><button class="xbtn" data-act="${kind}down" data-i="${i}" aria-label="Move down" ${i===n-1?"disabled":""}>${svg('<path d="M6 9l6 6 6-6"/>')}</button><button class="ulink" data-act="${kind}edit" data-i="${i}">Edit</button><button class="xbtn" data-act="${kind}del" data-i="${i}" aria-label="Remove">${I.x}</button></div>`;
 const GRIP=svg('<circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/>');
 S.xEdit=-1;S.uEdit=-1;
 function expEditor(){
-  const list=D.exp.map((e,i)=>`<div class="xrow ${S.xEdit===i?"editing":""}" draggable="true" data-list="exp" data-i="${i}"><span class="grip" title="Drag to reorder">${GRIP}</span><span class="logo">${esc(ini(e.co||"?"))}</span><div class="grow"><b style="font-weight:600">${esc(e.t)}</b><div class="hint">${esc(e.co)}${expWhen(e)?" · "+esc(expWhen(e)):""}</div></div>${rowCtl("x",i,D.exp.length)}</div>`).join("");
+  const list=D.exp.map((e,i)=>`<div class="xrow ${S.xEdit===i?"editing":""}" draggable="true" data-list="exp" data-i="${i}"><span class="grip" title="Drag to reorder">${GRIP}</span>${logoBox(e.co,e.dom?FAV(e.dom):"")}<div class="grow"><b style="font-weight:600">${esc(e.t)}</b><div class="hint">${esc(e.co)}${expWhen(e)?" · "+esc(expWhen(e)):""}</div></div>${rowCtl("x",i,D.exp.length)}</div>`).join("");
   const e=S.xEdit>=0?D.exp[S.xEdit]:{t:"",co:"",start:"",end:"",current:false,bullets:[]};
   const cy=calcYears(D.exp);
   return `<div class="xlist">${list||`<span class="hint">Nothing added yet. Add your most recent role first.</span>`}</div>
     ${D.exp.length>1?`<p class="hint">Drag the handle or use the arrows to change the order. The top role shows first.</p>`:""}
     <div class="xform"><h3>${S.xEdit>=0?"Edit role":"Add a role"}</h3>
-    <div class="fg"><div class="f"><label for="xT">Title</label><input id="xT" maxlength="80" placeholder="Product Analyst" value="${esc(e.t)}"></div><div class="f"><label for="xC">Company</label><input id="xC" maxlength="80" placeholder="Company name" value="${esc(e.co)}"></div>
+    <div class="fg"><div class="f"><label for="xT">Title</label><input id="xT" maxlength="80" placeholder="Product Analyst" value="${esc(e.t)}"></div><div class="f"><label for="xC">Company</label><input id="xC" maxlength="80" autocomplete="off" placeholder="Start typing, then pick it" value="${esc(e.co)}"></div>
     <div class="f"><label for="xS">Start</label><input id="xS" type="month" max="${nowYM()}" value="${esc(e.start||"")}"></div><div class="f"><label for="xE">End</label><input id="xE" type="month" max="${nowYM()}" value="${esc(e.current?"":(e.end||""))}" ${e.current?"disabled":""}></div>
     <label class="sw f full" style="flex-direction:row"><input type="checkbox" id="xNow" ${e.current?"checked":""}><span class="tr"></span>I currently work here</label>
     <div class="f full"><label for="xB">What I did</label><textarea id="xB" maxlength="700" style="min-height:96px" placeholder="One point per line, up to 4. Start with a verb and a result.&#10;Ran the funnel analysis behind a checkout redesign that lifted conversion 9%">${esc((e.bullets||[]).join("\n"))}</textarea></div></div>
@@ -1633,12 +1768,12 @@ function expEditor(){
     ${cy!=null?`<p class="hint">Your years of experience will update to ${cy} from these dates.</p>`:""}`;
 }
 function eduEditor(){
-  const list=(D.edu||[]).map((e,i)=>`<div class="xrow ${S.uEdit===i?"editing":""}" draggable="true" data-list="edu" data-i="${i}"><span class="grip" title="Drag to reorder">${GRIP}</span><span class="logo edu">${CAP}</span><div class="grow"><b style="font-weight:600">${eduLine(e)}</b><div class="hint">${esc(e.school||"No school")}${e.year?" · "+esc(e.year):""}</div></div>${rowCtl("u",i,(D.edu||[]).length)}</div>`).join("");
+  const list=(D.edu||[]).map((e,i)=>`<div class="xrow ${S.uEdit===i?"editing":""}" draggable="true" data-list="edu" data-i="${i}"><span class="grip" title="Drag to reorder">${GRIP}</span>${schoolLogo(e,true)}<div class="grow"><b style="font-weight:600">${eduLine(e)}</b><div class="hint">${esc(e.school||"No school")}${e.year?" · "+esc(e.year):""}</div></div>${rowCtl("u",i,(D.edu||[]).length)}</div>`).join("");
   const e=S.uEdit>=0?D.edu[S.uEdit]:{degree:DEGREES[0],field:"",school:"",year:""};
   return `<div class="xlist">${list||`<span class="hint">Nothing added yet.</span>`}</div>
     <div class="xform"><h3>${S.uEdit>=0?"Edit education":"Add education"}</h3>
     <div class="fg"><div class="f"><label for="uD">Degree</label><select id="uD">${DEGREES.map(x=>`<option ${x===e.degree?"selected":""}>${x}</option>`).join("")}</select></div><div class="f"><label for="uF">Field of study</label><input id="uF" maxlength="80" placeholder="Computer Science" value="${esc(e.field||"")}"></div>
-    <div class="f"><label for="uS">School</label><input id="uS" maxlength="100" placeholder="School name" value="${esc(e.school||"")}"></div><div class="f"><label for="uY">Graduation year</label><input id="uY" type="number" min="1960" max="2035" placeholder="2026" value="${esc(e.year||"")}"></div></div>
+    <div class="f"><label for="uS">School</label><input id="uS" maxlength="120" autocomplete="off" placeholder="Start typing, like NYU or Stanford" value="${esc(e.school||"")}"></div><div class="f"><label for="uY">Graduation year</label><input id="uY" type="number" min="1960" max="2035" placeholder="2026" value="${esc(e.year||"")}"></div></div>
     <div class="xfa"><span class="hint" style="margin-right:auto">Companies see degree, field and year. Your school stays hidden until you accept an invite.</span>${S.uEdit>=0?`<button class="btn ghost" data-act="ucancel">Cancel edit</button>`:""}<button class="btn line" data-act="usave">${S.uEdit>=0?"Update":"Add"}</button></div></div>`;
 }
 const redraw=k=>{$("#edBody").innerHTML=edBody(k)};
@@ -1647,7 +1782,7 @@ function readExp(strict){const t=$("#xT").value.trim(),co=$("#xC").value.trim(),
   if(!t&&!co&&!st&&!bullets.length)return null;
   if(!t||!co){if(strict)toast("Add a title and company.");return false}
   if(en&&st&&en<st){if(strict)toast("The end date is before the start date.");return false}
-  const e={t,co,start:st,end:en,current:cur,bullets};const m=expMonths(e);e.y=m?Math.max(1,Math.round(m/12)):(S.xEdit>=0?D.exp[S.xEdit].y||1:1);return e}
+  const prev=S.xEdit>=0?D.exp[S.xEdit]:null,dom=S.xDom||(prev&&prev.co===co?prev.dom||"":"");const e={t,co,dom,start:st,end:en,current:cur,bullets};const m=expMonths(e);e.y=m?Math.max(1,Math.round(m/12)):(S.xEdit>=0?D.exp[S.xEdit].y||1:1);return e}
 function readEdu(strict){const f=$("#uF").value.trim(),s=$("#uS").value.trim(),y=$("#uY").value.trim();
   if(!f&&!s&&!y)return null;if(!f&&!s){if(strict)toast("Add a field of study or a school.");return false}
   return{degree:$("#uD").value,field:f,school:s,year:y}}
@@ -1657,11 +1792,11 @@ function commitPending(){
   S.xEdit=-1;S.uEdit=-1;const cy=calcYears(D.exp);if(cy!=null)D.yrs=cy;return true}
 document.addEventListener("click",e=>{
   const el=e.target.closest("[data-act]");if(!el)return;const a=el.dataset.act,i=+el.dataset.i;
-  if(a==="xedit"){e.stopPropagation();S.xEdit=i;redraw("exp");$("#xT").focus();return}
-  if(a==="xcancel"){e.stopPropagation();S.xEdit=-1;redraw("exp");return}
+  if(a==="xedit"){e.stopPropagation();S.xEdit=i;S.xDom=D.exp[i].dom||"";redraw("exp");$("#xT").focus();return}
+  if(a==="xcancel"){e.stopPropagation();S.xEdit=-1;S.xDom="";redraw("exp");return}
   if(a==="xdel"){e.stopPropagation();D.exp.splice(i,1);if(S.xEdit===i)S.xEdit=-1;else if(S.xEdit>i)S.xEdit--;redraw("exp");return}
   if(a==="xup"||a==="xdown"){e.stopPropagation();mv(D.exp,i,a==="xup"?i-1:i+1);S.xEdit=-1;redraw("exp");return}
-  if(a==="xsave"){e.stopPropagation();const r=readExp(true);if(!r){if(r===null)toast("Fill in the role first.");return}if(S.xEdit>=0)D.exp[S.xEdit]=r;else D.exp.unshift(r);S.xEdit=-1;redraw("exp");return}
+  if(a==="xsave"){e.stopPropagation();const r=readExp(true);if(!r){if(r===null)toast("Fill in the role first.");return}if(S.xEdit>=0)D.exp[S.xEdit]=r;else D.exp.unshift(r);S.xEdit=-1;S.xDom="";redraw("exp");return}
   if(a==="uedit"){e.stopPropagation();S.uEdit=i;redraw("edu");$("#uF").focus();return}
   if(a==="ucancel"){e.stopPropagation();S.uEdit=-1;redraw("edu");return}
   if(a==="udel"){e.stopPropagation();D.edu.splice(i,1);if(S.uEdit===i)S.uEdit=-1;else if(S.uEdit>i)S.uEdit--;redraw("edu");return}
@@ -1676,6 +1811,184 @@ document.addEventListener("dragover",e=>{const r=e.target.closest&&e.target.clos
 document.addEventListener("drop",e=>{const r=e.target.closest&&e.target.closest(".xrow[data-list]");if(!r||!dragFrom||r.dataset.list!==dragFrom.list)return;e.preventDefault();
   const arr=dragFrom.list==="exp"?D.exp:D.edu;mv(arr,dragFrom.i,+r.dataset.i);S.xEdit=-1;S.uEdit=-1;const k=dragFrom.list;dragFrom=null;redraw(k)});
 document.addEventListener("dragend",()=>{dragFrom=null;document.querySelectorAll(".xrow.dragging,.xrow.over").forEach(x=>x.classList.remove("dragging","over"))});
+
+
+/* ================= Photos, logos, school + company pickers ================= */
+const FAV=d=>d?`https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128`:"";
+const hostOf=u=>{try{u=String(u||"").trim();if(!u)return"";if(!/^https?:/i.test(u))u="https://"+u;return new URL(u).hostname.replace(/^www\./,"")}catch(_){return""}};
+const isAutoLogo=u=>!u||/s2\/favicons/.test(u);
+/* A logo tile: real image when we have one, initials (or an icon) underneath as the fallback */
+function logoBox(name,url,cls,fallback){
+  return `<span class="logo ${cls||""} ${url?"hasimg":""}">${fallback||`<em>${esc(ini(name||"?"))}</em>`}${url?`<img src="${esc(url)}" alt="" loading="lazy" onload="if(this.naturalWidth&&this.naturalWidth<=16){this.parentNode.classList.remove('hasimg');this.remove()}" onerror="this.parentNode.classList.remove('hasimg');this.remove()">`:""}</span>`}
+const coLogoUrl=n=>n&&S.logos?S.logos[n]||"":"";
+const coLogo=(n,cls)=>logoBox(n,coLogoUrl(n),cls);
+/* someone else's avatar: photo, else initials, else their code */
+function personAva(p,s){const bg=p.photo?"var(--surface)":grad({code:p.code||"?",roles:[p.track||"product"]});
+  return `<span class="ava" style="width:${s}px;height:${s}px;font-size:${Math.round(s/(p.name?3.2:3.4))}px;background:${bg}">${p.photo?`<img src="${esc(p.photo)}" alt="">`:esc(p.name?ini(p.name):(p.code||"?"))}</span>`}
+/* my own avatar (photo, else initials) */
+function myAva(s){const c=S.me||{};return `<span class="ava" style="width:${s}px;height:${s}px;font-size:${Math.round(s/3.2)}px;background:${c.photo?"var(--surface)":grad(c)}">${c.photo?`<img src="${esc(c.photo)}" alt="">`:esc(ini(c.name||"You"))}</span>`}
+
+/* ---------- universities ---------- */
+let UNIS=null,UNIP=null,UNIMAP=null,uniRerendered=false;
+const STOPW=new Set(["of","the","and","at","for","in","de","la","&"]);
+const acr=n=>n.split(/[\s,\-()]+/).filter(w=>w&&!STOPW.has(w.toLowerCase())).map(w=>w[0]).join("").toLowerCase();
+function loadUnis(){if(UNIP)return UNIP;UNIP=(async()=>{try{const r=await fetch(window.UNIS_URL||"universities.json");const d=await r.json();UNIS=d.map(([n,dom,cc])=>({n,dom,cc,l:n.toLowerCase(),a:acr(n)}));UNIMAP=new Map(UNIS.map(u=>[u.l,u]))}catch(_){UNIS=[];UNIMAP=new Map()}return UNIS})();return UNIP}
+function schoolDom(name){if(!name)return"";if(!UNIMAP){loadUnis().then(()=>{if(!uniRerendered){uniRerendered=true;rerenderLogos()}});return""}const u=UNIMAP.get(String(name).toLowerCase().trim());return u?u.dom:""}
+function schoolLogo(e,show){const nm=show?e.school:"";const d=nm?schoolDom(nm):"";return logoBox(nm||"School",d?FAV(d):"","edu",CAP)}
+function rerenderLogos(){try{if($("#edBody")&&$("#uS"))return;if(!$("#modalRoot").innerHTML)render()}catch(_){}}
+function searchUnis(q){q=q.toLowerCase().trim();if(q.length<2||!UNIS)return[];const out=[];
+  for(const u of UNIS){let s=-1;if(u.l.startsWith(q)||u.a===q.replace(/[\s.]/g,""))s=0;else if(u.l.includes(" "+q))s=1;else if(u.dom&&u.dom.startsWith(q))s=2;else if(q.length>=4&&u.l.includes(q))s=3;
+    if(s>=0){out.push([s+(u.cc==="US"?0:.5),u]);if(out.length>400)break}}
+  return out.sort((a,b)=>a[0]-b[0]||a[1].n.length-b[1].n.length).slice(0,8).map(x=>x[1])}
+
+/* ---------- company suggestions (for experience) ---------- */
+const coCache={};
+async function searchCos(q){q=q.trim();if(q.length<2)return[];if(coCache[q])return coCache[q];
+  try{const r=await fetch("https://autocomplete.clearbit.com/v1/companies/suggest?query="+encodeURIComponent(q));const d=await r.json();coCache[q]=(d||[]).slice(0,6).map(x=>({n:x.name,dom:x.domain}));return coCache[q]}catch(_){return[]}}
+
+/* ---------- combobox (shared) ---------- */
+S.combo=null;S.xDom="";
+function comboShow(inp,items,kind){let box=inp.parentNode.querySelector(".sugg");
+  if(!items.length){if(box)box.remove();S.combo=null;return}
+  if(!box){box=document.createElement("div");box.className="sugg";box.setAttribute("role","listbox");inp.parentNode.appendChild(box)}
+  S.combo={inp,items,kind,i:-1};
+  box.innerHTML=items.map((u,i)=>`<button type="button" class="sgi" role="option" data-act="sgpick" data-i="${i}">${logoBox(u.n,FAV(u.dom),kind==="uni"?"edu":"",kind==="uni"?CAP:null)}<span><b>${esc(u.n)}</b><small>${esc(u.dom||"")}${u.cc?" · "+esc(u.cc):""}</small></span></button>`).join("")+(kind==="uni"?`<div class="sgn">Not listed? Just type the full name.</div>`:"")}
+function comboHide(){document.querySelectorAll(".sugg").forEach(b=>b.remove());S.combo=null}
+function comboPick(i){const c=S.combo;if(!c)return;const u=c.items[i];c.inp.value=u.n;if(c.kind==="co")S.xDom=u.dom||"";comboHide();c.inp.focus()}
+let coT=null;
+document.addEventListener("input",async e=>{const t=e.target;
+  if(t.id==="uS"){await loadUnis();if(t.value!==$("#uS")?.value)return;comboShow(t,searchUnis(t.value),"uni");return}
+  if(t.id==="xC"){S.xDom="";clearTimeout(coT);const v=t.value;coT=setTimeout(async()=>{const r=await searchCos(v);if($("#xC")&&$("#xC").value===v)comboShow($("#xC"),r,"co")},180)}});
+document.addEventListener("focusin",e=>{if(e.target.id==="uS")loadUnis()});
+document.addEventListener("keydown",e=>{const c=S.combo;if(!c||e.target!==c.inp)return;const box=c.inp.parentNode.querySelector(".sugg");if(!box)return;const opts=[...box.querySelectorAll(".sgi")];
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();c.i=(c.i+(e.key==="ArrowDown"?1:-1)+opts.length)%opts.length;opts.forEach((o,k)=>o.classList.toggle("on",k===c.i));opts[c.i].scrollIntoView({block:"nearest"});return}
+  if(e.key==="Enter"&&c.i>=0){e.preventDefault();comboPick(c.i);return}
+  if(e.key==="Escape"){e.stopPropagation();comboHide()}},true);
+document.addEventListener("click",e=>{const p=e.target.closest("[data-act=sgpick]");if(p){e.stopPropagation();comboPick(+p.dataset.i);return}if(S.combo&&!e.target.closest(".sugg")&&e.target!==S.combo.inp)comboHide()},true);
+
+/* ---------- image upload ---------- */
+function prepImage(file,size,mode){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const c=document.createElement("canvas");c.width=c.height=size;const x=c.getContext("2d");
+    if(mode==="cover"){const s=Math.min(img.width,img.height);x.fillStyle="#fff";x.fillRect(0,0,size,size);x.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,size,size)}
+    else{const k=Math.min(size/img.width,size/img.height),w=img.width*k,h=img.height*k;x.drawImage(img,(size-w)/2,(size-h)/2,w,h)}
+    URL.revokeObjectURL(img.src);c.toBlob(b=>b?res(b):rej(new Error("bad image")),mode==="cover"?"image/jpeg":"image/png",.88)};img.onerror=()=>rej(new Error("bad image"));img.src=URL.createObjectURL(file)})}
+function pickImage(){return new Promise(res=>{const i=document.createElement("input");i.type="file";i.accept="image/png,image/jpeg,image/webp";i.onchange=()=>res(i.files[0]||null);i.click()})}
+Object.assign(LIVE,{
+  async uploadImage(blob){const ext=blob.type==="image/png"?"png":"jpg",id=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2)),path=`${S.user.id}/${id}.${ext}`;
+    const{error}=await sb.storage.from("avatars").upload(path,blob,{contentType:blob.type,cacheControl:"31536000",upsert:false});if(error)throw error;
+    return sb.storage.from("avatars").getPublicUrl(path).data.publicUrl},
+  async logos(){const{data,error}=await sb.from("paths_companies").select("name,logo_url").neq("logo_url","");if(error)return{};const m={};(data||[]).forEach(r=>{if(r.name&&!m[r.name])m[r.name]=r.logo_url});return m}
+});
+Object.assign(DEMO,{
+  async uploadImage(blob){return await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)})},
+  async logos(){return{...(DEMO._logos||{})}}
+});
+async function loadLogos(){try{S.logos=await API.logos()}catch(_){S.logos={}}}
+async function uploadFlow(kind){const f=await pickImage();if(!f)return null;if(f.size>15e6){toast("That image is too big. Try one under 15 MB.");return null}
+  toast("Uploading…");try{const blob=await prepImage(f,kind==="photo"?400:256,kind==="photo"?"cover":"contain");const url=await API.uploadImage(blob);toast(kind==="photo"?"Photo added. Save to keep it.":"Logo added. Save to keep it.");return url}
+  catch(err){toast(/bad image/.test(err.message||"")?"Couldn't read that image. Try a JPG or PNG.":friendly(err));return null}}
+function photoBlock(){return `<div class="phrow" id="phBox"><span class="ava" style="width:72px;height:72px;font-size:24px;background:${D.photo?"var(--surface)":grad(D)}">${D.photo?`<img src="${esc(D.photo)}" alt="">`:esc(ini(D.name||"You"))}</span>
+  <div><b>Profile photo</b><span class="hint">Other job seekers see it in the community. Companies see it only after you accept their invite.</span><div class="phacts"><button type="button" class="btn line sm2" data-act="phup">${D.photo?"Change photo":"Upload photo"}</button>${D.photo?`<button type="button" class="ulink" data-act="phrm">Remove</button>`:""}</div></div></div>`}
+function coLogoBlock(){const L=S.coLogoDraft!=null?S.coLogoDraft:((S.co&&S.co.logo_url)||"");const nm=($("#coN")&&$("#coN").value)||(S.co&&S.co.name)||"";
+  return `<div class="phrow" id="coLogoBox">${logoBox(nm,L,"big")}<div><b>Logo</b><span class="hint">${L&&!isAutoLogo(L)?"Shown on your invites, challenges and messages.":"Upload one, or we'll use your website's icon."}</span><div class="phacts"><button type="button" class="btn line sm2" data-act="lgup">${L&&!isAutoLogo(L)?"Change logo":"Upload logo"}</button>${L&&!isAutoLogo(L)?`<button type="button" class="ulink" data-act="lgrm">Remove</button>`:""}</div></div></div>`}
+document.addEventListener("click",async e=>{const el=e.target.closest("[data-act]");if(!el)return;const a=el.dataset.act;
+  if(a==="phup"){e.stopPropagation();const u=await uploadFlow("photo");if(u&&D){D.photo=u;$("#phBox").outerHTML=photoBlock()}return}
+  if(a==="phrm"){e.stopPropagation();if(D){D.photo="";$("#phBox").outerHTML=photoBlock()}return}
+  if(a==="lgup"){e.stopPropagation();const u=await uploadFlow("logo");if(u){S.coLogoDraft=u;$("#coLogoBox").outerHTML=coLogoBlock()}return}
+  if(a==="lgrm"){e.stopPropagation();S.coLogoDraft="";$("#coLogoBox").outerHTML=coLogoBlock();return}
+},true);
+/* preview logos */
+(function(){const mk=(bg,fg,txt)=>"data:image/svg+xml;utf8,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="${bg}"/><text x="32" y="42" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="${fg}" text-anchor="middle">${txt}</text></svg>`);
+  DEMO._logos={"Fieldnote":mk("#1F6F5C","#fff","fn"),"Kestrel Freight":mk("#1D3A8A","#FFC247","K"),"Brightloop":mk("#FF6B3D","#fff","b")};
+  if(DEMO._co)DEMO._co.logo_url=DEMO._logos.Fieldnote})();
+
+
+/* ================= Orbit, crossings, comments ================= */
+const ORB='<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.6"/><ellipse cx="12" cy="12" rx="9.5" ry="4.2" transform="rotate(-25 12 12)"/></svg>';
+const CMT=svg('<path d="M4 5.5h16v10.5H9.5L5 20v-4H4z"/>');
+const kfmt=n=>{n=+n||0;return n>=1e4?Math.round(n/1e3)+"k":n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,"")+"k":String(n)};
+Object.assign(LIVE,{
+  async orbit(u,on){return need(await sb.rpc("jx_orbit_set",{p_target:u,p_on:on}))},
+  async person(u){return need(await sb.rpc("jx_person",{p_user:u}))},
+  async comments(p){return need(await sb.rpc("jx_comments",{p_post:p}))},
+  async comment(p,b){return need(await sb.rpc("jx_comment",{p_post:p,p_body:b}))},
+  async commentDel(id){return need(await sb.rpc("jx_comment_delete",{p_id:id}))},
+  async isAdmin(){try{const{data,error}=await sb.rpc("jx_is_admin");return !error&&!!data}catch(_){return false}}
+});
+
+/* demo (preview only) */
+(function(){const X=DEMO._soc;if(!X)return;
+  const hash=s=>{let h=7;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return h};
+  const orb=new Set(),views={},cm={};let cid=1;const u=()=>DEMO.demoRole==="company"?"co":"me";
+  const baseOrb=id=>id==="me"?128:(hash(id)%240)+3,baseX=id=>id==="me"?2400:(hash(id)%3000)+40;
+  const ppl=()=>DEMO._people,P=id=>ppl().find(x=>x.user_id===id)||{};
+  const who=(viewer,a)=>{if(["co","co2","co3"].includes(a))return{company:true,name:{co:"Fieldnote",co2:"Kestrel Freight",co3:"Brightloop"}[a],code:"",photo:(DEMO._logos||{})[{co:"Fieldnote",co2:"Kestrel Freight",co3:"Brightloop"}[a]]||""};
+    const p=P(a),show=viewer!=="co"||a===viewer||(DEMO._hired&&DEMO._hired(a));return{company:false,code:p.code||"",track:(p.profile&&p.profile.roles[0])||"product",name:show?p.name||"":"",photo:show?p.photo_url||"":""}};
+  const orbCount=id=>baseOrb(id)+[...orb].filter(k=>k.endsWith("|"+id)).length,xCount=id=>baseX(id)+Object.keys(views).filter(k=>k.split("|")[1]===id).length;
+  // seed comments
+  const seedOn=X.posts.filter(p=>p.author!=="me"&&p.kind!=="drill").slice(0,3);
+  const others=ppl().filter(p=>p.user_id!=="me").slice(3,9);
+  seedOn.forEach((p,i)=>{cm[p.id]=[[others[i].user_id,"This is so useful. How long did the whole thing take you?",5],[others[i+2].user_id,"Saving this for my next interview.",3]].map(([a,b,h])=>({id:"c"+cid++,author:a,body:b,at:new Date(Date.now()-h*36e5).toISOString()}))});
+  cm[X.jp.id]=[{id:"c"+cid++,author:others[1].user_id,body:"The drop off chart at payment is such a good way to get buy in.",at:new Date(Date.now()-8*36e5).toISOString()}];
+  const aug=list=>(list||[]).map(p=>p&&({...p,comments:(cm[p.id]||[]).length,orbiting:orb.has(u()+"|"+p.author_id)}));
+  ["feed","challengeAnswers","drillTop"].forEach(k=>{const f=DEMO[k];if(!f)return;DEMO[k]=async(...a)=>{
+    if(k==="feed"&&a[0]==="orbit"){const all=await f.call(DEMO,null,a[1],a[2]);return aug(all.filter(p=>orb.has(u()+"|"+p.author_id)))}
+    return aug(await f.apply(DEMO,a))}});
+  const pg=DEMO.postGet;if(pg)DEMO.postGet=async id=>{const r=await pg.call(DEMO,id);return r?aug([r])[0]:r};
+  const bd=DEMO.badges;DEMO.badges=async ids=>{const o=await bd.call(DEMO,ids);Object.keys(o).forEach(id=>Object.assign(o[id],{orbit:orbCount(id),crossings:xCount(id),i_orbit:orb.has(u()+"|"+id)}));return o};
+  const err=m=>{throw new Error(m)};
+  Object.assign(DEMO,{
+    async orbit(t,on){const k=u()+"|"+t;if(t===u())err("You can't orbit yourself");on?orb.add(k):orb.delete(k);return{on,count:orbCount(t)}},
+    async person(t){const me=u();if(t!==me)views[me+"|"+t+"|"+localDay()]=1;const b=(await DEMO.badges([t]))[t];
+      const posts=aug((await DEMO.feed(null)).filter(p=>p.author_id===t)).slice(0,10);const p=P(t);
+      return{...who(me,t),user_id:t,me:t===me,headline:(p.profile&&p.profile.headline)||"",skills:(p.profile&&p.profile.skills)||[],badges:b,orbiting:orb.has(me+"|"+t),posts}},
+    async comments(id){const me=u(),post=X.posts.find(p=>p.id===id);return(cm[id]||[]).map(c=>({...who(me,c.author),id:c.id,body:c.body,at:c.at,author_id:c.author,mine:c.author===me,can_delete:c.author===me||(post&&post.author===me)}))},
+    async comment(id,b){b=(b||"").trim();if(!b)err("Write a comment first");const me=u(),c={id:"c"+cid++,author:me,body:b,at:new Date().toISOString()};(cm[id]=cm[id]||[]).push(c);return{...who(me,me),id:c.id,body:b,at:c.at,author_id:me,mine:true,can_delete:true}},
+    async commentDel(id){Object.keys(cm).forEach(k=>cm[k]=cm[k].filter(c=>c.id!==id))},
+    async isAdmin(){return false}
+  });
+})();
+
+/* ---------- UI bits used by posts and profiles ---------- */
+S.cm={};S.cmOpen={};
+const orbBtn=(uid,on,sm)=>`<button class="orb ${on?"on":""} ${sm?"sm":""}" data-act="orbit" data-u="${uid}" data-on="${on?0:1}" aria-pressed="${on}">${on?`${I.check}In orbit`:`${ORB}Orbit`}</button>`;
+function whoName(w){return w.name?esc(w.name):w.company?"A company":"Candidate #"+esc(w.code||"?")}
+function whoAva(w,s){return w.company?`<span class="lw" style="width:${s}px;height:${s}px">${logoBox(w.name,w.photo||coLogoUrl(w.name))}</span>`:personAva(w,s)}
+function orbitLine(b){if(!b)return"";return `<div class="orbl"><span class="o1">${ORB}<b>${kfmt(b.orbit)}</b> in orbit</span><i></i><span class="o2"><b>${kfmt(b.crossings)}</b> ${+b.crossings===1?"crossing":"crossings"}</span></div>`}
+function commentsInner(id){const L=S.cm[id];if(!L)return `<div class="cml"><span class="hint">Loading comments…</span></div>`;
+  return `<div class="cml">${L.map(c=>`<div class="cmi"><button class="cmav" ${c.company?"":`data-act="person" data-u="${c.author_id}"`} aria-label="${whoName(c)}">${whoAva(c,32)}</button><div class="cmb2"><div class="cmh"><b>${whoName(c)}</b><small>${agoS(c.at)}</small>${c.can_delete?`<button class="ulink" data-act="cmdel" data-id="${c.id}" data-p="${id}">Delete</button>`:""}</div><p>${esc(c.body)}</p></div></div>`).join("")||`<span class="hint">No comments yet. Start the conversation.</span>`}
+    <div class="cmin">${S.role==="seeker"?myAva(32):`<span class="lw" style="width:32px;height:32px">${logoBox((S.co&&S.co.name)||"",(S.co&&S.co.logo_url)||"")}</span>`}<textarea rows="1" maxlength="1000" data-cmin="${id}" placeholder="Add a comment"></textarea><button class="btn dark sm2" data-act="cmsend" data-id="${id}">Post</button></div></div>`}
+function paintComments(id){document.querySelectorAll(`[data-cm="${id}"]`).forEach(el=>el.innerHTML=S.cmOpen[id]?commentsInner(id):"");
+  const n=(S.cm[id]||[]).length;document.querySelectorAll(`[data-act=cmts][data-id="${id}"] .cn`).forEach(x=>x.textContent=n||"");
+  [S.feed,S.chAns,S.top,S.personPosts].forEach(arr=>(arr||[]).forEach(p=>{if(p.id===id&&S.cm[id])p.comments=S.cm[id].length}))}
+async function toggleComments(id,force){S.cmOpen[id]=force||!S.cmOpen[id];paintComments(id);
+  if(S.cmOpen[id]){try{S.cm[id]=await API.comments(id)}catch(err){toast(friendly(err));S.cm[id]=S.cm[id]||[]}paintComments(id);const t=document.querySelector(`[data-cmin="${id}"]`);t&&t.focus()}}
+async function sendComment(id){const t=document.querySelector(`[data-cmin="${id}"]`);if(!t)return;const b=t.value.trim();if(!b)return;t.value="";
+  try{const c=await API.comment(id,b);(S.cm[id]=S.cm[id]||[]).push(c);paintComments(id);const t2=document.querySelector(`[data-cmin="${id}"]`);t2&&t2.focus()}catch(err){t.value=b;toast(friendly(err))}}
+function paintOrbit(uid,on){document.querySelectorAll(`[data-act=orbit][data-u="${uid}"]`).forEach(b=>{const sm=b.classList.contains("sm");b.outerHTML=orbBtn(uid,on,sm)});
+  [S.feed,S.chAns,S.top,S.personPosts].forEach(arr=>(arr||[]).forEach(p=>{if(p.author_id===uid)p.orbiting=on}))}
+
+/* ---------- someone's profile ---------- */
+async function personSheet(uid){let P;try{P=await API.person(uid)}catch(err){toast(friendly(err));return}
+  S.personPosts=P.posts||[];const b=P.badges||{};
+  openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>${P.me?"Your profile":"Profile"}</h2><span style="width:36px"></span></div>
+   <div class="shb"><div class="ptop">${whoAva(P,88)}<div class="ptxt"><h2>${whoName(P)}</h2><p>${esc(P.headline||TRACK[P.track]||"")}</p>${orbitLine(b)}
+     <div class="pacts">${P.me?"":orbBtn(uid,P.orbiting)}${!P.me&&S.role==="seeker"?`<button class="btn line sm2" data-act="msgto" data-u="${uid}">Message</button>`:""}</div></div></div>
+     ${badgeRow(b,1)}
+     ${(P.skills||[]).length?`<div class="psk">${P.skills.slice(0,10).map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:""}
+     <div><h3 class="psh">Recent posts</h3><div class="plist">${S.personPosts.map(p=>postCard(p)).join("")||`<p class="hint">No posts yet.</p>`}</div></div></div>`,true);
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",async e=>{const el=e.target.closest("[data-act]");if(!el)return;const a=el.dataset.act;
+  if(a==="orbit"){e.stopPropagation();const uid=el.dataset.u,on=el.dataset.on==="1";paintOrbit(uid,on);
+    try{const r=await API.orbit(uid,on);if(S.badges&&S.badges[uid])S.badges[uid].orbit=r.count;document.querySelectorAll(".ptop .orbl b").forEach((x,i)=>{if(i===0&&$(".ptop [data-u='"+uid+"']"))x.textContent=kfmt(r.count)});if(on)toast("In orbit. Their posts show up in Your orbit.")}catch(err){paintOrbit(uid,!on);toast(friendly(err))}return}
+  if(a==="person"){e.stopPropagation();S.bell=false;await personSheet(el.dataset.u);return}
+  if(a==="cmts"){e.stopPropagation();await toggleComments(el.dataset.id);return}
+  if(a==="cmsend"){e.stopPropagation();await sendComment(el.dataset.id);return}
+  if(a==="cmdel"){e.stopPropagation();const id=el.dataset.id,p=el.dataset.p;try{await API.commentDel(id);S.cm[p]=(S.cm[p]||[]).filter(c=>c.id!==id);paintComments(p)}catch(err){toast(friendly(err))}return}
+},true);
+document.addEventListener("keydown",e=>{const t=e.target;if(t&&t.dataset&&t.dataset.cmin&&e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendComment(t.dataset.cmin)}});
+document.addEventListener("input",e=>{const t=e.target;if(t&&t.dataset&&t.dataset.cmin){t.style.height="auto";t.style.height=Math.min(140,t.scrollHeight)+"px"}});
 
 
 /* ================= Notifications bell + Messages ================= */
@@ -1705,12 +2018,14 @@ Object.assign(LIVE,{
   const notifs={me:[],co:[]};let nid=1;const push=(u,kind,data,ago,read)=>notifs[u].unshift({id:"n"+nid++,kind,data,read:!!read,at:iso(ago)});
   const jp=X.jp,c1=X.c1,c2=X.c2;
   push("me","league",{tier:1,up:true},70*H,true);
-  push("me","nod",{post_id:jp.id,skill:"SQL",giver:"Candidate #"+X.codeOf(X.posts.find(p=>p.kind==="proof"&&p.author!=="me").author),from_company:false,post_kind:"proof",snippet:jp.data.title},40*H,true);
+  push("me","nod",{post_id:jp.id,skill:"SQL",giver:"Priya Shah",from_company:false,post_kind:"proof",snippet:jp.data.title},40*H,true);
   push("me","nod",{post_id:jp.id,skill:"Product sense",giver:"A company",from_company:true,post_kind:"proof",snippet:jp.data.title},30*H);
   push("me","challenge",{challenge_id:c2.id,title:c2.title,company:c2.company},20*H);
   push("me","challenge",{challenge_id:c1.id,title:c1.title,company:c1.company},19*H);
-  ["SQL","Clear thinker","Product analytics"].forEach((s,i)=>push("me","nod",{post_id:jp.id,skill:s,giver:"Candidate #"+["4D1","9AA","B7E"][i],from_company:false,post_kind:"proof",snippet:jp.data.title},(5-i)*H));
+  ["SQL","Clear thinker","Product analytics"].forEach((s,i)=>push("me","nod",{post_id:jp.id,skill:s,giver:["Sam Lee","Diego Ruiz","Ava Patel"][i],from_company:false,post_kind:"proof",snippet:jp.data.title},(5-i)*H));
   push("me","invite",{company:"Fieldnote",job:"Associate Product Manager"},1.2*H);
+  {const pp=DEMO._people.filter(x=>x.user_id!=="me").slice(4,7);pp.forEach((x,k)=>push("me","orbit",{user_id:x.user_id,name:x.name,code:x.code,company:false},(2.5+k*.3)*H,k>0));
+   push("me","comment",{post_id:jp.id,post_kind:"proof",snippet:"The drop off chart at payment is such a good way to get buy in.",name:DEMO._people.filter(x=>x.user_id!=="me")[4].name,company:false},.6*H)}
   X.posts.filter(p=>p.challenge_id===c1.id).slice(0,5).forEach((p,i)=>push("co","answer",{challenge_id:c1.id,title:c1.title,code:X.codeOf(p.author)},(14-i*2)*H,i<2));
   push("co","nod",{},0,true);notifs.co.shift();
   const threads=[],msgs={};let tid=1;
@@ -1719,7 +2034,7 @@ Object.assign(LIVE,{
   if(peer){const t=mkT("me",peer.author,"peer",[[peer.author,"Hey! Saw your checkout redesign post. How did you get buy in for the one page checkout?",26*H],["me","Mostly by showing the drop off chart at payment. Once people saw 38% leaving there it was easy.",25*H],[peer.author,"Smart. Mind if I ask how you set up the funnel tracking? Trying to do the same at my internship.",2*H]]);t.reads.me=now-25*H}
   const u=()=>DEMO.demoRole==="company"?"co":"me";
   const labelOf=(viewer,other)=>{if(["co","co2","co3"].includes(other))return{label:{co:"Fieldnote",co2:"Kestrel Freight",co3:"Brightloop"}[other],code:"",company:true};
-    const p=DEMO._people.find(x=>x.user_id===other)||{};const rev=viewer==="co"&&DEMO._hired&&DEMO._hired(other);return{label:rev?p.name:"Candidate #"+(p.code||"?"),code:p.code||"",track:(p.profile&&p.profile.roles[0])||"product",company:false}};
+    const p=DEMO._people.find(x=>x.user_id===other)||{};const rev=viewer!=="co"||(DEMO._hired&&DEMO._hired(other));return{label:rev?p.name:"Candidate #"+(p.code||"?"),photo:rev?p.photo_url||"":"",code:p.code||"",track:(p.profile&&p.profile.roles[0])||"product",company:false}};
   const tview=t=>{const me=u(),other=t.a===me?t.b:t.a,list=msgs[t.id],last=list[list.length-1];
     return{id:t.id,kind:t.kind,other,who:labelOf(me,other),last_at:last?last.at:iso(0),last:last?{body:last.body,mine:last.from===me,at:last.at}:null,unread:list.filter(m=>m.from!==me&&new Date(m.at)>t.reads[me]).length,blocked:!!(t.blocks&&t.blocks[me]),blocked_me:!!(t.blocks&&t.blocks[other])}};
   const err=m=>{throw new Error(m)};
@@ -1763,7 +2078,7 @@ function streakNudge(){const T=S.today;if(S.role!=="seeker"||!T||!T.streak)retur
 /* ---------- grouping + text ---------- */
 const dayKey=d=>{const x=new Date(d);return x.getFullYear()+"-"+x.getMonth()+"-"+x.getDate()};
 function groupNotifs(items){const out=[];
-  items.forEach(n=>{const key=n.kind==="nod"?"nod|"+n.data.post_id:n.kind==="answer"?"answer|"+n.data.challenge_id:null;
+  items.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at))).forEach(n=>{const key=n.kind==="nod"?"nod|"+n.data.post_id:n.kind==="answer"?"answer|"+n.data.challenge_id:n.kind==="comment"?"comment|"+n.data.post_id:n.kind==="orbit"?"orbit":null;
     const g=key&&out.find(o=>o.key===key&&dayKey(o.at)===dayKey(n.at));
     if(g){g.list.push(n);g.ids.push(n.id);if(!n.read)g.read=false}else out.push({key,kind:n.kind,at:n.at,read:n.read,list:[n],ids:[n.id],data:n.data})});
   return out}
@@ -1781,6 +2096,9 @@ function notifView(g){const d=g.data,L=g.list;
   if(g.kind==="answer")return{ic:ICN.chat,cls:"",html:L.length===1?`<b>Candidate #${esc(d.code)}</b> answered your challenge`:`<b>${L.length} new answers</b> to your challenge`,sub:d.title};
   if(g.kind==="invite_accepted")return{ic:I.check,cls:"hot",html:`<b>${esc(d.name||"Candidate #"+d.code)}</b> accepted your invite for <b>${esc(d.job||"your role")}</b>`,sub:d.slot?"Interview "+d.slot:""};
   if(g.kind==="invite_declined")return{ic:I.x,cls:"",html:`<b>Candidate #${esc(d.code)}</b> passed on ${esc(d.job||"your role")}`,sub:"Your next best match moved into the top 10"};
+  if(g.kind==="orbit")return L.length===1?{ic:ORB,cls:"orbn",html:`<b>${whoName(d)}</b> is now in your orbit`,sub:"See their profile"}:{ic:ORB,cls:"orbn",html:`<b>${whoName(d)}</b> and ${L.length-1} ${L.length===2?"other":"others"} are now in your orbit`};
+  if(g.kind==="comment"){const what={drill:"drill answer",proof:"proof of work",challenge:"challenge answer",post:"post"}[d.post_kind]||"post";const ppl=[...new Set(L.map(n=>whoName(n.data)))];
+    return{ic:CMT,cls:"",html:ppl.length===1?`<b>${ppl[0]}</b> commented on your ${what}`:`<b>${ppl[0]}</b> and ${ppl.length-1} ${ppl.length===2?"other":"others"} commented on your ${what}`,sub:d.snippet}}
   return{ic:ICN.bell,cls:"",html:esc(g.kind)}}
 function bellPanel(){
   const groups=groupNotifs((S.inbox&&S.inbox.items)||[]),sn=streakNudge();
@@ -1789,7 +2107,7 @@ function bellPanel(){
     return `${head}<button class="bi ${g.read?"":"un"}" data-act="bgo" data-i="${i}"><span class="bic ${v.cls}">${v.ic}</span><span class="bt"><span>${v.html}</span>${v.sub?`<small>${esc(v.sub)}</small>`:""}<small class="ago">${(s=>s==="just now"?s:s+" ago")(agoS(g.at))}</small></span>${g.read?"":`<i class="ud"></i>`}</button>`}).join("");
   S._groups=groups;
   return `<div class="bellp" role="dialog" aria-label="Notifications"><div class="bph"><b>Notifications</b>${groups.some(g=>!g.read)?`<button class="ulink" data-act="ballread">Mark all read</button>`:""}</div>
-    <div class="bpl">${sn?`<button class="bi un streakn" data-act="bstreak"><span class="bic hot">${FLAME}</span><span class="bt"><span>Your <b>${sn.days} day streak</b> ends at midnight</span><small>Answer today's drill to keep it</small></span><i class="ud"></i></button>`:""}
+    <div class="bpl">${sn?`<button class="bi un streakn" data-act="bstreak"><span class="bic hot">${FLAME}</span><span class="bt"><span>Your <b>${sn.days} day streak</b> ends at midnight</span><small>Answer the drill, post or give a nod to keep it</small></span><i class="ud"></i></button>`:""}
     ${rows||(!sn?`<div class="bempty">${ICN.bell}<p>You're all caught up. Nods, invites and new challenges will show up here.</p></div>`:"")}</div></div>`;
 }
 async function openPostSheet(id){let p=findPost(id);if(!p){try{p=await API.postGet(id)}catch(_){}}if(!p){toast("That post isn't available anymore.");return}
@@ -1798,6 +2116,8 @@ async function openPostSheet(id){let p=findPost(id);if(!p){try{p=await API.postG
 async function goNotif(g){
   S.bell=false;renderTop();const d=g.data;
   if(g.kind==="nod"){await openPostSheet(d.post_id);return}
+  if(g.kind==="comment"){await openPostSheet(d.post_id);await toggleComments(d.post_id,true);return}
+  if(g.kind==="orbit"){if(d.user_id&&!d.company)await personSheet(d.user_id);return}
   if(g.kind==="invite"||g.kind==="league"){S.stab="today";render();window.scrollTo(0,0);return}
   if(g.kind==="stage"){S.stab="profile";render();window.scrollTo(0,0);return}
   if(g.kind==="challenge"||g.kind==="win"||g.kind==="answer"){if(S.role==="company"){S.ctab="challenges";render()}if(!(S.chals||[]).some(c=>c.id===d.challenge_id)){try{S.chals=await API.challenges()}catch(_){}}
@@ -1811,7 +2131,7 @@ async function refreshMsgs(quiet){try{if(S.msg.thread)S.msg.list=await API.messa
 async function selectThread(id){S.msg.thread=id;try{S.msg.list=await API.messages(id)}catch(err){toast(friendly(err))}S.msg.threads=await API.threads().catch(()=>S.msg.threads);renderMsgs(true);refreshInbox()}
 function threadRow(t){const w=t.who||{};
   return `<button class="tr2 ${S.msg.thread===t.id?"on":""}" data-act="mthread" data-id="${t.id}">${tAva(w,44)}<span class="tt"><span class="tn"><b>${esc(w.label)}</b><small>${t.last?agoS(t.last.at):""}</small></span><span class="tl ${t.unread?"un":""}">${t.last?(t.last.mine?"You: ":"")+esc(t.last.body):"No messages yet"}</span></span>${t.unread?`<i class="ud"></i>`:""}</button>`}
-function tAva(w,s){return w.company?`<span class="logo" style="width:${s}px;height:${s}px;border-radius:12px">${esc(ini(w.label||"C"))}</span>`:`<span class="ava" style="width:${s}px;height:${s}px;font-size:${Math.round(s/3.4)}px;background:${grad({code:w.code||"?",roles:[w.track||"product"]})}">${esc(w.code&&/^Candidate #/.test(w.label||"")?w.code:ini(w.label||"?"))}</span>`}
+function tAva(w,s){return w.company?`<span class="lw" style="width:${s}px;height:${s}px">${coLogo(w.label||"C")}</span>`:personAva({code:w.code,track:w.track,photo:w.photo,name:/^Candidate #/.test(w.label||"")?"":w.label},s)}
 function renderMsgs(scrollEnd){
   if(!S.msg.open)return;const ts=S.msg.threads||[],t=ts.find(x=>x.id===S.msg.thread);
   const keep=$("#msgIn")?$("#msgIn").value:"";
@@ -1819,7 +2139,7 @@ function renderMsgs(scrollEnd){
   let conv=`<div class="mconv empty"><div class="bempty">${ICN.chat}<p>Pick a conversation</p></div></div>`;
   if(t){const w=t.who||{},blocked=t.blocked||t.blocked_me;
     conv=`<div class="mconv"><div class="mch"><button class="xbtn mback" data-act="mback" aria-label="Back">${ICN.back}</button>${tAva(w,40)}<div class="mcn"><b>${esc(w.label)}</b><small>${w.company?"Company":t.kind==="hire"?"Candidate":"Job seeker · "+(TRACK[w.track]||"")}</small></div><button class="ulink" data-act="mblock" data-u="${t.other}" data-on="${t.blocked?0:1}">${t.blocked?"Unblock":"Block"}</button></div>
-      ${t.kind==="peer"?`<div class="mnote">You're both shown by codes here. Share personal details only if you want to.</div>`:""}
+      
       <div class="mbody" id="mbody">${S.msg.list.map((m,i)=>{const prev=S.msg.list[i-1];const sep=!prev||dayKey(prev.at)!==dayKey(m.at)?`<div class="msep">${new Date(m.at).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}</div>`:"";
         return `${sep}<div class="mb ${m.mine?"me":""}"><p>${esc(m.body)}</p><small>${new Date(m.at).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></div>`}).join("")||`<div class="bempty"><p>Say hi. Keep it friendly and specific.</p></div>`}</div>
       ${blocked?`<div class="mnote">${t.blocked?"You blocked this person. Unblock to message again.":"You can't reply to this conversation."}</div>`:`<div class="mcomp"><textarea id="msgIn" data-t="${t.id}" rows="1" maxlength="2000" placeholder="Write a message"></textarea><button class="btn dark" data-act="msend" aria-label="Send">${ICN.send}</button></div>`}</div>`}
