@@ -818,6 +818,28 @@ textarea.code,.ptx.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,m
 .mb3 i:nth-child(2){background:#F2643D;width:7px}.mb3 i:nth-child(3){background:#12A38A;width:13px}
 .navlinks .show-sm{display:none;text-decoration:none;font-weight:500}
 @media (max-width:640px){.navlinks .show-sm{display:inline-flex}}
+/* searchable chips */
+.chipbox{display:flex;flex-direction:column;gap:10px}
+.chips3{display:flex;flex-wrap:wrap;gap:8px}.chips3:empty{display:none}
+.ch3{display:inline-flex;align-items:center;gap:4px;padding:6px 6px 6px 13px;border-radius:999px;background:var(--ink);color:#fff;font-size:13.5px;font-weight:500}
+.ch3 button{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:inherit;opacity:.7}
+.ch3 button:hover{opacity:1;background:rgba(255,255,255,.16)}
+.ch3 button svg{width:12px;height:12px}
+@keyframes chIn{from{transform:scale(.85);opacity:0}}
+/* people search */
+.srbox{display:flex;align-items:center;gap:10px;padding:0 16px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg,#fff);transition:border-color .15s,box-shadow .15s}
+.srbox:focus-within{border-color:var(--ink);box-shadow:0 0 0 4px rgba(10,10,10,.06)}
+.srbox svg{width:20px;height:20px;color:var(--muted);flex:none}
+.srbox input{flex:1;border:0!important;outline:0;box-shadow:none!important;padding:14px 0!important;font-size:16px;background:transparent}
+.srres{display:flex;flex-direction:column;gap:4px;min-height:120px}
+.srrow{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px;text-align:left;width:100%;transition:background .15s}
+.srrow:hover,.srrow:focus-visible{background:var(--surface)}
+.srrow>svg{width:18px;height:18px;color:var(--muted);flex:none}
+.srt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.srt b{font-size:15px;font-weight:600}
+.srt span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.board li.clk{cursor:pointer;transition:background .15s}
+.board li.clk:hover{background:var(--surface)}
 </style>
 </head>
 <body>
@@ -880,13 +902,13 @@ function mkSlots(){const out=[],d=new Date();const times=["10:00 AM","2:00 PM"];
 /* ---------- profile shape + matching ---------- */
 function normC(r){const p=r.profile||{};return{id:r.seeker_id||r.user_id||r.id,code:r.code||"",name:r.name||"",photo:r.photo_url||"",sample:r.sample_url||"",
   hasSample:r.has_sample!=null?!!r.has_sample:!!r.sample_url,open:r.open!==false,headline:p.headline||"",about:p.about||"",yrs:+p.yrs||0,
-  roles:Array.isArray(p.roles)?p.roles:[],locs:Array.isArray(p.locs)?p.locs:[],remote:p.remote!==false,pay:+p.pay||0,sponsor:!!p.sponsor,
+  roles:Array.isArray(p.roles)?p.roles:[],titles:Array.isArray(p.titles)&&p.titles.length?p.titles:(Array.isArray(p.roles)?p.roles:[]).map(titleOfTrack),locs:Array.isArray(p.locs)?p.locs:[],remote:p.remote!==false,pay:+p.pay||0,sponsor:!!p.sponsor,
   skills:Array.isArray(p.skills)?p.skills:[],exp:Array.isArray(p.exp)?p.exp:[],
   edu:(Array.isArray(p.edu)?p.edu:[]).map((e,i)=>({...e,school:(Array.isArray(r.schools)&&r.schools[i])||""}))}}
-const profOf=c=>({headline:c.headline,about:c.about,yrs:c.yrs,roles:c.roles,locs:c.locs,remote:c.remote,pay:c.pay,sponsor:c.sponsor,skills:c.skills,exp:c.exp,edu:(c.edu||[]).map(e=>({degree:e.degree||"",field:e.field||"",year:e.year||""}))});
+const profOf=c=>({headline:c.headline,about:c.about,yrs:c.yrs,roles:c.roles,titles:c.titles||[],locs:c.locs,remote:c.remote,pay:c.pay,sponsor:c.sponsor,skills:c.skills,exp:c.exp,edu:(c.edu||[]).map(e=>({degree:e.degree||"",field:e.field||"",year:e.year||""}))});
 function evalC(c,j){
   const fails=[],remote=j.mode==="Remote";
-  if(remote?!c.remote:!(c.locs.includes(j.city)))fails.push(remote?"Not open to remote":"Not in "+j.city);
+  if(remote?!c.remote:!(c.locs.some(l=>sameCity(l,j.city))))fails.push(remote?"Not open to remote":"Not in "+j.city);
   if(c.pay&&c.pay>j.pay[1])fails.push("Pay above band");
   if(c.sponsor&&!j.sponsor)fails.push("Needs sponsorship");
   const mh=j.must.filter(s=>c.skills.includes(s)),nh=j.nice.filter(s=>c.skills.includes(s));
@@ -1234,7 +1256,7 @@ function newJob(){
      <div class="f full"><label for="nT">Role title</label><input id="nT" placeholder="Associate Product Manager" maxlength="80"></div>
      <div class="f"><label for="nTr">Team</label><select id="nTr">${Object.keys(TRACK).map(k=>`<option value="${k}">${TRACK[k]}</option>`).join("")}</select></div>
      <div class="f"><label for="nMode">Work mode</label><select id="nMode"><option>Hybrid</option><option>Onsite</option><option>Remote</option></select></div>
-     <div class="f full"><label for="nCity">City</label><select id="nCity">${CITIES.map(c=>`<option>${c}</option>`).join("")}</select></div>
+     <div class="f full"><label for="nCity">City</label><input id="nCity" list="placeList2" autocomplete="off" placeholder="Type a city" value="${esc(CITIES[0])}"><datalist id="placeList2">${PLACES.filter(x=>x!=="Remote").map(c=>`<option value="${esc(c)}">`).join("")}</datalist></div>
      <div class="f"><label for="nP0">Pay from ($k a year)</label><input id="nP0" type="number" min="10" value="80"></div>
      <div class="f"><label for="nP1">Pay to ($k a year)</label><input id="nP1" type="number" min="10" value="110"></div>
      <div class="f"><label for="nE0">Experience from (years)</label><input id="nE0" type="number" min="0" value="0"></div>
@@ -1283,7 +1305,7 @@ function renderSeeker(){
        <section class="sect"><div class="secth"><h2>About ${pv?"this candidate":esc(first)}</h2>${ed("basics")}</div><p class="about">${esc(c.about||"Add a few lines about what you're great at.")}</p></section>
        <section class="sect"><div class="secth"><h2>Nods</h2>${pv?"":`<button class="ulink" data-act="stab" data-t="today">Earn more</button>`}</div>${nodsBlock(S.badges[c.id]||{nods:0},!pv)}</section>
        <section class="sect"><div class="secth"><h2>Looking for</h2>${ed("prefs")}</div><div class="lfgrid">
-         <div class="fact">${I.brief}<div><b>${c.roles.map(x=>TRACK[x]).join(", ")||"Any"} roles</b><span>Teams you want to join</span></div></div>
+         <div class="fact">${I.brief}<div><b>${esc((c.titles&&c.titles.length?c.titles:c.roles.map(x=>TRACK[x]+" roles")).join(", ")||"Any roles")}</b><span>Teams you want to join</span></div></div>
          <div class="fact">${I.pin}<div><b>${esc(c.locs.join(", ")||"Anywhere")}</b><span>${c.remote?"Also open to remote":"In person or hybrid"}</span></div></div>
          <div class="fact">${I.money}<div><b>${c.pay?`$${c.pay}k a year`:"Not set"}</b><span>Minimum base pay</span></div></div>
          <div class="fact">${I.pass}<div><b>${c.sponsor?"Needs sponsorship":"No sponsorship needed"}</b><span>Work authorization</span></div></div></div></section>
@@ -1307,7 +1329,7 @@ function invHero(x){const j=x.job;
 }
 let D=null;
 function editSheet(k){
-  D=JSON.parse(JSON.stringify(S.me));S.xEdit=-1;S.uEdit=-1;
+  D=JSON.parse(JSON.stringify(S.me));if(!Array.isArray(D.titles)||!D.titles.length)D.titles=(D.roles||[]).map(titleOfTrack);S.xEdit=-1;S.uEdit=-1;
   const T={basics:"Edit profile",prefs:"What you're looking for",skills:"Your skills",exp:"Experience",edu:"Education",sample:"Proof of work"}[k];
   openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>${T}</h2><span style="width:36px"></span></div>
     <div class="shb" id="edBody">${edBody(k)}</div>
@@ -1320,8 +1342,8 @@ function edBody(k){
     <div class="f full"><label for="eH">Headline</label><input id="eH" data-d="headline" maxlength="90" value="${esc(D.headline)}" placeholder="Product analyst moving into PM"></div>
     <div class="f full"><label for="eA">About</label><textarea id="eA" data-d="about" maxlength="600" placeholder="What you do best, in two or three sentences">${esc(D.about||"")}</textarea><span class="hint">Leave your name out of this so matching stays blind.</span></div></div>
     ${photoBlock()}`;
-  if(k==="prefs")return `<div class="f"><span class="lbl">Roles</span><div class="tags">${Object.keys(TRACK).map(r=>`<button class="tagl pick ${D.roles.includes(r)?"on":""}" data-act="dtog" data-f="roles" data-v="${r}">${TRACK[r]}</button>`).join("")}</div><span class="hint">Your first pick sets your tile color.</span></div>
-    <div class="f"><span class="lbl">Cities</span><div class="tags">${CITIES.map(r=>`<button class="tagl pick ${D.locs.includes(r)?"on":""}" data-act="dtog" data-f="locs" data-v="${r}">${r}</button>`).join("")}</div></div>
+  if(k==="prefs")return `<div class="f"><span class="lbl">Roles you want</span>${chipBox("titles",D.titles,"roleList","Type a role, like Data Analyst")}<span class="hint" id="roleHint">${D.roles.length?`Matched to: ${D.roles.map(r=>TRACK[r]).join(", ")}. Your first role sets your field and tile color.`:"Pick at least one role."}</span></div>
+    <div class="f"><span class="lbl">Cities</span>${chipBox("locs",D.locs,"placeList","Type a city")}<span class="hint">Pick from the list or type any city and press Enter.</span></div>
     <div class="f"><label for="eP">Minimum pay ($k a year)</label><input id="eP" type="number" min="0" step="5" data-d="pay" value="${D.pay||""}" style="max-width:200px"></div>
     <label class="sw"><input type="checkbox" data-d="remote" ${D.remote?"checked":""}><span class="tr"></span>Open to remote roles</label>
     <label class="sw"><input type="checkbox" data-d="sponsor" ${D.sponsor?"checked":""}><span class="tr"></span>I need visa sponsorship</label>`;
@@ -1395,7 +1417,7 @@ document.addEventListener("click",async e=>{
   if(a==="skadd"){const v=el.dataset.v.slice(0,40);if(!D.skills.includes(v))D.skills.push(v);$("#eS").value="";$("#skGrid").innerHTML=skGrid("");$("#skN").textContent=D.skills.length+" selected. Your first skill shows on your tile.";return}
   if(a==="xdel"){D.exp.splice(+el.dataset.i,1);$("#edBody").innerHTML=edBody("exp");return}
   if(a==="xadd"){const t=$("#xT").value.trim(),co=$("#xC").value.trim(),y=Math.max(1,+$("#xY").value||1);if(!t||!co){toast("Add a title and company.");return}D.exp.unshift({t,co,y});$("#edBody").innerHTML=edBody("exp");return}
-  if(a==="dsave"){if(!commitPending())return;
+  if(a==="dsave"){if(!commitPending())return;["titles","locs"].forEach(f=>{const i=$("#in_"+f);if(i&&i.value.trim()){addChip(f,i.value);i.value=""}});if(D.titles)syncRoles();
     D.yrs=Math.max(0,Math.min(45,+D.yrs||0));D.pay=Math.max(0,+D.pay||0);
     el.disabled=true;try{await act(()=>API.saveSeeker(D));S.me=D;closeSheet();renderS();renderTop();toast("Saved. Companies see your updated profile.");loadSocial().then(renderS).catch(()=>{})}catch(_){el.disabled=false}return}
   if(a==="cslot"){const x=S.myInv.find(i=>i.id===el.dataset.id);x.pick=+el.dataset.i;renderS();return}
@@ -1537,7 +1559,7 @@ Object.assign(LIVE,{
     async today(d,track){const u=uid(),t=u==="me"?(me.profile.roles[0]||"product"):(track||"product");const dr=drillFor(t,d);const ans=posts.find(p=>p.author===u&&p.kind==="drill"&&p.day===d);
       const out={day:d,track:t,role:DEMO.demoRole,drill:{id:dr.id,prompt:dr.prompt,track:t,options:dr.options,...(ans?{answer:dr.answer,explain:dr.explain,source:dr.source,stats:(()=>{const s=fakeStats(dr,d);if(ans){s.total++;s.by[ans.data.choice]++;if(ans.data.correct)s.correct++}return s})()}:{})},answer:ans?pj(ans,u):null,nods:{allowance:allowance(u,d),used:nods.filter(n=>n.giver===u&&n.day===d).length}};
       if(u==="me"){const s=streak("me",d);out.streak={...s,last7:[...act].filter(k=>k.startsWith("me|")).map(k=>k.split("|")[1]).filter(x=>dayDiff(d,x)<7&&dayDiff(d,x)>=0).sort()};
-        const grp=P.filter(p=>(p.profile.roles[0]||"product")===t&&(p.user_id==="me"||(hash(p.code)%3)===1)).slice(0,24).map(p=>({code:p.code,name:p.name,photo:p.photo_url||"",points:pointsOf(p.user_id),me:p.user_id==="me"})).sort((a,b)=>b.points-a.points||a.code.localeCompare(b.code));
+        const grp=P.filter(p=>(p.profile.roles[0]||"product")===t&&(p.user_id==="me"||(hash(p.code)%3)===1)).slice(0,24).map(p=>({user_id:p.user_id,code:p.code,name:p.name,photo:p.photo_url||"",points:pointsOf(p.user_id),me:p.user_id==="me"})).sort((a,b)=>b.points-a.points||a.code.localeCompare(b.code));
         grp.forEach((g,i)=>g.rank=i+1);const mine=grp.find(g=>g.me);out.league={tier:tiers.me,board:grp.filter(g=>g.rank<=10||g.me),me:{rank:mine.rank,points:mine.points,size:grp.length}}}
       return JSON.parse(JSON.stringify(out))},
     async answerDrill(d,text){if(text.trim().length<10)err("Write a little more. At least a sentence.");if(posts.some(p=>p.author==="me"&&p.kind==="drill"&&p.day===d))err("You already answered today's drill");
@@ -1652,7 +1674,7 @@ function nodsCard(){const n=S.today.nods,left=Math.max(0,n.allowance-n.used);
     <p class="hint">Nod great answers for a specific skill. Every 7 day streak adds 2 more a day, and Gold and Diamond leagues get extra.</p></section>`}
 function leagueCard(){const L=S.today.league;if(!L||!L.me)return"";const[n,c]=TIERS[L.tier||0];
   return `<section class="scard league" style="--tc:${c}"><div class="lhd"><span class="shield">${svg('<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/>')}</span><div><b>${n} league</b><span>#${L.me.rank} of ${L.me.size} · ${L.me.points} points this week</span></div></div>
-    <ol class="board">${L.board.map(r=>`<li class="${r.me?"me":""} ${r.rank<=Math.max(1,Math.ceil(L.me.size*.2))?"up":""}"><span class="rk">${r.rank}</span><span class="bc">${personAva({code:r.code,name:r.me?(S.me&&S.me.name):r.name,photo:r.me?(S.me&&S.me.photo):r.photo,track:(S.today&&S.today.track)},24)}<span>${r.me?"You":r.name?esc(r.name):"#"+esc(r.code)}</span></span><span class="pt">${r.points}</span></li>`).join("")}</ol>
+    <ol class="board">${L.board.map(r=>`<li class="${r.me?"me":""} ${r.rank<=Math.max(1,Math.ceil(L.me.size*.2))?"up":""} ${!r.me&&r.user_id?"clk":""}" ${!r.me&&r.user_id?`data-act="person" data-u="${r.user_id}" tabindex="0" role="button"`:""}><span class="rk">${r.rank}</span><span class="bc">${personAva({code:r.code,name:r.me?(S.me&&S.me.name):r.name,photo:r.me?(S.me&&S.me.photo):r.photo,track:(S.today&&S.today.track)},24)}<span>${r.me?"You":r.name?esc(r.name):"#"+esc(r.code)}</span></span><span class="pt">${r.points}</span></li>`).join("")}</ol>
     <p class="hint">Top 20% move up on Monday. Drills, proof posts, challenge answers and nods you receive all earn points.</p></section>`}
 function chCard(c){
   return `<button class="chc ${c.open?"":"closed"}" data-act="chopen" data-id="${c.id}"><div class="chtop">${coLogo(c.company)}<div><b>${esc(c.company)}</b><span>${TRACK[c.track]||""}</span></div><span class="cd ${c.open?"":"off"}">${BOLT}${leftTxt(c.ends_at)}</span></div>
@@ -2035,6 +2057,57 @@ document.addEventListener("keydown",e=>{const t=e.target;if(t&&t.dataset&&t.data
 document.addEventListener("input",e=>{const t=e.target;if(t&&t.dataset&&t.dataset.cmin){t.style.height="auto";t.style.height=Math.min(140,t.scrollHeight)+"px"}});
 
 
+/* ================= Searchable roles and cities, people search ================= */
+const ROLE_TITLES={
+  product:["Product Manager","Associate Product Manager","Senior Product Manager","Technical Product Manager","Product Owner","Product Analyst","Product Designer","UX Designer","UI Designer","UX Researcher","Product Operations"],
+  engineering:["Software Engineer","Frontend Engineer","Backend Engineer","Full Stack Engineer","Mobile Engineer","iOS Engineer","Android Engineer","DevOps Engineer","Site Reliability Engineer","Machine Learning Engineer","AI Engineer","Data Engineer","Cloud Engineer","Security Engineer","QA Engineer","Solutions Engineer","Embedded Engineer"],
+  growth:["Growth Manager","Growth Marketer","Marketing Manager","Product Marketing Manager","Content Marketer","SEO Specialist","Performance Marketer","Social Media Manager","Brand Manager","Lifecycle Marketing Manager","Community Manager","Copywriter","Sales Development Representative","Account Executive","Business Development Manager","Partnerships Manager"],
+  ops:["Business Operations","Business Analyst","Strategy Associate","Operations Manager","Revenue Operations","Sales Operations","Management Consultant","Program Manager","Project Manager","Chief of Staff","Financial Analyst","Investment Banking Analyst","Supply Chain Analyst","Customer Success Manager","People Operations","Recruiter","Account Manager"],
+  data:["Data Analyst","Data Scientist","Business Intelligence Analyst","Analytics Engineer","Quantitative Analyst","Research Analyst","Marketing Analyst","Product Data Scientist","Statistician","Decision Scientist"]
+};
+const TITLE_TRACK={};Object.entries(ROLE_TITLES).forEach(([t,a])=>a.forEach(x=>TITLE_TRACK[x.toLowerCase()]=t));
+function trackOfTitle(t){const k=String(t||"").toLowerCase().trim();if(TITLE_TRACK[k])return TITLE_TRACK[k];if(TRACK[k])return k;
+  if(/engineer|developer|devops|sre|programmer|architect/.test(k))return"engineering";
+  if(/data|analytics|scientist|quant|statistic|bi\b/.test(k))return"data";
+  if(/market|growth|seo|content|brand|social|sales|account exec|business development|partnership|community|copy/.test(k))return"growth";
+  if(/product|ux|ui|design/.test(k))return"product";return"ops"}
+const titleOfTrack=t=>({product:"Product Manager",engineering:"Software Engineer",growth:"Growth Marketer",ops:"Business Operations",data:"Data Analyst"}[t]||TRACK[t]||t);
+const PLACES=["Remote","New York","Los Angeles","Chicago","Houston","Phoenix","Philadelphia","San Antonio","San Diego","Dallas","Austin","San Jose","Fort Worth","Jacksonville","Columbus","Charlotte","Indianapolis","San Francisco","Seattle","Denver","Washington DC","Boston","Nashville","El Paso","Detroit","Oklahoma City","Portland","Las Vegas","Memphis","Louisville","Baltimore","Milwaukee","Albuquerque","Tucson","Fresno","Sacramento","Kansas City","Mesa","Atlanta","Omaha","Colorado Springs","Raleigh","Long Beach","Virginia Beach","Miami","Oakland","Minneapolis","Tulsa","Tampa","Arlington","New Orleans","Wichita","Cleveland","Bakersfield","Aurora","Anaheim","Honolulu","Santa Ana","Riverside","Corpus Christi","Lexington","Henderson","Stockton","Saint Paul","Cincinnati","St. Louis","Pittsburgh","Greensboro","Lincoln","Anchorage","Plano","Orlando","Irvine","Newark","Durham","Chula Vista","Toledo","Fort Wayne","St. Petersburg","Laredo","Jersey City","Chandler","Madison","Lubbock","Scottsdale","Reno","Buffalo","Gilbert","Glendale","North Las Vegas","Winston Salem","Chesapeake","Norfolk","Fremont","Garland","Irving","Hialeah","Richmond","Boise","Spokane","Baton Rouge","Des Moines","Salt Lake City","Provo","Palo Alto","Mountain View","Sunnyvale","Menlo Park","Redmond","Bellevue","Cambridge","Ann Arbor","Boulder","Princeton","Stamford","Hoboken","Brooklyn","Columbus OH","Charleston","Savannah","Birmingham","Little Rock","Hartford","Providence","Burlington","Portland ME","Toronto","Vancouver","Montreal","London","Dublin","Berlin","Amsterdam","Paris","Zurich","Singapore","Dubai","Sydney","Melbourne","Bangalore","Mumbai","Delhi","Gurgaon","Hyderabad","Pune","Chennai","Tokyo","Hong Kong","Mexico City","Sao Paulo","Tel Aviv"];
+const sameCity=(a,b)=>String(a||"").toLowerCase().replace(/[^a-z]/g,"")===String(b||"").toLowerCase().replace(/[^a-z]/g,"");
+
+/* the editor pieces: chips you can remove, plus a box with suggestions you can type into */
+function chipBox(field,items,listId,ph){return `<div class="chipbox"><div class="chips3">${items.map((v,i)=>`<span class="ch3">${esc(v)}<button type="button" data-act="chrm" data-f="${field}" data-i="${i}" aria-label="Remove ${esc(v)}">${I.x}</button></span>`).join("")}</div>
+  <input id="in_${field}" list="${listId}" autocomplete="off" placeholder="${ph}" data-chip="${field}"><datalist id="${listId}">${(field==="titles"?Object.values(ROLE_TITLES).flat():PLACES).map(x=>`<option value="${esc(x)}">`).join("")}</datalist></div>`}
+function syncRoles(){D.titles=D.titles||[];const tr=[];D.titles.forEach(t=>{const k=trackOfTitle(t);if(!tr.includes(k))tr.push(k)});D.roles=tr}
+function addChip(field,v){v=String(v||"").trim().replace(/\s+/g," ");if(!v)return;const arr=field==="titles"?(D.titles=D.titles||[]):D.locs;
+  if(arr.some(x=>x.toLowerCase()===v.toLowerCase()))return;if(arr.length>=8){toast("That's plenty. Remove one to add another.");return}
+  const canon=(field==="titles"?Object.values(ROLE_TITLES).flat():PLACES).find(x=>x.toLowerCase()===v.toLowerCase());arr.push(canon||v);if(field==="titles")syncRoles();redrawChips(field)}
+function redrawChips(field){const box=$(`#in_${field}`);if(!box)return;const w=box.closest(".chipbox");const items=field==="titles"?D.titles:D.locs;
+  w.querySelector(".chips3").innerHTML=items.map((v,i)=>`<span class="ch3">${esc(v)}<button type="button" data-act="chrm" data-f="${field}" data-i="${i}" aria-label="Remove ${esc(v)}">${I.x}</button></span>`).join("");
+  const h=$("#roleHint");if(h&&field==="titles")h.textContent=D.roles.length?`Matched to: ${D.roles.map(r=>TRACK[r]).join(", ")}. Your first role sets your field and tile color.`:"Pick at least one role.";}
+document.addEventListener("keydown",e=>{const t=e.target;if(!t||!t.dataset||!t.dataset.chip)return;if(e.key==="Enter"||e.key===","){e.preventDefault();addChip(t.dataset.chip,t.value);t.value=""}
+  if(e.key==="Backspace"&&!t.value){const f=t.dataset.chip,arr=f==="titles"?D.titles:D.locs;if(arr&&arr.length){arr.pop();if(f==="titles")syncRoles();redrawChips(f)}}},true);
+document.addEventListener("input",e=>{const t=e.target;if(!t||!t.dataset||!t.dataset.chip)return;const all=t.dataset.chip==="titles"?Object.values(ROLE_TITLES).flat():PLACES;
+  if(e.inputType==="insertReplacementText"||(!e.inputType&&all.some(x=>x===t.value))){addChip(t.dataset.chip,t.value);t.value=""}});
+document.addEventListener("change",e=>{const t=e.target;if(t&&t.dataset&&t.dataset.chip&&t.value.trim()){addChip(t.dataset.chip,t.value);t.value=""}});
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act=chrm]");if(!el)return;e.stopPropagation();const f=el.dataset.f,arr=f==="titles"?D.titles:D.locs;arr.splice(+el.dataset.i,1);if(f==="titles")syncRoles();redrawChips(f)},true);
+
+/* ---------- people search ---------- */
+Object.assign(LIVE,{async searchPeople(q){return need(await sb.rpc("jx_search_people",{p_q:q}))}});
+Object.assign(DEMO,{async searchPeople(q){q=q.toLowerCase().trim();if(q.length<2)return[];const me=DEMO.demoRole==="company"?"co":"me",co=me==="co";
+  return DEMO._people.filter(p=>p.user_id!==me).filter(p=>{const pr=p.profile||{};return(!co&&(p.name||"").toLowerCase().includes(q))||(p.code||"").toLowerCase()===q.replace(/^#/,"")||(pr.headline||"").toLowerCase().includes(q)||(pr.skills||[]).some(s=>s.toLowerCase().includes(q))||(pr.titles||[]).some(s=>s.toLowerCase().includes(q))})
+    .slice(0,20).map(p=>({user_id:p.user_id,company:false,code:p.code,track:(p.profile.roles||[])[0]||"product",name:co?"":p.name,photo:co?"":p.photo_url||"",headline:p.profile.headline||""}))}});
+let srT=null;
+function openSearch(){openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Find people</h2><span style="width:36px"></span></div>
+  <div class="shb" style="gap:16px"><div class="srbox">${svg('<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/>')}<input id="srIn" placeholder="${S.role==="company"?"Search by skill, role or candidate code":"Search by name, skill or role"}" autocomplete="off"></div>
+  <div id="srRes" class="srres"><p class="hint">${S.role==="company"?"Job seekers show as codes until they accept your invite.":"Try a name, a skill like SQL, or a role like Data Analyst."}</p></div></div>`,true);setTimeout(()=>{const i=$("#srIn");i&&i.focus()},50)}
+async function runSearch(q){const box=$("#srRes");if(!box)return;if(q.trim().length<2){box.innerHTML=`<p class="hint">Type at least 2 letters.</p>`;return}
+  let r=[];try{r=await API.searchPeople(q.trim())}catch(err){box.innerHTML=`<p class="hint">${esc(friendly(err))}</p>`;return}if(!$("#srIn")||$("#srIn").value!==q)return;
+  box.innerHTML=r.map(p=>`<button class="srrow" data-act="person" data-u="${p.user_id}">${personAva(p,44)}<span class="srt"><b>${whoName(p)}</b><span>${esc(p.headline||TRACK[p.track]||"")}</span></span>${svg('<path d="M9 6l6 6-6 6"/>')}</button>`).join("")||`<p class="hint">No one matches "${esc(q)}" yet.</p>`}
+document.addEventListener("input",e=>{if(e.target.id==="srIn"){clearTimeout(srT);const v=e.target.value;srT=setTimeout(()=>runSearch(v),220)}});
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act=psearch]");if(el){e.stopPropagation();S.bell=false;openSearch()}},true);
+
+
 /* ================= Notifications bell + Messages ================= */
 const ICN={
   bell:svg('<path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15L6 16z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>'),
@@ -2113,7 +2186,7 @@ setInterval(()=>{if(document.visibilityState==="visible"&&S.role&&!S.bell)refres
 /* ---------- header icons ---------- */
 function headIcons(){
   const n=S.inbox||{},streak=streakNudge(),badge=(n.unread||0)+(streak&&!S.streakSeen?1:0);
-  return `<div class="hicons"><div class="bellw"><button class="hib ${S.bell?"on":""}" data-act="bell" aria-label="Notifications${badge?`, ${badge} new`:""}" aria-expanded="${S.bell}">${ICN.bell}${badge?`<span class="dotn">${badge>9?"9+":badge}</span>`:""}</button>${S.bell?bellPanel():""}</div>
+  return `<div class="hicons"><button class="hib" data-act="psearch" aria-label="Find people">${svg('<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/>')}</button><div class="bellw"><button class="hib ${S.bell?"on":""}" data-act="bell" aria-label="Notifications${badge?`, ${badge} new`:""}" aria-expanded="${S.bell}">${ICN.bell}${badge?`<span class="dotn">${badge>9?"9+":badge}</span>`:""}</button>${S.bell?bellPanel():""}</div>
     <button class="hib" data-act="msgs" aria-label="Messages${n.messages?`, ${n.messages} unread`:""}">${ICN.chat}${n.messages?`<span class="dotn">${n.messages>9?"9+":n.messages}</span>`:""}</button></div>`;
 }
 function streakNudge(){const T=S.today;if(S.role!=="seeker"||!T||!T.streak)return null;const st=T.streak,h=new Date().getHours();
