@@ -158,8 +158,8 @@ function demo(n){
   const sum=k=>series.reduce((x,r)=>x+r[k],0),pv=(v,f)=>({cur:v,prev:Math.round(v*f)});
   const inv=sum("invites");
   return{days:n,from:series[0].d,generated_at:new Date().toISOString(),
-    totals:{seekers:1284,companies:96,open:1102,jobs_open:41,posts:5310,nods:14820,challenges:38,invites:612,hires:23,threads:740,messages:6930,blocks:6},
-    period:{seekers:pv(sum("seekers"),.71),companies:pv(sum("companies"),.8),active:pv(Math.round(sum("active")/n*2.3),.82),drills:pv(sum("drills"),.77),posts:pv(sum("posts"),.9),nods:pv(sum("nods"),.74),company_nods:pv(Math.round(sum("nods")*.08),.6),challenges:pv(Math.max(1,Math.round(n/4)),1),answers:pv(Math.round(n*5.2),.8),jobs:pv(Math.round(n*.6),.9),invites:pv(inv,.85),hires:pv(Math.max(1,Math.round(n/9)),1.4),messages:pv(sum("messages"),.7)},
+    totals:{seekers:1284,companies:96,open:1102,jobs_open:41,posts:5310,nods:14820,challenges:38,invites:612,hires:23,threads:740,messages:6930,blocks:6,orbits:8420,comments:11950,crossings:52100},
+    period:{seekers:pv(sum("seekers"),.71),companies:pv(sum("companies"),.8),active:pv(Math.round(sum("active")/n*2.3),.82),drills:pv(sum("drills"),.77),posts:pv(sum("posts"),.9),nods:pv(sum("nods"),.74),company_nods:pv(Math.round(sum("nods")*.08),.6),challenges:pv(Math.max(1,Math.round(n/4)),1),answers:pv(Math.round(n*5.2),.8),jobs:pv(Math.round(n*.6),.9),invites:pv(inv,.85),hires:pv(Math.max(1,Math.round(n/9)),1.4),messages:pv(sum("messages"),.7),comments:pv(Math.round(sum("posts")*2.3),.6),orbits:pv(Math.round(sum("seekers")*3.1),.7),crossings:pv(Math.round(sum("active")*4.2),.8)},
     engagement:{dau:series[n-1].active,wau:Math.round(series[n-1].active*2.6),mau:Math.round(series[n-1].active*5.1),streak7:Math.round(series[n-1].active*.31),posters:Math.round(sum("active")/n*1.4),nodded:Math.round(sum("active")/n*1.1),profiles_ready:986},
     funnel:{sent:inv,answered:Math.round(inv*.81),accepted:Math.round(inv*.58),interviewing:Math.round(inv*.34),offer:Math.round(inv*.09),hired:Math.round(inv*.06),declined:Math.round(inv*.23)},
     series,
@@ -254,7 +254,10 @@ function render(){
        <div class="tiers">${["Bronze","Silver","Gold","Diamond"].map((t,i)=>`<div class="tier"><b>${fmt((D.leagues||[])[i])}</b><span><i style="--c:${["#B87333","#A7AFBA","#E2B13C","#7FD3F5"][i]}"></i>${t}</span></div>`).join("")}</div>
        <div class="mini" style="margin-top:14px"><div><b>${fmt((P.challenges||{}).cur)}</b><span>Challenges posted</span></div><div><b>${fmt((P.answers||{}).cur)}</b><span>Challenge answers</span></div></div></section>
    </div>
-   <div class="grid2">
+   <div class="grid3">
+     <section class="card"><div class="ch"><div><h2>Community</h2><p>Comments, orbits and profile views</p></div></div>
+       <div class="mini"><div><b>${fmt((P.comments||{}).cur)}</b><span>Comments in this range ${delta(P.comments)}</span></div><div><b>${fmt((P.orbits||{}).cur)}</b><span>New orbits ${delta(P.orbits)}</span></div>
+       <div><b>${fmt((P.crossings||{}).cur)}</b><span>Crossings (profile views) ${delta(P.crossings)}</span></div><div><b>${fmt(T.orbits)}</b><span>Orbits, all time</span></div></div></section>
      <section class="card"><div class="ch"><div><h2>Messages</h2><p>Conversations and safety</p></div></div>
        <div class="mini"><div><b>${fmt((P.messages||{}).cur)}</b><span>Messages in this range ${delta(P.messages)}</span></div><div><b>${fmt(T.threads)}</b><span>Conversations, all time</span></div>
        <div><b>${fmt(T.messages)}</b><span>Messages, all time</span></div><div><b>${fmt(T.blocks)}</b><span>Blocks</span></div></div></section>
