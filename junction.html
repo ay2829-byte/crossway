@@ -807,6 +807,17 @@ textarea.code,.ptx.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,m
 .dmc{display:inline-flex;align-items:center;gap:4px;font-weight:600;font-size:13.5px;white-space:nowrap}
 .dmc svg{width:16px;height:16px}
 @media (max-width:520px){.dmc{display:none}}
+/* product switcher */
+.prod{display:inline-flex;align-items:center;gap:2px;padding:4px;border:1px solid var(--line);border-radius:99px;background:var(--bg)}
+.prod a,.prod span{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;font-size:14px;font-weight:500;text-decoration:none;line-height:1.2}
+.prod a{color:var(--muted)}
+.prod a:hover{color:var(--ink);background:var(--surface)}
+.prod>span{background:var(--surface);color:var(--ink);font-weight:600}
+.prod .mb3{display:inline-flex;flex-direction:column;gap:2px;padding:0;background:none;border-radius:0}
+.mb3 i{display:block;height:2.5px;border-radius:9px;background:#3B5BDB;width:11px}
+.mb3 i:nth-child(2){background:#F2643D;width:7px}.mb3 i:nth-child(3){background:#12A38A;width:13px}
+.navlinks .show-sm{display:none;text-decoration:none;font-weight:500}
+@media (max-width:640px){.navlinks .show-sm{display:inline-flex}}
 </style>
 </head>
 <body>
@@ -1000,15 +1011,15 @@ function renderTop(){
     const photo=S.role==="seeker"?(S.me&&S.me.photo):(S.co&&S.co.logo_url);
     right=`${headIcons()}<div class="acct"><button class="acctbtn" data-act="menu" aria-haspopup="true" aria-expanded="${S.menu}"><span class="nm">${esc(nm)}</span><span class="ava" style="background:var(--surface)">${photo?`<img src="${esc(photo)}" alt="">`:esc(ini(nm))}</span></button>
       ${S.menu?`<div class="menu" role="menu"><div class="mhd"><b>${S.role==="company"?"Company account":"Job seeker account"}</b><span>${esc(S.user.email||"")}</span></div>
-        ${S.isAdmin?`<a class="mi" href="stats">Junction stats</a>`:""}<a class="mi" href="./">Open Crossway</a>${S.role==="company"?`<button class="mi" data-act="coname">Company details</button>`:`<button class="mi" data-act="edit" data-s="basics">Edit profile</button>`}<button class="mi" data-act="signout">Sign out</button></div>`:""}</div>`;
+        ${S.isAdmin?`<a class="mi" href="stats">Junction stats</a>`:""}<a class="mi" href="./">Go to Crossway</a>${S.role==="company"?`<button class="mi" data-act="coname">Company details</button>`:`<button class="mi" data-act="edit" data-s="basics">Edit profile</button>`}<button class="mi" data-act="signout">Sign out</button></div>`:""}</div>`;
   }else if(S.user){
     right=`<div class="navlinks"><button data-act="signout">Sign out</button></div>`;
   }else{
-    right=`<div class="navlinks"><button class="hide-sm" data-act="auth" data-r="company" data-v="signin">Company sign in</button><button data-act="auth" data-r="seeker" data-v="signin">Job seeker sign in</button></div>`;
+    right=`<div class="navlinks"><a class="show-sm" href="./">Crossway</a><button class="hide-sm" data-act="auth" data-r="company" data-v="signin">Company sign in</button><button data-act="auth" data-r="seeker" data-v="signin">Job seeker sign in</button></div>`;
   }
   $("#top").innerHTML=`${PREVIEW?`<div class="demo">Preview with sample data.${S.role?` Viewing as ${S.role==="company"?"a company":"a job seeker"}.<button data-act="demoswap">Switch to ${S.role==="company"?"job seeker":"company"}</button><button data-act="signout">Sign out</button>`:""}</div>`:""}
    <div class="topin"><a class="brand" href="junction">${BARS}junction<span class="by">by Crossway</span></a>
-   ${S.user?`<nav class="prod" aria-label="Products"><a href="./">Crossway</a><span>Junction</span></nav>`:""}
+   <nav class="prod" aria-label="Switch product"><a href="./" title="Go to Crossway"><span class="mb3"><i></i><i></i><i></i></span>Crossway</a><span>Junction</span></nav>
    <div class="sp"></div>${S.role==="seeker"?`<div class="tabs2" role="tablist"><button class="${S.stab==="today"||!S.stab?"on":""}" data-act="stab" data-t="today">Today</button><button class="${S.stab==="community"?"on":""}" data-act="stab" data-t="community">Community</button><button class="${S.stab==="profile"?"on":""}" data-act="stab" data-t="profile">Profile</button></div>`:S.role==="company"?`<div class="tabs2" role="tablist"><button class="${S.ctab!=="challenges"?"on":""}" data-act="ctab" data-t="roles">Roles</button><button class="${S.ctab==="challenges"?"on":""}" data-act="ctab" data-t="challenges">Challenges</button></div>`:""}<div class="sp"></div>${right}</div>`;
 }
 
