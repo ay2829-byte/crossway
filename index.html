@@ -969,7 +969,7 @@ function drawPop(){const {kind,id}=popState,p=$("pop");if(drawPopExtra(kind,id,p
 }
 
 /* drawer */
-let delConfirm=false,tmr={};
+let delConfirm=false,tmr={},updDraft={};
 function renderDrawer(){const x=S.tasks.find(t=>t.id===S.openId);if(!x){closeDrawer();return}
   const d=$("drawer"),active=document.activeElement&&d.contains(document.activeElement)?document.activeElement.id:null;
   if(active==="f-title"||active==="f-notes"||active==="f-upd")return;
@@ -991,7 +991,7 @@ function renderDrawer(){const x=S.tasks.find(t=>t.id===S.openId);if(!x){closeDra
     <form class="inrow" id="clAdd"><input id="f-cl" placeholder="Add a step and press Enter" maxlength="160" aria-label="Add checklist step"></form></div>
   <div class="sect"><h6>Notes</h6><textarea id="f-notes" placeholder="Links, context, next steps…">${esc(x.notes||"")}</textarea></div>
   <div class="sect"><h6>Updates ${ups.length?`<span class="num">${ups.length}</span>`:""}</h6>
-    <div class="updbox"><textarea id="f-upd" placeholder="Write an update for this task…" maxlength="1000"></textarea><div class="row"><button class="btn pri" id="postUpd">Post update</button></div></div>
+    <div class="updbox"><textarea id="f-upd" placeholder="Write an update for this task…" maxlength="1000">${esc(updDraft[x.id]||"")}</textarea><div class="row"><button class="btn pri" id="postUpd">Post update</button></div></div>
     ${ups.map(u=>`<div class="upd">${avatar(u.by)}<div class="body"><div class="who">${esc(u.by)}<time>${ago(u.at)}</time></div><p>${esc(u.t)}</p></div></div>`).join("")}</div>
   <div class="confirm">${delConfirm?`<span>Delete this task?</span><button class="btn danger" id="dDelYes">Delete</button><button class="btn ghost" id="dDelNo">Keep</button>`:`<button class="btn ghost danger" id="dDel">Delete task</button><span class="sp" style="flex:1"></span><span class="kbdhint">Created ${new Date(x.created||Date.now()).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}</span>`}</div>`;
   if(active&&$(active))$(active).focus();
@@ -1017,7 +1017,7 @@ async function deleteTasks(ids){const gone=S.tasks.filter(t=>ids.includes(t.id))
 function saveGroups(pid,gs){return safe(patch("projects",pid,{groups:gs}))}
 function toast(m,undo){const e=$("toast");e.innerHTML=`<span>${esc(m)}</span>${undo?`<button id="undoBtn">Undo</button>`:""}`;e.hidden=false;toast.undo=undo||null;clearTimeout(toast.t);toast.t=setTimeout(()=>{e.hidden=true;toast.undo=null},undo?6000:2600)}
 
-document.addEventListener("mousedown",e=>{if(!$("pop").hidden&&!e.target.closest("#pop")&&!e.target.closest("[data-pop]"))closePop()});
+document.addEventListener("mousedown",e=>{if(e.target.closest&&e.target.closest("#postUpd"))e.preventDefault();if(!$("pop").hidden&&!e.target.closest("#pop")&&!e.target.closest("[data-pop]"))closePop()});
 window.addEventListener("scroll",e=>{if(!$("pop").hidden&&!(e.target.closest&&e.target.closest("#pop"))&&!(popState&&Date.now()-popState.t<500))closePop()},true);
 window.addEventListener("resize",closePop);
 
@@ -1062,7 +1062,8 @@ document.addEventListener("click",async e=>{
   if(T.closest("#menuBtn")){$("side").classList.toggle("collapsed");return}
   const x=S.openId&&S.tasks.find(t=>t.id===S.openId);
   if(x){const cx=T.closest("[data-cx]");if(cx){e.preventDefault();setTask(x.id,{checklist:(x.checklist||[]).filter((_,i)=>i!==+cx.dataset.cx)});return}
-    if(T.id==="postUpd"){const v=$("f-upd").value.trim();if(!v)return;$("f-upd").value="";$("f-upd").blur();setTask(x.id,{updates:[...(x.updates||[]),{by:(user?displayName(user):"Me"),at:Date.now(),t:v}]});return}
+    if(T.closest("#postUpd")){const f=$("f-upd"),v=(f?f.value:updDraft[x.id]||"").trim();if(!v){toast("Write your update first");f&&f.focus();return}const prev=x.updates||[];updDraft[x.id]="";if(f){f.value="";f.blur()}
+      setTask(x.id,{updates:[...prev,{by:(user?displayName(user):"Me"),at:Date.now(),t:v}]});return}
     if(T.id==="dDel"){delConfirm=true;renderDrawer();return}
     if(T.id==="dDelNo"){delConfirm=false;renderDrawer();return}
     if(T.id==="dDelYes"){const id=x.id;$("drawer").innerHTML="";closeDrawer();deleteTasks([id]);return}}
@@ -1083,6 +1084,7 @@ document.addEventListener("focusout",e=>{const t=e.target;if(t&&t.form&&(t.class
 document.addEventListener("focusout",e=>{if(e.target.classList&&e.target.classList.contains("cellin")&&S.pending)setTimeout(()=>{if(!(document.activeElement&&document.activeElement.classList.contains("cellin")))render()},0)});
 document.addEventListener("input",e=>{const x=S.openId&&S.tasks.find(t=>t.id===S.openId);
   if(x&&e.target.id==="f-title"){const v=e.target.value;debounced("title",()=>setTask(x.id,{title:v}))}
+  if(x&&e.target.id==="f-upd")updDraft[x.id]=e.target.value;
   if(x&&e.target.id==="f-notes"){const v=e.target.value;debounced("notes",()=>setTask(x.id,{notes:v}))}
   if(e.target.id==="q")render();
   if(e.target.classList&&e.target.classList.contains("gname")&&e.target.parentElement)e.target.parentElement.dataset.val=e.target.value;
