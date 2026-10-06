@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Junction by Crossway</title>
-<meta name="description" content="Junction by Crossway: hiring with no applications. Companies see their 10 best matches. Job seekers get invited.">
+<meta name="description" content="Junction by Crossway: hiring with no applications. Companies see their 10 best matches. Members build one profile and get invited.">
 <meta property="og:title" content="Junction by Crossway">
 <meta property="og:description" content="Where the right paths cross. No resumes, no applications, just your best matches.">
 <meta property="og:image" content="logo.png">
@@ -845,6 +845,88 @@ textarea.code,.ptx.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,m
 .mb.fail p{color:#b42318}
 .mb.fail small{color:#b42318;white-space:normal;text-align:right}
 .mb.fail small .ulink{color:inherit;font-weight:600;margin-left:4px}
+/* showcase links */
+.lkchips{display:flex;flex-wrap:wrap;gap:8px}
+.lkchip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px 7px 8px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;font-weight:500;color:var(--ink);text-decoration:none;transition:border-color .15s,background .15s}
+.lkchip:hover{border-color:var(--ink);background:var(--surface)}
+.lkchip>svg{width:13px;height:13px;color:var(--muted)}
+.lkico{width:20px;height:20px;border-radius:6px;background:var(--surface);display:inline-grid;place-items:center;overflow:hidden;flex:none}
+.lkico img{width:16px;height:16px;object-fit:contain}
+.lkrows{display:flex;flex-direction:column;gap:6px}
+.lkrow{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px}
+.lkrow>span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}
+.lkrow small{color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.addrow{display:flex;gap:8px}.addrow input{flex:1;min-width:0}
+/* projects */
+.pjl{display:flex;flex-direction:column;gap:10px}
+.pjc{display:flex;gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:var(--bg)}
+.pjlogo{width:40px;height:40px;border-radius:11px;background:var(--surface);display:grid;place-items:center;flex:none;color:var(--muted)}
+.pjlogo .lkico{width:40px;height:40px;background:none}.pjlogo .lkico img{width:22px;height:22px}.pjlogo>svg{width:20px;height:20px}
+.pjb{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.pjt{font-size:15.5px;font-weight:600;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+a.pjt:hover{text-decoration:underline;text-underline-offset:3px}
+.pjt svg{width:13px;height:13px;color:var(--muted)}
+.pjh{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pjd{font-size:14px;line-height:1.55;color:var(--ink2,var(--ink));margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.seeall{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:14px;font-weight:600;color:var(--ink);padding:8px 2px}
+.seeall svg{width:16px;height:16px}.seeall:hover{text-decoration:underline;text-underline-offset:3px}
+.pjrows{display:flex;flex-direction:column;gap:8px}
+.pjrow{display:flex;flex-direction:column;gap:4px}.pjra{display:flex;gap:14px;justify-content:flex-end;padding-right:4px}
+.pjform{display:flex;flex-direction:column;gap:14px;padding:18px;border:1px dashed var(--line);border-radius:16px;background:var(--surface)}
+.pjfh{font-size:15px}.pjfa{display:flex;gap:10px;justify-content:flex-end}
+/* posts preview on profiles */
+.plist.pprev .post{box-shadow:none}
+.plist.pprev .ptx.big{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.pcount{font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:2px}
+.pabout{font-size:15px;line-height:1.6;color:var(--ink2,var(--ink))}
+.psheet{gap:22px}
+/* links inside posts */
+.plink{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:8px 12px 8px 8px;border:1px solid var(--line);border-radius:12px;font-size:13.5px;font-weight:500;color:var(--ink);text-decoration:none;max-width:100%}
+.plink span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.plink>svg{width:13px;height:13px;color:var(--muted);flex:none}
+.plink:hover{border-color:var(--ink)}
+/* images and files on posts */
+.pimgs{display:grid;gap:6px;margin-top:12px;border-radius:14px;overflow:hidden}
+.pimgs.n1{grid-template-columns:1fr}.pimgs.n2{grid-template-columns:1fr 1fr}.pimgs.n3{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr}.pimgs.n3 .pimg:first-child{grid-row:span 2}.pimgs.n4{grid-template-columns:1fr 1fr}
+.pimg{position:relative;display:block;padding:0;background:var(--surface);aspect-ratio:4/3;overflow:hidden}
+.pimgs.n1 .pimg{aspect-ratio:auto;max-height:420px}.pimgs.n3 .pimg:first-child{aspect-ratio:auto}
+.pimg img{width:100%;height:100%;object-fit:cover;display:block}.pimgs.n1 .pimg img{height:auto;max-height:420px;object-fit:contain;background:var(--surface)}
+.pimg .more{position:absolute;inset:0;background:rgba(0,0,0,.45);color:#fff;font-size:22px;font-weight:600;display:grid;place-items:center}
+.pfiles{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.pfile{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;color:var(--ink);text-decoration:none}
+.pfile:hover{border-color:var(--ink)}.pfile>svg{width:20px;height:20px;color:var(--muted);flex:none}
+.pfile span{flex:1;min-width:0;display:flex;flex-direction:column}.pfile b{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pfile small{font-size:12px;color:var(--muted)}
+.imgview{position:fixed;inset:0;z-index:90;background:rgba(10,10,12,.88);display:grid;place-items:center;padding:24px;cursor:zoom-out}
+.imgview img{max-width:100%;max-height:100%;border-radius:10px}.imgview .xbtn{position:absolute;top:16px;right:16px;color:#fff;background:rgba(255,255,255,.12)}
+/* composer extras */
+.sprow{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;scrollbar-width:none}.sprow::-webkit-scrollbar{display:none}
+.sp1{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:7px 12px;border-radius:999px;border:1px solid var(--line);color:var(--ink);background:var(--bg);white-space:nowrap}
+.sp1:hover{border-color:var(--ink)}.sp1 svg{width:15px;height:15px}
+.sp1.hot{background:linear-gradient(95deg,#4C6BF5,#8B5CF6);color:#fff;border-color:transparent}
+.atttray{display:flex;flex-wrap:wrap;gap:8px}.atttray:empty{display:none}.composer .atttray{margin-top:8px}
+.attc{position:relative;display:flex;align-items:center;gap:8px;padding:6px 30px 6px 6px;border:1px solid var(--line);border-radius:12px;max-width:220px;background:var(--bg)}
+.attc img,.attd{width:40px;height:40px;border-radius:8px;object-fit:cover;flex:none}
+.attd{background:var(--surface);display:grid;place-items:center;color:var(--muted);font-size:9.5px;font-weight:700}.attd svg{width:16px;height:16px}
+.attn{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.attc.busy{opacity:.6}.attx{position:absolute;top:50%;right:6px;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.attx:hover{background:var(--surface);color:var(--ink)}.attx svg{width:12px;height:12px}
+.attb{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:500;color:var(--ink);padding:8px 10px;border-radius:10px}
+.attb:hover{background:var(--surface)}.attb svg{width:18px;height:18px}
+.attbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+@media (max-width:640px){.attb span{display:none}}
+.lkico{position:relative}.lkico i{font-style:normal;font-size:11px;font-weight:700;color:var(--muted)}.lkico img{position:absolute;inset:0;margin:auto;background:var(--surface)}
+.pjlogo .lkico i{font-size:16px}
+/* mobile header: tabs drop to their own row */
+@media (max-width:640px){
+  .topin{flex-wrap:wrap;row-gap:10px}
+  .topin .tabs2{order:10;flex:1 0 100%;justify-content:space-between}
+  .topin .tabs2 button{flex:1;justify-content:center;text-align:center}
+  .topin .acctbtn .nm{display:none}
+  .hicons{gap:0}.hib{width:36px;height:36px}
+}
+@media (max-width:640px){.topin .prod{padding:3px}.topin .prod a,.topin .prod span{padding:6px 10px;font-size:13px}.topin .prod .mb3{display:none}.topin{column-gap:6px}}
+@media (max-width:640px){.topin .sp{display:none}.topin .hicons{margin-left:auto}.topin .hib{width:34px;height:34px}.topin .acctbtn{padding:2px}}
+@media (max-width:640px){.topin{column-gap:4px}.topin .prod a,.topin .prod span{padding:6px 9px;font-size:12.5px}.topin .hib{width:32px}}
+.cacts{flex-wrap:wrap;justify-content:flex-end;row-gap:6px;min-width:0}@media (max-width:640px){.crow{flex-wrap:wrap}.cacts{width:100%}}
 </style>
 </head>
 <body>
@@ -908,9 +990,9 @@ function mkSlots(){const out=[],d=new Date();const times=["10:00 AM","2:00 PM"];
 function normC(r){const p=r.profile||{};return{id:r.seeker_id||r.user_id||r.id,code:r.code||"",name:r.name||"",photo:r.photo_url||"",sample:r.sample_url||"",
   hasSample:r.has_sample!=null?!!r.has_sample:!!r.sample_url,open:r.open!==false,headline:p.headline||"",about:p.about||"",yrs:+p.yrs||0,
   roles:Array.isArray(p.roles)?p.roles:[],titles:Array.isArray(p.titles)&&p.titles.length?p.titles:(Array.isArray(p.roles)?p.roles:[]).map(titleOfTrack),locs:Array.isArray(p.locs)?p.locs:[],remote:p.remote!==false,pay:+p.pay||0,sponsor:!!p.sponsor,
-  skills:Array.isArray(p.skills)?p.skills:[],exp:Array.isArray(p.exp)?p.exp:[],
+  links:Array.isArray(p.links)?p.links:[],projects:Array.isArray(p.projects)&&p.projects.length?p.projects:(r.sample_url?[{id:"p0",t:human(String(r.sample_url).replace(/^https?:\/\//,"").split("/").filter(Boolean).pop()||"Work sample"),u:r.sample_url,d:""}]:[]),skills:Array.isArray(p.skills)?p.skills:[],exp:Array.isArray(p.exp)?p.exp:[],
   edu:(Array.isArray(p.edu)?p.edu:[]).map((e,i)=>({...e,school:(Array.isArray(r.schools)&&r.schools[i])||""}))}}
-const profOf=c=>({headline:c.headline,about:c.about,yrs:c.yrs,roles:c.roles,titles:c.titles||[],locs:c.locs,remote:c.remote,pay:c.pay,sponsor:c.sponsor,skills:c.skills,exp:c.exp,edu:(c.edu||[]).map(e=>({degree:e.degree||"",field:e.field||"",year:e.year||""}))});
+const profOf=c=>({headline:c.headline,about:c.about,yrs:c.yrs,roles:c.roles,titles:c.titles||[],locs:c.locs,remote:c.remote,pay:c.pay,sponsor:c.sponsor,skills:c.skills,links:c.links||[],projects:c.projects||[],exp:c.exp,edu:(c.edu||[]).map(e=>({degree:e.degree||"",field:e.field||"",year:e.year||""}))});
 function evalC(c,j){
   const fails=[],remote=j.mode==="Remote";
   if(remote?!c.remote:!(c.locs.some(l=>sameCity(l,j.city))))fails.push(remote?"Not open to remote":"Not in "+j.city);
@@ -1037,14 +1119,14 @@ function renderTop(){
     const nm=S.role==="company"?(S.co&&S.co.name)||"Your company":(S.me&&S.me.name)||S.user.email||"You";
     const photo=S.role==="seeker"?(S.me&&S.me.photo):(S.co&&S.co.logo_url);
     right=`${headIcons()}<div class="acct"><button class="acctbtn" data-act="menu" aria-haspopup="true" aria-expanded="${S.menu}"><span class="nm">${esc(nm)}</span><span class="ava" style="background:var(--surface)">${photo?`<img src="${esc(photo)}" alt="">`:esc(ini(nm))}</span></button>
-      ${S.menu?`<div class="menu" role="menu"><div class="mhd"><b>${S.role==="company"?"Company account":"Job seeker account"}</b><span>${esc(S.user.email||"")}</span></div>
+      ${S.menu?`<div class="menu" role="menu"><div class="mhd"><b>${S.role==="company"?"Company account":"Member account"}</b><span>${esc(S.user.email||"")}</span></div>
         ${S.isAdmin?`<a class="mi" href="stats">Junction stats</a>`:""}<a class="mi" href="./">Go to Crossway</a>${S.role==="company"?`<button class="mi" data-act="coname">Company details</button>`:`<button class="mi" data-act="edit" data-s="basics">Edit profile</button>`}<button class="mi" data-act="signout">Sign out</button></div>`:""}</div>`;
   }else if(S.user){
     right=`<div class="navlinks"><button data-act="signout">Sign out</button></div>`;
   }else{
-    right=`<div class="navlinks"><a class="show-sm" href="./">Crossway</a><button class="hide-sm" data-act="auth" data-r="company" data-v="signin">Company sign in</button><button data-act="auth" data-r="seeker" data-v="signin">Job seeker sign in</button></div>`;
+    right=`<div class="navlinks"><a class="show-sm" href="./">Crossway</a><button class="hide-sm" data-act="auth" data-r="company" data-v="signin">Company sign in</button><button data-act="auth" data-r="seeker" data-v="signin">Member sign in</button></div>`;
   }
-  $("#top").innerHTML=`${PREVIEW?`<div class="demo">Preview with sample data.${S.role?` Viewing as ${S.role==="company"?"a company":"a job seeker"}.<button data-act="demoswap">Switch to ${S.role==="company"?"job seeker":"company"}</button><button data-act="signout">Sign out</button>`:""}</div>`:""}
+  $("#top").innerHTML=`${PREVIEW?`<div class="demo">Preview with sample data.${S.role?` Viewing as ${S.role==="company"?"a company":"a member"}.<button data-act="demoswap">Switch to ${S.role==="company"?"member":"company"}</button><button data-act="signout">Sign out</button>`:""}</div>`:""}
    <div class="topin"><a class="brand" href="junction">${BARS}junction<span class="by">by Crossway</span></a>
    <nav class="prod" aria-label="Switch product"><a href="./" title="Go to Crossway"><span class="mb3"><i></i><i></i><i></i></span>Crossway</a><span>Junction</span></nav>
    <div class="sp"></div>${S.role==="seeker"?`<div class="tabs2" role="tablist"><button class="${S.stab==="today"||!S.stab?"on":""}" data-act="stab" data-t="today">Today</button><button class="${S.stab==="community"?"on":""}" data-act="stab" data-t="community">Community</button><button class="${S.stab==="profile"?"on":""}" data-act="stab" data-t="profile">Profile</button></div>`:S.role==="company"?`<div class="tabs2" role="tablist"><button class="${S.ctab!=="challenges"?"on":""}" data-act="ctab" data-t="roles">Roles</button><button class="${S.ctab==="challenges"?"on":""}" data-act="ctab" data-t="challenges">Challenges</button></div>`:""}<div class="sp"></div>${right}</div>`;
@@ -1056,17 +1138,17 @@ function renderLanding(){
   $("#main").innerHTML=`<div class="land">
     <div class="lhero"><span class="eyep">${I.eye.replace('class="i"','class="i" style="width:16px;height:16px"')}No resumes. No applications. No guesswork.</span>
       <h1>Where the right <em>paths cross.</em></h1>
-      <p>Companies see their 10 best matches the moment they post a role. Job seekers build one profile and get invited. Names stay hidden until both sides say yes.</p>
+      <p>Companies see their 10 best matches the moment they post a role. Members build one profile and get invited. Names stay hidden until both sides say yes.</p>
       ${m?`<div class="lmsg"><div class="amsg ${m.err?"err":"ok"}">${esc(m.text)}</div></div>`:""}</div>
     <div class="doors">
       <div class="door co"><span class="dl">For companies</span><h2>Hire without the pile of applications</h2>
         <ul><li>${I.check}Post a role in two minutes</li><li>${I.check}See your 10 best matches right away, ranked and explained</li><li>${I.check}Invite with one click. Names unlock when they accept</li></ul>
         <div class="dacts"><button class="btn" data-act="auth" data-r="company" data-v="signup">Start hiring</button><button class="ulink" data-act="auth" data-r="company" data-v="signin">Company sign in</button></div></div>
-      <div class="door se"><span class="dl">For job seekers</span><h2>Let the right jobs find you</h2>
+      <div class="door se"><span class="dl">For members</span><h2>Let the right jobs find you</h2>
         <ul><li>${I.check}One profile. No resume, no cover letters</li><li>${I.check}Get matched to roles that fit your skills and pay</li><li>${I.check}Pick an interview time and you're in</li></ul>
-        <div class="dacts"><button class="btn" data-act="auth" data-r="seeker" data-v="signup">Create your profile</button><button class="ulink" data-act="auth" data-r="seeker" data-v="signin">Job seeker sign in</button></div></div>
+        <div class="dacts"><button class="btn" data-act="auth" data-r="seeker" data-v="signup">Create your profile</button><button class="ulink" data-act="auth" data-r="seeker" data-v="signin">Member sign in</button></div></div>
     </div>
-    <div class="how"><div><span class="n">1</span><b>Build once</b><p>Job seekers add skills, experience, proof of work and what they want. Companies add the role.</p></div>
+    <div class="how"><div><span class="n">1</span><b>Build once</b><p>Members add skills, experience, proof of work and what they want. Companies add the role.</p></div>
       <div><span class="n">2</span><b>Match, blind</b><p>Every role sees only its 10 best fits. Names, photos, age and gender never affect the ranking.</p></div>
       <div><span class="n">3</span><b>Meet</b><p>Companies send an invite with a few times. Pick one and say yes. That's when your name unlocks.</p></div></div>
     <div class="foot"><span>${FULL}. Also from us: <a href="./">Crossway</a>, the free project tracker.</span><span><a href="privacy">Privacy</a> · <a href="terms">Terms</a></span></div>
@@ -1075,13 +1157,13 @@ function renderLanding(){
 function authSheet(role,view,msg){
   S.authRole=role;S.authView=view;
   const co=role==="company",up=view==="signup",m=msg?`<div class="amsg ${msg.err?"err":"ok"}">${esc(msg.text)}</div>`:"";
-  const chip=`<span class="rolechip">${co?I.brief:I.users}${co?"Hiring on Junction":"Job seeker on Junction"}</span>`;
+  const chip=`<span class="rolechip">${co?I.brief:I.users}${co?"Hiring on Junction":"Junction member"}</span>`;
   let body;
   if(view==="forgot")body=`${chip}<h3>Reset your password</h3><p class="lead">We'll email you a link to set a new one.</p>${m}
     <form class="aform" id="fForgot"><div class="f"><label for="aEmail">Email</label><input type="email" id="aEmail" required autocomplete="email"></div><button class="btn dark" type="submit">Send reset link</button></form>
     <div class="authlinks"><button data-act="auth" data-r="${role}" data-v="signin">Back to sign in</button></div>`;
   else if(view==="reset")body=`${chip}<h3>Choose a new password</h3>${m}<form class="aform" id="fReset"><div class="f"><label for="aPass">New password</label><input type="password" id="aPass" minlength="6" required autocomplete="new-password"></div><button class="btn dark" type="submit">Save password</button></form>`;
-  else body=`${chip}<h3>${up?(co?"Create your company account":"Create your job seeker account"):(co?"Welcome back to hiring":"Welcome back")}</h3>
+  else body=`${chip}<h3>${up?(co?"Create your company account":"Create your profile"):(co?"Welcome back to hiring":"Welcome back")}</h3>
     <p class="lead">${up?(co?"Post a role and meet your best 10 today.":"One profile. Companies come to you."):(co?"Sign in to see your roles and matches.":"Sign in to see your invites.")}</p>${m}
     <button class="btn gbtn" data-act="google">${I.google}Continue with Google</button><div class="or">or with email</div>
     <form class="aform" id="${up?"fSignup":"fSignin"}">
@@ -1090,8 +1172,8 @@ function authSheet(role,view,msg){
       <div class="f"><label for="aPass">Password</label><input type="password" id="aPass" minlength="6" required autocomplete="${up?"new-password":"current-password"}"></div>
       <button class="btn dark" type="submit">${up?"Create account":"Sign in"}</button></form>
     <div class="authlinks">${up?`<span>Have an account? <button data-act="auth" data-r="${role}" data-v="signin">Sign in</button></span>`:`<span>New here? <button data-act="auth" data-r="${role}" data-v="signup">Create an account</button></span><button data-act="auth" data-r="${role}" data-v="forgot">Forgot password?</button>`}</div>
-    <p class="fine">${co?"Looking for a job instead?":"Hiring instead?"} <button class="ulink" style="font-size:12.5px" data-act="auth" data-r="${co?"seeker":"company"}" data-v="${view}">${co?"Use the job seeker sign in":"Use the company sign in"}</button></p>`;
-  openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>${co?"Companies":"Job seekers"}</h2><span style="width:36px"></span></div><div class="shb auth">${body}</div>`,true);
+    <p class="fine">${co?"Looking for a job instead?":"Hiring instead?"} <button class="ulink" style="font-size:12.5px" data-act="auth" data-r="${co?"seeker":"company"}" data-v="${view}">${co?"Use the member sign in":"Use the company sign in"}</button></p>`;
+  openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>${co?"Companies":"Members"}</h2><span style="width:36px"></span></div><div class="shb auth">${body}</div>`,true);
   const f=$("#modalRoot input");f&&f.focus();
 }
 const here=()=>location.origin+location.pathname;
@@ -1137,15 +1219,15 @@ async function onSession(sess,intentOverride){try{if(sess&&sess.user)localStorag
     if(!role&&intent)role=await API.register(intent);
     if(!role){S.role=null;renderTop();renderChoose();return}
     S.role=role;
-    if(intent&&intent!==role)toast(`This email is set up as a ${role==="company"?"company":"job seeker"} account, so we opened that side.`);
+    if(intent&&intent!==role)toast(`This email is set up as a ${role==="company"?"company":"member"} account, so we opened that side.`);
     await load();S.loading=false;closeSheet();render();startPoll();
     if(role==="company"&&!(S.co&&S.co.name))coSheet(true);
   }catch(err){$("#main").innerHTML=`<div class="state"><h2>Junction isn't set up yet</h2><p>${esc(friendly(err))}</p><p class="hint">If you just added Junction, run supabase-junction.sql in your Supabase SQL editor, then reload.</p></div>`}
 }
 function renderChoose(){
-  $("#main").innerHTML=`<div class="land"><div class="lhero"><h1 style="font-size:48px">How do you want to use Junction?</h1><p>You're signed in as ${esc(S.user.email||"")}. Pick one. Each account is either a company or a job seeker.</p></div>
+  $("#main").innerHTML=`<div class="land"><div class="lhero"><h1 style="font-size:48px">How do you want to use Junction?</h1><p>You're signed in as ${esc(S.user.email||"")}. Pick one. Each account is either a company or a member.</p></div>
    <div class="doors"><div class="door co"><span class="dl">For companies</span><h2>I'm hiring</h2><div class="dacts"><button class="btn" data-act="pick" data-r="company">Set up a company account</button></div></div>
-   <div class="door se"><span class="dl">For job seekers</span><h2>I'm looking for a job</h2><div class="dacts"><button class="btn" data-act="pick" data-r="seeker">Create my profile</button></div></div></div></div>`;
+   <div class="door se"><span class="dl">For members</span><h2>I'm building my career</h2><div class="dacts"><button class="btn" data-act="pick" data-r="seeker">Create my profile</button></div></div></div></div>`;
 }
 async function load(){
   if(S.role==="company"){
@@ -1186,8 +1268,8 @@ function renderCo(){
     <div class="mini"><button class="${S.tab==="top"?"on":""}" data-act="tab" data-t="top">Matches</button><button class="${S.tab==="pipe"?"on":""}" data-act="tab" data-t="pipe">Pipeline <span class="n">${pipeN}</span></button></div></div>`;
   let body;
   if(S.tab==="pipe")body=pipe(j);
-  else if(!R.top.length)body=`<div class="state"><span class="ic">${I.search}</span><h2>No matches yet</h2><p>${S.cands.length?`None of the ${S.cands.length} job seekers on Junction fit this role yet. Try a wider pay band, more cities, or fewer must haves.`:"Job seekers are just getting started on Junction. Your best matches will show up here as they join."}</p></div>`;
-  else body=`<div class="blind">${I.eye}<span><b>Blind matching.</b> ${R.pass.length} of ${S.cands.length} job seekers fit this role. Tiles are colored by field. Names and photos unlock when someone accepts your invite.</span></div>
+  else if(!R.top.length)body=`<div class="state"><span class="ic">${I.search}</span><h2>No matches yet</h2><p>${S.cands.length?`None of the ${S.cands.length} members on Junction fit this role yet. Try a wider pay band, more cities, or fewer must haves.`:"Members are just getting started on Junction. Your best matches will show up here as they join."}</p></div>`;
+  else body=`<div class="blind">${I.eye}<span><b>Blind matching.</b> ${R.pass.length} of ${S.cands.length} members fit this role. Tiles are colored by field. Names and photos unlock when someone accepts your invite.</span></div>
       <div class="grid">${R.top.map((r,i)=>card(j,r,i)).join("")}</div>`;
   $("#main").innerHTML=`<div class="page">${bar}${hero}${body}</div>`;
   S.fresh=null;
@@ -1241,7 +1323,7 @@ function renderSheet(){
         <div class="dsec"><h3>Nods from the community</h3>${nodsBlock(S.badges[c.id]||{nods:0})}</div>
         ${c.about?`<div class="dsec"><h3>About</h3><p class="about" style="font-size:15px">${esc(c.about)}</p></div>`:""}
         <div class="dsec"><h3>Skills</h3><div class="tags">${c.skills.slice().sort((a,b)=>(j.must.includes(b)*2+j.nice.includes(b))-(j.must.includes(a)*2+j.nice.includes(a))).map(s=>`<span class="tagl ${j.must.includes(s)||j.nice.includes(s)?"hit":""}">${esc(s)}</span>`).join("")||`<span class="hint">No skills listed</span>`}</div></div>
-        ${c.exp.length?`<div class="dsec"><h3>Experience</h3><div class="xp">${c.exp.map(expItem).join("")}</div></div>`:""}
+        ${(c.projects||[]).length?`<div class="dsec"><h3>Projects</h3>${projBlock(c.projects,{blind:!known,n:12})}</div>`:""}${c.exp.length?`<div class="dsec"><h3>Experience</h3><div class="xp">${c.exp.map(expItem).join("")}</div></div>`:""}
         ${(c.edu||[]).length?`<div class="dsec"><h3>Education</h3><div class="xp">${c.edu.map(e=>`<div class="xpi">${schoolLogo(e,!!e.school)}<div><b>${eduLine(e)}</b><span>${e.school?esc(e.school):"School unlocks when they accept"}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")}</div></div>`:""}
         <div class="dsec"><h3>Looking for</h3><div class="facts">
           <div class="fact">${I.brief}<div><b>${c.roles.map(x=>TRACK[x]).join(", ")||"Open to"} roles</b><span>${yrs(c.yrs)} of experience</span></div></div>
@@ -1275,14 +1357,14 @@ function newJob(){
 const skBtns=()=>ALLSK.map(s=>`<button type="button" class="tagl pick ${draft.must.includes(s)?"on":draft.nice.includes(s)?"on2":""}" data-act="sk" data-v="${esc(s)}">${esc(s)}</button>`).join("");
 function coSheet(first){S.coLogoDraft=null;
   openSheet(`<div class="shh">${first?`<span style="width:36px"></span>`:`<button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button>`}<h2>${first?"Welcome to Junction":"Company details"}</h2><span style="width:36px"></span></div>
-    <div class="shb">${first?`<p style="font-size:16px">Job seekers see this name on your invites.</p>`:""}<div class="f"><label for="coN">Company name</label><input id="coN" maxlength="80" value="${esc((S.co&&S.co.name)||"")}" placeholder="Fieldnote"></div>
+    <div class="shb">${first?`<p style="font-size:16px">Members see this name on your invites.</p>`:""}<div class="f"><label for="coN">Company name</label><input id="coN" maxlength="80" value="${esc((S.co&&S.co.name)||"")}" placeholder="Fieldnote"></div>
     ${coLogoBlock()}<div class="f"><label for="coW">Website (optional)</label><input id="coW" maxlength="120" value="${esc((S.co&&S.co.website)||"")}" placeholder="fieldnote.co"></div></div>
     <div class="shf"><button class="btn dark" data-act="cosave">${first?"Continue":"Save"}</button></div>`,true);
   $("#coN").focus();
 }
 
-/* ---------- job seeker ---------- */
-function strength(c){return[{k:"basics",t:"Add a headline and about",ok:!!c.headline&&(c.about||"").length>30},{k:"skills",t:"Add at least 5 skills",ok:c.skills.length>=5},{k:"prefs",t:"Set what you're looking for",ok:c.roles.length>0&&(c.locs.length>0||c.remote)&&c.pay>0},{k:"exp",t:"Add your experience",ok:c.exp.length>0},{k:"edu",t:"Add your education",ok:(c.edu||[]).length>0},{k:"sample",t:"Add proof of work",ok:!!c.sample}]}
+/* ---------- member ---------- */
+function strength(c){return[{k:"basics",t:"Add a headline and about",ok:!!c.headline&&(c.about||"").length>30},{k:"skills",t:"Add at least 5 skills",ok:c.skills.length>=5},{k:"prefs",t:"Set what you're looking for",ok:c.roles.length>0&&(c.locs.length>0||c.remote)&&c.pay>0},{k:"exp",t:"Add your experience",ok:c.exp.length>0},{k:"edu",t:"Add your education",ok:(c.edu||[]).length>0},{k:"projects",t:"Add a project",ok:(c.projects||[]).length>0}]}
 function seekerTile(c,size){const top=c.skills[0]||"You";return `<span class="ava" style="width:${size}px;height:${size}px;font-size:${Math.round(size/4.4)}px;background:${grad(c)};flex-direction:column;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;line-height:1.1">${esc(top)}<small style="font-size:${Math.round(size/9)}px;font-weight:500;opacity:.7;margin-top:4px">${yrs(c.yrs)}</small></span>`}
 function renderSeeker(){
   const c=S.me,pv=S.preview,first=(c.name||"").split(" ")[0]||"there";
@@ -1308,6 +1390,9 @@ function renderSeeker(){
      </aside>
      <div class="sections">
        <section class="sect"><div class="secth"><h2>About ${pv?"this candidate":esc(first)}</h2>${ed("basics")}</div><p class="about">${esc(c.about||"Add a few lines about what you're great at.")}</p></section>
+       <section class="sect"><div class="secth"><h2>Showcase</h2>${ed("links")}</div>${pv?((c.links||[]).length?`<p class="hint">${c.links.length} ${c.links.length===1?"link":"links"} on file. They unlock after you accept.</p>`:`<p class="hint">No links yet.</p>`):(c.links||[]).length?linkChips(c.links):`<p class="hint" style="font-size:15px">Show your GitHub, Figma, Behance, Kaggle or portfolio.</p><button class="btn line sm2" data-act="edit" data-s="links">Add links</button>`}</section>
+       <section class="sect"><div class="secth"><h2>Projects</h2>${ed("projects")}</div>${projBlock(pv?(c.projects||[]).map(x=>({...x,u:""})):c.projects,{uid:c.id,blind:pv,empty:pv?`<p class="hint">No projects yet.</p>`:`<p class="hint" style="font-size:15px">Your best proof of work. Import one from a GitHub, Figma or Notion link.</p><button class="btn line sm2" data-act="edit" data-s="projects">Add a project</button>`})}</section>
+       ${pv?"":`<section class="sect"><div class="secth"><h2>Posts</h2><button class="ulink" data-act="stab" data-t="community">New post</button></div>${myPostsBlock()}</section>`}
        <section class="sect"><div class="secth"><h2>Nods</h2>${pv?"":`<button class="ulink" data-act="stab" data-t="today">Earn more</button>`}</div>${nodsBlock(S.badges[c.id]||{nods:0},!pv)}</section>
        <section class="sect"><div class="secth"><h2>Looking for</h2>${ed("prefs")}</div><div class="lfgrid">
          <div class="fact">${I.brief}<div><b>${esc((c.titles&&c.titles.length?c.titles:c.roles.map(x=>TRACK[x]+" roles")).join(", ")||"Any roles")}</b><span>Teams you want to join</span></div></div>
@@ -1317,7 +1402,7 @@ function renderSeeker(){
        <section class="sect"><div class="secth"><h2>Skills</h2>${ed("skills")}</div><div class="tags">${c.skills.map(s=>`<span class="tagl">${esc(s)}</span>`).join("")||`<span class="hint">No skills yet</span>`}</div></section>
        <section class="sect"><div class="secth"><h2>Experience</h2>${ed("exp")}</div><div class="xp">${c.exp.map(expItem).join("")||`<span class="hint">Nothing added yet</span>`}</div></section>
        <section class="sect"><div class="secth"><h2>Education</h2>${ed("edu")}</div><div class="xp">${(c.edu||[]).map(e=>`<div class="xpi">${schoolLogo(e,!pv)}<div><b>${eduLine(e)}</b><span>${pv?"School shown after you accept":esc(e.school||"School not added")}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")||`<span class="hint">Add your degree. Companies see the degree, field and year. The school name unlocks only after you accept an invite.</span>`}</div></section>
-       <section class="sect"><div class="secth"><h2>Proof of work</h2>${ed("sample")}</div>${c.sample?`<div class="sample"><span class="logo">${I.link}</span><div style="min-width:0"><b>${esc(pv?"Work sample on file":c.sample)}</b><span class="hint">${pv?"The link unlocks after you accept":"Companies see the link after you accept their invite."}</span></div></div>`:`<p class="hint" style="font-size:15px">Add a case study or project. Profiles with proof of work rank higher.</p>`}</section>
+       
        ${pv?"":`<section class="sect"><div class="secth"><h2>Open roles on Junction</h2></div>${fits.length?`<div class="stand">${fits.map(({j,r})=>{const m=j.must.filter(s=>!c.skills.includes(s));
           const lab=!r.fails.length&&r.s>=75?["fit-strong","Strong fit"]:!r.fails.length?["fit-maybe","Possible fit"]:["fit-no","Not a fit yet"];
           const tip=r.fails.length?r.fails[0]:m.length?"Add "+m.slice(0,2).join(" and ")+" to rank higher":"You match every must have";
@@ -1335,10 +1420,10 @@ function invHero(x){const j=x.job;
 let D=null;
 function editSheet(k){
   D=JSON.parse(JSON.stringify(S.me));if(!Array.isArray(D.titles)||!D.titles.length)D.titles=(D.roles||[]).map(titleOfTrack);S.xEdit=-1;S.uEdit=-1;
-  const T={basics:"Edit profile",prefs:"What you're looking for",skills:"Your skills",exp:"Experience",edu:"Education",sample:"Proof of work"}[k];
+  if(k==="sample")k="projects";S.pjEdit=-1;const T={basics:"Edit profile",prefs:"What you're looking for",skills:"Your skills",exp:"Experience",edu:"Education",links:"Showcase",projects:"Projects"}[k];
   openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>${T}</h2><span style="width:36px"></span></div>
     <div class="shb" id="edBody">${edBody(k)}</div>
-    <div class="shf"><button class="btn ghost" data-act="mclose">Cancel</button><button class="btn dark" data-act="dsave">Save</button></div>`,!(k==="exp"||k==="edu"));
+    <div class="shf"><button class="btn ghost" data-act="mclose">Cancel</button><button class="btn dark" data-act="dsave">Save</button></div>`,!(k==="exp"||k==="edu"||k==="projects"));
   const f=$("#edBody input,#edBody textarea");f&&f.focus();
 }
 function edBody(k){
@@ -1354,6 +1439,8 @@ function edBody(k){
     <label class="sw"><input type="checkbox" data-d="sponsor" ${D.sponsor?"checked":""}><span class="tr"></span>I need visa sponsorship</label>`;
   if(k==="skills")return `<div class="f"><label for="eS">Search</label><input id="eS" placeholder="Try SQL or Figma" autocomplete="off"></div>
     <span class="hint" id="skN">${D.skills.length} selected. Your first skill shows on your tile.</span><div class="tags" id="skGrid">${skGrid("")}</div>`;
+  if(k==="links")return linksEditor();
+  if(k==="projects")return projEditor();
   if(k==="exp")return expEditor();
   if(k==="edu")return eduEditor();
   return `<div class="f"><label for="eW">Link to a case study, project or portfolio</label><input id="eW" data-d="sample" maxlength="200" value="${esc(D.sample)}" placeholder="yoursite.com/case-study"><span class="hint">Companies see that you have one. The link itself unlocks after you accept.</span></div>`;
@@ -1388,7 +1475,7 @@ document.addEventListener("click",async e=>{
     await act(()=>API.saveCompany(n,w,L));S.co={...S.co,name:n,website:w,logo_url:L};S.logos=S.logos||{};if(L)S.logos[n]=L;else delete S.logos[n];S.coLogoDraft=null;closeSheet();render();if(!S.jobs.length)newJob();return}
   if(a==="job"){S.job=el.dataset.id;S.tab="top";render();return}
   if(a==="tab"){S.tab=el.dataset.t;render();return}
-  if(a==="toggleJob"){const j=job();await act(()=>API.setJobOpen(j.id,!j.open),j.open?"Role closed. It's hidden from job seekers.":"Role reopened.");j.open=!j.open;render();return}
+  if(a==="toggleJob"){const j=job();await act(()=>API.setJobOpen(j.id,!j.open),j.open?"Role closed. It's hidden from members.":"Role reopened.");j.open=!j.open;render();return}
   if(a==="open"){S.sheet=el.dataset.id;S.mode="view";renderSheet();return}
   if(a==="invite"){S.sheet=el.dataset.id;S.mode="invite";SLOTS=mkSlots().concat(SLOTS.filter(s=>s.startsWith("Custom")));pickSlots=SLOTS.slice(0,2);renderSheet();return}
   if(a==="back"){S.mode="view";renderSheet();return}
@@ -1414,7 +1501,7 @@ document.addEventListener("click",async e=>{
     if(!p0||!p1||p1<p0||e1<e0){toast("Check the pay and experience ranges. Each 'to' needs to be at least its 'from'.");return}
     const d={title:v("nT"),city:mode==="Remote"?"Remote":v("nCity"),mode,track:v("nTr"),must:draft.must.slice(),nice:draft.nice.slice(),exp:[e0,e1],pay:[p0,p1],sponsor:$("#nSp").checked};
     el.disabled=true;
-    try{const nj=await act(()=>API.createJob(d));S.jobs.unshift(nj);S.job=nj.id;S.tab="top";closeSheet();render();window.scrollTo(0,0);const n=ranked(nj).top.length;toast(n?`Posted. Here ${n===1?"is your best match":"are your best "+n}.`:"Posted. We'll show matches as job seekers join.")}catch(_){el.disabled=false}
+    try{const nj=await act(()=>API.createJob(d));S.jobs.unshift(nj);S.job=nj.id;S.tab="top";closeSheet();render();window.scrollTo(0,0);const n=ranked(nj).top.length;toast(n?`Posted. Here ${n===1?"is your best match":"are your best "+n}.`:"Posted. We'll show matches as members join.")}catch(_){el.disabled=false}
     return}
   if(a==="preview"){S.preview=!S.preview;renderS();window.scrollTo(0,0);return}
   if(a==="edit"){S.menu=false;renderTop();editSheet(el.dataset.s);return}
@@ -1422,7 +1509,7 @@ document.addEventListener("click",async e=>{
   if(a==="skadd"){const v=el.dataset.v.slice(0,40);if(!D.skills.includes(v))D.skills.push(v);$("#eS").value="";$("#skGrid").innerHTML=skGrid("");$("#skN").textContent=D.skills.length+" selected. Your first skill shows on your tile.";return}
   if(a==="xdel"){D.exp.splice(+el.dataset.i,1);$("#edBody").innerHTML=edBody("exp");return}
   if(a==="xadd"){const t=$("#xT").value.trim(),co=$("#xC").value.trim(),y=Math.max(1,+$("#xY").value||1);if(!t||!co){toast("Add a title and company.");return}D.exp.unshift({t,co,y});$("#edBody").innerHTML=edBody("exp");return}
-  if(a==="dsave"){if(!commitPending())return;["titles","locs"].forEach(f=>{const i=$("#in_"+f);if(i&&i.value.trim()){addChip(f,i.value);i.value=""}});if(D.titles)syncRoles();
+  if(a==="dsave"){if(!commitPending())return;if($("#lkIn")&&$("#lkIn").value.trim())addLink();if($("#pjT")&&$("#pjT").value.trim()){$("[data-act=pjsave]").click();if($("#pjT").value.trim())return}D.sample=((D.projects||[]).find(x=>x.u)||{}).u||"";["titles","locs"].forEach(f=>{const i=$("#in_"+f);if(i&&i.value.trim()){addChip(f,i.value);i.value=""}});if(D.titles)syncRoles();
     D.yrs=Math.max(0,Math.min(45,+D.yrs||0));D.pay=Math.max(0,+D.pay||0);
     el.disabled=true;try{await act(()=>API.saveSeeker(D));S.me=D;closeSheet();renderS();renderTop();toast("Saved. Companies see your updated profile.");loadSocial().then(renderS).catch(()=>{})}catch(_){el.disabled=false}return}
   if(a==="cslot"){const x=S.myInv.find(i=>i.id===el.dataset.id);x.pick=+el.dataset.i;renderS();return}
@@ -1650,9 +1737,10 @@ function drillBox(T,st){const dr=T.drill,ans=T.answer;if(!dr||!(dr.options||[]).
   </section>`}
 function composer(mini){const c=S.me;
   return `<div class="composer ${mini?"mini":""}">${myAva(44)}<div class="cbody">
-    <textarea id="postTxt" maxlength="1200" placeholder="Share a win, something you learned, or a question for the community"></textarea>
-    <div class="crow"><div class="tags" id="postSk">${postSkBtns()}</div><div class="cacts"><button class="btn ghost" data-act="proof">Share a case study</button><button class="btn dark" data-act="postnew">Post</button></div></div>
-    <span class="hint">Job seekers see your name and photo. Companies see your code until you accept their invite. Tag up to 3 skills so people can nod you for them. +5 points</span></div></div>`}
+    ${promptRow()}<textarea id="postTxt" maxlength="1200" placeholder="Share a win, something you learned, or a question for the community"></textarea>
+    <div class="atttray" data-tray="post">${attTray("post")}</div>
+    <div class="crow"><div class="tags" id="postSk">${postSkBtns()}</div><div class="cacts">${attButtons("post")}<button class="btn ghost" data-act="proof">Share a case study</button><button class="btn dark" data-act="postnew">Post</button></div></div>
+    <span class="hint">Members see your name and photo. Companies see your code until you accept their invite. Tag up to 3 skills so people can nod you for them. +5 points</span></div></div>`}
 const postSkBtns=()=>[...new Set([...(S.postSk||[]),...(S.me.skills||[]).slice(0,8),...SOFT.slice(0,2)])].slice(0,10).map(s=>`<button type="button" class="tagl pick ${(S.postSk||[]).includes(s)?"on":""}" data-act="postsk" data-v="${esc(s)}">${esc(s)}</button>`).join("");
 const KINDS=[[null,"Everything"],["post","Posts"],["drill","Drills"],["proof","Proof of work"],["challenge","Challenges"]];
 function renderCommunity(){
@@ -1689,9 +1777,10 @@ function postCard(p,o){o=o||{};
   const who=p.mine?"You":p.name?esc(p.name):"Candidate #"+esc(p.code);
   let body="";
   if(p.kind==="drill")body=`${o.compact?"":`<p class="pq">${esc(p.prompt||"")}</p>`}${p.data.pick?`<div class="ppick ${p.data.correct?"good":"bad"}">${p.data.correct?I.check:I.x}<span>Picked <b>${esc(p.data.pick)}</b></span></div>`:""}${(p.data.text||"").trim()?`<p class="ptx ${p.track==="engineering"&&!p.data.pick?"code":""}">${esc(p.data.text)}</p>`:""}`;
-  else if(p.kind==="proof")body=`<h3 class="ptl">${esc(p.data.title)}</h3><dl class="pdl">${p.data.problem?`<div><dt>Problem</dt><dd>${esc(p.data.problem)}</dd></div>`:""}${p.data.did?`<div><dt>What I did</dt><dd>${esc(p.data.did)}</dd></div>`:""}${p.data.result?`<div><dt>Result</dt><dd>${esc(p.data.result)}</dd></div>`:""}</dl>${p.mine&&p.data.link?`<span class="hint">${I.link.replace('class="i"','class="i" style="width:15px;height:15px;vertical-align:-3px"')} ${esc(p.data.link)} (shown to companies after you accept)</span>`:""}`;
+  else if(p.kind==="proof")body=`<h3 class="ptl">${esc(p.data.title)}</h3><dl class="pdl">${p.data.problem?`<div><dt>Problem</dt><dd>${esc(p.data.problem)}</dd></div>`:""}${p.data.did?`<div><dt>What I did</dt><dd>${esc(p.data.did)}</dd></div>`:""}${p.data.result?`<div><dt>Result</dt><dd>${esc(p.data.result)}</dd></div>`:""}</dl>${p.data.link&&fixUrl(p.data.link)&&(S.role!=="company"||p.name)?`<a class="plink" href="${esc(fixUrl(p.data.link))}" target="_blank" rel="noopener">${linkIcon(p.data.link)}<span>${esc(shortUrl(p.data.link))}</span>${SVGI.ext}</a>`:""}`;
   else if(p.kind==="post")body=`<p class="ptx big">${esc(p.data.text)}</p>`;
   else body=`${p.challenge&&!o.inChallenge?`<p class="pq">Answer to ${esc(p.challenge.company)}: ${esc(p.challenge.title)}</p>`:""}<p class="ptx">${esc(p.data.text)}</p>`;
+  body+=filesBlock(p.data&&p.data.files);
   const sk=(p.skills||[]).length?`<div class="psk">${p.skills.map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:"";
   const foot=p.mine?`<span class="nodc">${NODF()}<b>${p.nods}</b> ${p.nods===1?"nod":"nods"}</span>`
     :`<button class="nodb ${p.my_nods.length?"did":""} ${S.justNod===p.id?"pop":""}" data-act="nod" data-id="${p.id}">${p.my_nods.length?NODF():NOD}${p.my_nods.length?"Nodded":"Nod"}${p.nods?`<span class="nn">${p.nods}</span>`:""}</button>${p.my_nods.length?`<span class="hint">You nodded: ${p.my_nods.map(esc).join(", ")}</span>`:""}${S.role==="seeker"?`<span class="sp"></span><button class="ulink" data-act="msgto" data-u="${p.author_id}">Message</button>`:""}`;
@@ -1706,14 +1795,17 @@ function nodSheet(id){const p=findPost(id);if(!p)return;const n=S.today.nods,lef
     <div class="shb"><p style="font-size:15px">What did they show? Your nod counts toward their profile${S.role==="company"?" as a company nod":""}.</p>
     <div class="tags">${opts.map(s=>`<button class="tagl pick ${p.my_nods.includes(s)?"on":""}" ${p.my_nods.includes(s)?"disabled":`data-act="donod" data-id="${p.id}" data-v="${esc(s)}"`}>${esc(s)}</button>`).join("")}</div>
     <p class="hint">${left} ${left===1?"nod":"nods"} left today. You can nod a post once for each skill, and the same person again on their other posts.</p></div>`,true)}
-function proofSheet(){const c=S.me;S.pskills=[];
-  openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Share your work</h2><span style="width:36px"></span></div>
-    <div class="shb"><p class="hint" style="font-size:15px">A short case study beats a long post. It shows under your code and counts as proof of work. +15 points.</p>
+function proofSheet(project){const c=S.me;S.pskills=[];S.att=S.att||{};S.att.proof=[];
+  openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>${project?"Post a project":"Share your work"}</h2><span style="width:36px"></span></div>
+    <div class="shb"><p class="hint" style="font-size:15px">${project?"Show something you're proud of. Add screenshots, a deck or a PDF so people can see it. +15 points.":"A short case study beats a long post. It counts as proof of work. +15 points."}</p>
+    <div class="f"><label for="pImp">Import from a link</label><div class="addrow"><input id="pImp" placeholder="Paste a GitHub, Figma, Behance, Notion or any link" autocomplete="off" maxlength="300"><button class="btn line" data-act="pimport">Import</button></div></div>
     <div class="f"><label for="pT">Title</label><input id="pT" maxlength="120" placeholder="Cut onboarding from 7 steps to 3"></div>
     <div class="f"><label for="pP">The problem</label><textarea id="pP" maxlength="800" style="min-height:70px" placeholder="What was broken or missing?"></textarea></div>
     <div class="f"><label for="pD">What you did</label><textarea id="pD" maxlength="1200" style="min-height:90px" placeholder="Your actual steps and decisions"></textarea></div>
     <div class="f"><label for="pR">The result</label><input id="pR" maxlength="600" placeholder="Numbers if you have them"></div>
-    <div class="f"><label for="pL">Link (optional)</label><input id="pL" maxlength="300" placeholder="Shown to companies only after you accept an invite"></div>
+    <div class="f"><label for="pL">Link (optional)</label><input id="pL" maxlength="300" placeholder="github.com/you/project"><span class="hint">Members can open it. Companies see it after you accept their invite.</span></div>
+    <div class="f"><span class="lbl">Images and files</span><div class="atttray" data-tray="proof"></div><div class="attbar">${attButtons("proof")}<span class="hint">Screenshots, PDF, PowerPoint, Word, Excel. Up to 6, 10 MB each.</span></div></div>
+    <label class="sw"><input type="checkbox" id="pAddProj" ${project?"checked":""}><span class="tr"></span>Also add it to the Projects on my profile</label>
     <div class="f"><span class="lbl">Skills it shows (up to 5)</span><div class="tags" id="psk">${pskBtns()}</div></div></div>
     <div class="shf"><button class="btn ghost" data-act="mclose">Cancel</button><button class="btn dark" data-act="postproof">Post</button></div>`,true);$("#pT").focus()}
 const pskBtns=()=>[...new Set([...(S.me.skills||[]),...ALLSK])].slice(0,40).map(s=>`<button type="button" class="tagl pick ${S.pskills.includes(s)?"on":""}" data-act="pskill" data-v="${esc(s)}">${esc(s)}</button>`).join("");
@@ -1723,7 +1815,7 @@ async function chSheet(id){const c=(S.chals||[]).find(x=>x.id===id);if(!c)return
   const head=`<div class="chhead"><div class="chtop">${coLogo(c.company)}<div><b>${esc(c.company)}</b><span>${TRACK[c.track]||""}</span></div><span class="cd ${c.open?"":"off"}">${BOLT}${leftTxt(c.ends_at)}</span></div>
     <h2 class="cht">${esc(c.title)}</h2>${c.body?`<p class="about" style="font-size:15.5px">${esc(c.body)}</p>`:""}${(c.skills||[]).length?`<div class="psk">${c.skills.map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:""}</div>`;
   let mid="";
-  if(S.role==="seeker"&&c.open&&!c.answered)mid=`<div class="f"><label for="chTxt">Your answer</label><textarea id="chTxt" maxlength="3000" style="min-height:150px" placeholder="Show how you think. Bullet points are fine."></textarea><span class="hint">Other job seekers see answers only after it closes. ${esc(c.company)} sees them right away. +20 points.</span></div>`;
+  if(S.role==="seeker"&&c.open&&!c.answered)mid=`<div class="f"><label for="chTxt">Your answer</label><textarea id="chTxt" maxlength="3000" style="min-height:150px" placeholder="Show how you think. Bullet points are fine."></textarea><span class="hint">Other members see answers only after it closes. ${esc(c.company)} sees them right away. +20 points.</span></div>`;
   const list=S.chAns.length?`<div class="sech2"><h2 style="font-size:18px">${c.owner?`${S.chAns.length} ${S.chAns.length===1?"answer":"answers"}`:c.open?"Your answer":"Answers"}</h2>${c.owner?`<span class="hint">Pick up to 3 winners. Invite anyone straight to an interview.</span>`:""}</div><div class="plist">${S.chAns.map(p=>postCard(p,{inChallenge:1,owner:c.owner})).join("")}</div>`
     :c.owner?`<p class="hint">No answers yet. They'll show up here as people respond.</p>`:!c.open?`<p class="hint">This challenge closed without answers you can see.</p>`:"";
   openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Challenge</h2><span style="width:36px"></span></div>
@@ -1731,7 +1823,7 @@ async function chSheet(id){const c=(S.chals||[]).find(x=>x.id===id);if(!c)return
 }
 function newChSheet(){S.cskills=[];
   openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Post a challenge</h2><span style="width:36px"></span></div>
-    <div class="shb"><p class="hint" style="font-size:15px">Ask a small, real question your team faces. Job seekers answer under a code, so you judge only the thinking.</p>
+    <div class="shb"><p class="hint" style="font-size:15px">Ask a small, real question your team faces. Members answer under a code, so you judge only the thinking.</p>
     <div class="f"><label for="cT">The question</label><input id="cT" maxlength="140" placeholder="How would you get more new users to finish setup?"></div>
     <div class="f"><label for="cB">Context</label><textarea id="cB" maxlength="2000" placeholder="A few facts or numbers that help people give a good answer"></textarea></div>
     <div class="fg"><div class="f"><label for="cTr">Field</label><select id="cTr">${Object.keys(TRACK).map(k=>`<option value="${k}">${TRACK[k]}</option>`).join("")}</select></div>
@@ -1748,7 +1840,7 @@ function renderCoChallenges(){
   $("#main").innerHTML=`<div class="page">
     <div class="hero"><div><h1>Challenges</h1><div class="sub"><span>Post a real problem. See how people think. Invite the best answers straight to interviews.</span></div></div><button class="btn brand" data-act="newch">${svg('<path d="M12 5v14M5 12h14"/>')}Post a challenge</button></div>
     ${mine.length?`<div class="chgrid">${mine.map(chCard).join("")}</div>`:`<div class="state" style="margin-top:28px"><span class="ic">${BOLT}</span><h2>Post your first challenge</h2><p>A 3 day challenge usually beats a job post at finding people who can actually do the work.</p><button class="btn brand" data-act="newch">Post a challenge</button></div>`}
-    <div class="sech2 fh" style="margin-top:44px"><h2>What job seekers are sharing</h2><div class="fchips">${[[null,"All fields"],...Object.entries(TRACK)].map(([k,l])=>`<button class="tagl pick ${ft===k?"on":""}" data-act="ftrack" data-v="${k||""}">${l}</button>`).join("")}</div></div>
+    <div class="sech2 fh" style="margin-top:44px"><h2>What members are sharing</h2><div class="fchips">${[[null,"All fields"],...Object.entries(TRACK)].map(([k,l])=>`<button class="tagl pick ${ft===k?"on":""}" data-act="ftrack" data-v="${k||""}">${l}</button>`).join("")}</div></div>
     <div class="plist" style="max-width:760px">${(S.feed||[]).map(p=>postCard(p)).join("")||`<p class="hint">Nothing here yet.</p>`}</div>
     ${(S.feed||[]).length?`<div class="caught" style="max-width:760px"><p>You're all caught up.</p></div>`:""}
   </div>`;
@@ -1770,18 +1862,22 @@ document.addEventListener("click",async e=>{
   if(a==="ftrack"){S.ftrack=el.dataset.v||null;try{S.feed=await API.feed(S.ftrack,null,S.role==="seeker"&&S.stab==="community"?(S.fkind||null):null)}catch(err){toast(friendly(err))}render();return}
   if(a==="fkind"){S.fkind=el.dataset.v||null;const tr=S.ftrack===undefined?(S.today&&S.today.track):S.ftrack;try{S.feed=await API.feed(tr,null,S.fkind)}catch(err){toast(friendly(err))}render();return}
   if(a==="postsk"){const v=el.dataset.v;S.postSk=S.postSk||[];if(S.postSk.includes(v))S.postSk=S.postSk.filter(x=>x!==v);else if(S.postSk.length<3)S.postSk.push(v);else{toast("Up to 3 skills.");return}const keep=$("#postTxt").value;$("#postSk").innerHTML=postSkBtns();$("#postTxt").value=keep;return}
-  if(a==="postnew"){const tx=$("#postTxt").value.trim();if(tx.length<5){toast("Write a little more first.");$("#postTxt").focus();return}el.disabled=true;
-    try{await act(()=>API.postUpdate(d,tx,S.postSk||[]));S.postSk=[];await loadSocial();renderS();toast("Posted. +5 points")}catch(_){el.disabled=false}return}
+  if(a==="postnew"){const tx=$("#postTxt").value.trim();if(tx.length<5){toast("Write a little more first.");$("#postTxt").focus();return}const files=attReady("post");if(!files)return;el.disabled=true;
+    try{const id=await act(()=>API.postUpdate(d,tx,S.postSk||[]));if(files.length)await act(()=>API.attachFiles(id,files));S.postSk=[];S.att.post=[];S.myPosts=undefined;await loadSocial();renderS();toast("Posted. +5 points")}catch(_){el.disabled=false}return}
   if(a==="more"){const last=S.feed[S.feed.length-1];try{const more=await API.feed(S.ftrack===undefined?(S.today&&S.today.track):S.ftrack,last.created_at,S.stab==="community"?(S.fkind||null):null);S.feed=S.feed.concat(more);if(!more.length)toast("That's everything.")}catch(err){toast(friendly(err))}render();return}
   if(a==="nod"){nodSheet(el.dataset.id);return}
   if(a==="donod"){const p=findPost(el.dataset.id),sk=el.dataset.v;el.disabled=true;
     try{await act(()=>API.nod(p.id,sk,d));[S.feed,S.top,S.chAns].forEach(arr=>(arr||[]).forEach(x=>{if(x.id===p.id&&x!==p){x.nods++;x.my_nods.push(sk)}}));p.nods++;p.my_nods.push(sk);S.today.nods.used++;S.justNod=p.id;setTimeout(()=>{S.justNod=null},900);closeSheet();
       if(S.chOpen&&(S.chAns||[]).some(x=>x.id===p.id)){await chSheet(S.chOpen)}render();toast(`You nodded ${p.name||"Candidate #"+p.code} for ${sk}.`)}catch(_){el.disabled=false}return}
   if(a==="proof"){proofSheet();return}
+  if(a==="pimport"){const v=$("#pImp").value;el.disabled=true;el.textContent="Importing…";try{const r=await importLink(v);if(!$("#pT").value.trim())$("#pT").value=r.t;$("#pL").value=r.u;if(r.d&&!$("#pD").value.trim())$("#pD").value=r.d;$("#pImp").value="";$("#pD").focus();toast("Imported. Add what you did and the result.")}catch(err){toast(friendly(err))}el.disabled=false;el.textContent="Import";return}
   if(a==="pskill"){const v=el.dataset.v;if(S.pskills.includes(v))S.pskills=S.pskills.filter(x=>x!==v);else if(S.pskills.length<5)S.pskills.push(v);else{toast("Up to 5 skills.");return}$("#psk").innerHTML=pskBtns();return}
   if(a==="postproof"){const data={title:$("#pT").value.trim(),problem:$("#pP").value.trim(),did:$("#pD").value.trim(),result:$("#pR").value.trim(),link:$("#pL").value.trim()};
     if(data.title.length<3){toast("Give your post a title.");return}if(!data.did){toast("Add what you did. That's the part people learn from.");return}
-    el.disabled=true;try{await act(()=>API.postProof(d,data,S.pskills));closeSheet();S.ftrack=undefined;await loadSocial();renderToday();toast("Posted. +15 points")}catch(_){el.disabled=false}return}
+    const files=attReady("proof");if(!files)return;const addP=$("#pAddProj")&&$("#pAddProj").checked;
+    el.disabled=true;try{const id=await act(()=>API.postProof(d,data,S.pskills));if(files.length)await act(()=>API.attachFiles(id,files));
+      if(addP){S.me.projects=[{id:"p"+Date.now().toString(36),t:data.title,u:data.link?fixUrl(data.link):"",d:[data.did,data.result].filter(Boolean).join(" ").slice(0,500)},...(S.me.projects||[])].slice(0,12);S.me.sample=((S.me.projects.find(x=>x.u))||{}).u||S.me.sample;API.saveSeeker(S.me).catch(()=>{})}
+      S.att.proof=[];S.myPosts=undefined;closeSheet();S.ftrack=undefined;await loadSocial();renderToday();toast("Posted. +15 points")}catch(_){el.disabled=false}return}
   if(a==="chopen"){await chSheet(el.dataset.id);return}
   if(a==="chanswer"){const t=$("#chTxt").value.trim(),id=el.dataset.id;el.disabled=true;
     try{await act(()=>API.answerChallenge(id,t,d));S.chals=await API.challenges();await loadSocial();render();await chSheet(id);toast("Answer sent. +20 points")}catch(_){el.disabled=false}return}
@@ -1789,7 +1885,7 @@ document.addEventListener("click",async e=>{
   if(a==="cskill"){const v=el.dataset.v;if(S.cskills.includes(v))S.cskills=S.cskills.filter(x=>x!==v);else if(S.cskills.length<5)S.cskills.push(v);else{toast("Up to 5 skills.");return}$("#csk").innerHTML=cskBtns();return}
   if(a==="postch"){const o={title:$("#cT").value.trim(),body:$("#cB").value.trim(),track:$("#cTr").value,hours:+$("#cH").value,skills:S.cskills,job:$("#cJ").value||null};
     if(o.title.length<5){toast("Write the question you want answered.");return}
-    el.disabled=true;try{await act(()=>API.createChallenge(o));closeSheet();S.chals=await API.challenges();S.ctab="challenges";render();toast("Challenge is live. Job seekers in that field will see it on their Today page.")}catch(_){el.disabled=false}return}
+    el.disabled=true;try{await act(()=>API.createChallenge(o));closeSheet();S.chals=await API.challenges();S.ctab="challenges";render();toast("Challenge is live. Members in that field will see it on their Today page.")}catch(_){el.disabled=false}return}
   if(a==="winner"){const on=el.dataset.on==="1";el.disabled=true;try{await act(()=>API.markWinner(el.dataset.id,on));S.chals=await API.challenges();await chSheet(S.chOpen);toast(on?"Marked as a winner. They'll get a badge on their profile.":"Winner removed.")}catch(_){el.disabled=false}return}
   if(a==="chinvite"){const c=(S.chals||[]).find(x=>x.id===S.chOpen),aid=el.dataset.id;
     const jid=(c&&c.job_id&&S.jobs.some(j=>j.id===c.job_id&&j.open))?c.job_id:(S.jobs.find(j=>j.open)||{}).id;
@@ -1958,7 +2054,7 @@ async function uploadFlow(kind){const f=await pickImage();if(!f)return null;if(f
   toast("Uploading…");try{const blob=await prepImage(f,kind==="photo"?400:256,kind==="photo"?"cover":"contain");const url=await API.uploadImage(blob);toast(kind==="photo"?"Photo added. Save to keep it.":"Logo added. Save to keep it.");return url}
   catch(err){toast(/bad image/.test(err.message||"")?"Couldn't read that image. Try a JPG or PNG.":friendly(err));return null}}
 function photoBlock(){return `<div class="phrow" id="phBox"><span class="ava" style="width:72px;height:72px;font-size:24px;background:${D.photo?"var(--surface)":grad(D)}">${D.photo?`<img src="${esc(D.photo)}" alt="">`:esc(ini(D.name||"You"))}</span>
-  <div><b>Profile photo</b><span class="hint">Other job seekers see it in the community. Companies see it only after you accept their invite.</span><div class="phacts"><button type="button" class="btn line sm2" data-act="phup">${D.photo?"Change photo":"Upload photo"}</button>${D.photo?`<button type="button" class="ulink" data-act="phrm">Remove</button>`:""}</div></div></div>`}
+  <div><b>Profile photo</b><span class="hint">Other members see it in the community. Companies see it only after you accept their invite.</span><div class="phacts"><button type="button" class="btn line sm2" data-act="phup">${D.photo?"Change photo":"Upload photo"}</button>${D.photo?`<button type="button" class="ulink" data-act="phrm">Remove</button>`:""}</div></div></div>`}
 function coLogoBlock(){const L=S.coLogoDraft!=null?S.coLogoDraft:((S.co&&S.co.logo_url)||"");const nm=($("#coN")&&$("#coN").value)||(S.co&&S.co.name)||"";
   return `<div class="phrow" id="coLogoBox">${logoBox(nm,L,"big")}<div><b>Logo</b><span class="hint">${L&&!isAutoLogo(L)?"Shown on your invites, challenges and messages.":"Upload one, or we'll use your website's icon."}</span><div class="phacts"><button type="button" class="btn line sm2" data-act="lgup">${L&&!isAutoLogo(L)?"Change logo":"Upload logo"}</button>${L&&!isAutoLogo(L)?`<button type="button" class="ulink" data-act="lgrm">Remove</button>`:""}</div></div></div>`}
 document.addEventListener("click",async e=>{const el=e.target.closest("[data-act]");if(!el)return;const a=el.dataset.act;
@@ -2105,12 +2201,189 @@ Object.assign(DEMO,{async searchPeople(q){q=q.toLowerCase().trim();if(q.length<2
 let srT=null;
 function openSearch(){openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Find people</h2><span style="width:36px"></span></div>
   <div class="shb" style="gap:16px"><div class="srbox">${svg('<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/>')}<input id="srIn" placeholder="${S.role==="company"?"Search by skill, role or candidate code":"Search by name, skill or role"}" autocomplete="off"></div>
-  <div id="srRes" class="srres"><p class="hint">${S.role==="company"?"Job seekers show as codes until they accept your invite.":"Try a name, a skill like SQL, or a role like Data Analyst."}</p></div></div>`,true);setTimeout(()=>{const i=$("#srIn");i&&i.focus()},50)}
+  <div id="srRes" class="srres"><p class="hint">${S.role==="company"?"Members show as codes until they accept your invite.":"Try a name, a skill like SQL, or a role like Data Analyst."}</p></div></div>`,true);setTimeout(()=>{const i=$("#srIn");i&&i.focus()},50)}
 async function runSearch(q){const box=$("#srRes");if(!box)return;if(q.trim().length<2){box.innerHTML=`<p class="hint">Type at least 2 letters.</p>`;return}
   let r=[];try{r=await API.searchPeople(q.trim())}catch(err){box.innerHTML=`<p class="hint">${esc(friendly(err))}</p>`;return}if(!$("#srIn")||$("#srIn").value!==q)return;
   box.innerHTML=r.map(p=>`<button class="srrow" data-act="person" data-u="${p.user_id}">${personAva(p,44)}<span class="srt"><b>${whoName(p)}</b><span>${esc(p.headline||TRACK[p.track]||"")}</span></span>${svg('<path d="M9 6l6 6-6 6"/>')}</button>`).join("")||`<p class="hint">No one matches "${esc(q)}" yet.</p>`}
 document.addEventListener("input",e=>{if(e.target.id==="srIn"){clearTimeout(srT);const v=e.target.value;srT=setTimeout(()=>runSearch(v),220)}});
 document.addEventListener("click",e=>{const el=e.target.closest("[data-act=psearch]");if(el){e.stopPropagation();S.bell=false;openSearch()}},true);
+
+
+/* ================= Showcase links, projects, files on posts, starter prompts, profile posts ================= */
+const LINK_KINDS=[["github","GitHub",/(^|\.)github\.com$/],["figma","Figma",/(^|\.)figma\.com$/],["behance","Behance",/(^|\.)behance\.net$/],["dribbble","Dribbble",/(^|\.)dribbble\.com$/],
+  ["linkedin","LinkedIn",/(^|\.)linkedin\.com$/],["medium","Medium",/(^|\.)medium\.com$/],["substack","Substack",/(^|\.)substack\.com$/],["kaggle","Kaggle",/(^|\.)kaggle\.com$/],
+  ["notion","Notion",/(^|\.)notion\.(so|site)$/],["youtube","YouTube",/(^|\.)(youtube\.com|youtu\.be)$/],["x","X",/(^|\.)(x\.com|twitter\.com)$/],["tableau","Tableau",/(^|\.)tableau\.com$/],
+  ["devpost","Devpost",/(^|\.)devpost\.com$/],["gitlab","GitLab",/(^|\.)gitlab\.com$/],["huggingface","Hugging Face",/(^|\.)huggingface\.co$/]];
+const fixUrl=u=>{u=String(u||"").trim();if(!u)return"";if(!/^https?:\/\//i.test(u))u="https://"+u;try{const x=new URL(u);return /^https?:$/.test(x.protocol)&&x.hostname.includes(".")?x.href:""}catch(_){return""}};
+const linkKind=u=>{const h=hostOf(u);const k=LINK_KINDS.find(x=>x[2].test(h));return k?{k:k[0],label:k[1]}:{k:"site",label:h||"Website"}};
+const shortUrl=u=>{const f=fixUrl(u);if(!f)return u;const x=new URL(f);return (x.hostname.replace(/^www\./,"")+x.pathname).replace(/\/$/,"")};
+const human=s=>{s=decodeURIComponent(String(s||"")).replace(/[-_+]+/g," ").replace(/\s+/g," ").trim();return s?s.charAt(0).toUpperCase()+s.slice(1):""};
+const fmtSize=b=>b>=1048576?(b/1048576).toFixed(1)+" MB":Math.max(1,Math.round(b/1024))+" KB";
+const isImg=t=>/^image\//.test(t||"");
+const SVGI={ext:svg('<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'),
+  clip:svg('<path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4l7.8-7.8"/>'),
+  img:svg('<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M20 16l-5-5-8 8.5"/>'),
+  doc:svg('<path d="M14 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3.5V8h4.5"/>'),
+  back:svg('<path d="M15 6l-6 6 6 6"/>'),dl:svg('<path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/>')};
+const linkIcon=u=>{const h=hostOf(u);return `<span class="lkico"><i>${esc((h||"?").charAt(0).toUpperCase())}</i>${h?`<img src="${FAV(h)}" alt="" loading="lazy" onerror="this.remove()">`:""}</span>`};
+
+/* ---------- display ---------- */
+function linkChips(links){return `<div class="lkchips">${(links||[]).map(l=>{const k=linkKind(l.u);return `<a class="lkchip" href="${esc(fixUrl(l.u))}" target="_blank" rel="noopener">${linkIcon(l.u)}<span>${esc(k.k==="site"?shortUrl(l.u):k.label)}</span>${SVGI.ext}</a>`}).join("")}</div>`}
+function projCard(p,o){o=o||{};const u=fixUrl(p.u),t=esc(p.t||"Untitled project");
+  return `<div class="pjc">${u?`<a class="pjlogo" href="${esc(u)}" target="_blank" rel="noopener" tabindex="-1">${linkIcon(u)}</a>`:`<span class="pjlogo">${SVGI.doc}</span>`}
+    <div class="pjb">${u?`<a class="pjt" href="${esc(u)}" target="_blank" rel="noopener">${t}${SVGI.ext}</a><span class="pjh">${esc(shortUrl(u))}</span>`:`<b class="pjt">${t}</b>${o.blind?`<span class="pjh">Link unlocks after they accept</span>`:""}`}
+    ${p.d?`<p class="pjd">${esc(p.d)}</p>`:""}</div></div>`}
+function projBlock(list,o){o=o||{};list=list||[];const n=o.n||3;
+  if(!list.length)return o.empty||`<p class="hint">No projects yet.</p>`;
+  return `<div class="pjl">${list.slice(0,n).map(p=>projCard(p,o)).join("")}</div>${list.length>n?`<button class="seeall" data-act="allproj" data-u="${esc(o.uid||"")}">See all ${list.length} projects ${svg('<path d="M9 6l6 6-6 6"/>')}</button>`:""}`}
+function filesBlock(files){files=files||[];if(!files.length)return"";const im=files.filter(f=>isImg(f.type)),dc=files.filter(f=>!isImg(f.type));
+  return `${im.length?`<div class="pimgs n${Math.min(im.length,4)}">${im.slice(0,4).map((f,i)=>`<button class="pimg" data-act="viewimg" data-src="${esc(f.url)}" aria-label="Open image ${i+1}"><img src="${esc(f.url)}" alt="${esc(f.name||"")}" loading="lazy">${i===3&&im.length>4?`<span class="more">+${im.length-4}</span>`:""}</button>`).join("")}</div>`:""}
+   ${dc.length?`<div class="pfiles">${dc.map(f=>`<a class="pfile" href="${esc(f.url)}" target="_blank" rel="noopener" download="${esc(f.name||"file")}">${SVGI.doc}<span><b>${esc(f.name||"File")}</b><small>${esc((f.name||"").split(".").pop().toUpperCase())}${f.size?" · "+fmtSize(f.size):""}</small></span>${SVGI.dl}</a>`).join("")}</div>`:""}`}
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act=viewimg]");if(!el)return;e.stopPropagation();
+  const o=document.createElement("div");o.className="imgview";o.innerHTML=`<img src="${esc(el.dataset.src)}" alt=""><button class="xbtn" aria-label="Close">${I.x}</button>`;o.onclick=()=>o.remove();document.body.appendChild(o)},true);
+
+/* ---------- import a project from a link ---------- */
+async function importLink(raw){const u=fixUrl(raw);if(!u)throw new Error("That doesn't look like a link. Try github.com/you/project");
+  const x=new URL(u),h=x.hostname.replace(/^www\./,""),seg=x.pathname.split("/").filter(Boolean),out={u,t:"",d:""};
+  if(/github\.com$/.test(h)&&seg.length>=2){out.t=human(seg[1]);
+    try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),5000);const r=await fetch(`https://api.github.com/repos/${seg[0]}/${seg[1]}`,{signal:ctl.signal});
+      if(r.ok){const j=await r.json();out.t=human(j.name)||out.t;out.d=[j.description||"",j.language?`Built with ${j.language}.`:"",j.stargazers_count?`${j.stargazers_count} stars on GitHub.`:""].filter(Boolean).join(" ")}}catch(_){}}
+  else if(/figma\.com$/.test(h)&&seg.length>=3)out.t=human(seg[2]);
+  else if(/behance\.net$/.test(h)&&seg[0]==="gallery"&&seg[2])out.t=human(seg[2]);
+  else if(/dribbble\.com$/.test(h)&&seg[0]==="shots"&&seg[1])out.t=human(seg[1].replace(/^\d+-?/,""));
+  else if(/notion\.(so|site)$/.test(h)&&seg.length)out.t=human(seg[seg.length-1].replace(/-?[0-9a-f]{32}$/i,""));
+  else if(/medium\.com$/.test(h)&&seg.length)out.t=human(seg[seg.length-1].replace(/-[0-9a-f]{8,12}$/i,""));
+  else if(seg.length)out.t=human(seg[seg.length-1].replace(/\.(html?|php|aspx?)$/,""));
+  if(!out.t)out.t=human(h.split(".")[0]);return out}
+
+/* ---------- editors ---------- */
+function linksEditor(){D.links=D.links||[];
+  return `<p class="hint" style="font-size:14.5px">Paste any link: GitHub, Figma, Behance, Dribbble, Kaggle, Medium, your portfolio. We pick the icon for you.</p>
+   <div class="lkrows" id="lkRows">${lkRows()}</div>
+   <div class="addrow"><input id="lkIn" placeholder="github.com/yourname" autocomplete="off" maxlength="300"><button class="btn line" data-act="lkadd">Add</button></div>
+   <span class="hint">Members see these on your profile. Companies see them only after you accept their invite.</span>`}
+const lkRows=()=>(D.links||[]).map((l,i)=>{const k=linkKind(l.u);return `<div class="lkrow">${linkIcon(l.u)}<span><b>${esc(k.label)}</b><small>${esc(shortUrl(l.u))}</small></span><button class="ulink" data-act="lkdel" data-i="${i}">Remove</button></div>`}).join("")||`<p class="hint">No links yet.</p>`;
+function addLink(){const i=$("#lkIn"),u=fixUrl(i.value);if(!u){toast("That doesn't look like a link.");i.focus();return}
+  if(D.links.some(l=>fixUrl(l.u)===u)){toast("Already added.");return}if(D.links.length>=8){toast("Up to 8 links.");return}
+  D.links.push({k:linkKind(u).k,u});i.value="";$("#lkRows").innerHTML=lkRows();i.focus()}
+function projEditor(){D.projects=D.projects||[];const e=S.pjEdit!=null&&S.pjEdit>=0?D.projects[S.pjEdit]:null;
+  return `<div class="pjrows" id="pjRows">${pjRows()}</div>
+   <div class="pjform" id="pjForm"><b class="pjfh">${e?"Edit project":"Add a project"}</b>
+    <div class="f"><label for="pjImp">Import from a link</label><div class="addrow"><input id="pjImp" placeholder="Paste a GitHub, Figma, Behance, Notion or any link" autocomplete="off" maxlength="300"><button class="btn line" data-act="pjimport">Import</button></div><span class="hint">We fill in the title and description where we can. Edit anything after.</span></div>
+    <div class="f"><label for="pjT">Title</label><input id="pjT" maxlength="80" value="${esc(e?e.t:"")}" placeholder="Checkout redesign"></div>
+    <div class="f"><label for="pjU">Link</label><input id="pjU" maxlength="300" value="${esc(e?e.u:"")}" placeholder="github.com/you/project"></div>
+    <div class="f"><label for="pjD">Description</label><textarea id="pjD" maxlength="500" style="min-height:84px" placeholder="What it is, what you did, and the result">${esc(e?e.d:"")}</textarea></div>
+    <div class="pjfa">${e?`<button class="btn ghost" data-act="pjcancel">Cancel</button>`:""}<button class="btn dark" data-act="pjsave">${e?"Update project":"Add project"}</button></div></div>
+   <span class="hint">Companies see your project titles and descriptions. Links unlock after you accept their invite.</span>`}
+const pjRows=()=>(D.projects||[]).map((p,i)=>`<div class="pjrow">${projCard(p)}<div class="pjra"><button class="ulink" data-act="pjedit" data-i="${i}">Edit</button><button class="ulink" data-act="pjdel" data-i="${i}">Remove</button></div></div>`).join("");
+function pjRedraw(){const b=$("#edBody");if(b){const keep=b.scrollTop;b.innerHTML=projEditor();b.scrollTop=keep}}
+document.addEventListener("click",async e=>{const el=e.target.closest("[data-act]");if(!el||!D)return;const a=el.dataset.act;
+  if(a==="lkadd"){e.stopPropagation();addLink();return}
+  if(a==="lkdel"){e.stopPropagation();D.links.splice(+el.dataset.i,1);$("#lkRows").innerHTML=lkRows();return}
+  if(a==="pjimport"){e.stopPropagation();const v=$("#pjImp").value;el.disabled=true;el.textContent="Importing…";
+    try{const r=await importLink(v);$("#pjT").value=r.t;$("#pjU").value=r.u;if(r.d&&!$("#pjD").value.trim())$("#pjD").value=r.d;$("#pjImp").value="";$("#pjD").focus();toast(r.d?"Imported. Check the details.":"Imported the link. Add a short description.")}catch(err){toast(friendly(err))}
+    el.disabled=false;el.textContent="Import";return}
+  if(a==="pjsave"){e.stopPropagation();const t=$("#pjT").value.trim(),u=$("#pjU").value.trim(),d=$("#pjD").value.trim();
+    if(t.length<2){toast("Give the project a title.");$("#pjT").focus();return}if(u&&!fixUrl(u)){toast("That link doesn't look right.");$("#pjU").focus();return}
+    const p={id:(S.pjEdit>=0&&D.projects[S.pjEdit].id)||("p"+Date.now().toString(36)),t,u:u?fixUrl(u):"",d};
+    if(S.pjEdit>=0)D.projects[S.pjEdit]=p;else{if(D.projects.length>=12){toast("Up to 12 projects.");return}D.projects.unshift(p)}S.pjEdit=-1;pjRedraw();toast("Added. Save to keep it.");return}
+  if(a==="pjedit"){e.stopPropagation();S.pjEdit=+el.dataset.i;pjRedraw();$("#pjT").focus();return}
+  if(a==="pjcancel"){e.stopPropagation();S.pjEdit=-1;pjRedraw();return}
+  if(a==="pjdel"){e.stopPropagation();D.projects.splice(+el.dataset.i,1);S.pjEdit=-1;pjRedraw();return}
+},true);
+document.addEventListener("keydown",e=>{if(e.key!=="Enter")return;const id=e.target&&e.target.id;if(id==="lkIn"){e.preventDefault();addLink()}if(id==="pjImp"){e.preventDefault();const b=$("[data-act=pjimport]");b&&b.click()}});
+/* if someone types a project and hits Save without pressing Add, keep it */
+function commitProjDraft(){if(!D||!$("#pjT"))return true;const t=$("#pjT").value.trim();if(!t)return true;$("[data-act=pjsave]").click();return !$("#pjT")||!$("#pjT").value.trim()}
+
+/* ---------- uploads ---------- */
+Object.assign(LIVE,{
+  async uploadFile(blob,name,type){const ext=(name.split(".").pop()||"bin").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,5)||"bin",id=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2)),path=`${S.user.id}/${id}.${ext}`;
+    const{error}=await sb.storage.from("junction-files").upload(path,blob,{contentType:type,cacheControl:"31536000",upsert:false});if(error)throw error;
+    return sb.storage.from("junction-files").getPublicUrl(path).data.publicUrl},
+  async attachFiles(id,files){need(await sb.rpc("jx_post_files",{p_post:id,p_files:files}))},
+  async personPosts(u,before){return need(await sb.rpc("jx_person_posts",{p_user:u,p_before:before||null}))}
+});
+Object.assign(DEMO,{
+  async uploadFile(blob){return await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)})},
+  async attachFiles(id,files){const ps=DEMO._soc.posts;const p=ps.find(x=>x.id===id)||ps.filter(x=>x.author===(DEMO.demoRole==="company"?"co":"me")).sort((a,b)=>b.created_at.localeCompare(a.created_at))[0];if(p)p.data={...p.data,files}},
+  async personPosts(u,before){const all=(await DEMO.feed(null)).filter(p=>p.author_id===u);return all.filter(p=>!before||p.created_at<before).slice(0,20)}
+});
+const FILE_TYPES="image/png,image/jpeg,image/webp,image/gif,application/pdf,.pptx,.docx,.xlsx,.csv";
+const MIME={pdf:"application/pdf",pptx:"application/vnd.openxmlformats-officedocument.presentationml.presentation",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",csv:"text/csv"};
+function shrinkImage(f){return new Promise(res=>{if(f.type==="image/gif"||f.size<900e3){res(f);return}const img=new Image();img.onload=()=>{const k=Math.min(1,1800/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+  c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(img.src);c.toBlob(b=>res(b&&b.size<f.size?b:f),"image/jpeg",.86)};img.onerror=()=>res(f);img.src=URL.createObjectURL(f)})}
+function pickFiles(accept){return new Promise(res=>{const i=document.createElement("input");i.type="file";i.multiple=true;i.accept=accept;i.onchange=()=>res([...i.files]);i.click()})}
+async function addFiles(slot,accept){S.att=S.att||{};const L=S.att[slot]=S.att[slot]||[];const fs=await pickFiles(accept);if(!fs.length)return;
+  for(const f0 of fs){if(L.length>=6){toast("Up to 6 files per post.");break}
+    const ext=(f0.name.split(".").pop()||"").toLowerCase(),type=f0.type||MIME[ext]||"";
+    if(!/^image\/(png|jpeg|webp|gif)$/.test(type)&&!Object.values(MIME).includes(type)){toast(`${f0.name}: use images, PDF, PowerPoint, Word, Excel or CSV.`);continue}
+    const blob=isImg(type)?await shrinkImage(f0):f0;if(blob.size>10*1048576){toast(`${f0.name} is over 10 MB.`);continue}
+    const item={name:f0.name.slice(0,120),type:isImg(type)&&blob!==f0?"image/jpeg":type,size:blob.size,url:"",busy:true,prev:isImg(type)?URL.createObjectURL(blob):""};L.push(item);paintAtt(slot);
+    try{item.url=await API.uploadFile(blob,isImg(type)&&blob!==f0?f0.name.replace(/\.\w+$/,"")+".jpg":f0.name,item.type);item.busy=false}catch(err){L.splice(L.indexOf(item),1);toast(friendly(err))}paintAtt(slot)}}
+function attTray(slot){const L=(S.att&&S.att[slot])||[];if(!L.length)return"";
+  return L.map((f,i)=>`<div class="attc ${f.busy?"busy":""}">${isImg(f.type)?`<img src="${esc(f.prev||f.url)}" alt="">`:`<span class="attd">${SVGI.doc}<small>${esc(f.name.split(".").pop().toUpperCase())}</small></span>`}<span class="attn">${f.busy?"Uploading…":esc(f.name)}</span><button type="button" class="attx" data-act="attdel" data-slot="${slot}" data-i="${i}" aria-label="Remove">${I.x}</button></div>`).join("")}
+function paintAtt(slot){const t=document.querySelector(`[data-tray="${slot}"]`);if(t)t.innerHTML=attTray(slot)}
+const attReady=slot=>{const L=(S.att&&S.att[slot])||[];if(L.some(f=>f.busy)){toast("Still uploading. One sec.");return null}return L.map(f=>({url:f.url,name:f.name,type:f.type,size:f.size}))};
+const attButtons=slot=>`<button type="button" class="attb" data-act="attadd" data-slot="${slot}" data-k="img">${SVGI.img}<span>Photo</span></button><button type="button" class="attb" data-act="attadd" data-slot="${slot}" data-k="file">${SVGI.clip}<span>File</span></button>`;
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act=attadd],[data-act=attdel]");if(!el)return;e.stopPropagation();const s=el.dataset.slot;
+  if(el.dataset.act==="attadd")addFiles(s,el.dataset.k==="img"?"image/png,image/jpeg,image/webp,image/gif":FILE_TYPES);
+  else{S.att[s].splice(+el.dataset.i,1);paintAtt(s)}},true);
+
+/* ---------- starter prompts ---------- */
+const PROMPTS=[["project","Post a project you'd love people to see",""],["metric","Share one metric you moved","One metric I moved recently: "],["learn","What did you learn this week?","This week I learned "],
+  ["teardown","Tear down an app you used today","I used ___ today. One thing it gets right: "],["ask","Ask the community a question","Question for the community: "]];
+const promptRow=()=>`<div class="sprow">${PROMPTS.map(([k,t])=>`<button type="button" class="sp1 ${k==="project"?"hot":""}" data-act="sprompt" data-k="${k}">${k==="project"?SVGI.img:""}${esc(t)}</button>`).join("")}</div>`;
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act=sprompt]");if(!el)return;e.stopPropagation();const p=PROMPTS.find(x=>x[0]===el.dataset.k);
+  if(p[0]==="project"){proofSheet(true);return}const t=$("#postTxt");if(!t)return;if(!t.value.trim())t.value=p[2];t.focus();t.setSelectionRange(t.value.length,t.value.length)},true);
+
+/* ---------- profile: posts and projects, each opening into its own view ---------- */
+function myPostsBlock(){const uid=S.me&&S.me.id;if(!uid)return"";
+  if(S.myPosts===undefined){S.myPosts=null;API.personPosts(uid).then(r=>{S.myPosts=r||[];if(S.stab==="profile"&&!S.preview)renderS()}).catch(()=>{S.myPosts=[]})}
+  if(S.myPosts===null)return `<p class="hint">Loading your posts…</p>`;
+  if(!S.myPosts.length)return `<p class="hint" style="font-size:15px">Nothing posted yet. Your posts show here for everyone who visits your profile.</p><button class="btn line sm2" data-act="stab" data-t="community">Write your first post</button>`;
+  S.personPosts=S.myPosts;return `<div class="plist pprev">${S.myPosts.slice(0,2).map(p=>postCard(p)).join("")}</div><button class="seeall" data-act="allposts" data-u="${esc(uid)}" data-me="1">See all posts ${svg('<path d="M9 6l6 6-6 6"/>')}</button>`}
+async function postsView(uid,back,name){S.allPosts=[];let more=true;
+  const draw=()=>{const b=$("#apBody");if(!b)return;b.innerHTML=`${S.allPosts.map(p=>postCard(p)).join("")||`<p class="hint">No posts yet.</p>`}${more&&S.allPosts.length>=20?`<button class="btn line" data-act="apmore" style="align-self:center">Load more</button>`:""}`};
+  openSheet(`<div class="shh">${back?`<button class="xbtn" data-act="apback" data-u="${esc(uid)}" aria-label="Back">${SVGI.back}</button>`:`<button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button>`}<h2>${name||"Posts"}</h2><span style="width:36px"></span></div><div class="shb"><div class="plist" id="apBody"><p class="hint">Loading…</p></div></div>`,true);
+  const load=async()=>{const last=S.allPosts[S.allPosts.length-1];const r=await API.personPosts(uid,last?last.created_at:null);more=r.length>=20;S.allPosts=S.allPosts.concat(r);S.personPosts=S.allPosts;draw()};
+  S.apLoad=load;try{await load()}catch(err){toast(friendly(err))}}
+function projectsView(list,uid,back,name,blind){openSheet(`<div class="shh">${back?`<button class="xbtn" data-act="apback" data-u="${esc(uid)}" aria-label="Back">${SVGI.back}</button>`:`<button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button>`}<h2>${name||"Projects"}</h2><span style="width:36px"></span></div>
+  <div class="shb"><div class="pjl">${list.map(p=>projCard(p,{blind})).join("")}</div></div>`,true)}
+document.addEventListener("click",async e=>{const el=e.target.closest("[data-act=allposts],[data-act=allproj],[data-act=apback],[data-act=apmore]");if(!el)return;e.stopPropagation();const a=el.dataset.act,uid=el.dataset.u;
+  if(a==="apmore"){el.disabled=true;try{await S.apLoad()}catch(err){toast(friendly(err))}return}
+  if(a==="apback"){await personSheet(uid);return}
+  const mine=!uid||uid===(S.me&&S.me.id)||el.dataset.me==="1";
+  if(a==="allposts"){await postsView(mine?S.me.id:uid,!mine,mine?"Your posts":(S.person&&whoName(S.person)+"'s posts")||"Posts");return}
+  if(a==="allproj"){if(mine)projectsView(S.me.projects||[],S.me.id,false,"Your projects");else projectsView((S.person&&S.person.projects)||[],uid,true,(S.person&&whoName(S.person)+"'s projects")||"Projects",S.role==="company");return}
+},true);
+
+/* the person sheet, now with about, links, projects and a short posts preview */
+async function personSheet(uid){let P;try{P=await API.person(uid)}catch(err){toast(friendly(err));return}
+  S.person=P;S.personPosts=P.posts||[];const b=P.badges||{},blind=S.role==="company"&&!P.me&&!P.name,count=P.post_count!=null?P.post_count:S.personPosts.length;
+  openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>${P.me?"Your profile":"Profile"}</h2><span style="width:36px"></span></div>
+   <div class="shb psheet"><div class="ptop">${whoAva(P,88)}<div class="ptxt"><h2>${whoName(P)}</h2><p>${esc(P.headline||TRACK[P.track]||"")}</p>${orbitLine(b)}
+     <div class="pacts">${P.me?"":orbBtn(uid,P.orbiting)}${!P.me&&S.role==="seeker"?`<button class="btn line sm2" data-act="msgto" data-u="${uid}">Message</button>`:""}</div></div></div>
+     ${badgeRow(b,1)}
+     ${(P.links||[]).length?linkChips(P.links):blind?`<p class="hint">Links unlock after they accept your invite.</p>`:""}
+     ${P.about?`<div><h3 class="psh">About</h3><p class="pabout">${esc(P.about)}</p></div>`:""}
+     ${(P.skills||[]).length?`<div class="psk">${P.skills.slice(0,10).map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:""}
+     ${(P.projects||[]).length?`<div><h3 class="psh">Projects</h3>${projBlock(P.projects,{uid,blind,n:2})}</div>`:""}
+     <div><h3 class="psh">Posts${count?` <span class="pcount">${count}</span>`:""}</h3><div class="plist pprev">${S.personPosts.slice(0,2).map(p=>postCard(p)).join("")||`<p class="hint">No posts yet.</p>`}</div>
+       ${count>2?`<button class="seeall" data-act="allposts" data-u="${esc(uid)}">See all ${count} posts ${svg('<path d="M9 6l6 6-6 6"/>')}</button>`:""}</div></div>`,true);
+}
+/* nods and comments work on posts shown in profiles too */
+function findPost(id){return (S.feed||[]).concat(S.top||[],S.chAns||[],S.personPosts||[],S.allPosts||[],S.myPosts||[]).find(p=>p.id===id)}
+S.att=S.att||{};
+/* sample data for the preview */
+(function(){const me=DEMO._me;if(!me||!me.profile)return;
+  me.profile.links=[{k:"github",u:"https://github.com/jordanrivera"},{k:"figma",u:"https://www.figma.com/@jordanrivera"},{k:"site",u:"https://jordanrivera.design"}];
+  me.profile.projects=[{id:"p1",t:"Checkout redesign at Pebble Pay",u:"https://jordanrivera.design/checkout-redesign",d:"Mapped the funnel, found a 41% drop at payment, and redesigned the flow with saved cards and Apple Pay. Conversion went up 9% in six weeks."},
+    {id:"p2",t:"Churn early warning dashboard",u:"https://github.com/jordanrivera/churn-signals",d:"SQL and Looker dashboard that scores accounts weekly on usage drops and support tickets. Customer success now reaches out three weeks earlier."},
+    {id:"p3",t:"Duolingo onboarding teardown",u:"https://www.notion.so/jordan/Duolingo-onboarding-teardown-0f3c",d:"A teardown of the first five minutes of Duolingo and three experiments I would run next."},
+    {id:"p4",t:"Pricing page experiment",u:"",d:"Tested annual first pricing on a side project. Annual share went from 18% to 34%."}];
+  (DEMO._people||[]).filter(p=>p.user_id!=="me").slice(0,30).forEach((p,i)=>{if(i%3)return;const nm=(p.name||"").toLowerCase().replace(/[^a-z]/g,"");
+    p.profile.links=[{k:"github",u:"https://github.com/"+nm},...(i%2?[{k:"site",u:"https://"+nm+".com"}]:[])];
+    p.profile.projects=[{id:"q"+i,t:["Retention model for a meal kit app","Onboarding A/B test","Warehouse slotting optimizer","Growth loop teardown"][i%4],u:"https://github.com/"+nm+"/project",d:"A short write up of the problem, what I built and the result."}]})})();
 
 
 /* ================= Notifications bell + Messages ================= */
@@ -2260,7 +2533,7 @@ function renderMsgs(scrollEnd){
   const list=`<div class="mlist"><div class="mlh"><b>Messages</b></div>${ts.map(threadRow).join("")||`<div class="bempty">${ICN.chat}<p>${S.role==="company"?"Message candidates once they accept your invite. Open them from your pipeline.":"No conversations yet. Tap Message on any post to start one."}</p></div>`}</div>`;
   let conv=`<div class="mconv empty"><div class="bempty">${ICN.chat}<p>Pick a conversation</p></div></div>`;
   if(t){const w=t.who||{},blocked=t.blocked||t.blocked_me;
-    conv=`<div class="mconv"><div class="mch"><button class="xbtn mback" data-act="mback" aria-label="Back">${ICN.back}</button>${tAva(w,40)}<div class="mcn"><b>${esc(w.label)}</b><small>${w.company?"Company":t.kind==="hire"?"Candidate":"Job seeker · "+(TRACK[w.track]||"")}</small></div><button class="ulink" data-act="mblock" data-u="${t.other}" data-on="${t.blocked?0:1}">${t.blocked?"Unblock":"Block"}</button></div>
+    conv=`<div class="mconv"><div class="mch"><button class="xbtn mback" data-act="mback" aria-label="Back">${ICN.back}</button>${tAva(w,40)}<div class="mcn"><b>${esc(w.label)}</b><small>${w.company?"Company":t.kind==="hire"?"Candidate":(TRACK[w.track]||"Member")}</small></div><button class="ulink" data-act="mblock" data-u="${t.other}" data-on="${t.blocked?0:1}">${t.blocked?"Unblock":"Block"}</button></div>
       
       <div class="mbody" id="mbody">${S.msg.list.map((m,i)=>{const prev=S.msg.list[i-1];const sep=!prev||dayKey(prev.at)!==dayKey(m.at)?`<div class="msep">${new Date(m.at).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}</div>`:"";
         return `${sep}<div class="mb ${m.mine?"me":""} ${m.pending?"pend":""} ${m.failed?"fail":""}"><p>${esc(m.body)}</p><small>${m.failed?`Not sent. ${esc(m.failed)} <button class="ulink" data-act="mretry" data-id="${m.id}">Retry</button>`:m.pending?"Sending…":new Date(m.at).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></div>`}).join("")||`<div class="bempty"><p>Say hi. Keep it friendly and specific.</p></div>`}</div>
