@@ -1390,8 +1390,6 @@ function renderSeeker(){
      </aside>
      <div class="sections">
        <section class="sect"><div class="secth"><h2>About ${pv?"this candidate":esc(first)}</h2>${ed("basics")}</div><p class="about">${esc(c.about||"Add a few lines about what you're great at.")}</p></section>
-       <section class="sect"><div class="secth"><h2>Showcase</h2>${ed("links")}</div>${pv?((c.links||[]).length?`<p class="hint">${c.links.length} ${c.links.length===1?"link":"links"} on file. They unlock after you accept.</p>`:`<p class="hint">No links yet.</p>`):(c.links||[]).length?linkChips(c.links):`<p class="hint" style="font-size:15px">Show your GitHub, Figma, Behance, Kaggle or portfolio.</p><button class="btn line sm2" data-act="edit" data-s="links">Add links</button>`}</section>
-       <section class="sect"><div class="secth"><h2>Projects</h2>${ed("projects")}</div>${projBlock(pv?(c.projects||[]).map(x=>({...x,u:""})):c.projects,{uid:c.id,blind:pv,empty:pv?`<p class="hint">No projects yet.</p>`:`<p class="hint" style="font-size:15px">Your best proof of work. Import one from a GitHub, Figma or Notion link.</p><button class="btn line sm2" data-act="edit" data-s="projects">Add a project</button>`})}</section>
        ${pv?"":`<section class="sect"><div class="secth"><h2>Posts</h2><button class="ulink" data-act="stab" data-t="community">New post</button></div>${myPostsBlock()}</section>`}
        <section class="sect"><div class="secth"><h2>Nods</h2>${pv?"":`<button class="ulink" data-act="stab" data-t="today">Earn more</button>`}</div>${nodsBlock(S.badges[c.id]||{nods:0},!pv)}</section>
        <section class="sect"><div class="secth"><h2>Looking for</h2>${ed("prefs")}</div><div class="lfgrid">
@@ -1403,6 +1401,8 @@ function renderSeeker(){
        <section class="sect"><div class="secth"><h2>Experience</h2>${ed("exp")}</div><div class="xp">${c.exp.map(expItem).join("")||`<span class="hint">Nothing added yet</span>`}</div></section>
        <section class="sect"><div class="secth"><h2>Education</h2>${ed("edu")}</div><div class="xp">${(c.edu||[]).map(e=>`<div class="xpi">${schoolLogo(e,!pv)}<div><b>${eduLine(e)}</b><span>${pv?"School shown after you accept":esc(e.school||"School not added")}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")||`<span class="hint">Add your degree. Companies see the degree, field and year. The school name unlocks only after you accept an invite.</span>`}</div></section>
        
+       <section class="sect"><div class="secth"><h2>Showcase</h2>${ed("links")}</div>${pv?((c.links||[]).length?`<p class="hint">${c.links.length} ${c.links.length===1?"link":"links"} on file. They unlock after you accept.</p>`:`<p class="hint">No links yet.</p>`):(c.links||[]).length?linkChips(c.links):`<p class="hint" style="font-size:15px">Show your GitHub, Figma, Behance, Kaggle or portfolio.</p><button class="btn line sm2" data-act="edit" data-s="links">Add links</button>`}</section>
+       <section class="sect"><div class="secth"><h2>Projects</h2>${ed("projects")}</div>${projBlock(pv?(c.projects||[]).map(x=>({...x,u:""})):c.projects,{uid:c.id,blind:pv,empty:pv?`<p class="hint">No projects yet.</p>`:`<p class="hint" style="font-size:15px">Your best proof of work. Import one from a GitHub, Figma or Notion link.</p><button class="btn line sm2" data-act="edit" data-s="projects">Add a project</button>`})}</section>
        ${pv?"":`<section class="sect"><div class="secth"><h2>Open roles on Junction</h2></div>${fits.length?`<div class="stand">${fits.map(({j,r})=>{const m=j.must.filter(s=>!c.skills.includes(s));
           const lab=!r.fails.length&&r.s>=75?["fit-strong","Strong fit"]:!r.fails.length?["fit-maybe","Possible fit"]:["fit-no","Not a fit yet"];
           const tip=r.fails.length?r.fails[0]:m.length?"Add "+m.slice(0,2).join(" and ")+" to rank higher":"You match every must have";
@@ -2106,8 +2106,8 @@ Object.assign(LIVE,{
   Object.assign(DEMO,{
     async orbit(t,on){const k=u()+"|"+t;if(t===u())err("You can't orbit yourself");on?orb.add(k):orb.delete(k);return{on,count:orbCount(t)}},
     async person(t){const me=u();if(t!==me)views[me+"|"+t+"|"+localDay()]=1;const b=(await DEMO.badges([t]))[t];
-      const posts=aug((await DEMO.feed(null)).filter(p=>p.author_id===t)).slice(0,10);const p=P(t);
-      return{...who(me,t),user_id:t,me:t===me,headline:(p.profile&&p.profile.headline)||"",skills:(p.profile&&p.profile.skills)||[],badges:b,orbiting:orb.has(me+"|"+t),posts}},
+      const all=aug((await DEMO.feed(null)).filter(p=>p.author_id===t&&p.kind!=="drill")),posts=all.slice(0,3);const p=P(t);
+      return{...who(me,t),user_id:t,me:t===me,headline:(p.profile&&p.profile.headline)||"",skills:(p.profile&&p.profile.skills)||[],badges:b,orbiting:orb.has(me+"|"+t),posts,post_count:all.length,about:(p.profile&&p.profile.about)||"",links:me==="co"&&!(DEMO._hired&&DEMO._hired(t))?[]:(p.profile&&p.profile.links)||[],projects:((p.profile&&p.profile.projects)||[]).map(x=>me==="co"&&!(DEMO._hired&&DEMO._hired(t))?{...x,u:""}:x)}},
     async comments(id){const me=u(),post=X.posts.find(p=>p.id===id);return(cm[id]||[]).map(c=>({...who(me,c.author),id:c.id,body:c.body,at:c.at,author_id:c.author,mine:c.author===me,can_delete:c.author===me||(post&&post.author===me)}))},
     async comment(id,b){b=(b||"").trim();if(!b)err("Write a comment first");const me=u(),c={id:"c"+cid++,author:me,body:b,at:new Date().toISOString()};(cm[id]=cm[id]||[]).push(c);return{...who(me,me),id:c.id,body:b,at:c.at,author_id:me,mine:true,can_delete:true}},
     async commentDel(id){Object.keys(cm).forEach(k=>cm[k]=cm[k].filter(c=>c.id!==id))},
@@ -2306,7 +2306,7 @@ Object.assign(LIVE,{
 Object.assign(DEMO,{
   async uploadFile(blob){return await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)})},
   async attachFiles(id,files){const ps=DEMO._soc.posts;const p=ps.find(x=>x.id===id)||ps.filter(x=>x.author===(DEMO.demoRole==="company"?"co":"me")).sort((a,b)=>b.created_at.localeCompare(a.created_at))[0];if(p)p.data={...p.data,files}},
-  async personPosts(u,before){const all=(await DEMO.feed(null)).filter(p=>p.author_id===u);return all.filter(p=>!before||p.created_at<before).slice(0,20)}
+  async personPosts(u,before){const all=(await DEMO.feed(null)).filter(p=>p.author_id===u&&p.kind!=="drill");return all.filter(p=>!before||p.created_at<before).slice(0,20)}
 });
 const FILE_TYPES="image/png,image/jpeg,image/webp,image/gif,application/pdf,.pptx,.docx,.xlsx,.csv";
 const MIME={pdf:"application/pdf",pptx:"application/vnd.openxmlformats-officedocument.presentationml.presentation",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",csv:"text/csv"};
