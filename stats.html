@@ -163,6 +163,8 @@ function demo(n){
     engagement:{dau:series[n-1].active,wau:Math.round(series[n-1].active*2.6),mau:Math.round(series[n-1].active*5.1),streak7:Math.round(series[n-1].active*.31),posters:Math.round(sum("active")/n*1.4),nodded:Math.round(sum("active")/n*1.1),profiles_ready:986},
     funnel:{sent:inv,answered:Math.round(inv*.81),accepted:Math.round(inv*.58),interviewing:Math.round(inv*.34),offer:Math.round(inv*.09),hired:Math.round(inv*.06),declined:Math.round(inv*.23)},
     series,
+    geo:[{cc:"US",n:861,seekers:802,companies:59,recent:212},{cc:"IN",n:298,seekers:290,companies:8,recent:96},{cc:"GB",n:84,seekers:79,companies:5,recent:22},{cc:"CA",n:61,seekers:58,companies:3,recent:15},{cc:"SG",n:27,seekers:25,companies:2,recent:9},{cc:"AE",n:19,seekers:18,companies:1,recent:6},{cc:"DE",n:14,seekers:14,companies:0,recent:4}],
+    cities:[{city:"New York",n:233},{city:"Remote",n:198},{city:"San Francisco",n:141},{city:"Austin",n:97},{city:"Bangalore",n:88},{city:"Seattle",n:61},{city:"London",n:52}],
     tracks:[{track:"product",n:412},{track:"data",n:301},{track:"growth",n:244},{track:"engineering",n:198},{track:"ops",n:129}],
     skills:[{skill:"SQL",n:612,co:58},{skill:"Clear thinker",n:540,co:31},{skill:"Product sense",n:433,co:44},{skill:"Python",n:390,co:22},{skill:"A/B testing",n:301,co:19},{skill:"Figma",n:244,co:9},{skill:"Storytelling",n:198,co:12},{skill:"Excel",n:150,co:6}],
     leagues:[640,388,190,66],
@@ -210,6 +212,7 @@ function lineChart(host,rows,ser,opts){
   const out=()=>{xh.setAttribute("opacity",0);hd.innerHTML="";tip.style.opacity=0};
   svg.addEventListener("pointermove",move);svg.addEventListener("pointerleave",out);
 }
+const ccName=cc=>{if(!cc||cc==="??")return"Unknown";try{return new Intl.DisplayNames(["en"],{type:"region"}).of(cc)}catch(_){return cc}};
 function hbars(rows,opts){opts=opts||{};const max=Math.max(1,...rows.map(r=>r.n));
   return`<div class="hb ${opts.cls||""}">${rows.map(r=>`<div class="hr" data-tip="${esc(r.tip||"")}"><span class="lab">${esc(r.label)}</span><span class="trk"><span class="bar" style="width:${Math.max(.5,r.n/max*88)}%"></span><span class="val">${fmt(r.n)}${r.sub?`<small>${esc(r.sub)}</small>`:""}</span></span></div>`).join("")||`<div class="empty">Nothing yet in this range.</div>`}</div>`}
 function table(rows,cols){return`<details class="tbl"><summary>View as table</summary><div class="tw"><table><thead><tr><th>Day</th>${cols.map(c=>`<th>${c.name}</th>`).join("")}</tr></thead><tbody>${rows.slice().reverse().map(r=>`<tr><td>${dl(r.d)}</td>${cols.map(c=>`<td>${fmt(r[c.key])}</td>`).join("")}</tr>`).join("")}</tbody></table></div></details>`}
@@ -249,7 +252,9 @@ function render(){
    </div>
    <div class="grid3">
      <section class="card"><div class="ch"><div><h2>Most nodded skills</h2><p>In this range</p></div></div>${hbars((D.skills||[]).map(s=>({label:s.skill,n:s.n,sub:s.co?s.co+" from companies":""})))}</section>
-     <section class="card"><div class="ch"><div><h2>Job seekers by field</h2><p>All time</p></div></div>${hbars((D.tracks||[]).map(t=>({label:TRACK[t.track]||t.track,n:t.n})))}</section>
+     <section class="card"><div class="ch"><div><h2>Joined by geography</h2><p>All time, from each person's time zone. ${D.days} day new sign ups in brackets</p></div></div>${hbars((D.geo||[]).map(g=>({label:ccName(g.cc),n:g.n,sub:`${g.seekers} members · ${g.companies} companies${g.recent?` (+${g.recent})`:""}`})))}</section>
+     <section class="card"><div class="ch"><div><h2>Where members want to work</h2><p>First city on each profile</p></div></div>${hbars((D.cities||[]).map(c=>({label:c.city,n:c.n})))}</section>
+     <section class="card"><div class="ch"><div><h2>Members by field</h2><p>All time</p></div></div>${hbars((D.tracks||[]).map(t=>({label:TRACK[t.track]||t.track,n:t.n})))}</section>
      <section class="card"><div class="ch"><div><h2>Leagues</h2><p>Where people sit this week</p></div></div>
        <div class="tiers">${["Bronze","Silver","Gold","Diamond"].map((t,i)=>`<div class="tier"><b>${fmt((D.leagues||[])[i])}</b><span><i style="--c:${["#B87333","#A7AFBA","#E2B13C","#7FD3F5"][i]}"></i>${t}</span></div>`).join("")}</div>
        <div class="mini" style="margin-top:14px"><div><b>${fmt((P.challenges||{}).cur)}</b><span>Challenges posted</span></div><div><b>${fmt((P.answers||{}).cur)}</b><span>Challenge answers</span></div></div></section>
