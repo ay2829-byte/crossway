@@ -8,7 +8,7 @@
 <meta property="og:title" content="Junction by Crossway">
 <meta property="og:description" content="Where the right paths cross. No resumes, no applications, just your best matches.">
 <meta property="og:image" content="logo.png">
-<link rel="icon" href="logo.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ffffff'/%3E%3Crect x='12' y='15' width='30' height='9' rx='4.5' fill='%234C6BF5'/%3E%3Crect x='12' y='28' width='20' height='9' rx='4.5' fill='%23F2643D'/%3E%3Crect x='12' y='41' width='40' height='9' rx='4.5' fill='%2312A38A'/%3E%3C/svg%3E"><link rel="apple-touch-icon" href="logo.png"><meta property="og:url" content="https://crosswayhq.com/junction">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -927,6 +927,13 @@ a.pjt:hover{text-decoration:underline;text-underline-offset:3px}
 @media (max-width:640px){.topin .sp{display:none}.topin .hicons{margin-left:auto}.topin .hib{width:34px;height:34px}.topin .acctbtn{padding:2px}}
 @media (max-width:640px){.topin{column-gap:4px}.topin .prod a,.topin .prod span{padding:6px 9px;font-size:12.5px}.topin .hib{width:32px}}
 .cacts{flex-wrap:wrap;justify-content:flex-end;row-gap:6px;min-width:0}@media (max-width:640px){.crow{flex-wrap:wrap}.cacts{width:100%}}
+/* files in messages */
+.mfiles{margin-top:2px;min-width:220px;max-width:320px}
+.mfiles .pimgs{margin-top:6px;border-radius:12px}.mfiles .pimgs.n1 .pimg img{max-height:260px}
+.mfiles .pfiles{margin-top:6px}.mfiles .pfile{background:#fff;color:#222}.mfiles .pfile small{color:#717171}
+.mtray{padding:10px 16px 0}.mtray:empty{display:none;padding:0}
+.mattb{width:42px;height:42px;padding:0;justify-content:center;border-radius:50%;flex:none}
+.mfiles .pfile small,.mfiles .pfile b{text-align:left}
 </style>
 </head>
 <body>
@@ -1020,8 +1027,8 @@ const LIVE={
   async register(role){return need(await sb.rpc("paths_register",{p_role:role}))},
   async seeker(){return normC(need(await sb.from("paths_seekers").select("*").eq("user_id",S.user.id).single()))},
   async saveSeeker(c){need(await sb.from("paths_seekers").update({name:c.name,photo_url:c.photo||"",sample_url:c.sample,open:c.open,profile:profOf(c),schools:(c.edu||[]).map(e=>e.school||""),updated_at:new Date().toISOString()}).eq("user_id",S.user.id))},
-  async company(){return need(await sb.from("paths_companies").select("*").eq("user_id",S.user.id).single())},
-  async saveCompany(name,website,logo){need(await sb.from("paths_companies").update({name,website,logo_url:logo||""}).eq("user_id",S.user.id))},
+  async company(){const r=need(await sb.rpc("jx_my_company"));if(!r)throw new Error("We couldn't find your company account. Try signing in again.");return r},
+  async saveCompany(name,website,logo){need(await sb.rpc("jx_save_company",{p_name:name,p_website:website||"",p_logo:logo||""}))},
   async myJobs(){return need(await sb.from("paths_jobs").select("*").eq("company_id",S.user.id).order("created_at",{ascending:false})).map(r=>({...r.data,id:r.id,open:r.open,created:r.created_at}))},
   async createJob(d){const r=need(await sb.from("paths_jobs").insert({data:d,company_id:S.user.id}).select().single());return{...r.data,id:r.id,open:r.open,created:r.created_at}},
   async setJobOpen(id,open){need(await sb.from("paths_jobs").update({open}).eq("id",id))},
@@ -2043,7 +2050,7 @@ Object.assign(LIVE,{
   async uploadImage(blob){const ext=blob.type==="image/png"?"png":"jpg",id=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random().toString(36).slice(2)),path=`${S.user.id}/${id}.${ext}`;
     const{error}=await sb.storage.from("avatars").upload(path,blob,{contentType:blob.type,cacheControl:"31536000",upsert:false});if(error)throw error;
     return sb.storage.from("avatars").getPublicUrl(path).data.publicUrl},
-  async logos(){const{data,error}=await sb.from("paths_companies").select("name,logo_url").neq("logo_url","");if(error)return{};const m={};(data||[]).forEach(r=>{if(r.name&&!m[r.name])m[r.name]=r.logo_url});return m}
+  async logos(){const{data,error}=await sb.rpc("jx_company_logos");if(error)return{};return data||{}}
 });
 Object.assign(DEMO,{
   async uploadImage(blob){return await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)})},
@@ -2402,7 +2409,7 @@ Object.assign(LIVE,{
   async postGet(id){return need(await sb.rpc("jx_post_get",{p_id:id}))},
   async threads(){return need(await sb.rpc("jx_threads"))},
   async messages(t){return need(await sb.rpc("jx_messages",{p_thread:t}))},
-  async send(t,body){return need(await sb.rpc("jx_send",{p_thread:t,p_body:body}))},
+  async send(t,body,files){return need(await sb.rpc("jx_send",{p_thread:t,p_body:body||"",p_files:files||[]}))},
   async startThread(other,invite){return need(await sb.rpc("jx_start_thread",{p_other:other||null,p_invite:invite||null}))},
   async block(u,on){return need(await sb.rpc("jx_block",{p_user:u,p_on:on}))}
 });
@@ -2444,11 +2451,11 @@ Object.assign(LIVE,{
     async inboxRead(ids){notifs[u()].forEach(n=>{if(!ids||ids.includes(n.id))n.read=true})},
     async postGet(id){return(await DEMO.feed(null)).find(p=>p.id===id)||X.posts.filter(p=>p.id===id).map(p=>({...p,author_id:p.author,code:X.codeOf(p.author),mine:p.author===u(),nods:X.nods.filter(n=>n.post_id===p.id).length,my_nods:[],challenge:null}))[0]||null},
     async threads(){const me=u();return threads.filter(t=>(t.a===me||t.b===me)&&(msgs[t.id].length||t.creator===me)).map(tview).sort((a,b)=>b.last_at.localeCompare(a.last_at))},
-    async messages(id){const me=u(),t=threads.find(x=>x.id===id);if(!t)err("Conversation not found");t.reads[me]=Date.now();return msgs[id].map(m=>({id:m.id,body:m.body,mine:m.from===me,at:m.at}))},
-    async send(id,body){const me=u(),t=threads.find(x=>x.id===id);if(!t)err("Pick a conversation first");body=(body||"").trim();if(!body)err("Write a message first");if(t.blocks&&(t.blocks.me||t.blocks[t.a===me?t.b:t.a]))err("You can't message this person");
-      const m={id:"m"+Math.random().toString(36).slice(2),from:me,body,at:new Date().toISOString()};msgs[id].push(m);t.reads[me]=Date.now();
+    async messages(id){const me=u(),t=threads.find(x=>x.id===id);if(!t)err("Conversation not found");t.reads[me]=Date.now();return msgs[id].map(m=>({id:m.id,body:m.body,files:m.files||[],mine:m.from===me,at:m.at}))},
+    async send(id,body,files){files=files||[];const me=u(),t=threads.find(x=>x.id===id);if(!t)err("Pick a conversation first");body=(body||"").trim();if(!body&&!files.length)err("Write a message first");if(t.blocks&&(t.blocks.me||t.blocks[t.a===me?t.b:t.a]))err("You can't message this person");
+      const m={id:"m"+Math.random().toString(36).slice(2),from:me,body,files,at:new Date().toISOString()};msgs[id].push(m);t.reads[me]=Date.now();
       const other=t.a===me?t.b:t.a;if(!t.replied&&other!=="co"&&other!=="me"){t.replied=true;setTimeout(()=>{msgs[id].push({id:"r"+Date.now(),from:other,body:t.kind==="peer"?"Thanks for the message! Happy to compare notes. What are you working on right now?":"Thanks! See you then.",at:new Date().toISOString()});if(S.msg&&S.msg.open)refreshMsgs(true);else refreshInbox()},2500)}
-      return{id:m.id,body:m.body,mine:true,at:m.at}},
+      return{id:m.id,body:m.body,files:m.files,mine:true,at:m.at}},
     async startThread(other,invite){const me=u();if(invite){const iv=(DEMO._invites||[]).find(i=>i.id===invite);if(!iv||!["accepted","interviewing","offer","hired"].includes(iv.status))err("You can message once the invite is accepted");other=me==="co"?iv.seeker_id:iv.company_id}
       if(!other||other===me)err("Pick someone to message");if(me==="co"&&!(DEMO._hired&&DEMO._hired(other)))err("You can message a candidate once they accept your invite");
       let t=threads.find(x=>(x.a===me&&x.b===other)||(x.b===me&&x.a===other));if(!t){t=mkT(me,other,me==="co"||other==="co"?"hire":"peer",[]);t.creator=me}return t.id},
@@ -2536,17 +2543,17 @@ function renderMsgs(scrollEnd){
     conv=`<div class="mconv"><div class="mch"><button class="xbtn mback" data-act="mback" aria-label="Back">${ICN.back}</button>${tAva(w,40)}<div class="mcn"><b>${esc(w.label)}</b><small>${w.company?"Company":t.kind==="hire"?"Candidate":(TRACK[w.track]||"Member")}</small></div><button class="ulink" data-act="mblock" data-u="${t.other}" data-on="${t.blocked?0:1}">${t.blocked?"Unblock":"Block"}</button></div>
       
       <div class="mbody" id="mbody">${S.msg.list.map((m,i)=>{const prev=S.msg.list[i-1];const sep=!prev||dayKey(prev.at)!==dayKey(m.at)?`<div class="msep">${new Date(m.at).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}</div>`:"";
-        return `${sep}<div class="mb ${m.mine?"me":""} ${m.pending?"pend":""} ${m.failed?"fail":""}"><p>${esc(m.body)}</p><small>${m.failed?`Not sent. ${esc(m.failed)} <button class="ulink" data-act="mretry" data-id="${m.id}">Retry</button>`:m.pending?"Sending…":new Date(m.at).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></div>`}).join("")||`<div class="bempty"><p>Say hi. Keep it friendly and specific.</p></div>`}</div>
-      ${blocked?`<div class="mnote">${t.blocked?"You blocked this person. Unblock to message again.":"You can't reply to this conversation."}</div>`:`<div class="mcomp"><textarea id="msgIn" data-t="${t.id}" rows="1" maxlength="2000" placeholder="Write a message"></textarea><button class="btn dark" data-act="msend" aria-label="Send">${ICN.send}</button></div>`}</div>`}
+        return `${sep}<div class="mb ${m.mine?"me":""} ${m.pending?"pend":""} ${m.failed?"fail":""}">${m.body?`<p>${esc(m.body)}</p>`:""}${(m.files||[]).length?`<div class="mfiles">${filesBlock(m.files)}</div>`:""}<small>${m.failed?`Not sent. ${esc(m.failed)} <button class="ulink" data-act="mretry" data-id="${m.id}">Retry</button>`:m.pending?"Sending…":new Date(m.at).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</small></div>`}).join("")||`<div class="bempty"><p>Say hi. Keep it friendly and specific.</p></div>`}</div>
+      ${blocked?`<div class="mnote">${t.blocked?"You blocked this person. Unblock to message again.":"You can't reply to this conversation."}</div>`:`<div class="atttray mtray" data-tray="msg">${attTray("msg")}</div><div class="mcomp"><button type="button" class="attb mattb" data-act="attadd" data-slot="msg" data-k="file" aria-label="Attach a file or photo">${SVGI.clip}</button><textarea id="msgIn" data-t="${t.id}" rows="1" maxlength="2000" placeholder="Write a message"></textarea><button class="btn dark" data-act="msend" aria-label="Send">${ICN.send}</button></div>`}</div>`}
   const html=`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Messages</h2><span style="width:36px"></span></div><div class="msheet ${t?"has":""}">${list}${conv}</div>`;
   const sheet=$("#modalRoot .sheet.msg");
   if(sheet)sheet.innerHTML=html;else{openSheet(html);const s2=$("#modalRoot .sheet");s2&&s2.classList.add("msg")}
   const mi=$("#msgIn");if(mi){mi.value=keep;if(scrollEnd||!keep)mi.focus()}
   const mb=$("#mbody");if(mb)mb.scrollTop=mb.scrollHeight;
 }
-async function sendMsg(retry){const mi=$("#msgIn");if(!mi&&!retry)return;const body=retry?retry.body:mi.value.trim();if(!body)return;const tid=(mi&&mi.dataset.t)||S.msg.thread;if(!tid){toast("Pick a conversation first");return}S.msg.thread=tid;if(mi)mi.value="";
-  const tmp=retry||{id:"tmp"+Date.now(),body,mine:true,at:new Date().toISOString()};tmp.pending=true;tmp.failed="";if(!retry)S.msg.list=(S.msg.list||[]).concat(tmp);renderMsgs(true);
-  try{const m=await API.send(tid,body);if(!m||!m.id)throw new Error("The server didn't confirm the message. Run the latest Junction SQL in Supabase.");
+async function sendMsg(retry){const mi=$("#msgIn");if(!mi&&!retry)return;const body=retry?retry.body:mi.value.trim();const files=retry?(retry.files||[]):attReady("msg");if(!files)return;if(!body&&!files.length)return;const tid=(mi&&mi.dataset.t)||S.msg.thread;if(!tid){toast("Pick a conversation first");return}S.msg.thread=tid;if(mi)mi.value="";
+  if(!retry){S.att.msg=[]}const tmp=retry||{id:"tmp"+Date.now(),body,files,mine:true,at:new Date().toISOString()};tmp.pending=true;tmp.failed="";if(!retry)S.msg.list=(S.msg.list||[]).concat(tmp);renderMsgs(true);
+  try{const m=await API.send(tid,body,files);if(!m||!m.id)throw new Error("The server didn't confirm the message. Run the latest Junction SQL in Supabase.");
     S.msg.list=S.msg.list.map(x=>x===tmp?m:x);renderMsgs(true);S.msg.threads=await API.threads().catch(()=>S.msg.threads);renderMsgs(true)}
   catch(err){tmp.pending=false;tmp.failed=friendly(err);renderMsgs(true);toast(tmp.failed)}}
 async function startMsg(other,invite){try{const id=await API.startThread(other,invite);closeSheet();await openMsgs(id);await selectThread(id)}catch(err){toast(friendly(err))}}
@@ -2568,7 +2575,7 @@ document.addEventListener("click",async e=>{
   if(a==="mblock"){const on=el.dataset.on==="1";try{await API.block(el.dataset.u,on);toast(on?"Blocked. They can't message you anymore.":"Unblocked.");await refreshMsgs(true)}catch(err){toast(friendly(err))}return}
   if(a==="msgto"){await startMsg(el.dataset.u,null);return}
   if(a==="msginv"){e.stopPropagation();await startMsg(null,el.dataset.inv);return}
-  if(a==="mclose"&&S.msg.open){S.msg.open=false;S.msg.thread=null;refreshInbox()}
+  if(a==="mclose"&&S.msg.open&&!(el.classList.contains("scrim")&&e.target!==el)){S.msg.open=false;S.msg.thread=null;refreshInbox()}
 });
 document.addEventListener("keydown",e=>{if(e.target&&e.target.id==="msgIn"&&e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMsg()}
   if(e.key==="Escape"&&S.bell){S.bell=false;renderTop()}});
