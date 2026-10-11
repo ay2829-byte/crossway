@@ -942,6 +942,8 @@ a.pjt:hover{text-decoration:underline;text-underline-offset:3px}
 .fpsec h3{font-size:18px;margin-bottom:12px;letter-spacing:-.01em}
 .payrow{display:flex;gap:10px}.payrow select{flex:0 0 auto;max-width:56%}.payrow input{flex:1;min-width:0}
 @media (max-width:640px){.fphead{flex-direction:column;text-align:center}.fphead .pacts{justify-content:center}}
+.demand{display:inline-flex;align-items:center;font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:99px;background:#FFF4E5;color:#B45309;margin-left:6px;white-space:nowrap}
+.mc .cv .demand{position:absolute;left:14px;bottom:14px;z-index:1;margin:0;background:#FFF4E5;color:#B45309;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 </style>
 </head>
 <body>
@@ -1003,7 +1005,7 @@ function mkSlots(){const out=[],d=new Date();const times=["10:00 AM","2:00 PM"];
 
 /* ---------- profile shape + matching ---------- */
 function normC(r){const p=r.profile||{};return{id:r.seeker_id||r.user_id||r.id,code:r.code||"",name:r.name||"",photo:r.photo_url||"",sample:r.sample_url||"",
-  hasSample:r.has_sample!=null?!!r.has_sample:!!r.sample_url,open:r.open!==false,headline:p.headline||"",about:p.about||"",yrs:+p.yrs||0,
+  hasSample:r.has_sample!=null?!!r.has_sample:!!r.sample_url,openInv:+r.open_invites||0,open:r.open!==false,headline:p.headline||"",about:p.about||"",yrs:+p.yrs||0,
   roles:Array.isArray(p.roles)?p.roles:[],titles:Array.isArray(p.titles)&&p.titles.length?p.titles:(Array.isArray(p.roles)?p.roles:[]).map(titleOfTrack),locs:Array.isArray(p.locs)?p.locs:[],remote:p.remote!==false,cur:p.cur||"USD",pay:+p.pay||0,sponsor:!!p.sponsor,
   links:Array.isArray(p.links)?p.links:[],projects:Array.isArray(p.projects)&&p.projects.length?p.projects:(r.sample_url?[{id:"p0",t:human(String(r.sample_url).replace(/^https?:\/\//,"").split("/").filter(Boolean).pop()||"Work sample"),u:r.sample_url,d:""}]:[]),skills:Array.isArray(p.skills)?p.skills:[],exp:Array.isArray(p.exp)?p.exp:[],
   edu:(Array.isArray(p.edu)?p.edu:[]).map((e,i)=>({...e,school:(Array.isArray(r.schools)&&r.schools[i])||""}))}}
@@ -1023,7 +1025,7 @@ function evalC(c,j){
     {t:`${yrs(c.yrs)} of experience, role asks for ${a} to ${b}`,ok:exIn},
     {t:c.pay?`Wants ${money(c.pay,c.cur)}, band is ${band(j)}`:`Pay fits the ${band(j)} band`,ok:true}];
   if(nh.length)why.push({t:"Bonus: "+nh.join(", "),ok:true});
-  if(c.hasSample)why.push({t:"Has a work sample on file",ok:true});
+  if(c.hasSample)why.push({t:"Has a work sample on file",ok:true});if(c.openInv>=3)why.push({t:`In demand: ${c.openInv} open invites with other companies, so they rank a little lower to give others a shot`,ok:false});
   return{c,s,fails,mh,nh,exIn,why,parts:{Skills:[must*50,50],Bonus:[nice*15,15],Experience:[ex*15,15],"Role fit":[role*10,10],"Work sample":[ver*10,10]}};
 }
 
@@ -1078,7 +1080,7 @@ const DEMO=(()=>{
   const coNames={co:"Fieldnote",co2:"Kestrel Freight"};
   const slots=mkSlots();let invites=[],passes=[],nid=1;
   const P=id=>people.find(p=>p.user_id===id);
-  const toC=(p,reveal)=>({seeker_id:p.user_id,code:p.code,profile:p.profile,has_sample:!!p.sample_url,name:reveal?p.name:"",photo_url:reveal?p.photo_url:"",sample_url:reveal?p.sample_url:"",schools:reveal?(p.schools||[]):[]});
+  const toC=(p,reveal)=>({seeker_id:p.user_id,code:p.code,profile:p.profile,has_sample:!!p.sample_url,open_invites:p.code==="9F1"?4:hash(p.code)%6===0?3+hash(p.code)%3:0,name:reveal?p.name:"",photo_url:reveal?p.photo_url:"",sample_url:reveal?p.sample_url:"",schools:reveal?(p.schools||[]):[]});
   const revealed=sid=>invites.some(i=>i.seeker_id===sid&&i.company_id==="co"&&STAGES.slice(1).includes(i.status));
   // seed a little activity
   invites.push({id:"i"+nid++,job_id:"j1",seeker_id:"me",company_id:"co",status:"invited",msg:"Hi! Your product analytics work looked like a strong fit for our APM role. Would love a 30 minute intro with our Head of Product.",slots:slots.slice(0,3),slot:"",created_at:new Date().toISOString()});
@@ -1117,10 +1119,14 @@ const job=()=>S.jobs.find(j=>j.id===S.job);
 const cand=id=>S.cands.find(c=>c.id===id);
 const revealedC=c=>!!c.name;
 const dname=c=>c.name||"Candidate #"+c.code;
+const demandPenalty=c=>c.openInv>=3?Math.min(15,5*(c.openInv-2)):0;
+const demandTag=c=>c.openInv>=3?`<span class="demand" title="${c.openInv} open invites with other companies">In demand</span>`:"";
 function ranked(j){
   const passed=new Set(S.passes.filter(p=>p.job_id===j.id).map(p=>p.seeker_id));
   const all=S.cands.map(c=>evalC(c,j));
-  const pass=all.filter(r=>!r.fails.length&&(r.c.open||invOf(j.id,r.c.id))).sort((x,y)=>y.s-x.s||x.c.code.localeCompare(y.c.code));
+  /* spread opportunity: people already holding 3+ open invites elsewhere slide a few spots down, so more strong people get seen */
+  const adj=r=>r.s-(invOf(j.id,r.c.id)?0:demandPenalty(r.c));
+  const pass=all.filter(r=>!r.fails.length&&(r.c.open||invOf(j.id,r.c.id))).sort((x,y)=>adj(y)-adj(x)||y.s-x.s||x.c.code.localeCompare(y.c.code));
   const live=pass.filter(r=>!passed.has(r.c.id)&&(invOf(j.id,r.c.id)||{}).status!=="declined");
   return{all,pass,top:live.slice(0,10)};
 }
@@ -1297,7 +1303,7 @@ function tileInner(c,r){
 function card(j,r,i){
   const c=r.c,x=invOf(j.id,c.id),s=x&&x.status,all=r.mh.length===j.must.length;
   return `<div class="mc ${S.fresh===c.id?"new":""}" role="button" tabindex="0" data-act="open" data-id="${c.id}">
-    <div class="cv" style="background:${grad(c)}"><span class="score" style="z-index:1">${r.s}<small>match</small></span><span class="rk" style="z-index:1">#${i+1}</span>${tileInner(c,r)}${s?pillx(s).replace('class="pillx','style="z-index:1" class="pillx'):""}</div>
+    <div class="cv" style="background:${grad(c)}"><span class="score" style="z-index:1">${r.s}<small>match</small></span><span class="rk" style="z-index:1">#${i+1}</span>${tileInner(c,r)}${demandTag(c)}${s?pillx(s).replace('class="pillx','style="z-index:1" class="pillx'):""}</div>
     <div><div class="t1"><b>${esc(dname(c))}</b><span class="${all?"":"meh"}">${r.mh.length}/${j.must.length} skills</span></div>
       <p>${esc(c.headline||"No headline yet")}</p><div class="t3">${yrs(c.yrs)}${c.pay?` · ${money(c.pay,c.cur)}`:""}${(S.badges[c.id]||{}).nods?` · ${S.badges[c.id].nods} ${S.badges[c.id].nods===1?"nod":"nods"}`:""}${(S.badges[c.id]||{}).streak>=3?` · ${FLAME.replace('class="i"','class="i" style="width:14px;height:14px;vertical-align:-2px"')}${S.badges[c.id].streak}`:""}</div></div></div>`;
 }
