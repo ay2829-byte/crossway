@@ -26,24 +26,16 @@
   ],
   "rewrites": [
     {
-      "source": "/blog",
-      "destination": "/blog.html"
-    },
-    {
-      "source": "/blog/",
-      "destination": "/blog.html"
-    },
-    {
       "source": "/blog/covers/:file",
       "destination": "/:file"
     },
     {
       "source": "/blog/:slug",
-      "destination": "/:slug.html"
+      "destination": "/:slug"
     },
     {
       "source": "/compare/:slug",
-      "destination": "/:slug.html"
+      "destination": "/:slug"
     }
   ]
 }
