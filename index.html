@@ -618,7 +618,7 @@ html,body{-webkit-font-smoothing:antialiased}
 .hbempty{font-size:13.5px;color:var(--muted);padding:10px 0}
 .hbt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
 .hbch+.hbt{border-top:0}
-.hbn{display:flex;flex-direction:column;min-width:0}.hbn b{font-size:14.5px;font-weight:600;color:var(--ink)}.hbn small{font-size:12px;color:var(--muted);margin-top:1px}
+.hbn{display:flex;flex-direction:column;min-width:0}.hbn small:empty{display:none}.hbn b{font-size:14.5px;font-weight:600;color:var(--ink)}.hbn small{font-size:12px;color:var(--muted);margin-top:1px}
 .hbin{font:600 14.5px var(--font);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:4px 8px;background:var(--bg);width:100%;max-width:240px}
 .hbnum{width:52px;font:500 12px var(--font);border:1px solid var(--line);border-radius:6px;padding:2px 5px;background:var(--bg);color:var(--ink)}
 .hbctl{display:flex;align-items:center;gap:7px}.hbctl>b{font-size:14.5px;min-width:56px;text-align:right;color:var(--ink)}.hbctl>b span{color:var(--faint);font-weight:500}
@@ -641,6 +641,7 @@ html,body{-webkit-font-smoothing:antialiased}
 .hbadd form{display:flex;gap:8px;flex-wrap:wrap}
 .hbadd input,.hbadd select{border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--bg);color:var(--ink);font:inherit;font-size:13.5px}
 #hbAddName{flex:1 1 220px}#hbAddN{width:76px}
+.hbunit{align-self:center;font-size:13px;color:var(--muted)}
 .hbsug{display:flex;gap:6px;flex-wrap:wrap}.hbsug button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:5px 12px;font-size:12.5px;color:var(--ink2)}.hbsug button:hover{background:var(--hover);color:var(--ink)}
 .hbws{display:flex;gap:10px;height:96px;margin-top:8px}
 .hbw{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;border:0;background:none;padding:0;min-width:0}
@@ -1556,9 +1557,11 @@ function hSave(){LS.set(hKey(),H.data);if(!H.cloud||!sb||!user)return;clearTimeo
 const hGet=(d,g)=>(H.data.log[d]&&H.data.log[d][g])||0;
 function hSet(d,g,v){const L=H.data.log;L[d]=L[d]||{};if(v>0)L[d][g]=v;else{delete L[d][g];if(!Object.keys(L[d]).length)delete L[d]}hSave()}
 const hWeekCount=(g,days)=>days.reduce((a,d)=>a+hGet(d,g.id),0);
-const hNeed=g=>g.kind==="day"?Math.min(7,g.target||7):(g.target||1);
+const hElapsed=off=>{if(off<0)return 7;if(off>0)return 1;return hDays(0).indexOf(hDs(new Date()))+1};
+const hNeed=(g,off)=>g.kind==="day"?hElapsed(off||0):(g.target||1);
+function hHabStreak(id){let n=0;const d=new Date();d.setHours(0,0,0,0);if(!hGet(hDs(d),id))d.setDate(d.getDate()-1);while(hGet(hDs(d),id)&&n<999){n++;d.setDate(d.getDate()-1)}return n}
 function hScore(off){const gs=H.data.goals;if(!gs.length)return 0;const days=hDays(off);
-  return gs.reduce((a,g)=>a+Math.min(1,hWeekCount(g,days)/hNeed(g)),0)/gs.length}
+  return gs.reduce((a,g)=>a+Math.min(1,hWeekCount(g,days)/hNeed(g,off)),0)/gs.length}
 function hStreak(){let n=0;const d=new Date();d.setHours(0,0,0,0);const any=k=>H.data.log[k]&&Object.keys(H.data.log[k]).length;
   if(!any(hDs(d)))d.setDate(d.getDate()-1);while(any(hDs(d))&&n<999){n++;d.setDate(d.getDate()-1)}return n}
 function hBest(){const ks=Object.keys(H.data.log).filter(k=>Object.keys(H.data.log[k]).length).sort();let b=0,r=0,prev=null;
@@ -1566,22 +1569,22 @@ function hBest(){const ks=Object.keys(H.data.log).filter(k=>Object.keys(H.data.l
 function renderHabits(){const v=$("view");if(!H.data){v.innerHTML='<div class="loading">Loading your habits…</div>';hLoad();return}
   const off=H.off,days=hDays(off),today=hDs(new Date()),gs=H.data.goals,wk=gs.filter(g=>g.kind!=="day"),dy=gs.filter(g=>g.kind==="day");
   const sc=hScore(off),pct=Math.round(sc*100),ti=days.indexOf(today),el=off<0?1:off>0?0:(ti+1)/7;
-  const hit=wk.filter(g=>hWeekCount(g,days)>=hNeed(g)).length+dy.filter(g=>hWeekCount(g,days)>=hNeed(g)).length;
+  const hit=wk.filter(g=>hWeekCount(g,days)>=hNeed(g)).length,dToday=dy.filter(g=>hGet(today,g.id)).length;
   const checks=days.reduce((a,d)=>a+Object.values(H.data.log[d]||{}).reduce((x,y)=>x+y,0),0);
   const m0=new Date(days[0]+"T00:00:00"),m6=new Date(days[6]+"T00:00:00"),fd=d=>d.toLocaleDateString(undefined,{month:"short",day:"numeric"});
   const head=!gs.length?"Set up your week.":off<0?(pct>=80?"Strong week.":pct>=50?"Solid week.":"A slower week."):off>0?"Plan ahead.":(sc>=el-0.02?(pct>=100?"Every target hit.":"You're ahead of pace."):"A little behind. Catch up today.");
-  const sub=!gs.length?"Add the few things you want to do every week. Tap to log them as you go.":`${hit} of ${gs.length} target${gs.length===1?"":"s"} hit${off===0?" so far":""}. ${off===0?"Resets every Monday.":""}`;
+  const sub=!gs.length?"Add the few things you want to do every week. Tap to log them as you go.":[wk.length?`${hit} of ${wk.length} weekly target${wk.length===1?"":"s"} hit`:"",dy.length&&off===0?`${dToday} of ${dy.length} habit${dy.length===1?"":"s"} done today`:""].filter(Boolean).join(", ")+".";
   const del=g=>H.edit?`<button class="hbdel" data-hdel="${g.id}" title="Remove" aria-label="Remove ${esc(g.title)}">${'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15"/></svg>'}</button>`:"";
   const nm=(g,s)=>H.edit?`<span class="hbn"><input class="hbin" data-hname="${g.id}" value="${esc(g.title)}" maxlength="60" aria-label="Goal name"><small>${s}</small></span>`:`<span class="hbn"><b>${esc(g.title)}</b><small>${s}</small></span>`;
   const tw=wk.map(g=>{const c=hWeekCount(g,days),n=hNeed(g),done=c>=n;return `<div class="hbt">${nm(g,H.edit?`Target <input class="hbnum" type="number" min="1" max="999" data-htarget="${g.id}" value="${n}"> a week`:`${Math.round(n/5*10)/10>=1&&n%5===0?n/5+" a weekday":n+" this week"}`)}
       <div class="hbctl"><b class="num">${c}<span> / ${n}</span></b>${H.edit?del(g):`<button class="hbb" data-hstep="${g.id}" data-v="-1" ${c?"":"disabled"} aria-label="Minus one">−</button><button class="hbb p" data-hstep="${g.id}" data-v="1" aria-label="Plus one">+</button>`}</div>
       <div class="hbbar ${done?"done":""}"><i style="width:${Math.min(100,c/n*100)}%"></i></div></div>`}).join("");
   const dn=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-  const td=dy.map(g=>{const c=hWeekCount(g,days),n=hNeed(g);return `${nm(g,H.edit?`<input class="hbnum" type="number" min="1" max="7" data-htarget="${g.id}" value="${n}"> days a week`:`${c} of ${n} days`)}${H.edit?`<span class="hbedrow">${del(g)}</span>`:days.map((d,i)=>{const on=hGet(d,g.id),fut=d>today;return `<button class="hbd ${on?"y":""} ${d===today?"t":""} ${fut?"f":""}" data-hday="${g.id}" data-d="${d}" ${fut?"disabled":""} aria-label="${esc(g.title)} ${dn[i]}${on?" done":""}">${on?'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10.5l3.2 3.2L15 7"/></svg>':""}</button>`}).join("")}`}).join("");
+  const td=dy.map(g=>{const st=hHabStreak(g.id);return `${nm(g,H.edit?"":st>1?`${st} day streak`:"")}${H.edit?`<span class="hbedrow">${del(g)}</span>`:days.map((d,i)=>{const on=hGet(d,g.id),fut=d>today;return `<button class="hbd ${on?"y":""} ${d===today?"t":""} ${fut?"f":""}" data-hday="${g.id}" data-d="${d}" ${fut?"disabled":""} aria-label="${esc(g.title)} ${dn[i]}${on?" done":""}">${on?'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10.5l3.2 3.2L15 7"/></svg>':""}</button>`}).join("")}`}).join("");
   const past=Array.from({length:8},(_,i)=>{const o=off-7+i,s=hScore(o),d=hMon(o);return `<button class="hbw ${o===off?"c":""}" data-hweek="${o}" title="${Math.round(s*100)}% of targets"><i style="height:${Math.max(4,s*100)}%"></i><span>${o===0?"This week":fd(d)}</span></button>`}).join("");
-  const add=H.edit||!gs.length?`<div class="hbadd"><form id="hbAddForm"><input id="hbAddName" placeholder="Add a goal, e.g. Workouts" maxlength="60" aria-label="New goal name">
-      <select id="hbAddKind" aria-label="Goal type"><option value="week">Count per week</option><option value="day">Daily check</option></select>
-      <input id="hbAddN" type="number" min="1" max="999" value="5" aria-label="Target"><button class="btn pri" type="submit">Add</button></form>
+  const add=H.edit||!gs.length?`<div class="hbadd"><form id="hbAddForm"><input id="hbAddName" placeholder="${H.addKind==="day"?"Add a habit, e.g. Read 20 minutes":"Add a goal, e.g. Workouts"}" maxlength="60" aria-label="New goal name">
+      <select id="hbAddKind" aria-label="Goal type"><option value="week" ${H.addKind!=="day"?"selected":""}>Count per week</option><option value="day" ${H.addKind==="day"?"selected":""}>Daily habit</option></select>
+      <input id="hbAddN" type="number" min="1" max="999" value="5" aria-label="Target per week" ${H.addKind==="day"?"hidden":""}><span class="hbunit" ${H.addKind==="day"?"hidden":""}>a week</span><button class="btn pri" type="submit">Add</button></form>
       <div class="hbsug">${H_SUG.filter(s=>!gs.some(g=>g.title.toLowerCase()===s[0].toLowerCase())).map(s=>`<button data-hsug="${esc(s[0])}|${s[1]}|${s[2]}">+ ${esc(s[0])}</button>`).join("")}</div></div>`:"";
   v.innerHTML=`<div class="hb">
     <div class="hbhero"><div class="hbring" style="--p:${pct}"><b>${pct}%</b></div>
@@ -1590,8 +1593,8 @@ function renderHabits(){const v=$("view");if(!H.data){v.innerHTML='<div class="l
 </div>
     ${!H.cloud&&!H.warned?`<div class="hbwarn">Saving on this device only. Run <b>supabase-habits.sql</b> in Supabase to sync across devices.</div>`:""}
     <div class="hbgrid">
-      <section class="hbcard"><div class="hbch"><h3>Weekly targets</h3><button class="hbedit" data-hedit>${H.edit?"Done":"Edit goals"}</button></div>${tw||`<p class="hbempty">Counts you add up during the week, like applications or workouts.</p>`}</section>
-      <section class="hbcard"><div class="hbch"><h3>Daily habits</h3><span class="hbsm">${H.edit?"":"Tap a day to check it off"}</span></div>
+      <section class="hbcard"><div class="hbch"><h3>Weekly targets</h3><button class="hbedit" data-hedit data-k="week">${H.edit?"Done":wk.length?"Edit goals":"+ Add goal"}</button></div>${tw||`<p class="hbempty">Counts you add up during the week, like applications or workouts.</p>`}</section>
+      <section class="hbcard"><div class="hbch"><h3>Daily habits</h3><button class="hbedit" data-hedit data-k="day">${H.edit?"Done":dy.length?"Edit habits":"+ Add habit"}</button></div>
         ${dy.length?`<div class="hbg"><span></span>${dn.map((d,i)=>`<span class="hbdn ${days[i]===today?"t":""}">${d}</span>`).join("")}${td}</div>`:`<p class="hbempty">Things you want to do most days, like a daily review or reading.</p>`}</section>
     </div>${add}
     ${gs.length?`<section class="hbcard hbpast"><div class="hbch"><h3>Past 8 weeks</h3><span class="hbsm">Share of targets hit. Tap a week to open it.</span></div><div class="hbws">${past}</div></section>`:""}</div>`}
@@ -1602,15 +1605,15 @@ document.addEventListener("click",e=>{const T=e.target;if(!T.closest||!T.closest
   if(b=T.closest("[data-hday]")){const d=b.dataset.d,g=b.dataset.hday;hSet(d,g,hGet(d,g)?0:1);renderHabits();return}
   if(b=T.closest("[data-hoff]")){const v=+b.dataset.hoff;H.off=v===0?0:Math.min(0,H.off+v);renderHabits();return}
   if(b=T.closest("[data-hweek]")){H.off=Math.min(0,+b.dataset.hweek);renderHabits();return}
-  if(T.closest("[data-hedit]")){H.edit=!H.edit;renderHabits();return}
+  if(b=T.closest("[data-hedit]")){H.edit=!H.edit;if(H.edit&&b.dataset.k)H.addKind=b.dataset.k;renderHabits();if(H.edit){const i=$("hbAddName");if(i){i.scrollIntoView({block:"center",behavior:"smooth"});i.focus({preventScroll:true})}}return}
   if(b=T.closest("[data-hdel]")){const g=H.data.goals.find(x=>x.id===b.dataset.hdel);if(!g)return;const i=H.data.goals.indexOf(g);H.data.goals.splice(i,1);hSave();renderHabits();
     toast("Removed "+g.title,()=>{H.data.goals.splice(i,0,g);hSave();renderHabits()});return}
   if(b=T.closest("[data-hsug]")){const[t,k,n]=b.dataset.hsug.split("|");H.data.goals.push({id:hId(),title:t,kind:k,target:+n});hSave();renderHabits();return}});
 document.addEventListener("submit",e=>{if(e.target.id!=="hbAddForm")return;e.preventDefault();const t=$("hbAddName").value.trim();if(!t){$("hbAddName").focus();return}
-  const k=$("hbAddKind").value;let n=Math.max(1,parseInt($("hbAddN").value)||1);if(k==="day")n=Math.min(7,n);H.data.goals.push({id:hId(),title:t,kind:k,target:n});hSave();renderHabits();const i=$("hbAddName");if(i)i.focus()});
+  const k=$("hbAddKind").value;H.addKind=k;let n=k==="day"?7:Math.max(1,parseInt($("hbAddN").value)||1);H.data.goals.push({id:hId(),title:t,kind:k,target:n});hSave();renderHabits();const i=$("hbAddName");if(i)i.focus()});
 document.addEventListener("change",e=>{const T=e.target;if(T.dataset.hname){const g=H.data.goals.find(x=>x.id===T.dataset.hname);if(g&&T.value.trim()){g.title=T.value.trim();hSave()}}
   if(T.dataset.htarget){const g=H.data.goals.find(x=>x.id===T.dataset.htarget);if(g){let n=Math.max(1,parseInt(T.value)||1);if(g.kind==="day")n=Math.min(7,n);g.target=n;hSave()}}
-  if(T.id==="hbAddKind"){const n=$("hbAddN");if(n)n.value=T.value==="day"?7:5}});
+  if(T.id==="hbAddKind"){H.addKind=T.value;const n=$("hbAddN");if(n)n.hidden=T.value==="day";const u=document.querySelector(".hbunit");if(u)u.hidden=T.value==="day";const i=$("hbAddName");if(i)i.placeholder=T.value==="day"?"Add a habit, e.g. Read 20 minutes":"Add a goal, e.g. Workouts"}});
 applyTheme();applyDensity();boot();
 })();
 </script>
