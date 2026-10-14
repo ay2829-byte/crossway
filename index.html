@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Crossway: free project tracker</title>
+<title>Crossway: free project tracker</title><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="canonical" href="https://crosswayhq.com/welcome">
 <meta name="description" content="Crossway is a free, simple project tracker. Groups, statuses, priorities, due dates, a calendar and a Kanban board.">
 <meta property="og:title" content="Crossway">
 <meta property="og:description" content="A free, simple project tracker for your work and life.">
 <meta property="og:image" content="logo.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"%3E%3Crect width="32" height="32" rx="9" fill="%230073EA"/%3E%3Cpath d="M8 23.5C14 23.5 18 8.5 24 8.5" fill="none" stroke="%23fff" stroke-width="3.4" stroke-linecap="round"/%3E%3Cpath d="M8 8.5C14 8.5 18 23.5 24 23.5" fill="none" stroke="%23fff" stroke-opacity=".5" stroke-width="3.4" stroke-linecap="round"/%3E%3Ccircle cx="24" cy="8.5" r="3.1" fill="%2300C875"/%3E%3C/svg%3E">
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,7 +76,7 @@ svg{display:block}
 .brand{display:flex;align-items:center;gap:9px}
 .logo{height:20px;width:auto;flex:none}
 .wordmark{font-family:"Bricolage Grotesque",var(--font);font-weight:800;font-size:23px;line-height:1;letter-spacing:-.03em;color:var(--wordmark)}
-.menu-btn{display:none}
+.ghostbtn.menu-btn{display:none}
 .snav{display:flex;flex-direction:column;gap:1px}
 .shead{display:flex;align-items:center;justify-content:space-between;padding:0 6px 4px 10px;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
 .pitem{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;padding:7px 10px;border-radius:8px;color:var(--ink2);font-weight:500}
@@ -383,7 +383,7 @@ body.resizing,body.resizing *{cursor:col-resize!important;user-select:none!impor
   .app{grid-template-columns:1fr}
   .side{position:static;height:auto;padding:12px 16px;gap:12px}
   .side.collapsed .apps,.side.collapsed .snav,.side.collapsed .shead,.side.collapsed .addp,.side.collapsed .sfoot{display:none}
-  .menu-btn{display:inline-flex}
+  .ghostbtn.menu-btn{display:inline-flex}
   .main{padding-inline:8px;padding-block:0 8px}
   .card{min-height:auto;padding-inline:16px;padding-block:16px 100px;border-radius:12px}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -594,6 +594,62 @@ html,body{-webkit-font-smoothing:antialiased}
 .day{border-color:var(--line)}
 .chip{border-radius:8px}
 @media (max-width:760px){.card{padding-inline:16px}.tabs{max-width:100%}.top h1{font-size:26px}}
+
+/* ===== Habits ===== */
+.hb{display:flex;flex-direction:column;gap:18px}
+.hbhero{position:relative;overflow:hidden;isolation:isolate;border-radius:24px;background:linear-gradient(135deg,#17171B,#232845);color:#fff;padding:26px 30px;display:flex;align-items:center;gap:28px}
+.hbhero::after{content:"";position:absolute;z-index:-1;right:-60px;top:-90px;width:360px;height:360px;border-radius:50%;background:radial-gradient(closest-side,rgba(76,107,245,.5),transparent)}
+.hbring{width:100px;height:100px;border-radius:50%;flex:none;display:grid;place-items:center;position:relative;background:conic-gradient(#7C93FF calc(var(--p)*1%),rgba(255,255,255,.1) 0)}
+.hbring::before{content:"";position:absolute;inset:9px;border-radius:50%;background:#1B1D2C}.hbring b{position:relative;font-size:23px;font-weight:700;letter-spacing:-.02em}
+.hbht{min-width:0}.hbk{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:#9DB0FF;font-weight:600}
+.hbht h2{font-size:30px;font-weight:700;letter-spacing:-.03em;margin-top:6px;line-height:1.1;color:#fff}.hbht p{color:#C4C5CE;font-size:14px;margin-top:6px}
+.hbhs{margin-left:auto;display:flex;gap:10px}.hbhs div{background:rgba(255,255,255,.08);border-radius:16px;padding:12px 16px;min-width:104px}
+.hbhs b{font-size:24px;font-weight:700;display:block;font-variant-numeric:tabular-nums}.hbhs span{font-size:12px;color:#A9AAB3}
+.hbkr{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.hbnav{display:flex;gap:4px}
+.hbnav button{border:0;background:rgba(255,255,255,.1);color:#fff;height:24px;min-width:24px;border-radius:999px;font-size:16px;line-height:1;padding:0 9px}
+.hbnav button.now{font-size:12px;font-weight:600}.hbnav button:disabled{opacity:.3}.hbnav button:not(:disabled):hover{background:rgba(255,255,255,.16)}
+.hbwarn{font-size:13px;color:var(--ink2);background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.hbgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.hbcard{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--bg);min-width:0}
+.hbch{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.hbch h3{font-size:17px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.hbsm{font-size:12.5px;color:var(--muted)}
+.hbedit{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:5px 13px;font-size:12.5px;font-weight:600;color:var(--ink2)}.hbedit:hover{background:var(--soft)}
+.hbempty{font-size:13.5px;color:var(--muted);padding:10px 0}
+.hbt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
+.hbch+.hbt{border-top:0}
+.hbn{display:flex;flex-direction:column;min-width:0}.hbn b{font-size:14.5px;font-weight:600;color:var(--ink)}.hbn small{font-size:12px;color:var(--muted);margin-top:1px}
+.hbin{font:600 14.5px var(--font);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:4px 8px;background:var(--bg);width:100%;max-width:240px}
+.hbnum{width:52px;font:500 12px var(--font);border:1px solid var(--line);border-radius:6px;padding:2px 5px;background:var(--bg);color:var(--ink)}
+.hbctl{display:flex;align-items:center;gap:7px}.hbctl>b{font-size:14.5px;min-width:56px;text-align:right;color:var(--ink)}.hbctl>b span{color:var(--faint);font-weight:500}
+.hbb{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink2);font-size:17px;line-height:1;display:grid;place-items:center;padding:0;transition:transform .1s}
+.hbb:active{transform:scale(.92)}.hbb:disabled{opacity:.35}
+.hbb.p{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}
+.hbbar{grid-column:1/3;height:6px;border-radius:9px;background:var(--soft);overflow:hidden}.hbbar i{display:block;height:100%;border-radius:9px;background:var(--ink);transition:width .3s}
+.hbbar.done i{background:#12A38A}
+.hbdel{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--muted);display:grid;place-items:center;padding:0}.hbdel svg{width:14px;height:14px}.hbdel:hover{color:var(--danger,#D32A44)}
+.hbg{display:grid;grid-template-columns:minmax(0,1fr) repeat(7,32px);gap:6px 8px;align-items:center}
+.hbg .hbn{padding:8px 0}
+.hbdn{font-size:11px;font-weight:600;color:var(--muted);text-align:center;text-transform:uppercase}.hbdn.t{color:var(--ink)}
+.hbedrow{grid-column:2/9;justify-self:end}
+.hbd{width:30px;height:30px;border-radius:50%;justify-self:center;border:1.5px dashed var(--line);background:none;padding:0;display:grid;place-items:center;color:#fff;transition:transform .12s,background .15s}
+.hbd:not(:disabled):hover{border-color:var(--muted)}.hbd:active{transform:scale(.9)}
+.hbd.y{border:0;background:#12A38A}.hbd svg{width:15px;height:15px}
+.hbd.t:not(.y){border:2px solid var(--ink)}
+.hbd.f{border:1.5px solid var(--soft);background:var(--soft);cursor:default}
+.hbadd{border:1px dashed var(--line);border-radius:20px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.hbadd form{display:flex;gap:8px;flex-wrap:wrap}
+.hbadd input,.hbadd select{border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--bg);color:var(--ink);font:inherit;font-size:13.5px}
+#hbAddName{flex:1 1 220px}#hbAddN{width:76px}
+.hbsug{display:flex;gap:6px;flex-wrap:wrap}.hbsug button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:5px 12px;font-size:12.5px;color:var(--ink2)}.hbsug button:hover{background:var(--hover);color:var(--ink)}
+.hbws{display:flex;gap:10px;height:96px;margin-top:8px}
+.hbw{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;border:0;background:none;padding:0;min-width:0}
+.hbw i{width:100%;border-radius:8px;background:var(--accent-soft);display:block;transition:background .15s}.hbw:hover i{background:color-mix(in srgb,var(--accent) 35%,var(--accent-soft))}
+.hbw.c i{background:var(--accent)}.hbw span{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+@media (max-width:1100px){.hbhs{display:none}}
+@media (max-width:900px){.hbgrid{grid-template-columns:1fr}}
+@media (max-width:760px){.hbhero{flex-direction:column;align-items:flex-start;gap:16px;padding:22px}.hbhs{display:flex;margin-left:0;width:100%}.hbhs div{flex:1;min-width:0;padding:10px 12px}.hbhs b{font-size:20px}.hbht h2{font-size:24px}
+ .hbring{width:84px;height:84px}.hbring b{font-size:19px}.hbcard{padding:16px}.hbg{grid-template-columns:minmax(0,1fr) repeat(7,28px);gap:6px 4px}.hbd{width:27px;height:27px}.hbws span{font-size:9.5px}}
 </style>
 </head>
 <body>
@@ -636,6 +692,7 @@ if(n&&Date.now()-n.at<15*60e3&&back){localStorage.removeItem("cw_next");var q=lo
         <button data-view="board"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="4" height="12" rx="1.2"/><rect x="8.5" y="4" width="4" height="8" rx="1.2"/><rect x="14" y="4" width="3" height="10" rx="1.2"/></svg>Kanban</button>
         <button data-view="timeline"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 5h8M6 10h9M9 15h8"/></svg>Timeline</button>
         <button data-view="calendar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4.5" width="14" height="12.5" rx="2"/><path d="M3 8.5h14M7 3v3M13 3v3" stroke-linecap="round"/></svg>Calendar</button>
+        <button data-view="habits"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M6.8 10.2l2.2 2.2 4.3-4.6"/></svg>Habits</button>
       </div>
       <div class="avstack" id="avstack"></div>
     </div>
@@ -805,7 +862,7 @@ function handleSession(session,force){
   if(recovering)return;
   const u=session&&session.user;
   if(u){if(!force&&user&&user.id===u.id){user=u;return}
-    user=u;isAdmin=false;showApp();renderMe();S.ready={p:false,t:false};render();loadAll(true);
+    user=u;isAdmin=false;showApp();renderMe();S.ready={p:false,t:false};render();loadAll(true);H.loaded=false;H.data=null;hLoad();
     sb.rpc("is_admin").then(({data})=>{isAdmin=data===true;renderMe()});}
   else{user=null;S.projects=[];S.tasks=[];S.ready={p:false,t:false};closePop();if(S.openId){$("drawer").innerHTML="";S.openId=null;$("drawer").hidden=true;$("scrim").hidden=true}location.replace("welcome.html"+(location.hash==="#login"?"#login":""))}
 }
@@ -875,6 +932,7 @@ function renderTop(){const p=projById(S.sel);
   const fo=$("fOwner"),cur=fo.value;fo.innerHTML=`<option value="">Person</option>${allOwners().map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("")}<option value="__none">No owner</option>`;fo.value=cur;
   ["fOwner","fPri","fDue"].forEach(id=>$(id).parentElement.classList.toggle("on",!!$(id).value));$("hideDone").parentElement.classList.toggle("on",$("hideDone").checked);
   $("projMenu").hidden=!p;
+  const hv=S.view==="habits";$("stats").hidden=hv;document.querySelector(".tools").hidden=hv;$("avstack").hidden=hv;if(hv){$("crumbs").textContent="Your week";h.textContent="Habits";$("pdesc").hidden=true;$("shareBtn").hidden=true;$("projMenu").hidden=true}
   const os=[...new Set(scoped().map(x=>x.owner).filter(Boolean))];
   $("avstack").innerHTML=os.slice(0,4).map(avatar).join("")+(os.length>4?`<span class="more">+${os.length-4}</span>`:"");}
 function renderStats(){const ts=scoped(),t=todayStr(),wk=addDays(t,7),open=ts.filter(x=>x.status!=="done");
@@ -896,6 +954,7 @@ function renderView(){
   if(ae&&ae.classList&&ae.classList.contains("cellin")&&v.contains(ae)){S.pending=true;return}
   S.pending=false;
   const key=ae&&ae.dataset?ae.dataset.key:null,val=key?ae.value:null;
+  if(S.view==="habits"){renderHabits();return}
   if(!S.ready.p||!S.ready.t){v.innerHTML='<div class="loading">Loading your tasks…</div>';return}
   if(!S.projects.length){v.innerHTML='<div class="empty"><b>No projects yet</b>Click + next to Projects to create your first one.</div>';return}
   S.view==="board"?renderBoard():S.view==="calendar"?renderCalendar():S.view==="timeline"?renderTimeline():renderTable();
@@ -1085,7 +1144,7 @@ window.addEventListener("resize",closePop);
 document.addEventListener("click",async e=>{
   const T=e.target;
   if(T.id==="undoBtn"&&toast.undo){const u=toast.undo;toast.undo=null;$("toast").hidden=true;u();return}
-  const sel=T.closest("[data-sel]");if(sel){S.sel=sel.dataset.sel;S.selected.clear();LS.set("cwp_sel",S.sel);$("side").classList.add("collapsed");closePop();render();return}
+  const sel=T.closest("[data-sel]");if(sel){if(S.view==="habits"){S.view="table";LS.set("cwp_view","table")}S.sel=sel.dataset.sel;S.selected.clear();LS.set("cwp_sel",S.sel);$("side").classList.add("collapsed");closePop();render();return}
   const vb=T.closest(".tabs [data-view]");if(vb){S.view=vb.dataset.view;S.selected.clear();LS.set("cwp_view",S.view);render();return}
   const pb=T.closest("[data-pop]");if(pb){if(popState&&popState.kind===pb.dataset.pop&&popState.id===pb.dataset.id){closePop();return}openPop(pb.dataset.pop,pb.dataset.id,pb);return}
   if(popState){const x=S.tasks.find(t=>t.id===popState.id);
@@ -1479,6 +1538,79 @@ const API={
 setInterval(()=>{if(user&&document.visibilityState==="visible"&&!pending&&!S.openId&&!popState&&!rzState&&!tlDrag&&$("dlgScrim").hidden&&!typing(document.activeElement))loadAll(false,true)},15000);
 
 /* boot */
+/* ===== Habits: weekly targets + daily habits, one row per person ===== */
+const H={data:null,loaded:false,edit:false,off:0,cloud:true,saveT:null,warned:false};
+const hKey=()=>"cwp_habits_"+(user?user.id:"anon");
+const hDs=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const hMon=off=>{const d=new Date();d.setHours(0,0,0,0);const w=(d.getDay()+6)%7;d.setDate(d.getDate()-w+off*7);return d};
+const hDays=off=>{const m=hMon(off);return Array.from({length:7},(_,i)=>{const d=new Date(m);d.setDate(m.getDate()+i);return hDs(d)})};
+const hId=()=>"g"+Math.random().toString(36).slice(2,9);
+const H_SUG=[["Job applications","week",25],["Outreach emails","week",10],["Follow ups","week",5],["Workouts","week",3],["Deep work block","day",7],["Daily review","day",5],["Read 20 minutes","day",7]];
+async function hLoad(){if(H.loaded||!user)return;H.loaded=true;H.data=LS.get(hKey(),null)||{goals:[],log:{}};
+  try{const{data,error}=await sb.from("habit_boards").select("data").eq("user_id",user.id).maybeSingle();if(error)throw error;
+    if(data&&data.data&&data.data.goals){H.data=data.data;LS.set(hKey(),H.data)}}catch(e){H.cloud=false;console.warn("habits",e)}
+  if(S.view==="habits")renderView()}
+function hSave(){LS.set(hKey(),H.data);if(!H.cloud||!sb||!user)return;clearTimeout(H.saveT);
+  H.saveT=setTimeout(()=>{const cut=hDs(new Date(Date.now()-400*864e5));Object.keys(H.data.log).forEach(k=>{if(k<cut)delete H.data.log[k]});
+    queue(async()=>{const{error}=await sb.from("habit_boards").upsert({user_id:user.id,data:H.data});if(error){H.cloud=false;throw error}})},500)}
+const hGet=(d,g)=>(H.data.log[d]&&H.data.log[d][g])||0;
+function hSet(d,g,v){const L=H.data.log;L[d]=L[d]||{};if(v>0)L[d][g]=v;else{delete L[d][g];if(!Object.keys(L[d]).length)delete L[d]}hSave()}
+const hWeekCount=(g,days)=>days.reduce((a,d)=>a+hGet(d,g.id),0);
+const hNeed=g=>g.kind==="day"?Math.min(7,g.target||7):(g.target||1);
+function hScore(off){const gs=H.data.goals;if(!gs.length)return 0;const days=hDays(off);
+  return gs.reduce((a,g)=>a+Math.min(1,hWeekCount(g,days)/hNeed(g)),0)/gs.length}
+function hStreak(){let n=0;const d=new Date();d.setHours(0,0,0,0);const any=k=>H.data.log[k]&&Object.keys(H.data.log[k]).length;
+  if(!any(hDs(d)))d.setDate(d.getDate()-1);while(any(hDs(d))&&n<999){n++;d.setDate(d.getDate()-1)}return n}
+function hBest(){const ks=Object.keys(H.data.log).filter(k=>Object.keys(H.data.log[k]).length).sort();let b=0,r=0,prev=null;
+  ks.forEach(k=>{const d=new Date(k+"T00:00:00");if(prev&&(d-prev)/864e5===1)r++;else r=1;b=Math.max(b,r);prev=d});return b}
+function renderHabits(){const v=$("view");if(!H.data){v.innerHTML='<div class="loading">Loading your habits…</div>';hLoad();return}
+  const off=H.off,days=hDays(off),today=hDs(new Date()),gs=H.data.goals,wk=gs.filter(g=>g.kind!=="day"),dy=gs.filter(g=>g.kind==="day");
+  const sc=hScore(off),pct=Math.round(sc*100),ti=days.indexOf(today),el=off<0?1:off>0?0:(ti+1)/7;
+  const hit=wk.filter(g=>hWeekCount(g,days)>=hNeed(g)).length+dy.filter(g=>hWeekCount(g,days)>=hNeed(g)).length;
+  const checks=days.reduce((a,d)=>a+Object.values(H.data.log[d]||{}).reduce((x,y)=>x+y,0),0);
+  const m0=new Date(days[0]+"T00:00:00"),m6=new Date(days[6]+"T00:00:00"),fd=d=>d.toLocaleDateString(undefined,{month:"short",day:"numeric"});
+  const head=!gs.length?"Set up your week.":off<0?(pct>=80?"Strong week.":pct>=50?"Solid week.":"A slower week."):off>0?"Plan ahead.":(sc>=el-0.02?(pct>=100?"Every target hit.":"You're ahead of pace."):"A little behind. Catch up today.");
+  const sub=!gs.length?"Add the few things you want to do every week. Tap to log them as you go.":`${hit} of ${gs.length} target${gs.length===1?"":"s"} hit${off===0?" so far":""}. ${off===0?"Resets every Monday.":""}`;
+  const del=g=>H.edit?`<button class="hbdel" data-hdel="${g.id}" title="Remove" aria-label="Remove ${esc(g.title)}">${'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15"/></svg>'}</button>`:"";
+  const nm=(g,s)=>H.edit?`<span class="hbn"><input class="hbin" data-hname="${g.id}" value="${esc(g.title)}" maxlength="60" aria-label="Goal name"><small>${s}</small></span>`:`<span class="hbn"><b>${esc(g.title)}</b><small>${s}</small></span>`;
+  const tw=wk.map(g=>{const c=hWeekCount(g,days),n=hNeed(g),done=c>=n;return `<div class="hbt">${nm(g,H.edit?`Target <input class="hbnum" type="number" min="1" max="999" data-htarget="${g.id}" value="${n}"> a week`:`${Math.round(n/5*10)/10>=1&&n%5===0?n/5+" a weekday":n+" this week"}`)}
+      <div class="hbctl"><b class="num">${c}<span> / ${n}</span></b>${H.edit?del(g):`<button class="hbb" data-hstep="${g.id}" data-v="-1" ${c?"":"disabled"} aria-label="Minus one">−</button><button class="hbb p" data-hstep="${g.id}" data-v="1" aria-label="Plus one">+</button>`}</div>
+      <div class="hbbar ${done?"done":""}"><i style="width:${Math.min(100,c/n*100)}%"></i></div></div>`}).join("");
+  const dn=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  const td=dy.map(g=>{const c=hWeekCount(g,days),n=hNeed(g);return `${nm(g,H.edit?`<input class="hbnum" type="number" min="1" max="7" data-htarget="${g.id}" value="${n}"> days a week`:`${c} of ${n} days`)}${H.edit?`<span class="hbedrow">${del(g)}</span>`:days.map((d,i)=>{const on=hGet(d,g.id),fut=d>today;return `<button class="hbd ${on?"y":""} ${d===today?"t":""} ${fut?"f":""}" data-hday="${g.id}" data-d="${d}" ${fut?"disabled":""} aria-label="${esc(g.title)} ${dn[i]}${on?" done":""}">${on?'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10.5l3.2 3.2L15 7"/></svg>':""}</button>`}).join("")}`}).join("");
+  const past=Array.from({length:8},(_,i)=>{const o=off-7+i,s=hScore(o),d=hMon(o);return `<button class="hbw ${o===off?"c":""}" data-hweek="${o}" title="${Math.round(s*100)}% of targets"><i style="height:${Math.max(4,s*100)}%"></i><span>${o===0?"This week":fd(d)}</span></button>`}).join("");
+  const add=H.edit||!gs.length?`<div class="hbadd"><form id="hbAddForm"><input id="hbAddName" placeholder="Add a goal, e.g. Workouts" maxlength="60" aria-label="New goal name">
+      <select id="hbAddKind" aria-label="Goal type"><option value="week">Count per week</option><option value="day">Daily check</option></select>
+      <input id="hbAddN" type="number" min="1" max="999" value="5" aria-label="Target"><button class="btn pri" type="submit">Add</button></form>
+      <div class="hbsug">${H_SUG.filter(s=>!gs.some(g=>g.title.toLowerCase()===s[0].toLowerCase())).map(s=>`<button data-hsug="${esc(s[0])}|${s[1]}|${s[2]}">+ ${esc(s[0])}</button>`).join("")}</div></div>`:"";
+  v.innerHTML=`<div class="hb">
+    <div class="hbhero"><div class="hbring" style="--p:${pct}"><b>${pct}%</b></div>
+      <div class="hbht"><div class="hbkr"><span class="hbk">${off===0?"This week":off===-1?"Last week":"Week of "+fd(m0)} · ${fd(m0)} to ${fd(m6)}</span><span class="hbnav"><button data-hoff="-1" aria-label="Previous week">‹</button><button data-hoff="1" aria-label="Next week" ${off>=0?"disabled":""}>›</button>${off?`<button data-hoff="0" class="now">This week</button>`:""}</span></div><h2>${head}</h2><p>${sub}</p></div>
+      <div class="hbhs"><div><b>${hStreak()}</b><span>day streak</span></div><div><b>${checks}</b><span>check ins</span></div><div><b>${hBest()}</b><span>best streak</span></div></div>
+</div>
+    ${!H.cloud&&!H.warned?`<div class="hbwarn">Saving on this device only. Run <b>supabase-habits.sql</b> in Supabase to sync across devices.</div>`:""}
+    <div class="hbgrid">
+      <section class="hbcard"><div class="hbch"><h3>Weekly targets</h3><button class="hbedit" data-hedit>${H.edit?"Done":"Edit goals"}</button></div>${tw||`<p class="hbempty">Counts you add up during the week, like applications or workouts.</p>`}</section>
+      <section class="hbcard"><div class="hbch"><h3>Daily habits</h3><span class="hbsm">${H.edit?"":"Tap a day to check it off"}</span></div>
+        ${dy.length?`<div class="hbg"><span></span>${dn.map((d,i)=>`<span class="hbdn ${days[i]===today?"t":""}">${d}</span>`).join("")}${td}</div>`:`<p class="hbempty">Things you want to do most days, like a daily review or reading.</p>`}</section>
+    </div>${add}
+    ${gs.length?`<section class="hbcard hbpast"><div class="hbch"><h3>Past 8 weeks</h3><span class="hbsm">Share of targets hit. Tap a week to open it.</span></div><div class="hbws">${past}</div></section>`:""}</div>`}
+document.addEventListener("click",e=>{const T=e.target;if(!T.closest||!T.closest("#view .hb"))return;
+  let b;
+  if(b=T.closest("[data-hstep]")){const g=H.data.goals.find(x=>x.id===b.dataset.hstep);if(!g)return;const days=hDays(H.off),today=hDs(new Date());
+    let d=H.off===0?today:days[6];if(+b.dataset.v<0){d=[...days].reverse().find(k=>hGet(k,g.id)>0);if(!d)return}hSet(d,g.id,hGet(d,g.id)+ +b.dataset.v);renderHabits();return}
+  if(b=T.closest("[data-hday]")){const d=b.dataset.d,g=b.dataset.hday;hSet(d,g,hGet(d,g)?0:1);renderHabits();return}
+  if(b=T.closest("[data-hoff]")){const v=+b.dataset.hoff;H.off=v===0?0:Math.min(0,H.off+v);renderHabits();return}
+  if(b=T.closest("[data-hweek]")){H.off=Math.min(0,+b.dataset.hweek);renderHabits();return}
+  if(T.closest("[data-hedit]")){H.edit=!H.edit;renderHabits();return}
+  if(b=T.closest("[data-hdel]")){const g=H.data.goals.find(x=>x.id===b.dataset.hdel);if(!g)return;const i=H.data.goals.indexOf(g);H.data.goals.splice(i,1);hSave();renderHabits();
+    toast("Removed "+g.title,()=>{H.data.goals.splice(i,0,g);hSave();renderHabits()});return}
+  if(b=T.closest("[data-hsug]")){const[t,k,n]=b.dataset.hsug.split("|");H.data.goals.push({id:hId(),title:t,kind:k,target:+n});hSave();renderHabits();return}});
+document.addEventListener("submit",e=>{if(e.target.id!=="hbAddForm")return;e.preventDefault();const t=$("hbAddName").value.trim();if(!t){$("hbAddName").focus();return}
+  const k=$("hbAddKind").value;let n=Math.max(1,parseInt($("hbAddN").value)||1);if(k==="day")n=Math.min(7,n);H.data.goals.push({id:hId(),title:t,kind:k,target:n});hSave();renderHabits();const i=$("hbAddName");if(i)i.focus()});
+document.addEventListener("change",e=>{const T=e.target;if(T.dataset.hname){const g=H.data.goals.find(x=>x.id===T.dataset.hname);if(g&&T.value.trim()){g.title=T.value.trim();hSave()}}
+  if(T.dataset.htarget){const g=H.data.goals.find(x=>x.id===T.dataset.htarget);if(g){let n=Math.max(1,parseInt(T.value)||1);if(g.kind==="day")n=Math.min(7,n);g.target=n;hSave()}}
+  if(T.id==="hbAddKind"){const n=$("hbAddN");if(n)n.value=T.value==="day"?7:5}});
 applyTheme();applyDensity();boot();
 })();
 </script>
