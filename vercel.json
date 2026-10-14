@@ -27,11 +27,23 @@
   "rewrites": [
     {
       "source": "/blog",
-      "destination": "/blog/index.html"
+      "destination": "/blog.html"
     },
     {
       "source": "/blog/",
-      "destination": "/blog/index.html"
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/blog/covers/:file",
+      "destination": "/:file"
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/:slug.html"
+    },
+    {
+      "source": "/compare/:slug",
+      "destination": "/:slug.html"
     }
   ]
 }
