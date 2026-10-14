@@ -534,6 +534,66 @@ button.tg{cursor:pointer}
 .tlrow:hover .tlset,.tlset:focus-visible{opacity:1}
 .tlset:hover{color:var(--accent);border-color:var(--accent)}
 @media (max-width:760px){.tlname{width:150px!important}}
+
+/* ===== Junction look: neutral palette, Poppins wordmark, pill controls, softer cards ===== */
+:root{--app:#FFFFFF;--bg:#FFFFFF;--soft:#F7F7F7;--hover:#F4F4F4;--sel:#F0F3FE;--ink:#222222;--ink2:#484848;--muted:#717171;--faint:#B0B0B0;
+  --line:#EBEBEB;--line2:#EBEBEB;--accent:#3B5BDB;--accent-soft:#EEF1FD;--pill-empty:#F2F2F2;--pill-ink:#8A8A8A;--wordmark:#222222;
+  --btn:#222222;--btn-ink:#FFFFFF;--shadow-sm:0 2px 6px rgba(0,0,0,.06);--shadow:0 6px 20px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.05)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--app:#111214;--bg:#111214;--soft:#1B1C20;--hover:#202127;--sel:#22283F;--ink:#F2F2F3;--ink2:#CFCFD4;--muted:#9A9BA3;--faint:#5C5D66;
+  --line:#2A2B31;--line2:#2A2B31;--accent:#7B93F2;--accent-soft:#22283F;--pill-empty:#202127;--wordmark:#F2F2F3;--btn:#F2F2F3;--btn-ink:#111214;--shadow-sm:0 2px 8px rgba(0,0,0,.35);--shadow:0 8px 28px rgba(0,0,0,.45),0 2px 8px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--app:#111214;--bg:#111214;--soft:#1B1C20;--hover:#202127;--sel:#22283F;--ink:#F2F2F3;--ink2:#CFCFD4;--muted:#9A9BA3;--faint:#5C5D66;
+  --line:#2A2B31;--line2:#2A2B31;--accent:#7B93F2;--accent-soft:#22283F;--pill-empty:#202127;--wordmark:#F2F2F3;--btn:#F2F2F3;--btn-ink:#111214;--shadow-sm:0 2px 8px rgba(0,0,0,.35);--shadow:0 8px 28px rgba(0,0,0,.45),0 2px 8px rgba(0,0,0,.35)}
+html,body{-webkit-font-smoothing:antialiased}
+.app{background:var(--bg)}
+.side{border-right:1px solid var(--line);padding:22px 14px 16px;background:var(--bg)}
+.main{padding:0}
+.card{border:0;border-radius:0;box-shadow:none;padding-inline:40px;padding-top:28px;gap:18px;min-height:100vh}
+.wordmark{font-family:var(--font);font-weight:700;font-size:22px;letter-spacing:-.035em}
+.pitem{padding:9px 12px;border-radius:12px}
+.pitem:hover{background:var(--soft)}
+.pitem.on{background:var(--soft);box-shadow:none;color:var(--ink);font-weight:600}
+.shead{letter-spacing:.08em;font-size:11px;color:var(--muted)}
+.top h1{font-size:34px;font-weight:700;letter-spacing:-.03em}
+#pdesc{font-size:15px}
+.appsw{border-color:var(--line);background:var(--bg)}
+.appsw span{background:var(--soft)}
+.tabs{flex:0 1 auto;gap:2px;padding:4px;background:var(--soft);border-radius:999px;align-self:flex-start}
+.tabs button{border:0;margin:0;border-radius:999px;padding:8px 16px;color:var(--muted)}
+.tabs button:hover{color:var(--ink);background:transparent}
+.tabs button.on{background:var(--bg);color:var(--ink);font-weight:600;box-shadow:var(--shadow-sm);border:0}
+.tabrow{border-bottom:0!important}
+.stats{border:0;background:none;gap:12px;border-radius:0;overflow:visible}
+.stat{border:1px solid var(--line);border-radius:18px;padding:16px 18px;transition:box-shadow .2s}
+.stat:hover{box-shadow:var(--shadow-sm)}
+.stat b{font-size:30px;font-weight:700;letter-spacing:-.03em}
+.newbtn{background:var(--btn);color:var(--btn-ink);border-radius:999px;padding:10px 18px 10px 14px;box-shadow:none;transition:transform .15s,box-shadow .15s}
+.newbtn:hover{transform:translateY(-1px);box-shadow:var(--shadow);background:var(--btn)}
+.newbtn kbd{background:rgba(255,255,255,.16);border-color:transparent;color:inherit}
+.tb{height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line)}
+.tb:hover{background:var(--soft);border-color:var(--line)}
+.tb.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tb.on svg{color:var(--bg)}
+.tsearch:focus-within{border-color:var(--ink)}
+.btn{border-radius:999px;border-color:var(--line);padding:9px 16px}
+.btn.pri{background:var(--btn);color:var(--btn-ink)}
+.gname{font-weight:700;font-size:18px;letter-spacing:-.02em}
+.tscroll{border:1px solid var(--line);border-radius:16px}
+.gt th,.gt td{border-color:var(--line)}
+.gt th{font-size:12.5px;color:var(--muted);font-weight:500;background:var(--bg)}
+.gt thead th{border-top:0}
+.gt tbody tr:not(.addrow):hover td{background:var(--soft)}
+.fillcell .cellbtn{font-weight:600;text-shadow:none;font-size:13px}
+.col{background:var(--soft);border-radius:18px;padding:12px}
+.kcard{border-radius:14px;border:1px solid var(--line);border-top:3px solid var(--c);box-shadow:none;transition:box-shadow .2s,transform .2s}
+.kcard:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.pop{border-radius:16px;border-color:var(--line);padding:10px}
+.pop .opt,.mi{border-radius:10px}
+.drawer{border-left-color:var(--line);box-shadow:-16px 0 40px rgba(0,0,0,.10)}
+.me{border-top-color:var(--line)}
+.me .acts a,.me .acts button{border-radius:999px}
+.day{border-color:var(--line)}
+.chip{border-radius:8px}
+@media (max-width:760px){.card{padding-inline:16px}.tabs{max-width:100%}.top h1{font-size:26px}}
 </style>
 </head>
 <body>
