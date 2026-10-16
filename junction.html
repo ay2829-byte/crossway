@@ -1491,6 +1491,10 @@ html body .arxbar .ard-hard{background:var(--accent)}
 .topin .brand{white-space:nowrap}
 @media (max-width:1280px){.tabs2 button{padding:7px 13px}}
 @media (max-width:440px){.topin .tabs2 button{padding:6px 4px;font-size:12px}}
+
+.jblg{position:relative;overflow:hidden}.jblg em{font-style:normal}
+.jblg img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:5px;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.jblg.big img{padding:8px}
 </style>
 </head>
 <body>
@@ -3872,13 +3876,13 @@ const jbDay=()=>Math.floor(Date.now()/864e5);
 const JB_COL=["#4C6BF5","#12A38A","#F2643D","#8B5CF6","#222","#0EA5E9","#D97706","#DB2777","#059669","#6366F1"];
 const jbColor=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return JB_COL[h%JB_COL.length]};
 const jbInit=s=>{const w=String(s).replace(/[^\w\s&.]/g,"").split(/\s+/).filter(Boolean);return((w[0]||"?")[0]+((w[1]||w[0]||"")[w[1]?0:1]||"")).toUpperCase()};
-const jbLogo=(co,cls)=>`<span class="jblg ${cls||""}" style="background:${jbColor(co)}">${esc(jbInit(co))}</span>`;
+const jbLogo=(co,cls,dom)=>{const u=dom&&typeof FAV==="function"?FAV(dom):"";return `<span class="jblg ${cls||""} ${u?"hasimg":""}" style="background:${jbColor(co)}"><em>${esc(jbInit(co))}</em>${u?`<img src="${esc(u)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-alts="${esc(logoAlts(u).join("|"))}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`};
 const jbAgo=d=>{const n=jbDay()-d;return n<=0?"Today":n===1?"1d":n<30?n+"d":Math.round(n/30)+"mo"};
 const jbAgoLong=d=>{const n=jbDay()-d;return n<=0?"Posted today":n===1?"Posted yesterday":`Posted ${n} days ago`};
 
 /* ---------- load ---------- */
 function jbLoad(){if(JB.data||JB.loading)return;JB.loading=true;
-  const done=d=>{const jobs=d.rows.map((r,i)=>({i,co:d.cos[r[0]],t:r[1],loc:d.locs[r[2]],fam:d.fams[r[3]]||"other",lvl:["intern","entry","mid","senior"][r[4]]||"mid",wp:["remote","hybrid","onsite"][r[5]]||"onsite",day:r[6],url:r[7],pay:r[8],sk:r[9].map(k=>d.skills[k]),tl:(r[1]+" "+d.cos[r[0]]).toLowerCase(),ll:(d.locs[r[2]]||"").toLowerCase()}));
+  const done=d=>{const jobs=d.rows.map((r,i)=>({i,co:d.cos[r[0]],dom:(d.doms||[])[r[0]]||"",t:r[1],loc:d.locs[r[2]],fam:d.fams[r[3]]||"other",lvl:["intern","entry","mid","senior"][r[4]]||"mid",wp:["remote","hybrid","onsite"][r[5]]||"onsite",day:r[6],url:r[7],pay:r[8],sk:r[9].map(k=>d.skills[k]),tl:(r[1]+" "+d.cos[r[0]]).toLowerCase(),ll:(d.locs[r[2]]||"").toLowerCase()}));
     JB.data={jobs,updated:d.updated,shard:d.shard||1000,demo:!!d.demo};JB.loading=false;jbScoreAll();if(S.stab==="jobs")renderJobs()};
   if(window.JOBS_DEMO){setTimeout(()=>done(window.JOBS_DEMO),60);return}
   fetch("/jobs/index.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error("missing");return r.json()}).then(done).catch(()=>{JB.loading=false;JB.err="none";if(S.stab==="jobs")renderJobs()})}
@@ -3929,11 +3933,11 @@ function jbCities(){if(JB.cities)return JB.cities;const c={};JB.data.jobs.forEac
 
 /* ---------- render ---------- */
 const JI={search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',pin:'<path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',out:'<path d="M14 5h5v5M19 5l-8 8M18 14v5H5V6h5"/>',back:'<path d="M15 6l-6 6 6 6"/>',star:'<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>'};
-function jbRow(j,sel){return `<button class="jbr ${sel?"sel":""}" data-act="jbsel" data-i="${j.i}">${jbLogo(j.co)}<b>${esc(j.t)}</b><span class="p">${j.m}%</span><span class="c">${esc(j.co)} · ${esc(j.loc||"Location not listed")}</span><span class="tm">${jbAgo(j.day)}</span>
+function jbRow(j,sel){return `<button class="jbr ${sel?"sel":""}" data-act="jbsel" data-i="${j.i}">${jbLogo(j.co,"",j.dom)}<b>${esc(j.t)}</b><span class="p">${j.m}%</span><span class="c">${esc(j.co)} · ${esc(j.loc||"Location not listed")}</span><span class="tm">${jbAgo(j.day)}</span>
   <span class="tg">${JB.me&&j.sk.some(s=>JB.me.ar[s])?`<span class="ar">Fits your Arena</span>`:""}<span>${JB_LVLN[j.lvl]}</span>${j.wp!=="onsite"?`<span>${j.wp==="remote"?"Remote":"Hybrid"}</span>`:""}${j.pay?`<span>${esc(j.pay)}</span>`:""}</span></button>`}
 function jbDetail(j){if(!j)return `<div class="jbdet empty"><p class="hint">Pick a job to see why it fits.</p></div>`;const w=jbWhy(j),sv=jbSaved().has(j.url),host=(()=>{try{return new URL(j.url).hostname.replace(/^www\./,"")}catch(_){return""}})();
   return `<div class="jbdet">${JB.mobileDetail?`<button class="jbback" data-act="jbback">${svg(JI.back)}Back to jobs</button>`:""}
-    <div class="jbdh">${jbLogo(j.co,"big")}<div><h2>${esc(j.t)}</h2><small>${esc(j.co)} · ${esc(j.loc||"Location not listed")} · ${jbAgoLong(j.day)}</small></div></div>
+    <div class="jbdh">${jbLogo(j.co,"big",j.dom)}<div><h2>${esc(j.t)}</h2><small>${esc(j.co)} · ${esc(j.loc||"Location not listed")} · ${jbAgoLong(j.day)}</small></div></div>
     <div class="jbdm"><div><span>Level</span><b>${JB_LVLN[j.lvl]}</b></div><div><span>Team</span><b>${JB_FAMN[j.fam]}</b></div><div><span>Where</span><b>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</b></div><div><span>Pay</span><b>${esc(j.pay||"Not listed")}</b></div></div>
     <div class="jbfit"><h4>Why this fits you · ${j.m}%</h4><ul>${w.good.map(x=>`<li>${esc(x)}</li>`).join("")||`<li>Matches the role and level you set in your profile</li>`}${w.miss?`<li class="miss">${esc(w.miss)}</li>`:""}</ul></div>
     ${j.sk.length?`<div class="jbsk">${j.sk.slice(0,10).map(s=>`<span class="${JB.me&&(JB.me.skills.has(s)||JB.me.ar[s])?"have":""}">${esc(s)}</span>`).join("")}</div>`:""}
@@ -3945,7 +3949,7 @@ function renderJobs(){const M=$("#main");jbLoad();
   if(!JB.me)jbScoreAll();const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
   if(JB.sel==null||!JB.data.jobs[JB.sel])JB.sel=(list[0]||top[0]||{}).i;const sel=JB.data.jobs[JB.sel];
   const upd=new Date(JB.data.updated),updS=upd.toDateString()===new Date().toDateString()?"refreshed today":"refreshed "+upd.toLocaleDateString(undefined,{month:"short",day:"numeric"});
-  const mc=j=>`<button class="jbmc" data-act="jbsel" data-i="${j.i}" data-top="1"><div class="mt">${jbLogo(j.co)}<div><div class="co">${esc(j.co)} · ${esc((j.wp==="remote"?"Remote":j.loc.split(/[\/;,]/)[0])||"")}</div><div class="ro">${esc(j.t)}</div></div><span class="pct">${j.m}%</span></div><div class="why"><b>Why you:</b> ${esc(jbShort(j))}</div><div class="meta"><span>${JB_LVLN[j.lvl]}</span><span>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</span><span>${jbAgo(j.day)}</span></div></button>`;
+  const mc=j=>`<button class="jbmc" data-act="jbsel" data-i="${j.i}" data-top="1"><div class="mt">${jbLogo(j.co,"",j.dom)}<div><div class="co">${esc(j.co)} · ${esc((j.wp==="remote"?"Remote":j.loc.split(/[\/;,]/)[0])||"")}</div><div class="ro">${esc(j.t)}</div></div><span class="pct">${j.m}%</span></div><div class="why"><b>Why you:</b> ${esc(jbShort(j))}</div><div class="meta"><span>${JB_LVLN[j.lvl]}</span><span>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</span><span>${jbAgo(j.day)}</span></div></button>`;
   const shown=JB.all10?top:top.slice(0,3);const chips=(arr,key,multi)=>arr.map(([k,l])=>`<button class="ch ${multi?(JB[key].includes(k)?"on":""):(JB[key]===k?"on":"")}" data-act="jbf" data-k="${key}" data-v="${k}">${l}</button>`).join("");
   M.innerHTML=`<div class="cpage tpage jb ${JB.mobileDetail?"mdet":""}">
     <div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div><span class="upd"><i></i>${total.toLocaleString()} open roles · ${updS}</span></div>
