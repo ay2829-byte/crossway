@@ -3910,7 +3910,7 @@ function jbMe(){const m=S.me||{};const b=S.badges&&m.id&&S.badges[m.id];const pr
   const ar={};proof.forEach(([pid,intime,lang])=>{const P=typeof AR_BY!=="undefined"&&AR_BY[pid];if(!P)return;const s=new Set(P.skills||[]);if(P.kind==="code")s.add(lang==="js"?"JavaScript":"Python");if(P.kind==="sql"||P.kind==="design")s.add("SQL");
     s.forEach(x=>{ar[x]=ar[x]||{n:0,t:0};ar[x].n++;if(intime)ar[x].t++})});
   const titles=(m.titles||[]).filter(Boolean),fams=new Set();(m.roles||[]).forEach(r=>(JB_TRK2FAM[r]||[]).forEach(f=>fams.add(f)));titles.forEach(t=>{const f=jbFamOf(t);if(f)fams.add(f)});
-  const expY=(m.exp||[]).reduce((a,e)=>a+(+e.y||0),0);const yrs=Math.max(+m.yrs||0,expY);
+  const cy=typeof calcYears==="function"?calcYears((m.exp||[]).filter(e=>!/\bintern(ship)?\b/i.test(e.t||""))):null;const yrs=cy!=null?cy:(+m.yrs||0);
   return{roles:m.roles||[],fams,titles,tn:titles.map(t=>({n:jbNorm(t),h:jbHead(t),f:jbFamOf(t),raw:t})),skills:new Set(m.skills||[]),locs:(m.locs||[]).map(l=>String(l).toLowerCase().split(",")[0].trim()).filter(Boolean),remote:m.remote!==false,yrs,ar}}
 function jbParts(j,me){
   /* 1. is this the kind of role they want */
