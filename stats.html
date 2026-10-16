@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Junction Stats</title>
+<title>Junction Stats</title><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="robots" content="noindex">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
@@ -125,6 +125,9 @@ th{position:sticky;top:0;background:var(--card);font-weight:600;color:var(--ink2
 .err{color:var(--bad);font-size:13.5px;min-height:20px}
 @media (max-width:1000px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:1fr 1fr}.tot{grid-template-columns:repeat(3,minmax(0,1fr))}.tot div:nth-child(4){border-left:0}.tot div:nth-child(n+4){border-top:1px solid var(--line)}}
 @media (max-width:720px){.grid2,.grid3{grid-template-columns:1fr}.topin{padding:12px 16px;gap:8px}main{padding:22px 16px 60px}.hello h1{font-size:28px}.kpi .v{font-size:26px}.brand small{display:none}.seg button{padding:6px 10px;font-size:12.5px}.card{padding:18px}.tot{grid-template-columns:repeat(2,minmax(0,1fr))}.tot div{border-left:0;border-top:1px solid var(--line)}.tot div:nth-child(-n+2){border-top:0}.tot div:nth-child(even){border-left:1px solid var(--line)}}
+
+h2.sec{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:34px 0 14px}
+.tot+.kpis{margin-top:12px}
 </style>
 </head>
 <body>
@@ -146,7 +149,7 @@ const fmt=n=>Number(n||0).toLocaleString("en-US");
 const pct=(a,b)=>b?Math.round(a/b*100):0;
 const TRACK={product:"Product",growth:"Growth & marketing",ops:"Business & ops",data:"Data & analytics",engineering:"Engineering",none:"Not set"};
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-let sb=null,days=30,DATA=null,metric="active";
+let sb=null,days=30,DATA=null,metric="active",JOBS=null,LIVEJ=null;
 
 /* ---------- demo data (preview only) ---------- */
 function demo(n){
@@ -171,12 +174,53 @@ function demo(n){
     latest:[{kind:"hire",label:"Fieldnote hired Candidate #4D1",at:new Date(Date.now()-36e5*2).toISOString()},{kind:"company",label:"Brightloop",at:new Date(Date.now()-36e5*3).toISOString()},{kind:"job",label:"Growth Analyst at Kestrel Freight",at:new Date(Date.now()-36e5*5).toISOString()},{kind:"seeker",label:"Candidate #9AA",at:new Date(Date.now()-36e5*6).toISOString()},{kind:"seeker",label:"Candidate #B7E",at:new Date(Date.now()-36e5*8).toISOString()},{kind:"job",label:"Associate Product Manager at Fieldnote",at:new Date(Date.now()-36e5*20).toISOString()}]}
 }
 
+/* ---------- jobs ---------- */
+async function liveJobs(){try{const r=await fetch("/jobs/index.json",{cache:"no-cache"});if(!r.ok)return null;const d=await r.json();const fam={},lvl={};let remote=0;
+  d.rows.forEach(x=>{const f=d.fams[x[3]]||"other",l=["intern","entry","mid","senior"][x[4]]||"mid";fam[f]=(fam[f]||0)+1;lvl[l]=(lvl[l]||0)+1;if(x[5]===0)remote++});
+  return{total:d.rows.length,cos:d.cos.length,updated:d.updated,fam,lvl,remote}}catch(_){return null}}
+function demoJobs(n){let seed=11;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;const series=[];const today=new Date();
+  for(let i=n-1;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);const g=1+(n-i)/n*1.8;const o=Math.round((18+rnd()*10)*g),v=Math.round(o*4.2+rnd()*8),ap=Math.round(v*.21+rnd()*3);series.push({d:d.toISOString().slice(0,10),openers:o,views:v,applies:ap,appliers:Math.round(ap*.55)})}
+  const sum=k=>series.reduce((a,r)=>a+r[k],0),ap=sum("applies");
+  return{days:n,cur:{openers:Math.round(sum("openers")*.4),views:sum("views"),viewers:Math.round(sum("openers")*.35),applies:ap,appliers:Math.round(ap*.31),jobs_applied:Math.round(ap*.86),companies_applied:Math.round(ap*.4),saves:Math.round(ap*.7),searches:Math.round(sum("views")*.3),from_top:Math.round(ap*.46),avg_match:84,avg_match_viewed:76},
+    prev:{openers:Math.round(sum("openers")*.28),views:Math.round(sum("views")*.7),applies:Math.round(ap*.66),appliers:Math.round(ap*.22),jobs_applied:Math.round(ap*.6),saves:Math.round(ap*.5)},all:{applies:ap*2,appliers:Math.round(ap*.5)},series,
+    per_user:[{b:"1",n:41},{b:"2 to 3",n:58},{b:"4 to 9",n:33},{b:"10+",n:9}],
+    companies:[{co:"Stripe",n:38,u:29},{co:"Ramp",n:31,u:24},{co:"Notion",n:27,u:22},{co:"Plaid",n:22,u:18},{co:"Figma",n:19,u:17},{co:"Datadog",n:15,u:12}],
+    roles:[{t:"Associate Product Manager",co:"Ramp",n:17},{t:"Product Analyst",co:"Stripe",n:14},{t:"Data Analyst",co:"Plaid",n:11},{t:"Software Engineer, New Grad",co:"Notion",n:10}],
+    fams:[{k:"product",v:1840,a:412},{k:"data",v:1320,a:270},{k:"eng",v:1180,a:205},{k:"ops",v:610,a:118},{k:"growth",v:420,a:76}],
+    levels:[{k:"entry",n:520},{k:"mid",n:390},{k:"intern",n:110},{k:"senior",n:61}],places:[{k:"remote",n:410},{k:"hybrid",n:388},{k:"onsite",n:283}],
+    searches:[{q:"product manager",n:212},{q:"data analyst @ new york",n:140},{q:"apm",n:96},{q:"business analyst",n:71},{q:"strategy",n:52}],
+    latest:[{t:"Associate Product Manager",co:"Ramp",m:93,at:new Date(Date.now()-6e5).toISOString()},{t:"Product Analyst",co:"Stripe",m:88,at:new Date(Date.now()-36e5).toISOString()},{t:"Data Analyst",co:"Plaid",m:81,at:new Date(Date.now()-36e5*3).toISOString()}]}}
+const FAMN={eng:"Engineering",product:"Product",data:"Data",design:"Design",growth:"Marketing",sales:"Sales",ops:"Operations",other:"Other"},LVLN={intern:"Intern",entry:"Entry & junior",mid:"Mid",senior:"Senior"},WPN={remote:"Remote",hybrid:"Hybrid",onsite:"Onsite"};
+function jobsSection(){const J=JOBS,L=LIVEJ;
+  const live=L?`<div class="tot"><div><b>${fmt(L.total)}</b><span>Live jobs right now</span></div><div><b>${fmt(L.cos)}</b><span>Companies hiring</span></div><div><b>${pct(L.remote,L.total)}%</b><span>Remote</span></div>
+    <div><b>${fmt((L.lvl.entry||0)+(L.lvl.intern||0))}</b><span>Entry level and internships</span></div><div><b>${fmt(L.lvl.senior||0)}</b><span>Senior roles</span></div><div><b>${ago(L.updated)}</b><span>Last refresh</span></div></div>`:`<div class="card"><div class="empty">Live jobs file not found yet. Run the Refresh jobs action on GitHub.</div></div>`;
+  if(!J||J.err)return`<h2 class="sec">Jobs</h2>${live}<div class="card"><div class="empty">Job tracking isn't set up yet. Run supabase-junction-jobs.sql in Supabase, then reload.${J&&J.err?" ("+esc(J.err)+")":""}</div></div>`;
+  const C=J.cur||{},P=J.prev||{},pp=k=>({cur:C[k]||0,prev:P[k]||0});
+  return`<h2 class="sec">Jobs</h2>${live}
+   <div class="kpis">${kpi("People who opened Jobs",pp("openers"))}${kpi("People who clicked Apply",pp("appliers"),`${pct(C.appliers,C.openers)}% of people who opened Jobs`)}${kpi("Apply clicks",pp("applies"))}${kpi("Jobs applied to",pp("jobs_applied"),`at ${fmt(C.companies_applied)} companies`)}
+     <div class="kpi"><span class="l">Applies per person</span><span class="v">${C.appliers?(C.applies/C.appliers).toFixed(1):"0"}</span><span class="d"><span>among people who applied</span></span></div>
+     <div class="kpi"><span class="l">Apply rate</span><span class="v">${pct(C.applies,C.views)}%</span><span class="d"><span>of ${fmt(C.views)} job views</span></span></div>
+     <div class="kpi"><span class="l">From "Your 10 for today"</span><span class="v">${pct(C.from_top,C.applies)}%</span><span class="d"><span>of apply clicks</span></span></div>
+     <div class="kpi"><span class="l">Avg match of applies</span><span class="v">${C.avg_match??"–"}${C.avg_match!=null?"%":""}</span><span class="d"><span>vs ${C.avg_match_viewed??"–"}${C.avg_match_viewed!=null?"%":""} for jobs viewed</span></span></div></div>
+   <div class="grid2"><section class="card wide"><div class="ch"><div><h2>Job views and apply clicks</h2><p>Per day</p></div><span class="sp"></span><div class="legend"><span style="--c:${css("--s1")}"><i></i>Views</span><span style="--c:${css("--s2")}"><i></i>Apply clicks</span></div></div>
+     <div class="plot" id="pJobs"></div>${table(J.series||[],[{name:"Opened Jobs",key:"openers"},{name:"Views",key:"views"},{name:"Apply clicks",key:"applies"},{name:"People who applied",key:"appliers"}])}</section></div>
+   <div class="grid3">
+     <section class="card"><div class="ch"><div><h2>Most applied companies</h2><p>Apply clicks in this range</p></div></div>${hbars((J.companies||[]).map(c=>({label:c.co,n:c.n,sub:c.u+" people"})))}</section>
+     <section class="card"><div class="ch"><div><h2>Most applied roles</h2><p>Apply clicks in this range</p></div></div>${hbars((J.roles||[]).map(r=>({label:r.t+" · "+r.co,n:r.n})))}</section>
+     <section class="card"><div class="ch"><div><h2>Applies per person</h2><p>How many jobs each person clicked Apply on</p></div></div>${hbars((J.per_user||[]).map(r=>({label:r.b+(r.b==="1"?" job":" jobs"),n:r.n,sub:"people"})))}</section>
+     <section class="card"><div class="ch"><div><h2>Role types</h2><p>Views, with apply clicks and apply rate</p></div></div>${hbars((J.fams||[]).map(f=>({label:FAMN[f.k]||f.k||"Other",n:f.v,sub:`${fmt(f.a)} applies · ${pct(f.a,f.v)}%`})))}</section>
+     <section class="card"><div class="ch"><div><h2>Applies by level</h2><p>And where the job is</p></div></div>${hbars((J.levels||[]).map(l=>({label:LVLN[l.k]||l.k,n:l.n})))}<div style="height:14px"></div>${hbars((J.places||[]).map(l=>({label:WPN[l.k]||l.k,n:l.n})))}</section>
+     <section class="card"><div class="ch"><div><h2>Top searches</h2><p>What people look for</p></div></div>${hbars((J.searches||[]).map(q=>({label:q.q,n:q.n})))}</section>
+   </div>
+   ${L?`<div class="grid2"><section class="card"><div class="ch"><div><h2>Live jobs by role type</h2><p>From today's refresh</p></div></div>${hbars(Object.entries(L.fam).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({label:FAMN[k]||k,n:v})))}</section>
+     <section class="card"><div class="ch"><div><h2>Latest apply clicks</h2><p>Most recent first</p></div></div><div class="feed">${(J.latest||[]).map(x=>`<div class="fe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICON.job}</svg></span><span class="t"><b>${esc(x.t)}</b> at ${esc(x.co)}${x.m!=null?` · ${x.m}% match`:""}</span><small>${ago(x.at)}</small></div>`).join("")||`<div class="empty">No apply clicks yet.</div>`}</div></section></div>`:""}`}
+
 /* ---------- loading ---------- */
 async function load(){
   const rb=$("#reload");rb.classList.add("spin");
   try{
-    if(PREVIEW){DATA=demo(days)}
-    else{const{data,error}=await sb.rpc("jx_admin_stats",{p_days:days});if(error)throw error;DATA=data}
+    if(PREVIEW){DATA=demo(days);JOBS=demoJobs(days);LIVEJ={total:21384,cos:612,updated:new Date().toISOString(),fam:{eng:7210,product:1840,data:2310,design:690,growth:1520,sales:3110,ops:3904,other:800},lvl:{intern:410,entry:2980,mid:11240,senior:6754},remote:5120}}
+    else{const[st,js,lv]=await Promise.all([sb.rpc("jx_admin_stats",{p_days:days}),sb.rpc("jx_admin_job_stats",{p_days:days}),liveJobs()]);if(st.error)throw st.error;DATA=st.data;JOBS=js.error?{err:js.error.message}:js.data;LIVEJ=lv}
     render();
   }catch(e){
     if(/not allowed/i.test(e.message||""))gate("notadmin");else $("#app").innerHTML=`<main><div class="card"><div class="empty">Couldn't load stats: ${esc(e.message||e)}. If you just added this page, run supabase-junction-stats.sql in Supabase first.</div></div></main>`;
@@ -269,10 +313,12 @@ function render(){
      <section class="card"><div class="ch"><div><h2>Latest</h2><p>New people, roles and hires</p></div></div>
        <div class="feed">${(D.latest||[]).map(x=>`<div class="fe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICON[x.kind]||ICON.job}</svg></span><span class="t">${{seeker:"New job seeker ",company:"New company ",job:"New role: ",hire:""}[x.kind]||""}<b>${esc(x.label)}</b></span><small>${ago(x.at)}</small></div>`).join("")||`<div class="empty">Nothing yet.</div>`}</div></section>
    </div>
+     ${jobsSection()}
   </main>`;
   drawCharts();
 }
 function drawCharts(){if(!DATA)return;const S=DATA.series||[],c1=css("--s1"),c2=css("--s2");
+  if(JOBS&&!JOBS.err&&$("#pJobs"))lineChart($("#pJobs"),JOBS.series||[],[{key:"views",name:"Views",color:c1},{key:"applies",name:"Apply clicks",color:c2}],{label:"Job views and apply clicks per day"});
   lineChart($("#pSign"),S,[{key:"seekers",name:"Job seekers",color:c1},{key:"companies",name:"Companies",color:c2}],{label:"Sign ups per day"});
   const m=METRICS.find(x=>x[0]===metric);$("#mSub").textContent=m[1]+" per day";
   lineChart($("#pAct"),S,[{key:m[0],name:m[1],color:c1}],{label:m[1]+" per day"});
