@@ -3951,6 +3951,15 @@ function jbTop(){if(JB.top)return JB.top;const uid=(S.me&&S.me.id)||"x",key="jb_
   const me=JB.me||jbMe();const pool=JB.data.jobs.filter(j=>jbDay()-j.day<=30&&(!me.fams.size||jbParts(j,me).fam>=1)).sort((a,b)=>b.m-a.m),per={},t=[];for(const j of pool){if((per[j.co]||0)>=2)continue;per[j.co]=(per[j.co]||0)+1;t.push(j);if(t.length>=10)break}
   JB.top=t;jbLs.set(key,JSON.stringify(t.map(j=>j.url)));return t}
 
+
+/* ---------- usage tracking for the admin stats page ---------- */
+const jbSeen=new Set();
+function jbLog(kind,j,extra){try{if(typeof PREVIEW!=="undefined"&&PREVIEW)return;if(!sb||!S.user)return;
+  if(kind==="open"){const k="jb_open_"+jbDay();if(jbLs.get(k))return;jbLs.set(k,"1")}
+  if(kind==="view"){const k=j.url+"|"+jbDay();if(jbSeen.has(k))return;jbSeen.add(k)}
+  const row=Object.assign({kind},j?{url:j.url||"",co:j.co||"",title:j.t||"",fam:j.fam||"",lvl:j.lvl||"",wp:j.wp||"",match:j.m??null}:{},extra||{});
+  sb.from("jx_job_events").insert(row).then(()=>{},()=>{})}catch(_){}}
+
 /* ---------- filter ---------- */
 function jbFiltered(){const q=JB.q.toLowerCase().split(/\s+/).filter(Boolean),loc=JB.loc.toLowerCase().trim(),sv=JB.saved?jbSaved():null,today=jbDay();
   const locs=loc?loc.split(/\s*(?:,|\bor\b|\/)\s*/).filter(Boolean):[];const wantRemote=locs.includes("remote");const places=locs.filter(l=>l!=="remote"&&l!=="anywhere");
@@ -3975,7 +3984,7 @@ function jbDetail(j){if(!j)return `<div class="jbdet empty"><p class="hint">Pick
 function jbFillDesc(j){if(!j)return;jbDesc(j).then(t=>{const el=document.getElementById("jbDesc");if(!el||JB.sel!==j.i)return;el.innerHTML=t?`<p>${esc(t)}</p><a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting ${svg(JI.out)}</a>`:`<a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting on ${esc(j.co)} ${svg(JI.out)}</a>`})}
 function renderJobs(){const M=$("#main");jbLoad();
   if(!JB.data){M.innerHTML=JB.err?`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div></div><div class="state"><h2>Jobs are on their way</h2><p>The first daily refresh hasn't run yet. Check back in a little while.</p></div></div>`:`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Loading thousands of open roles…</p></div></div><div class="jbskel"></div></div>`;return}
-  if(!JB.me)jbScoreAll();const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
+  if(!JB.me)jbScoreAll();jbLog("open");const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
   if(JB.sel==null||!JB.data.jobs[JB.sel])JB.sel=(list[0]||top[0]||{}).i;const sel=JB.data.jobs[JB.sel];
   const upd=new Date(JB.data.updated),updS=upd.toDateString()===new Date().toDateString()?"refreshed today":"refreshed "+upd.toLocaleDateString(undefined,{month:"short",day:"numeric"});
   const mc=j=>`<button class="jbmc" data-act="jbsel" data-i="${j.i}" data-top="1"><div class="mt">${jbLogo(j.co,"",j.dom)}<div><div class="co">${esc(j.co)} · ${esc((j.wp==="remote"?"Remote":j.loc.split(/[\/;,]/)[0])||"")}</div><div class="ro">${esc(j.t)}</div></div><span class="pct">${j.m}%</span></div><div class="why"><b>Why you:</b> ${esc(jbShort(j))}</div><div class="meta"><span>${JB_LVLN[j.lvl]}</span><span>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</span><span>${jbAgo(j.day)}</span></div></button>`;
@@ -3996,7 +4005,7 @@ function renderJobs(){const M=$("#main");jbLoad();
   jbFillDesc(sel)}
 const jbKeep=()=>{const y=window.scrollY;renderJobs();window.scrollTo(0,y)};
 document.addEventListener("click",e=>{const el=e.target.closest("[data-act^=jb]");if(!el||!document.querySelector(".jb"))return;const a=el.dataset.act;
-  if(a==="jbsel"){JB.sel=+el.dataset.i;const narrow=matchMedia("(max-width:900px)").matches;if(narrow){JB.mobileDetail=true;renderJobs();window.scrollTo(0,0);return}
+  if(a==="jbsel"){JB.sel=+el.dataset.i;JB.src=el.dataset.top?"top":"list";jbLog("view",JB.data.jobs[JB.sel],{src:JB.src});const narrow=matchMedia("(max-width:900px)").matches;if(narrow){JB.mobileDetail=true;renderJobs();window.scrollTo(0,0);return}
     if(el.dataset.top){jbKeep();const d=document.querySelector(".jbdet");if(d)d.scrollIntoView({block:"nearest",behavior:"smooth"});return}
     document.querySelectorAll(".jbr").forEach(b=>b.classList.toggle("sel",+b.dataset.i===JB.sel));const d=document.querySelector(".jbdet");if(d){d.outerHTML=jbDetail(JB.data.jobs[JB.sel]);jbFillDesc(JB.data.jobs[JB.sel])}return}
   if(a==="jbback"){JB.mobileDetail=false;renderJobs();return}
@@ -4005,9 +4014,11 @@ document.addEventListener("click",e=>{const el=e.target.closest("[data-act^=jb]"
   if(a==="jbsavedf"){JB.saved=!JB.saved;JB.show=40;JB.sel=null;jbKeep();return}
   if(a==="jbmore"){JB.show+=40;jbKeep();return}
   if(a==="jbclear"){Object.assign(JB,{q:"",loc:"",fam:"",lvl:"",wp:[],days:0,saved:false,show:40,sel:null});jbKeep();return}
-  if(a==="jbsave"){const s=jbSaved(),u=el.dataset.u;s.has(u)?s.delete(u):s.add(u);jbLs.set("jb_saved",JSON.stringify([...s]));el.textContent=s.has(u)?"Saved":"Save";toast(s.has(u)?"Saved. Find it under the Saved filter.":"Removed from saved.");return}});
-document.addEventListener("submit",e=>{if(e.target.id!=="jbForm")return;e.preventDefault();JB.q=$("#jbQ").value.trim();JB.loc=$("#jbL").value.trim();JB.show=40;JB.sel=null;jbKeep()});
+  if(a==="jbsave"){const s=jbSaved(),u=el.dataset.u;s.has(u)?s.delete(u):s.add(u);jbLs.set("jb_saved",JSON.stringify([...s]));if(s.has(u)){const jj=JB.data.jobs.find(x=>x.url===u);if(jj)jbLog("save",jj,{src:JB.src||"list"})}el.textContent=s.has(u)?"Saved":"Save";toast(s.has(u)?"Saved. Find it under the Saved filter.":"Removed from saved.");return}});
+document.addEventListener("submit",e=>{if(e.target.id!=="jbForm")return;e.preventDefault();JB.q=$("#jbQ").value.trim();JB.loc=$("#jbL").value.trim();if(JB.q||JB.loc)jbLog("search",null,{q:(JB.q+(JB.loc?" @ "+JB.loc:"")).slice(0,80)});JB.show=40;JB.sel=null;jbKeep()});
 document.addEventListener("change",e=>{if(e.target.id==="jbDays"){JB.days=+e.target.value;JB.show=40;JB.sel=null;jbKeep()}if(e.target.id==="jbSort"){JB.sort=e.target.value;JB.show=40;jbKeep()}});
+
+document.addEventListener("click",e=>{const a=e.target.closest(".jbapply");if(!a||!JB.data)return;const j=JB.data.jobs[JB.sel];if(j&&j.url===a.getAttribute("href"))jbLog("apply",j,{src:JB.src||"list"})},true);
 
 /* ---------- browser back and forward stay inside Junction ---------- */
 (function(){
