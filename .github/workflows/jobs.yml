@@ -1,7 +1,7 @@
 name: Refresh jobs
 on:
   schedule:
-    - cron: "17 10 * * *"   # every day around 5 AM Central
+    - cron: "17 */4 * * *"   # every 4 hours
   workflow_dispatch: {}
 permissions:
   contents: write
@@ -9,18 +9,30 @@ concurrency: refresh-jobs
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Pull jobs from public boards
-        run: node fetch-jobs.mjs
-      - name: Save
+      - name: Load the last good data
         run: |
+          mkdir -p out
+          if git fetch --depth 1 origin jobs-data; then git archive FETCH_HEAD | tar -x -C out; fi
+      - name: Pull jobs
+        env:
+          OUT: out
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+        run: node fetch-jobs.mjs
+      - name: Publish to the jobs-data branch
+        run: |
+          cd out
+          echo '{"git":{"deploymentEnabled":false}}' > vercel.json
+          rm -rf .git
+          git init -q -b jobs-data
           git config user.name "junction-bot"
           git config user.email "junction-bot@users.noreply.github.com"
-          git add jobs
-          git diff --cached --quiet || git commit -m "Daily jobs refresh"
-          git push
+          git add -A
+          git commit -qm "Jobs refresh $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" jobs-data
