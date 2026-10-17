@@ -175,7 +175,7 @@ function demo(n){
 }
 
 /* ---------- jobs ---------- */
-async function liveJobs(){try{const r=await fetch("/jobs/index.json",{cache:"no-cache"});if(!r.ok)return null;const d=await r.json();const fam={},lvl={};let remote=0;
+async function liveJobs(){try{let r=await fetch("https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/index.json",{cache:"no-cache"}).catch(()=>null);if(!r||!r.ok)r=await fetch("/jobs/index.json",{cache:"no-cache"});if(!r.ok)return null;const d=await r.json();const fam={},lvl={};let remote=0;
   d.rows.forEach(x=>{const f=d.fams[x[3]]||"other",l=["intern","entry","mid","senior"][x[4]]||"mid";fam[f]=(fam[f]||0)+1;lvl[l]=(lvl[l]||0)+1;if(x[5]===0)remote++});
   return{total:d.rows.length,cos:d.cos.length,updated:d.updated,fam,lvl,remote}}catch(_){return null}}
 function demoJobs(n){let seed=11;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;const series=[];const today=new Date();
