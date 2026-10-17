@@ -3877,7 +3877,7 @@ const JB_COL=["#4C6BF5","#12A38A","#F2643D","#8B5CF6","#222","#0EA5E9","#D97706"
 const jbColor=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return JB_COL[h%JB_COL.length]};
 const jbInit=s=>{const w=String(s).replace(/[^\w\s&.]/g,"").split(/\s+/).filter(Boolean);return((w[0]||"?")[0]+((w[1]||w[0]||"")[w[1]?0:1]||"")).toUpperCase()};
 const jbGuessDom=co=>{if(window.JOBS_DEMO)return"";const k=String(co||"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");return k?k+".com":""};
-const jbLogo=(co,cls,dom)=>{const u=dom&&typeof FAV==="function"?FAV(dom):"";return `<span class="jblg ${cls||""} ${u?"hasimg":""}" style="background:${jbColor(co)}"><em>${esc(jbInit(co))}</em>${u?`<img src="${esc(u)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-alts="${esc(logoAlts(u).join("|"))}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`};
+const jbLogo=(co,cls,dom)=>{const direct=/^https?:/.test(dom||""),u=direct?dom:dom&&typeof FAV==="function"?FAV(dom):"";return `<span class="jblg ${cls||""} ${u?"hasimg":""}" style="background:${jbColor(co)}"><em>${esc(jbInit(co))}</em>${u?`<img src="${esc(u)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-alts="${direct?"":esc(logoAlts(u).join("|"))}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`};
 const jbAgo=d=>{const n=jbDay()-d;return n<=0?"Today":n===1?"1d":n<30?n+"d":Math.round(n/30)+"mo"};
 const jbAgoLong=d=>{const n=jbDay()-d;return n<=0?"Posted today":n===1?"Posted yesterday":`Posted ${n} days ago`};
 
