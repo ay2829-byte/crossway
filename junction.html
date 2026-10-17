@@ -3882,13 +3882,16 @@ const jbAgo=d=>{const n=jbDay()-d;return n<=0?"Today":n===1?"1d":n<30?n+"d":Math
 const jbAgoLong=d=>{const n=jbDay()-d;return n<=0?"Posted today":n===1?"Posted yesterday":`Posted ${n} days ago`};
 
 /* ---------- load ---------- */
+// Roles refresh every few hours on the jobs-data branch; the site copy is a fallback
+const JB_LIVE="https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/";
 function jbLoad(){if(JB.data||JB.loading)return;JB.loading=true;
-  const done=d=>{const jobs=d.rows.map((r,i)=>({i,co:d.cos[r[0]],dom:(d.doms||[])[r[0]]||jbGuessDom(d.cos[r[0]]),t:r[1],loc:d.locs[r[2]],fam:d.fams[r[3]]||"other",lvl:["intern","entry","mid","senior"][r[4]]||"mid",wp:["remote","hybrid","onsite"][r[5]]||"onsite",day:r[6],url:r[7],pay:r[8],sk:r[9].map(k=>d.skills[k]),yrs:typeof r[10]==="number"?r[10]:-1,tl:(r[1]+" "+d.cos[r[0]]).toLowerCase(),ll:(d.locs[r[2]]||"").toLowerCase()}));
-    JB.data={jobs,updated:d.updated,shard:d.shard||1000,demo:!!d.demo};JB.loading=false;jbScoreAll();if(S.stab==="jobs")renderJobs()};
+  const done=d=>{const jobs=d.rows.map((r,i)=>({i,co:d.cos[r[0]],dom:(d.doms||[])[r[0]]||jbGuessDom(d.cos[r[0]]),t:r[1],loc:d.locs[r[2]],fam:d.fams[r[3]]||"other",lvl:["intern","entry","mid","senior"][r[4]]||"mid",wp:["remote","hybrid","onsite"][r[5]]||"onsite",day:r[6],url:Array.isArray(r[7])?d.pres[r[7][0]]+r[7][1]:r[7],src:(d.srcs||[])[r[11]]||"",pay:r[8],sk:r[9].map(k=>d.skills[k]),yrs:typeof r[10]==="number"?r[10]:-1,tl:(r[1]+" "+d.cos[r[0]]).toLowerCase(),ll:(d.locs[r[2]]||"").toLowerCase()}));
+    JB.data={jobs,updated:d.updated,shard:d.shard||1000,demo:!!d.demo,base:d._base||"/jobs/",ver:d.ver||""};JB.loading=false;jbScoreAll();if(S.stab==="jobs")renderJobs()};
   if(window.JOBS_DEMO){setTimeout(()=>done(window.JOBS_DEMO),60);return}
-  fetch("/jobs/index.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error("missing");return r.json()}).then(done).catch(()=>{JB.loading=false;JB.err="none";if(S.stab==="jobs")renderJobs()})}
+  const get=b=>fetch(b+"index.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error("missing");return r.json()}).then(d=>{d._base=b;return d});
+  get(JB_LIVE).catch(()=>get("/jobs/")).then(done).catch(()=>{JB.loading=false;JB.err="none";if(S.stab==="jobs")renderJobs()})}
 function jbDesc(j){const n=Math.floor(j.i/JB.data.shard);if(window.JOBS_DEMO)return Promise.resolve(window.JOBS_DEMO.desc[j.i]||"");
-  if(!JB.shards[n])JB.shards[n]=fetch(`/jobs/d${n}.json`).then(r=>r.ok?r.json():[]).catch(()=>[]);return JB.shards[n].then(a=>a[j.i%JB.data.shard]||"")}
+  if(!JB.shards[n])JB.shards[n]=fetch(JB.data.ver?`${JB.data.base}s/${JB.data.ver}/d${n}.json`:`${JB.data.base}d${n}.json`).then(r=>r.ok?r.json():[]).catch(()=>[]);return JB.shards[n].then(a=>a[j.i%JB.data.shard]||"")}
 
 /* ---------- match ---------- */
 /* same role families the daily job pull uses, so a target title like "Strategy & Operations" maps to ops */
@@ -3947,8 +3950,10 @@ function jbShort(j){const me=JB.me||jbMe(),p=jbParts(j,me),list=a=>a.length<2?a[
   if(p.have.length>=2)bits.push(`you have ${list(p.have.slice(0,3))}`);
   if(bits.length)return bits.join(", ").replace(/^./,c=>c.toUpperCase())+".";const w=jbWhy(j);return w.good[0]||"Matches your role and level"}
 function jbTop(){if(JB.top)return JB.top;const uid=(S.me&&S.me.id)||"x",key="jb_top3_"+uid+"_"+jbDay();let ids=null;try{ids=JSON.parse(jbLs.get(key)||"null")}catch(_){}
-  const byUrl=new Map(JB.data.jobs.map(j=>[j.url,j]));if(ids){const t=ids.map(u=>byUrl.get(u)).filter(Boolean);if(t.length>=6){JB.top=t;return t}}
-  const me=JB.me||jbMe();const pool=JB.data.jobs.filter(j=>jbDay()-j.day<=30&&(!me.fams.size||jbParts(j,me).fam>=1)).sort((a,b)=>b.m-a.m),per={},t=[];for(const j of pool){if((per[j.co]||0)>=2)continue;per[j.co]=(per[j.co]||0)+1;t.push(j);if(t.length>=10)break}
+  const byUrl=new Map(JB.data.jobs.map(j=>[j.url,j]));let t=[];if(ids){t=ids.map(u=>byUrl.get(u)).filter(Boolean);if(t.length>=10){JB.top=t;return t}}
+  // today's 10 stay fixed all day; only a role that closed gets replaced
+  const me=JB.me||jbMe(),have=new Set(t.map(j=>j.url)),per={};t.forEach(j=>per[j.co]=(per[j.co]||0)+1);
+  const pool=JB.data.jobs.filter(j=>!have.has(j.url)&&jbDay()-j.day<=30&&(!me.fams.size||jbParts(j,me).fam>=1)).sort((a,b)=>b.m-a.m);for(const j of pool){if(t.length>=10)break;if((per[j.co]||0)>=2)continue;per[j.co]=(per[j.co]||0)+1;t.push(j)}
   JB.top=t;jbLs.set(key,JSON.stringify(t.map(j=>j.url)));return t}
 
 
@@ -3980,13 +3985,13 @@ function jbDetail(j){if(!j)return `<div class="jbdet empty"><p class="hint">Pick
     <div class="jbfit"><h4>Why this fits you · ${j.m}%</h4><ul>${w.good.map(x=>`<li>${esc(x)}</li>`).join("")||`<li>Matches the role and level you set in your profile</li>`}${w.miss?`<li class="miss">${esc(w.miss)}</li>`:""}</ul></div>
     ${j.sk.length?`<div class="jbsk">${j.sk.slice(0,10).map(s=>`<span class="${JB.me&&(JB.me.skills.has(s)||JB.me.ar[s])?"have":""}">${esc(s)}</span>`).join("")}</div>`:""}
     <div class="jbdesc" id="jbDesc"><span class="hint">Loading the description…</span></div>
-    <div class="jbcta"><a class="btn jbapply" href="${esc(j.url)}" target="_blank" rel="noopener">Apply on ${esc(j.co)} ${svg(JI.out)}</a><button class="btn line" data-act="jbsave" data-u="${esc(j.url)}">${sv?"Saved":"Save"}</button><small>Opens ${esc(host||"their careers page")}</small></div></div>`}
+    <div class="jbcta"><a class="btn jbapply" href="${esc(j.url)}" target="_blank" rel="noopener">${j.src?"Apply":"Apply on "+esc(j.co)} ${svg(JI.out)}</a><button class="btn line" data-act="jbsave" data-u="${esc(j.url)}">${sv?"Saved":"Save"}</button><small>Opens ${esc(host||"their careers page")}${j.src?" · via "+esc(j.src):""}</small></div></div>`}
 function jbFillDesc(j){if(!j)return;jbDesc(j).then(t=>{const el=document.getElementById("jbDesc");if(!el||JB.sel!==j.i)return;el.innerHTML=t?`<p>${esc(t)}</p><a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting ${svg(JI.out)}</a>`:`<a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting on ${esc(j.co)} ${svg(JI.out)}</a>`})}
 function renderJobs(){const M=$("#main");jbLoad();
   if(!JB.data){M.innerHTML=JB.err?`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div></div><div class="state"><h2>Jobs are on their way</h2><p>The first daily refresh hasn't run yet. Check back in a little while.</p></div></div>`:`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Loading thousands of open roles…</p></div></div><div class="jbskel"></div></div>`;return}
   if(!JB.me)jbScoreAll();jbLog("open");const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
   if(JB.sel==null||!JB.data.jobs[JB.sel])JB.sel=(list[0]||top[0]||{}).i;const sel=JB.data.jobs[JB.sel];
-  const upd=new Date(JB.data.updated),updS=upd.toDateString()===new Date().toDateString()?"refreshed today":"refreshed "+upd.toLocaleDateString(undefined,{month:"short",day:"numeric"});
+  const upd=new Date(JB.data.updated),updH=Math.max(0,Math.round((Date.now()-upd)/36e5)),updS=updH<1?"updated just now":updH<24?"updated "+updH+"h ago":"updated "+upd.toLocaleDateString(undefined,{month:"short",day:"numeric"});
   const mc=j=>`<button class="jbmc" data-act="jbsel" data-i="${j.i}" data-top="1"><div class="mt">${jbLogo(j.co,"",j.dom)}<div><div class="co">${esc(j.co)} · ${esc((j.wp==="remote"?"Remote":j.loc.split(/[\/;,]/)[0])||"")}</div><div class="ro">${esc(j.t)}</div></div><span class="pct">${j.m}%</span></div><div class="why"><b>Why you:</b> ${esc(jbShort(j))}</div><div class="meta"><span>${JB_LVLN[j.lvl]}</span><span>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</span><span>${jbAgo(j.day)}</span></div></button>`;
   const shown=JB.all10?top:top.slice(0,3);const chips=(arr,key,multi)=>arr.map(([k,l])=>`<button class="ch ${multi?(JB[key].includes(k)?"on":""):(JB[key]===k?"on":"")}" data-act="jbf" data-k="${key}" data-v="${k}">${l}</button>`).join("");
   M.innerHTML=`<div class="cpage tpage jb ${JB.mobileDetail?"mdet":""}">
