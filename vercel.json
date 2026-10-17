@@ -1,4 +1,5 @@
 {
+{
   "cleanUrls": true,
   "headers": [
     {
@@ -22,20 +23,6 @@
       ],
       "destination": "https://crosswayhq.com/:path*",
       "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/blog/covers/:file",
-      "destination": "/:file"
-    },
-    {
-      "source": "/blog/:slug",
-      "destination": "/:slug"
-    },
-    {
-      "source": "/compare/:slug",
-      "destination": "/:slug"
     }
   ]
 }
