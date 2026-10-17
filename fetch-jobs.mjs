@@ -13,7 +13,7 @@ const uniq=a=>[...new Set(a.filter(t=>t&&/^[\w.-]+$/.test(t)))];
 
 async function getJSON(url,opt={}){const c=new AbortController();const t=setTimeout(()=>c.abort(),25000);
   try{const r=await fetch(url,{...opt,headers:{...UA,...(opt.headers||{})},signal:c.signal});if(!r.ok)return null;return await r.json()}catch{return null}finally{clearTimeout(t)}}
-async function pool(items,n,fn){const out=[];let i=0;await Promise.all(Array.from({length:n},async()=>{while(i<items.length&&Date.now()<DEADLINE){const k=i++;try{out[k]=await fn(items[k])}catch{out[k]=null}}}));return out}
+async function pool(items,n,fn,dl=DEADLINE){const out=[];let i=0;await Promise.all(Array.from({length:n},async()=>{while(i<items.length&&Date.now()<dl){const k=i++;try{out[k]=await fn(items[k])}catch{out[k]=null}}}));return out}
 
 /* ---------- text helpers ---------- */
 const ENT={amp:"&",lt:"<",gt:">",quot:'"',apos:"'",nbsp:" ",rsquo:"'",lsquo:"'",rdquo:'"',ldquo:'"',ndash:"–",mdash:"—",hellip:"…",bull:"•"};
@@ -22,7 +22,8 @@ const strip=h=>decode(decode(String(h||"")).replace(/<(br|\/p|\/li|\/h\d|\/div)[
 const snippet=t=>{t=t.replace(/^\W+/,"");if(t.length<=SNIP)return t;const c=t.slice(0,SNIP);return c.slice(0,Math.max(c.lastIndexOf(" "),SNIP-40))+"…"};
 const ATS=/(^|\.)(greenhouse\.io|lever\.co|ashbyhq\.com|smartrecruiters\.com|myworkdayjobs\.com|workable\.com|jobvite\.com|icims\.com|bamboohr\.com|recruitee\.com|breezy\.hr|gem\.com|rippling-ats\.com|rippling\.com|oraclecloud\.com|simplify\.jobs|themuse\.com|arbeitnow\.com|himalayas\.app|remotive\.com|jobicy\.com|adzuna\.[a-z.]+|eightfold\.ai|taleo\.net|successfactors\.com)$/i;
 export function domainOf(tok,url,co){if(tok in DOMAINS)return DOMAINS[tok];try{const h=new URL(url).hostname.toLowerCase();if(!ATS.test(h))return h.replace(/^(www|careers|jobs|boards|job-boards|apply|work|talent|join)\./,"")}catch{}if(tok&&/^[a-z0-9]+$/i.test(tok)&&!(tok in DISC))return tok.toLowerCase()+".com";return nameDom(co)}
-const nameDom=co=>{const k=String(co||"").toLowerCase().replace(/\(.*?\)/g,"").replace(/,? (inc|llc|ltd|corp|corporation|co|plc|gmbh|group|holdings|technologies|company)\.?$/g,"").replace(/&/g,"and").replace(/[^a-z0-9]/g,"");return k?k+".com":""}
+export const cleanCo=co=>String(co||"").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/\(.*?\)/g," ").replace(/[-_](jobs|careers|english|us|usa|global)\b/gi," ").replace(/\b(inc|llc|l\.l\.c|ltd|limited|corp|corporation|co|plc|gmbh|ag|sa|se|nv|bv|ab|as|oy|spa|s\.a|s\.p\.a|pty|pvt|private|group|holdings?|technologies|technology|company|industries|international|jobs|careers|usa|us|global|worldwide|enterprises?)\b\.?/gi," ").replace(/\s+/g," ").trim()||String(co||"");
+const nameDom=co=>{const k=cleanCo(co).toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");return k?"?"+k+".com":""}
 const DISC={};
 const pretty=t=>NAMES[t]??DISC[t]??t.replace(/[-_]/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 
@@ -96,12 +97,12 @@ async function arbeitnow(){const out=[];for(let p=1;p<=60&&Date.now()<DEADLINE;p
     j.data.forEach(x=>out.push({co:x.company_name,t:x.title,loc:x.location||"",dept:(x.tags||[]).join(", "),url:x.url,at:x.created_at?new Date(x.created_at*1000).toISOString():null,txt:strip(x.description),wp:x.remote?"remote":"",lvl:/intern|praktik|werkstudent|working student/i.test(x.title+" "+(x.job_types||[]).join(" "))?"internship":/entry|berufseinsteiger|graduate|junior/i.test((x.job_types||[]).join(" "))?"entry_level":"",src:"Arbeitnow"}));
     if(!j.links||!j.links.next)break}return out}
 async function himalayas(){const out=[];for(let off=0;off<6000&&Date.now()<DEADLINE;off+=20){const j=await getJSON(`https://himalayas.app/jobs/api?limit=20&offset=${off}`);if(!j||!Array.isArray(j.jobs)||!j.jobs.length)break;
-    j.jobs.forEach(x=>{const sen=(x.seniority||[]).join(" ");out.push({co:x.companyName,t:x.title,loc:((x.locationRestrictions||[]).join(" / ")||"Anywhere")+" (Remote)",dept:(x.categories||[]).join(", ").replace(/-/g," "),url:x.applicationLink||x.guid,at:x.pubDate?new Date(x.pubDate*1000).toISOString():null,txt:strip(x.description||x.excerpt),wp:"remote",lvl:/intern/i.test(sen)?"internship":/entry/i.test(sen)?"entry_level":"",src:"Himalayas"})});
+    j.jobs.forEach(x=>{const sen=(x.seniority||[]).join(" ");out.push({co:x.companyName,t:x.title,loc:((x.locationRestrictions||[]).join(" / ")||"Anywhere")+" (Remote)",dept:(x.categories||[]).join(", ").replace(/-/g," "),url:x.applicationLink||x.guid,at:x.pubDate?new Date(x.pubDate*1000).toISOString():null,txt:strip(x.description||x.excerpt),logo:x.companyLogo||"",wp:"remote",lvl:/intern/i.test(sen)?"internship":/entry/i.test(sen)?"entry_level":"",src:"Himalayas"})});
     if(j.totalCount&&off+20>=j.totalCount)break}return out}
 async function remotive(){const j=await getJSON("https://remotive.com/api/remote-jobs");if(!j||!Array.isArray(j.jobs))return[];
-  return j.jobs.map(x=>({co:x.company_name,t:x.title,loc:(x.candidate_required_location||"Anywhere")+" (Remote)",dept:x.category||"",url:x.url,at:x.publication_date,txt:strip(x.description),wp:"remote",lvl:/intern/i.test(x.job_type||"")?"internship":"",pay:pay(x.salary||""),src:"Remotive"}))}
+  return j.jobs.map(x=>({co:x.company_name,t:x.title,loc:(x.candidate_required_location||"Anywhere")+" (Remote)",dept:x.category||"",url:x.url,at:x.publication_date,txt:strip(x.description),logo:x.company_logo||x.company_logo_url||"",wp:"remote",lvl:/intern/i.test(x.job_type||"")?"internship":"",pay:pay(x.salary||""),src:"Remotive"}))}
 async function jobicy(){const j=await getJSON("https://jobicy.com/api/v2/remote-jobs?count=100");if(!j||!Array.isArray(j.jobs))return[];
-  return j.jobs.map(x=>({co:x.companyName,t:strip(x.jobTitle),loc:(x.jobGeo||"Anywhere")+" (Remote)",dept:[].concat(x.jobIndustry||[]).join(", "),url:x.url,at:x.pubDate,txt:strip(x.jobDescription||x.jobExcerpt),wp:"remote",lvl:/entry|junior/i.test([].concat(x.jobLevel||[]).join(" "))?"entry_level":"",pay:x.annualSalaryMin&&x.annualSalaryMax&&(x.salaryCurrency||"USD")==="USD"?"$"+Math.round(x.annualSalaryMin/1000)+"k to $"+Math.round(x.annualSalaryMax/1000)+"k":"",src:"Jobicy"}))}
+  return j.jobs.map(x=>({co:x.companyName,t:strip(x.jobTitle),loc:(x.jobGeo||"Anywhere")+" (Remote)",dept:[].concat(x.jobIndustry||[]).join(", "),url:x.url,at:x.pubDate,txt:strip(x.jobDescription||x.jobExcerpt),logo:x.companyLogo||"",wp:"remote",lvl:/entry|junior/i.test([].concat(x.jobLevel||[]).join(" "))?"entry_level":"",pay:x.annualSalaryMin&&x.annualSalaryMax&&(x.salaryCurrency||"USD")==="USD"?"$"+Math.round(x.annualSalaryMin/1000)+"k to $"+Math.round(x.annualSalaryMax/1000)+"k":"",src:"Jobicy"}))}
 // Adzuna (optional, free keys): early career searches, weighted to the US
 const AZ_Q=["junior","entry level","graduate","new grad","associate","intern","analyst","software engineer","data analyst","product manager","marketing","designer"];
 async function adzuna(){const id=process.env.ADZUNA_APP_ID,key=process.env.ADZUNA_APP_KEY;if(!id||!key)return[];let budget=+(process.env.ADZUNA_CALLS||40);const out=[];
@@ -126,12 +127,13 @@ const isUS=l=>/\b(US|USA|U\.S\.|United States|America)\b|,\s*(A[LKZR]|C[AOT]|D[E
 export const urlKey=u=>"u:"+String(u||"").replace(/[?#].*$/,"").replace(/\/[a-z]{2}-[A-Z]{2}\//,"/").replace(/^https?:\/\/(www\.)?/,"").replace(/\/+$/,"").toLowerCase();
 const HINT=new Map();   // url -> level from lists that know it is new grad or intern
 const LVS="iems";
+const LOGO={};
 export function pack(raw){const now=Date.now();const seen=new Set();const cos=[],coIx={},doms=[],locs=[],locIx={},pres=[],preIx={},srcs=[""],rows=[];
   for(const r of raw){if(!r||!r.t||!r.url||!r.co)continue;const co=String(r.co).trim();const t=strip(r.t).slice(0,120);if(!co||!t)continue;
     const uk=urlKey(r.url),k=(co+"|"+t+"|"+(r.loc||"")).toLowerCase();if(seen.has(uk)||seen.has(k))continue;seen.add(uk);seen.add(k);
     const at=r.at?Date.parse(r.at):NaN;if(!isNaN(at)&&now-at>1000*86400*120)continue; // skip roles older than 4 months
     const txt=r.txt||"";const fam=family(t,r.dept);let lv=level(t);const hl=r.lvl||HINT.get(uk);if(hl==="entry_level"&&lv!=="intern")lv="entry";if(hl==="internship")lv="intern";if(r.lvl==="entry_level"&&lv!=="intern")lv="entry";if(r.lvl==="internship")lv="intern";
-    const p=r.pay||pay(txt);if(!(co in coIx)){coIx[co]=cos.length;cos.push(co);doms.push(domainOf(r.tok||"",r.url,co))}
+    const p=r.pay||pay(txt);if(!(co in coIx)){coIx[co]=cos.length;cos.push(co);doms.push(domainOf(r.tok||"",r.url,co))}if(r.logo&&!LOGO[co])LOGO[co]=r.logo
     const loc=(r.loc||"").replace(/\s+/g," ").trim().slice(0,90);if(!(loc in locIx)){locIx[loc]=locs.length;locs.push(loc)}
     const cut=r.url.lastIndexOf("/")+1,pre=r.url.slice(0,cut);if(!(pre in preIx)){preIx[pre]=pres.length;pres.push(pre)}
     let si=0;if(r.src){si=srcs.indexOf(r.src);if(si<0){si=srcs.length;srcs.push(r.src)}}
@@ -139,7 +141,29 @@ export function pack(raw){const now=Date.now();const seen=new Set();const cos=[]
   // keep every intern, entry and 2 to 4 year role first, then US, then the newest senior roles
   const today=Math.round(now/864e5),score=r=>{const yrs=r[10],early=r[4]<=1||(r[4]===2&&(yrs<0||yrs<=4));return(early?0:r[4]===2?1:2)*1000+(isUS(locs[r[2]])||r[5]===0?0:300)+Math.min(299,r[6]?today-r[6]:60)};
   let keep=rows;if(rows.length>MAX_JOBS)keep=rows.map(r=>[score(r),r]).sort((a,b)=>a[0]-b[0]).slice(0,MAX_JOBS).map(x=>x[1]);
-  keep.sort((a,b)=>b[6]-a[6]);return{v:2,updated:new Date().toISOString(),skills:SK,fams:FAMS,cos,doms,locs,pres,srcs,rows:keep}}
+  keep.sort((a,b)=>b[6]-a[6]);const guess=[];doms.forEach((d,i)=>{if(d[0]==="?"){doms[i]=d.slice(1);guess.push(i)}});
+  Object.defineProperty(cos,"guess",{value:guess,enumerable:false});return{v:2,updated:new Date().toISOString(),skills:SK,fams:FAMS,cos,doms,locs,pres,srcs,rows:keep}}
+
+/* ---------- company websites for logos ---------- */
+// Names we could only guess a domain for get looked up on Wikidata (official website), cached in domains.json
+const WD_API="https://www.wikidata.org/w/api.php?format=json&origin=*&";
+export function plausible(name,host){const lab=String(host||"").replace(/^www\./,"").split(".")[0].replace(/[^a-z0-9]/g,"");if(lab.length<2)return false;
+  const w=cleanCo(name).toLowerCase().replace(/&/g," ").split(/[^a-z0-9]+/).filter(Boolean);if(!w.length)return false;
+  const ac=w.map(x=>x[0]).join(""),all=w.join("");
+  return lab===all||lab===ac||(w[0].length>=3&&(lab.startsWith(w[0])||all.startsWith(lab)))||(lab.length>=4&&all.includes(lab))}
+async function wikiSite(name){const q=cleanCo(name);if(q.length<2)return"";
+  const s=await getJSON(WD_API+"action=query&list=search&srlimit=4&srsearch="+encodeURIComponent(q+" haswbstatement:P856"));const ids=((s&&s.query&&s.query.search)||[]).map(x=>x.title).filter(t=>/^Q\d+$/.test(t));if(!ids.length)return"";
+  const e=await getJSON(WD_API+"action=wbgetentities&props=claims&ids="+ids.join("|"));if(!e||!e.entities)return null;
+  for(const id of ids){const c=e.entities[id]&&e.entities[id].claims&&e.entities[id].claims.P856;if(!c)continue;
+    for(const x of c){const v=x.mainsnak&&x.mainsnak.datavalue&&x.mainsnak.datavalue.value;let h="";try{h=new URL(v).hostname.toLowerCase().replace(/^(www\d?|careers|jobs|corporate|about|global|group|en|us)\./,"")}catch{}
+      if(h&&plausible(name,h))return h}}return""}
+async function resolveDomains(out,today){const cache=readJSON(OUT+"/domains.json")||{};const n={};out.rows.forEach(r=>n[r[0]]=(n[r[0]]||0)+1);
+  const todo=[];for(const i of out.cos.guess||[]){const co=out.cos[i],c=cache[co];
+    if(c&&c[0]){out.doms[i]=c[0];continue}if(LOGO[co]){out.doms[i]=LOGO[co];continue}
+    if(!c||today-c[1]>30)todo.push(i)}
+  todo.sort((a,b)=>(n[b]||0)-(n[a]||0));const end=Date.now()+60000*+(process.env.LOGO_MINUTES||8);let found=0;
+  await pool(todo.slice(0,+(process.env.LOGO_MAX||4000)),6,async i=>{const co=out.cos[i];const h=await wikiSite(co);if(h===null)return;cache[co]=[h,today];if(h){out.doms[i]=h;found++}},end);
+  writeFileSync(OUT+"/domains.json",JSON.stringify(cache));console.log(`Logos: looked up ${todo.length} names, found ${found} websites`)}
 
 /* ---------- run ---------- */
 const readJSON=f=>{try{return JSON.parse(readFileSync(f,"utf8"))}catch{return null}};
@@ -159,7 +183,7 @@ async function main(){const t0=Date.now();const today=Math.round(t0/864e5);
   const prev=readJSON(OUT+"/index.json");
   if(out.rows.length<500||(prev&&prev.rows&&out.rows.length<prev.rows.length*0.4)){console.log("Too few jobs fetched ("+out.rows.length+"), keeping the last good files.");process.exitCode=0;return}
   const nb={};for(const [k,v] of Object.entries(cache))if(today-(v.d||0)<=21)nb[k]=v;for(const k of Object.keys(ok))nb[k]={d:today,n:cand.get(k)||""};
-  mkdirSync(OUT,{recursive:true});
+  mkdirSync(OUT,{recursive:true});await resolveDomains(out,today);
   // descriptions go in a fresh versioned folder; the previous one stays so open tabs keep working
   const ver=String(Date.now().toString(36)),keepV=prev&&prev.ver;
   readdirSync(OUT).filter(f=>/^d\d+\.json$/.test(f)).forEach(f=>unlinkSync(OUT+"/"+f));
