@@ -1,26 +1,17 @@
 {
-{
   "cleanUrls": true,
   "headers": [
     {
       "source": "/config.js",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache"
-        }
+        { "key": "Cache-Control", "value": "no-cache" }
       ]
     }
   ],
   "redirects": [
     {
       "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "crossway-eta.vercel.app"
-        }
-      ],
+      "has": [{ "type": "host", "value": "crossway-eta.vercel.app" }],
       "destination": "https://crosswayhq.com/:path*",
       "permanent": true
     }
