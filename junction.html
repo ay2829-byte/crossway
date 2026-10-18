@@ -1568,6 +1568,76 @@ html body .arxbar .ard-hard{background:var(--accent)}
 :root[data-theme="dark"] .bic.co{background:linear-gradient(135deg,#251C3A,#1A2240)}
 :root[data-theme="dark"] .bic.orbn{background:linear-gradient(135deg,#1A2040,#231C3A)}
 :root[data-theme="dark"] .demand,:root[data-theme="dark"] .mc .cv .demand{background:#3A2A10;color:#F5B451}
+
+/* applied, community counts, not for me */
+.jbr .tg .apd{background:var(--good-soft);color:var(--good);font-weight:600}
+.jbr .tg .ppl{color:var(--muted);background:none;padding-left:0}
+.jbsoc{display:grid;grid-template-columns:auto auto 1fr;gap:10px;align-items:center;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:14px}
+.jbsoc div{display:flex;align-items:baseline;gap:6px}.jbsoc b{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}.jbsoc span{font-size:12.5px;color:var(--muted)}
+.jbsoc div+div{padding-left:12px;border-left:1px solid var(--line)}
+.jbsoc p{font-size:12.5px;color:var(--muted);text-align:right;margin:0}
+@media (max-width:560px){.jbsoc{grid-template-columns:1fr 1fr}.jbsoc p{grid-column:1/-1;text-align:left}}
+.jbask{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border-radius:14px;background:var(--good-soft)}
+.jbask span{margin-right:auto;font-weight:500}
+.jbask .btn:not(.line){background:var(--good);color:#fff}
+.jbcta .jbdone{background:var(--good-soft);color:var(--good);border:0}
+.jbcta .jbdone svg{width:16px;height:16px}
+.jbcta .jbnot{color:var(--muted)}
+
+/* jobs: your stats */
+.jbhr{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.jbstb{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;font-size:13.5px;border-color:var(--line)}
+.jbstb svg{width:17px;height:17px}
+.jbst .jbback{margin-bottom:10px}
+.jbst .stk{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:22px}
+@media (max-width:820px){.jbst .stk{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.jbst .kp{border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.jbst .kp small{display:block;color:var(--muted);font-size:12.5px;font-weight:500}
+.jbst .kp b{display:block;font-size:28px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.jbst .kp span{font-size:12.5px;color:var(--muted)}.jbst .kp .up{color:var(--m-hi);font-weight:600}
+.jbst .stg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+@media (max-width:820px){.jbst .stg{grid-template-columns:minmax(0,1fr)}}
+.jbst .sp{border:1px solid var(--line);border-radius:20px;padding:20px;min-width:0}
+.jbst .sp.wide{grid-column:1/-1}
+.jbst .sp h2{font-size:16px;font-weight:600}.jbst .sp h3{font-size:14px;font-weight:600;margin-top:22px}
+.jbst .sub{color:var(--muted);font-size:12.5px;margin-top:2px}
+.jbst .wk{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px;align-items:end;height:170px;margin-top:16px;border-bottom:1px solid var(--line)}
+.jbst .wc{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.jbst .wc i{display:block;width:min(36px,70%);border-radius:4px 4px 0 0;min-height:2px;background:color-mix(in srgb,var(--accent) 30%,var(--bg))}
+.jbst .wc.cur i{background:var(--accent)}
+.jbst .wc em{font-style:normal;font-size:12px;font-weight:600;margin-bottom:4px}
+.jbst .wl{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px;margin-top:6px;font-size:11px;color:var(--muted);text-align:center}
+.jbst .dims{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.jbst .bk{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.jbst .br{display:grid;grid-template-columns:110px minmax(0,1fr) 28px;gap:10px;align-items:center;font-size:13px}
+.jbst .br span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbst .br i{display:block;height:10px;border-radius:0 4px 4px 0;background:var(--accent)}
+.jbst .br b{text-align:right;font-weight:600}
+.jbst .mix{display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;margin-top:16px}
+.jbst .mix i,.jbst .leg i{display:block}
+.jbst .mh{background:var(--m-hi)}.jbst .mm{background:var(--m-md)}.jbst .ml{background:var(--m-lo)}
+.jbst .leg{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12.5px}
+.jbst .leg span{display:flex;align-items:center;gap:6px}.jbst .leg i{width:10px;height:10px;border-radius:3px}
+.jbst .sks{display:flex;flex-direction:column;margin-top:8px}
+.jbst .skr{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:13.5px;padding:9px 0;border-bottom:1px solid var(--line)}
+.jbst .skr:last-child{border-bottom:0}.jbst .skr small{color:var(--muted);margin-left:6px}
+.jbst .tag{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.jbst .tag.have{background:var(--good-soft);color:var(--good)}.jbst .tag.miss{background:var(--m-md-s);color:var(--m-md)}
+.jbst .pyh{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:14px}
+.jbst .py{position:relative;display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.jbst .py div{position:relative;height:10px;border-radius:5px;background:var(--surface)}
+.jbst .py div i{position:absolute;top:0;bottom:0;border-radius:4px;background:var(--accent)}
+.jbst .pmed{position:absolute;top:-4px;bottom:-4px;border-left:2px dashed var(--muted)}
+.jbst .oth{display:flex;align-items:baseline;gap:8px;margin-top:8px}.jbst .oth b{font-size:28px;font-weight:700}.jbst .oth span{color:var(--muted);font-size:13px}
+.jbst .tw{overflow-x:auto;margin-top:12px}
+.jbst .stt{width:100%;border-collapse:collapse;min-width:760px;font-size:13.5px}
+.jbst .stt th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+.jbst .stt td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.jbst .stt tr:last-child td{border-bottom:0}
+.jbst .sco{display:flex;gap:10px;align-items:center}.jbst .sco b{display:block;font-weight:600}.jbst .sco small{color:var(--muted)}
+.jbst .mu{color:var(--muted)}.jbst .ac{white-space:nowrap}.jbst .ac .ulink{margin-left:10px;font-size:13px}
+:root{--m-md-s:rgba(242,100,61,.14)}
+.jbst .dims .ch{border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:500}.jbst .dims .ch.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 </style>
 </head>
 <body>
@@ -3943,7 +4013,7 @@ document.addEventListener("keydown",e=>{if(e.target&&e.target.id==="msgIn"&&e.ke
   if(e.key==="Escape"&&S.bell){S.bell=false;renderTop()}});
 
 /* ===== Jobs: real openings from public company boards, matched to the member ===== */
-const JB={data:null,loading:false,err:null,shards:{},sel:null,q:"",loc:"",fam:"",lvl:"",wp:[],days:0,sort:"match",show:40,saved:false,all10:false,mobileDetail:false};
+const JB={data:null,loading:false,err:null,shards:{},sel:null,q:"",loc:"",fam:"",lvl:"",wp:[],days:0,sort:"match",show:40,saved:false,applied:false,all10:false,mobileDetail:false,cnt:{},ask:null};
 const JB_FAM=[["","All roles"],["eng","Engineering"],["product","Product"],["data","Data"],["design","Design"],["growth","Marketing"],["sales","Sales"],["ops","Ops"]];
 const JB_LVL=[["intern","Intern"],["entry","Entry & junior"],["mid","Mid"],["senior","Senior"]];
 const JB_LVLN={intern:"Intern",entry:"Entry",mid:"Mid",senior:"Senior"},JB_FAMN={eng:"Engineering",product:"Product",data:"Data",design:"Design",growth:"Marketing",sales:"Sales",ops:"Operations",other:"Other"};
@@ -4012,15 +4082,29 @@ function jbParts(j,me){
   exp=Math.max(exp,Math.min(1,ar)*.8*sk); // strong proven work in their skills makes up for fewer years
   return{fam,title,tHit,sk,have,exp,yf,loc,rec,ar}}
 function jbScore(j,me){const p=jbParts(j,me);const base=100*(p.fam*.22+p.title*.32+p.sk*.16+p.exp*.18+p.loc*.12);
-  let s=Math.round(base*.97+p.ar*3+p.rec*1+(j.lvl==="entry"&&me.yrs<=3?1:0));
+  let s=Math.round(base*.97+p.ar*3+p.rec*1+(j.lvl==="entry"&&me.yrs<=3?1:0)+jbLearnBoost(j,JB.pref)+(jbBrand(j)?4:0));
   return Math.max(1,Math.min(98,s))}
 /* score color: green is a strong match, orange is worth a look, red is a stretch */
 const jbTone=m=>m>=80?"hi":m>=60?"md":"lo";
-function jbScoreAll(){if(!JB.data)return;const me=jbMe();JB.me=me;JB.data.jobs.forEach(j=>j.m=jbScore(j,me));JB.top=null}
+/* ---------- learning from what you do: apply, save, open, hide ---------- */
+const JB_BW={view:.5,apply:2,applied:3,save:1.5,hide:-3};
+function jbBeh(){if(!JB._beh){try{JB._beh=JSON.parse(jbLs.get("jb_beh")||"[]")}catch(_){JB._beh=[]}}return JB._beh}
+function jbLearn(kind,j){if(!j||!(kind in JB_BW))return;const b=jbBeh();if(kind==="view"&&b.some(e=>e.u===j.url&&e.k==="view"))return;
+  b.push({u:j.url,k:kind,ts:Date.now(),f:j.fam,l:j.lvl,w:j.wp,h:jbHead(j.t),s:(j.sk||[]).slice(0,6),c:j.co});if(b.length>400)b.splice(0,b.length-400);jbLs.set("jb_beh",JSON.stringify(b))}
+function jbPrefs(){const b=jbBeh(),now=Date.now(),P={f:{},l:{},w:{},h:{},s:{},c:{},T:0};
+  b.forEach(e=>{const w=JB_BW[e.k]*Math.pow(.5,(now-e.ts)/(14*864e5));if(w>0)P.T+=w;const add=(m,k)=>{if(k)m[k]=(m[k]||0)+w};add(P.f,e.f);add(P.l,e.l);add(P.w,e.w);add(P.h,e.h);(e.s||[]).forEach(x=>add(P.s,x));add(P.c,e.c)});return P}
+function jbLearnBoost(j,P){if(!P||P.T<2)return 0;const T=P.T,sk=j.sk.length?j.sk.reduce((t,x)=>t+(P.s[x]||0),0)/j.sk.length:0;
+  const v=10*(P.f[j.fam]||0)/T+12*(P.h[jbHead(j.t)]||0)/T+4*(P.l[j.lvl]||0)/T+3*(P.w[j.wp]||0)/T+6*sk/T+3*(P.c[j.co]||0)/T;return Math.max(-12,Math.min(12,v))}
+/* well known employers get a small lift so people see them in their feed */
+const JB_BRANDS=new Set("oracle salesforce nvidia adobe intel microsoft amazon google apple meta ibm cisco dell hp hpe vmware servicenow workday intuit paypal visa mastercard americanexpress capitalone jpmorganchase jpmorgan goldmansachs morganstanley bankofamerica wellsfargo citi blackrock fidelity charlesschwab deloitte pwc ey kpmg accenture mckinsey bcg bain stripe airbnb uber lyft doordash instacart spotify netflix linkedin snap pinterest reddit dropbox atlassian shopify block coinbase robinhood databricks snowflake datadog cloudflare mongodb twilio zoom hubspot zendesk okta crowdstrike paloaltonetworks fortinet qualcomm amd micron texasinstruments appliedmaterials broadcom tesla spacex boeing lockheedmartin northropgrumman rtx generalmotors ford toyota walmart target costco homedepot nike starbucks disney comcast att verizon tmobile pfizer johnsonandjohnson merck abbvie unitedhealthgroup cvshealth anthropic openai scaleai figma notion canva samsung sony siemens sap adp expedia booking zillow wayfair chewy etsy ebay duolingo ramp plaid brex rippling gusto affirm sofi chime discord roblox epicgames ea riotgames grammarly asana airtable gitlab elastic confluent hashicorp".split(" "));
+const jbBrandKey=co=>String(co||"").toLowerCase().replace(/&/g,"and").replace(/\b(inc|corp|corporation|company|co|llc|ltd|group|holdings|technologies|usa|us|services)\b\.?/g,"").replace(/[^a-z0-9]/g,"");
+const jbBrand=j=>j._b!==undefined?j._b:(j._b=JB_BRANDS.has(jbBrandKey(j.co)));
+function jbScoreAll(){if(!JB.data)return;const me=jbMe();JB.me=me;JB.pref=jbPrefs();JB.data.jobs.forEach(j=>j.m=jbScore(j,me));JB.top=null}
 function jbWhy(j){const me=JB.me||jbMe(),p=jbParts(j,me),out=[];
   if(p.title>=.8&&p.tHit)out.push(`It's the role you're after: ${p.tHit}`);else if(p.fam>=1)out.push(`It's a ${JB_FAMN[j.fam].toLowerCase()} role, which is what you're looking for`);
   if(j.yrs>0){if(p.yf>=1)out.push(`They ask for ${j.yrs}+ years and you have ${me.yrs}`)}
   else if((j.lvl==="entry"||j.lvl==="intern")&&me.yrs<=3)out.push(`${JB_LVLN[j.lvl]} level, a fit for your ${me.yrs} ${me.yrs===1?"year":"years"} of experience`);
+  if(jbLearnBoost(j,JB.pref)>=4)out.push("Similar to jobs you've applied to and saved");
   const arHits=p.have.filter(s=>me.ar[s]).sort((a,b)=>me.ar[b].n-me.ar[a].n);
   if(arHits.length){const s=arHits[0],a=me.ar[s];out.push(`You've solved ${a.n} Arena ${a.n===1?"problem":"problems"} using ${s}${a.t?`, ${a.t} inside the clock`:""}`)}
   const have=p.have.filter(s=>!arHits.includes(s)).slice(0,3);if(have.length)out.push(`They list ${have.join(", ")}, which ${have.length===1?"is":"are"} on your profile`);
@@ -4043,56 +4127,124 @@ function jbTop(){if(JB.top)return JB.top;const uid=(S.me&&S.me.id)||"x",key="jb_
 
 /* ---------- usage tracking for the admin stats page ---------- */
 const jbSeen=new Set();
-function jbLog(kind,j,extra){try{if(typeof PREVIEW!=="undefined"&&PREVIEW)return;if(!sb||!S.user)return;
+function jbLog(kind,j,extra){try{jbLearn(kind,j);if(typeof PREVIEW!=="undefined"&&PREVIEW)return;if(!sb||!S.user)return;
   if(kind==="open"){const k="jb_open_"+jbDay();if(jbLs.get(k))return;jbLs.set(k,"1")}
   if(kind==="view"){const k=j.url+"|"+jbDay();if(jbSeen.has(k))return;jbSeen.add(k)}
   const row=Object.assign({kind},j?{url:j.url||"",co:j.co||"",title:j.t||"",fam:j.fam||"",lvl:j.lvl||"",wp:j.wp||"",match:j.m??null}:{},extra||{});
   sb.from("jx_job_events").insert(row).then(()=>{},()=>{})}catch(_){}}
 
+/* ---------- applied, hidden and community counts ---------- */
+const jbSetOf=k=>{JB["_"+k]=JB["_"+k]||new Set((()=>{try{return JSON.parse(jbLs.get(k)||"[]")}catch(_){return[]}})());return JB["_"+k]};
+const jbApplied=()=>jbSetOf("jb_applied"),jbHidden=()=>jbSetOf("jb_hidden");
+const jbSaveSet=k=>jbLs.set(k,JSON.stringify([...jbSetOf(k)]));
+function jbCounts(){if(JB.cntLoaded)return;JB.cntLoaded=true;
+  if(JB.data&&JB.data.demo){JB.data.jobs.forEach(j=>{let h=0;for(const c of j.url)h=(h*31+c.charCodeAt(0))|0;h=Math.abs(h);const c=h%60;JB.cnt[j.url]={c,a:Math.round(c*(.2+(h%40)/100))}});return}
+  if(typeof PREVIEW!=="undefined"&&PREVIEW||!sb||!S.user)return;
+  // your own applications, so Your stats works on every device
+  sb.from("jx_job_events").select("kind,url,co,title,fam,lvl,wp,match,created_at").eq("user_id",S.user.id).in("kind",["applied","unapplied"]).order("created_at").then(({data})=>{if(!data||!data.length)return;
+    const s=jbApplied(),inf=jbInfo(),byUrl=new Map(JB.data.jobs.map(j=>[j.url,j]));data.forEach(r=>{if(r.kind==="unapplied"){s.delete(r.url);delete inf[r.url];return}s.add(r.url);if(!inf[r.url]){const j=byUrl.get(r.url)||{};inf[r.url]={co:r.co,dom:j.dom,t:r.title,loc:j.loc||"",fam:r.fam,lvl:r.lvl,wp:r.wp,pay:j.pay||"",m:r.match||j.m||0,sk:j.sk||[],at:Date.parse(r.created_at)}}});
+    jbSaveSet("jb_applied");jbLs.set("jb_applied_info",JSON.stringify(inf));if(S.stab==="jobs"&&document.querySelector(".jb"))jbKeep()},()=>{});
+  sb.rpc("jx_job_counts").then(({data})=>{(data||[]).forEach(r=>JB.cnt[r.url]={c:r.clicks||0,a:r.applied||0});if(S.stab==="jobs"&&document.querySelector(".jb"))jbKeep()},()=>{})}
+function jbInfo(){if(!JB._info){try{JB._info=JSON.parse(jbLs.get("jb_applied_info")||"{}")}catch(_){JB._info={}}}return JB._info}
+function jbMarkApplied(j,on){const s=jbApplied(),inf=jbInfo();if(on){if(s.has(j.url))return;s.add(j.url);inf[j.url]={co:j.co,dom:j.dom,t:j.t,loc:j.loc,fam:j.fam,lvl:j.lvl,wp:j.wp,pay:j.pay,m:j.m,sk:j.sk,at:Date.now()};jbLs.set("jb_applied_info",JSON.stringify(inf));const c=JB.cnt[j.url]=JB.cnt[j.url]||{c:0,a:0};c.a++;jbLog("applied",j,{src:JB.src||"list"})}
+  else{if(!s.has(j.url))return;s.delete(j.url);delete inf[j.url];jbLs.set("jb_applied_info",JSON.stringify(inf));const c=JB.cnt[j.url];if(c&&c.a>0)c.a--;jbLog("unapplied",j)}jbSaveSet("jb_applied")}
+
+/* ---------- your stats: only you see this ---------- */
+const jbPayMid=p=>{const m=String(p||"").match(/\$(\d+)k to \$(\d+)k/);return m?[+m[1],+m[2]]:null};
+function jbStatsView(){const inf=jbInfo(),A=[...jbApplied()].map(u=>inf[u]?{url:u,...inf[u]}:null).filter(Boolean).sort((a,b)=>b.at-a.at),n=A.length,me=JB.me||jbMe();
+  const head=`<div class="jbhd"><div><button class="jbback" data-act="jbstback">${svg(JI.back)}Back to jobs</button><h1>Your stats</h1><p>Everything you've applied to through Junction. Only you see this.</p></div></div>`;
+  if(!n)return `<div class="cpage tpage jb jbst">${head}<div class="state"><h2>No applications yet</h2><p>When you apply to a job, tap "I applied" and it shows up here with your stats.</p><button class="btn dark" data-act="jbstback">Find jobs</button></div></div>`;
+  const now=Date.now(),D=864e5,age=a=>Math.floor((now-a.at)/D),wk=A.filter(a=>age(a)<7).length,prev=A.filter(a=>age(a)>=7&&age(a)<14).length;
+  const avg=Math.round(A.reduce((t,a)=>t+(a.m||0),0)/n),P=A.map(a=>jbPayMid(a.pay)).filter(Boolean),mids=P.map(p=>(p[0]+p[1])/2).sort((x,y)=>x-y),med=mids.length?Math.round(mids[Math.floor(mids.length/2)]):0;
+  const cos=new Set(A.map(a=>a.co)).size,dlt=wk-prev;
+  const kpi=[["Applied",n,`to ${cos} ${cos===1?"company":"companies"}`],["This week",wk,dlt>0?`<span class="up">+${dlt}</span> vs last week`:dlt<0?`${dlt} vs last week`:"same as last week"],["Avg match",avg+"%","of jobs you applied to"],["Median pay",med?"$"+med+"k":"None listed",med?"middle of listed ranges":"no postings showed pay"]];
+  // weeks
+  const W=Array.from({length:8},(_,k)=>A.filter(a=>Math.floor(age(a)/7)===7-k).length),wm=Math.max(1,...W);
+  const wl=k=>{if(k===7)return"This wk";const d=new Date(now-(7-k)*7*D);return d.toLocaleDateString(undefined,{month:"short",day:"numeric"})};
+  // breakdown
+  const dim=JB.dim||"fam",keyOf=a=>dim==="fam"?JB_FAMN[a.fam]||"Other":dim==="lvl"?JB_LVLN[a.lvl]||"Mid":dim==="wp"?(a.wp==="remote"?"Remote":a.wp==="hybrid"?"Hybrid":"Onsite"):(a.wp==="remote"?"Remote":(a.loc||"Not listed").split(/[\/;,(]/)[0].trim()||"Not listed");
+  const C={};A.forEach(a=>{const k=keyOf(a);C[k]=(C[k]||0)+1});const E=Object.entries(C).sort((x,y)=>y[1]-x[1]).slice(0,7),em=E[0][1];
+  // fit
+  const hi=A.filter(a=>a.m>=80).length,md=A.filter(a=>a.m>=60&&a.m<80).length,lo=n-hi-md;
+  // skills
+  const K={};A.forEach(a=>(a.sk||[]).forEach(x=>K[x]=(K[x]||0)+1));const SK=Object.entries(K).sort((x,y)=>y[1]-x[1]).slice(0,6);
+  // pay ranges
+  const pj=A.map(a=>({a,p:jbPayMid(a.pay)})).filter(x=>x.p).sort((x,y)=>x.p[0]-y.p[0]),pl=pj.length?Math.min(...pj.map(x=>x.p[0])):0,ph=pj.length?Math.max(...pj.map(x=>x.p[1])):1,sx=v=>ph>pl?(v-pl)/(ph-pl)*100:50;
+  // others
+  const oth=a=>Math.max(0,((JB.cnt[a.url]||{}).a||0)-1),avgO=Math.round(A.reduce((t,a)=>t+oth(a),0)/n),quiet=A.slice().sort((x,y)=>oth(x)-oth(y)).slice(0,3),busy=A.slice().sort((x,y)=>oth(y)-oth(x))[0];
+  const ago=a=>{const d=age(a);return d===0?"Today":d===1?"Yesterday":d<7?d+" days ago":Math.round(d/7)+(Math.round(d/7)===1?" week ago":" weeks ago")};
+  return `<div class="cpage tpage jb jbst">${head}
+   <div class="stk">${kpi.map(([l,v,x])=>`<div class="kp"><small>${l}</small><b>${v}</b><span>${x}</span></div>`).join("")}</div>
+   <div class="stg">
+    <section class="sp"><h2>Applications per week</h2><p class="sub">Last 8 weeks</p>
+      <div class="wk">${W.map((v,k)=>`<div class="wc ${k===7?"cur":""}" title="${wl(k)}: ${v}"><em>${v||""}</em><i style="height:${v/wm*82}%"></i></div>`).join("")}</div><div class="wl">${W.map((_,k)=>`<span>${wl(k)}</span>`).join("")}</div></section>
+    <section class="sp"><h2>What you're applying to</h2><p class="sub">Count of applications</p>
+      <div class="dims">${[["fam","Role type"],["lvl","Level"],["wp","Work type"],["city","City"]].map(([k,l])=>`<button class="ch ${dim===k?"on":""}" data-act="jbdim" data-d="${k}">${l}</button>`).join("")}</div>
+      <div class="bk">${E.map(([k,v])=>`<div class="br" title="${esc(k)}: ${v}"><span>${esc(k)}</span><i style="width:${v/em*100}%"></i><b>${v}</b></div>`).join("")}</div></section>
+    <section class="sp"><h2>How well they fit you</h2><p class="sub">Match score of the jobs you applied to</p>
+      <div class="mix" role="img" aria-label="${hi} strong, ${md} good, ${lo} stretch">${[[hi,"mh"],[md,"mm"],[lo,"ml"]].filter(x=>x[0]).map(([v,t])=>`<i class="${t}" style="flex:${v}"></i>`).join("")}</div>
+      <div class="leg"><span><i class="mh"></i>Strong, 80%+ · ${hi}</span><span><i class="mm"></i>Good, 60 to 79% · ${md}</span><span><i class="ml"></i>Stretch · ${lo}</span></div>
+      ${SK.length?`<h3>Skills they ask for most</h3><div class="sks">${SK.map(([x,v])=>{const have=me.skills.has(x)||me.ar[x];return `<div class="skr"><span>${esc(x)}<small>in ${v} of ${n}</small></span><span class="tag ${have?"have":"miss"}">${have?"On your profile":"Missing"}</span></div>`}).join("")}</div>`:""}</section>
+    <section class="sp"><h2>Pay you're applying for</h2><p class="sub">Listed base pay, where the posting shows it</p>
+      ${pj.length?`<div class="pyh"><span>$${pl}k</span><span>Median $${med}k</span><span>$${ph}k</span></div><div class="py">${pj.map(({a,p})=>`<div title="${esc(a.co)}: $${p[0]}k to $${p[1]}k"><i style="left:${sx(p[0])}%;width:${Math.max(2,sx(p[1])-sx(p[0]))}%"></i></div>`).join("")}<span class="pmed" style="left:${sx(med)}%"></span></div>`:`<p class="hint" style="margin-top:12px">None of your applications listed pay.</p>`}
+      <p class="sub" style="margin-top:10px">${n-pj.length} of ${n} didn't list pay.</p>
+      <h3>Others from Junction</h3><div class="oth"><b>${avgO}</b><span>others applied to the same jobs, on average</span></div>
+      ${busy&&oth(busy)?`<p class="sub">Busiest: ${esc(busy.co)}, ${oth(busy)} others.</p>`:""}
+      <div class="sks">${quiet.map(a=>`<div class="skr"><span>${esc(a.t)}<small>${esc(a.co)}</small></span><span class="tag have">${oth(a)} ${oth(a)===1?"other":"others"}</span></div>`).join("")}</div></section>
+    <section class="sp wide"><h2>All applications</h2><p class="sub">Newest first</p>
+      <div class="tw"><table class="stt"><thead><tr><th>Job</th><th>Applied</th><th>Match</th><th>Level</th><th>Where</th><th>Pay</th><th>Also applied</th><th></th></tr></thead><tbody>
+      ${A.map(a=>`<tr><td><div class="sco">${jbLogo(a.co,"",a.dom)}<div><b>${esc(a.t)}</b><small>${esc(a.co)}</small></div></div></td><td class="mu">${ago(a)}</td><td><span class="jbsc ${jbTone(a.m||0)}">${a.m||0}%</span></td><td>${JB_LVLN[a.lvl]||""}</td><td>${a.wp==="remote"?"Remote":esc((a.loc||"").split(/[\/;]/)[0])}</td><td class="mu">${esc(a.pay||"Not listed")}</td><td class="mu">${oth(a)} ${oth(a)===1?"other":"others"}</td>
+       <td class="ac"><a class="ulink" href="${esc(a.url)}" target="_blank" rel="noopener">Posting</a><button class="ulink mu" data-act="jbunapp2" data-u="${esc(a.url)}">Remove</button></td></tr>`).join("")}</tbody></table></div></section>
+   </div></div>`}
+
 /* ---------- filter ---------- */
 function jbFiltered(){const q=JB.q.toLowerCase().split(/\s+/).filter(Boolean),loc=JB.loc.toLowerCase().trim(),sv=JB.saved?jbSaved():null,today=jbDay();
   const locs=loc?loc.split(/\s*(?:,|\bor\b|\/)\s*/).filter(Boolean):[];const wantRemote=locs.includes("remote");const places=locs.filter(l=>l!=="remote"&&l!=="anywhere");
-  let a=JB.data.jobs.filter(j=>(!JB.fam||j.fam===JB.fam)&&(!JB.lvl||j.lvl===JB.lvl)&&(!JB.wp.length||JB.wp.includes(j.wp))&&(!JB.days||today-j.day<=JB.days)&&(!sv||sv.has(j.url))
+  const hid=jbHidden(),ap=JB.applied?jbApplied():null;
+  let a=JB.data.jobs.filter(j=>!hid.has(j.url)&&(!ap||ap.has(j.url))&&(!JB.fam||j.fam===JB.fam)&&(!JB.lvl||j.lvl===JB.lvl)&&(!JB.wp.length||JB.wp.includes(j.wp))&&(!JB.days||today-j.day<=JB.days)&&(!sv||sv.has(j.url))
     &&q.every(w=>j.tl.includes(w))&&(!locs.length||(wantRemote&&j.wp==="remote")||places.some(p=>j.ll.includes(p))));
-  return JB.sort==="new"?a.sort((x,y)=>y.day-x.day||y.m-x.m):a.sort((x,y)=>y.m-x.m||y.day-x.day)}
+  const ca=j=>(JB.cnt[j.url]||{}).a||0,cc=j=>(JB.cnt[j.url]||{}).c||0;
+  return JB.sort==="new"?a.sort((x,y)=>y.day-x.day||y.m-x.m):JB.sort==="pop"?a.sort((x,y)=>ca(y)-ca(x)||cc(y)-cc(x)||y.m-x.m):a.sort((x,y)=>y.m-x.m||y.day-x.day)}
 function jbCities(){if(JB.cities)return JB.cities;const c={};JB.data.jobs.forEach(j=>{j.loc.split(/[\/;|]/).forEach(p=>{const k=p.replace(/\(.*?\)/g,"").trim();if(k&&k.length<40&&!/remote/i.test(k))c[k]=(c[k]||0)+1})});
   return JB.cities=Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,60).map(x=>x[0])}
 
 /* ---------- render ---------- */
-const JI={search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',pin:'<path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',out:'<path d="M14 5h5v5M19 5l-8 8M18 14v5H5V6h5"/>',back:'<path d="M15 6l-6 6 6 6"/>',star:'<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>'};
+const JI={search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',pin:'<path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',out:'<path d="M14 5h5v5M19 5l-8 8M18 14v5H5V6h5"/>',back:'<path d="M15 6l-6 6 6 6"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',star:'<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>'};
 function jbRow(j,sel){return `<button class="jbr ${sel?"sel":""}" data-act="jbsel" data-i="${j.i}">${jbLogo(j.co,"",j.dom)}<b>${esc(j.t)}</b><span class="p ${jbTone(j.m)}">${j.m}%</span><span class="c">${esc(j.co)} · ${esc(j.loc||"Location not listed")}</span><span class="tm">${jbAgo(j.day)}</span>
-  <span class="tg">${JB.me&&j.sk.some(s=>JB.me.ar[s])?`<span class="ar">Fits your Arena</span>`:""}<span>${JB_LVLN[j.lvl]}</span>${j.wp!=="onsite"?`<span>${j.wp==="remote"?"Remote":"Hybrid"}</span>`:""}${j.pay?`<span>${esc(j.pay)}</span>`:""}</span></button>`}
-function jbDetail(j){if(!j)return `<div class="jbdet empty"><p class="hint">Pick a job to see why it fits.</p></div>`;const w=jbWhy(j),sv=jbSaved().has(j.url),host=(()=>{try{return new URL(j.url).hostname.replace(/^www\./,"")}catch(_){return""}})();
+  <span class="tg">${JB.me&&j.sk.some(s=>JB.me.ar[s])?`<span class="ar">Fits your Arena</span>`:""}<span>${JB_LVLN[j.lvl]}</span>${j.wp!=="onsite"?`<span>${j.wp==="remote"?"Remote":"Hybrid"}</span>`:""}${j.pay?`<span>${esc(j.pay)}</span>`:""}${jbApplied().has(j.url)?`<span class="apd">Applied</span>`:""}${(JB.cnt[j.url]||{}).a?`<span class="ppl">${JB.cnt[j.url].a} applied</span>`:""}</span></button>`}
+function jbDetail(j){if(!j)return `<div class="jbdet empty"><p class="hint">Pick a job to see why it fits.</p></div>`;const w=jbWhy(j),sv=jbSaved().has(j.url),ap=jbApplied().has(j.url),host=(()=>{try{return new URL(j.url).hostname.replace(/^www\./,"")}catch(_){return""}})();
   return `<div class="jbdet">${JB.mobileDetail?`<button class="jbback" data-act="jbback">${svg(JI.back)}Back to jobs</button>`:""}
     <div class="jbdh">${jbLogo(j.co,"big",j.dom)}<div><h2>${esc(j.t)}</h2><small>${esc(j.co)} · ${esc(j.loc||"Location not listed")} · ${jbAgoLong(j.day)}</small></div></div>
     <div class="jbdm"><div><span>Level</span><b>${JB_LVLN[j.lvl]}</b></div><div><span>Team</span><b>${JB_FAMN[j.fam]}</b></div><div><span>Where</span><b>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</b></div><div><span>Pay</span><b>${esc(j.pay||"Not listed")}</b></div></div>
     <div class="jbfit"><h4>${j.m>=60?"Why this fits you":"Why it's a stretch"} · <span class="jbsc ${jbTone(j.m)}">${j.m}%</span></h4><ul>${w.good.map(x=>`<li>${esc(x)}</li>`).join("")||`<li>Matches the role and level you set in your profile</li>`}${w.miss?`<li class="miss">${esc(w.miss)}</li>`:""}</ul></div>
     ${j.sk.length?`<div class="jbsk">${j.sk.slice(0,10).map(s=>`<span class="${JB.me&&(JB.me.skills.has(s)||JB.me.ar[s])?"have":""}">${esc(s)}</span>`).join("")}</div>`:""}
+    ${(()=>{const c=JB.cnt[j.url]||{c:0,a:0};return `<div class="jbsoc"><div><b>${c.c}</b><span>clicked apply</span></div><div><b>${c.a}</b><span>applied</span></div><p>${c.c||c.a?"From people on Junction.":"Nobody from Junction has applied yet. Be the first."}</p></div>`})()}
     <div class="jbdesc" id="jbDesc"><span class="hint">Loading the description…</span></div>
-    <div class="jbcta"><a class="btn jbapply" href="${esc(j.url)}" target="_blank" rel="noopener">${j.src?"Apply":"Apply on "+esc(j.co)} ${svg(JI.out)}</a><button class="btn line" data-act="jbsave" data-u="${esc(j.url)}">${sv?"Saved":"Save"}</button><small>Opens ${esc(host||"their careers page")}${j.src?" · via "+esc(j.src):""}</small></div></div>`}
+    ${JB.ask===j.url&&!ap?`<div class="jbask"><span>Did you finish applying at ${esc(j.co)}?</span><button class="btn" data-act="jbyes" data-u="${esc(j.url)}">Yes, I applied</button><button class="btn line" data-act="jbnotyet">Not yet</button></div>`:""}
+    <div class="jbcta">${ap?`<button class="btn jbdone" data-act="jbunapp" data-u="${esc(j.url)}">${svg(JI.check)}Applied</button><a class="btn line" href="${esc(j.url)}" target="_blank" rel="noopener">Open posting ${svg(JI.out)}</a>`:`<a class="btn jbapply" href="${esc(j.url)}" target="_blank" rel="noopener">${j.src?"Apply":"Apply on "+esc(j.co)} ${svg(JI.out)}</a><button class="btn line" data-act="jbyes" data-u="${esc(j.url)}">I applied</button>`}<button class="btn line" data-act="jbsave" data-u="${esc(j.url)}">${sv?"Saved":"Save"}</button><button class="btn ghost jbnot" data-act="jbhide" data-u="${esc(j.url)}">Not for me</button><small>Opens ${esc(host||"their careers page")}${j.src?" · via "+esc(j.src):""}</small></div></div>`}
 function jbFillDesc(j){if(!j)return;jbDesc(j).then(t=>{const el=document.getElementById("jbDesc");if(!el||JB.sel!==j.i)return;el.innerHTML=t?`<p>${esc(t)}</p><a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting ${svg(JI.out)}</a>`:`<a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting on ${esc(j.co)} ${svg(JI.out)}</a>`})}
 function renderJobs(){const M=$("#main");jbLoad();
   if(!JB.data){M.innerHTML=JB.err?`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div></div><div class="state"><h2>Jobs are on their way</h2><p>The first daily refresh hasn't run yet. Check back in a little while.</p></div></div>`:`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Loading thousands of open roles…</p></div></div><div class="jbskel"></div></div>`;return}
-  if(!JB.me)jbScoreAll();jbLog("open");const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
+  if(!JB.me)jbScoreAll();jbCounts();jbLog("open");if(JB.view==="stats"){M.innerHTML=jbStatsView();return}const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
   if(JB.sel==null||!JB.data.jobs[JB.sel])JB.sel=(list[0]||top[0]||{}).i;const sel=JB.data.jobs[JB.sel];
   const upd=new Date(JB.data.updated),updH=Math.max(0,Math.round((Date.now()-upd)/36e5)),updS=updH<1?"updated just now":updH<24?"updated "+updH+"h ago":"updated "+upd.toLocaleDateString(undefined,{month:"short",day:"numeric"});
   const mc=j=>`<button class="jbmc" data-act="jbsel" data-i="${j.i}" data-top="1"><div class="mt">${jbLogo(j.co,"",j.dom)}<div><div class="co">${esc(j.co)} · ${esc((j.wp==="remote"?"Remote":j.loc.split(/[\/;,]/)[0])||"")}</div><div class="ro">${esc(j.t)}</div></div><span class="pct ${jbTone(j.m)}">${j.m}%</span></div><div class="why"><b>Why you:</b> ${esc(jbShort(j))}</div><div class="meta"><span>${JB_LVLN[j.lvl]}</span><span>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</span><span>${jbAgo(j.day)}</span></div></button>`;
   const shown=JB.all10?top:top.slice(0,3);const chips=(arr,key,multi)=>arr.map(([k,l])=>`<button class="ch ${multi?(JB[key].includes(k)?"on":""):(JB[key]===k?"on":"")}" data-act="jbf" data-k="${key}" data-v="${k}">${l}</button>`).join("");
   M.innerHTML=`<div class="cpage tpage jb ${JB.mobileDetail?"mdet":""}">
-    <div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div><span class="upd"><i></i>${total.toLocaleString()} open roles · ${updS}</span></div>
+    <div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div><div class="jbhr"><span class="upd"><i></i>${total.toLocaleString()} open roles · ${updS}</span><button class="btn line jbstb" data-act="jbstats">${svg(JI.chart)}Your stats${jbApplied().size?` · ${jbApplied().size}`:""}</button></div></div>
     ${top.length?`<section class="jbten"><div class="th"><div><span class="tk">Your 10 for today</span><b>Picked from your Arena solves, projects and skills</b></div><span>New 10 tomorrow morning</span></div>
       <div class="strip ${JB.all10?"all":""}">${shown.map(mc).join("")}${JB.all10?"":`<button class="jbmc more" data-act="jball10"><b>+${top.length-3}</b>See all ${top.length} matches</button>`}</div>${JB.all10?`<button class="jbless" data-act="jball10">Show fewer</button>`:""}</section>`:""}
     <form class="jbsbar" id="jbForm"><label class="in q">${svg(JI.search)}<input id="jbQ" value="${esc(JB.q)}" placeholder="Role, skill or company" aria-label="Search jobs"></label><label class="in l">${svg(JI.pin)}<input id="jbL" value="${esc(JB.loc)}" placeholder="City, or Remote" list="jbCities" aria-label="Location"></label><datalist id="jbCities"><option value="Remote">${jbCities().map(c=>`<option value="${esc(c)}">`).join("")}</datalist><button class="go" type="submit">Search</button></form>
     <div class="jbfl">${chips(JB_FAM,"fam")}<span class="sep"></span>${chips(JB_LVL,"lvl")}<span class="sep"></span>${chips(JB_WP,"wp",true)}<span class="sep"></span>
       <label class="ch sel"><select id="jbDays" aria-label="Posted within"><option value="0">Any time</option><option value="1" ${JB.days==1?"selected":""}>Past 24 hours</option><option value="3" ${JB.days==3?"selected":""}>Past 3 days</option><option value="7" ${JB.days==7?"selected":""}>Past week</option><option value="30" ${JB.days==30?"selected":""}>Past month</option></select></label>
-      <button class="ch ${JB.saved?"on":""}" data-act="jbsavedf">${svg(JI.star)}Saved</button></div>
-    <div class="jbres"><div class="jblist"><div class="lh"><span>${list.length.toLocaleString()} ${list.length===1?"job":"jobs"}</span><label>Sort <select id="jbSort"><option value="match">Best match</option><option value="new" ${JB.sort==="new"?"selected":""}>Newest</option></select></label></div>
+      <button class="ch ${JB.saved?"on":""}" data-act="jbsavedf">${svg(JI.star)}Saved</button><button class="ch ${JB.applied?"on":""}" data-act="jbappf">${svg(JI.check)}Applied${jbApplied().size?` · ${jbApplied().size}`:""}</button></div>
+    <div class="jbres"><div class="jblist"><div class="lh"><span>${list.length.toLocaleString()} ${list.length===1?"job":"jobs"}</span><label>Sort <select id="jbSort"><option value="match">Best match</option><option value="new" ${JB.sort==="new"?"selected":""}>Newest</option><option value="pop" ${JB.sort==="pop"?"selected":""}>Most applied</option></select></label></div>
       ${list.slice(0,JB.show).map(j=>jbRow(j,j.i===JB.sel)).join("")||`<div class="jbnone"><b>No jobs match these filters</b><span>Try a wider location or fewer filters.</span><button class="btn line" data-act="jbclear">Clear filters</button></div>`}
       ${list.length>JB.show?`<button class="jbmore" data-act="jbmore">Show more (${(list.length-JB.show).toLocaleString()} left)</button>`:""}</div>
       ${jbDetail(sel)}</div>
     ${JB.data.demo?`<p class="axnote">Preview with sample jobs. The live site pulls real openings every morning.</p>`:""}</div>`;
   jbFillDesc(sel)}
-const jbKeep=()=>{const y=window.scrollY;renderJobs();window.scrollTo(0,y)};
+const jbKeep=()=>{const y=window.scrollY,l=document.querySelector(".jblist"),ly=l?l.scrollTop:0;renderJobs();window.scrollTo(0,y);const l2=document.querySelector(".jblist");if(l2)l2.scrollTop=ly};
 document.addEventListener("click",e=>{const el=e.target.closest("[data-act^=jb]");if(!el||!document.querySelector(".jb"))return;const a=el.dataset.act;
   if(a==="jbsel"){JB.sel=+el.dataset.i;JB.src=el.dataset.top?"top":"list";jbLog("view",JB.data.jobs[JB.sel],{src:JB.src});const narrow=matchMedia("(max-width:900px)").matches;if(narrow){JB.mobileDetail=true;renderJobs();window.scrollTo(0,0);return}
     if(el.dataset.top){jbKeep();const d=document.querySelector(".jbdet");if(d)d.scrollIntoView({block:"nearest",behavior:"smooth"});return}
@@ -4101,13 +4253,21 @@ document.addEventListener("click",e=>{const el=e.target.closest("[data-act^=jb]"
   if(a==="jball10"){JB.all10=!JB.all10;jbKeep();return}
   if(a==="jbf"){const k=el.dataset.k,v=el.dataset.v;if(k==="wp"){JB.wp=JB.wp.includes(v)?JB.wp.filter(x=>x!==v):[...JB.wp,v]}else JB[k]=JB[k]===v?"":v;JB.show=40;JB.sel=null;jbKeep();return}
   if(a==="jbsavedf"){JB.saved=!JB.saved;JB.show=40;JB.sel=null;jbKeep();return}
+  if(a==="jbstats"){JB.view="stats";renderJobs();window.scrollTo(0,0);return}
+  if(a==="jbstback"){JB.view="";renderJobs();window.scrollTo(0,0);return}
+  if(a==="jbdim"){JB.dim=el.dataset.d;const y=window.scrollY;renderJobs();window.scrollTo(0,y);return}
+  if(a==="jbunapp2"){const u=el.dataset.u,inf=jbInfo()[u];if(inf)jbMarkApplied({url:u,...inf},false);toast("Removed from your applications.");const y=window.scrollY;renderJobs();window.scrollTo(0,y);return}
+  if(a==="jbappf"){JB.applied=!JB.applied;JB.show=40;JB.sel=null;jbKeep();return}
+  if(a==="jbyes"||a==="jbunapp"){const jj=JB.data.jobs.find(x=>x.url===el.dataset.u);if(jj){jbMarkApplied(jj,a==="jbyes");JB.me=null;toast(a==="jbyes"?"Marked as applied. Find it under the Applied filter.":"Removed from applied.")}JB.ask=null;jbKeep();return}
+  if(a==="jbnotyet"){JB.ask=null;jbKeep();return}
+  if(a==="jbhide"){const u=el.dataset.u,jj=JB.data.jobs.find(x=>x.url===u);jbHidden().add(u);jbSaveSet("jb_hidden");if(jj)jbLog("hide",jj);JB.me=null;const l=jbFiltered();JB.sel=l.length?l[0].i:null;toast("Hidden. You won't see this job again.");jbKeep();return}
   if(a==="jbmore"){JB.show+=40;jbKeep();return}
-  if(a==="jbclear"){Object.assign(JB,{q:"",loc:"",fam:"",lvl:"",wp:[],days:0,saved:false,show:40,sel:null});jbKeep();return}
+  if(a==="jbclear"){Object.assign(JB,{q:"",loc:"",fam:"",lvl:"",wp:[],days:0,saved:false,applied:false,show:40,sel:null});jbKeep();return}
   if(a==="jbsave"){const s=jbSaved(),u=el.dataset.u;s.has(u)?s.delete(u):s.add(u);jbLs.set("jb_saved",JSON.stringify([...s]));if(s.has(u)){const jj=JB.data.jobs.find(x=>x.url===u);if(jj)jbLog("save",jj,{src:JB.src||"list"})}el.textContent=s.has(u)?"Saved":"Save";toast(s.has(u)?"Saved. Find it under the Saved filter.":"Removed from saved.");return}});
 document.addEventListener("submit",e=>{if(e.target.id!=="jbForm")return;e.preventDefault();JB.q=$("#jbQ").value.trim();JB.loc=$("#jbL").value.trim();if(JB.q||JB.loc)jbLog("search",null,{q:(JB.q+(JB.loc?" @ "+JB.loc:"")).slice(0,80)});JB.show=40;JB.sel=null;jbKeep()});
 document.addEventListener("change",e=>{if(e.target.id==="jbDays"){JB.days=+e.target.value;JB.show=40;JB.sel=null;jbKeep()}if(e.target.id==="jbSort"){JB.sort=e.target.value;JB.show=40;jbKeep()}});
 
-document.addEventListener("click",e=>{const a=e.target.closest(".jbapply");if(!a||!JB.data)return;const j=JB.data.jobs[JB.sel];if(j&&j.url===a.getAttribute("href"))jbLog("apply",j,{src:JB.src||"list"})},true);
+document.addEventListener("click",e=>{const a=e.target.closest(".jbapply");if(!a||!JB.data)return;const j=JB.data.jobs[JB.sel];if(j&&j.url===a.getAttribute("href")){jbLog("apply",j,{src:JB.src||"list"});const c=JB.cnt[j.url]=JB.cnt[j.url]||{c:0,a:0};if(!JB.clicked)JB.clicked=new Set();if(!JB.clicked.has(j.url)){JB.clicked.add(j.url);c.c++}setTimeout(()=>{JB.ask=j.url;const d=document.querySelector(".jbdet");if(d){d.outerHTML=jbDetail(j);jbFillDesc(j)}},400)}},true);
 
 /* ---------- browser back and forward stay inside Junction ---------- */
 (function(){
