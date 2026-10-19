@@ -1659,5 +1659,24 @@ applyTheme();applyDensity();boot();
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) :is(.sect,.post,.idcard,.jbres,.jbdet,.jbr) :is(.tagl,.ch){background:#1E1E22!important}}
 :root:not(#z) .tagl.on,:root:not(#z) .chip.on,:root:not(#z) .pill.on{background:var(--ink)!important;color:var(--bg)!important}.jblist{overflow-x:hidden!important}.jbr{margin:2px 0!important}
 </style>
+<style id="accent">
+html{background:radial-gradient(1000px 600px at 8% -4%,rgba(108,140,255,.38),transparent 70%),radial-gradient(900px 560px at 92% 2%,rgba(255,138,92,.30),transparent 70%),radial-gradient(700px 500px at 60% 110%,rgba(60,201,168,.22),transparent 70%),#EFEFEF!important;background-attachment:fixed!important}
+html body,.app,.main{background:transparent!important}
+:root[data-theme="dark"]{background:radial-gradient(1000px 600px at 8% -4%,rgba(108,140,255,.16),transparent 70%),radial-gradient(900px 560px at 92% 2%,rgba(255,138,92,.10),transparent 70%),radial-gradient(700px 500px at 60% 110%,rgba(60,201,168,.08),transparent 70%),#0D0D0E!important;background-attachment:fixed!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){background:radial-gradient(1000px 600px at 8% -4%,rgba(108,140,255,.16),transparent 70%),radial-gradient(900px 560px at 92% 2%,rgba(255,138,92,.10),transparent 70%),#0D0D0E!important;background-attachment:fixed!important}}
+.post,.sect,.idcard,.jbres,.lbox,.side>section,.stat,.drill,.drillmini,.invite,.composer,.card,.tl,.kanban .col,table{box-shadow:0 1px 2px rgba(16,18,40,.04),0 12px 32px -14px rgba(16,18,40,.14)!important;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s!important}
+.post:hover,.idcard:hover,.stat:hover,.side>section:hover,.jbr:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(16,18,40,.05),0 20px 40px -16px rgba(16,18,40,.22)!important}
+:root[data-theme="dark"] :is(.post,.sect,.idcard,.jbres,.lbox,.side>section,.stat,.composer,table){box-shadow:0 0 0 1px rgba(255,255,255,.05),0 12px 32px -14px rgba(0,0,0,.6)!important}
+button,.btn,a{transition:transform .15s,background .2s,box-shadow .2s}
+button:active,.btn:active{transform:scale(.96)}
+.btn.dark,.tabs2 button.on,.pitem.on,.seg .on{box-shadow:0 6px 18px -6px rgba(80,90,255,.45),inset 0 1px 0 rgba(255,255,255,.15)!important}
+:root:not([data-theme="dark"]) .btn.dark:not(:disabled){background:linear-gradient(135deg,#1B1C22,#2A2D45)!important}
+h1{background:linear-gradient(90deg,var(--ink) 55%,#5B6CFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+html body .topin{background:transparent!important}html body .top{background:transparent!important}:root[data-theme="dark"] body .top{background:transparent!important}html body aside.side,html body #side,html body .sidebar{background:rgba(239,239,239,.6)!important;backdrop-filter:blur(20px)}:root[data-theme="dark"] body aside.side,:root[data-theme="dark"] body #side{background:rgba(13,13,14,.6)!important}.greet h1,main h1,h1{background:linear-gradient(90deg,var(--ink) 55%,#5B6CFF)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important}
+:root:not([data-a]):not([data-b]) .app{background:transparent!important}
+:root[data-theme="dark"] body,:root[data-theme="dark"] .app{background:transparent!important}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{background:transparent!important}}
+</style>
+</body>
+</html>
 </body>
 </html>
