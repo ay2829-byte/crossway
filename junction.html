@@ -1638,6 +1638,9 @@ html body .arxbar .ard-hard{background:var(--accent)}
 .jbst .mu{color:var(--muted)}.jbst .ac{white-space:nowrap}.jbst .ac .ulink{margin-left:10px;font-size:13px}
 :root{--m-md-s:rgba(242,100,61,.14)}
 .jbst .dims .ch{border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:500}.jbst .dims .ch.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tags.tech .tagl{display:inline-flex;align-items:center;gap:8px;padding-left:7px}
+.logo.tk{width:22px;height:22px;border-radius:6px;flex:none;font-size:9px;background:var(--surface)}
+.logo.tk img{width:100%;height:100%;object-fit:contain}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"><style>/* clean look: Inter, soft gray ground, white rounded surfaces. Layout untouched. */
 :root{--f:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif!important;--line:#E8E8EA;--sh:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);--sh2:0 1px 2px rgba(0,0,0,.04)}
@@ -1665,7 +1668,10 @@ input,select,textarea{border-radius:14px}
 <main id="main"><div class="loading">Loading…</div></main>
 <div id="modalRoot"></div>
 <div id="toast" role="status" aria-live="polite"></div>
-<script>
+<script>/* tools people list as skills, shown in Tech stack with their logo. "-" means a tool with no logo */
+const TOOLS={"excel":"excel.cloud.microsoft","microsoft excel":"excel.cloud.microsoft","powerpoint":"powerpoint.cloud.microsoft","word":"word.cloud.microsoft","power bi":"powerbi.microsoft.com","powerbi":"powerbi.microsoft.com","tableau":"tableau.com","looker":"looker.com","looker studio":"lookerstudio.google.com","figma":"figma.com","sketch":"sketch.com","framer":"framer.com","webflow":"webflow.com","canva":"canva.com","miro":"miro.com","photoshop":"adobe.com","illustrator":"adobe.com","amplitude":"amplitude.com","mixpanel":"mixpanel.com","heap":"heap.io","hotjar":"hotjar.com","segment":"segment.com","optimizely":"optimizely.com","google analytics":"analytics.google.com","ga4":"analytics.google.com","google sheets":"sheets.google.com","bigquery":"cloud.google.com","snowflake":"snowflake.com","dbt":"getdbt.com","databricks":"databricks.com","airflow":"airflow.apache.org","sql":"-","mysql":"mysql.com","postgresql":"postgresql.org","postgres":"postgresql.org","mongodb":"mongodb.com","python":"python.org","r":"r-project.org","sas":"sas.com","spss":"ibm.com","stata":"stata.com","matlab":"mathworks.com","alteryx":"alteryx.com","javascript":"-","typescript":"typescriptlang.org","react":"react.dev","node":"nodejs.org","node.js":"nodejs.org","html":"-","css":"-","git":"git-scm.com","github":"github.com","docker":"docker.com","kubernetes":"kubernetes.io","aws":"aws.amazon.com","gcp":"cloud.google.com","azure":"azure.microsoft.com","jira":"atlassian.com","confluence":"atlassian.com","notion":"notion.so","asana":"asana.com","linear":"linear.app","trello":"trello.com","monday":"monday.com","slack":"slack.com","airtable":"airtable.com","zapier":"zapier.com","n8n":"n8n.io","salesforce":"salesforce.com","hubspot":"hubspot.com","marketo":"marketo.com","stripe":"stripe.com","shopify":"shopify.com","postman":"postman.com","chatgpt":"chatgpt.com","claude":"claude.ai","openai":"openai.com","langchain":"langchain.com","pytorch":"pytorch.org","tensorflow":"tensorflow.org","excel vba":"excel.cloud.microsoft"};
+const toolDom=s=>TOOLS[String(s||"").trim().toLowerCase()]||"";
+
 const PREVIEW=!!window.PATHS_PREVIEW;
 const BRAND="Junction",FULL="Junction by Crossway";
 const $=s=>document.querySelector(s);
@@ -2134,7 +2140,8 @@ function renderSeeker(){
          <div class="fact">${I.pin}<div><b>${pv?"Kept private":esc(c.locs.join(", ")||"Anywhere")}</b><span>${c.remote?"Also open to remote":"In person or hybrid"}</span></div></div>
          <div class="fact">${I.money}<div><b>${pv?"Kept private":c.pay?`${money(c.pay,c.cur)} a year`:"Not set"}</b><span>Minimum base pay</span></div></div>
          <div class="fact">${I.pass}<div><b>${c.sponsor?"Needs sponsorship":"No sponsorship needed"}</b><span>Work authorization</span></div></div></div></section>
-       <section class="sect"><div class="secth"><h2>Skills</h2>${ed("skills")}</div><div class="tags">${c.skills.map(s=>`<span class="tagl">${esc(s)}</span>`).join("")||`<span class="hint">No skills yet</span>`}</div></section>
+       <section class="sect"><div class="secth"><h2>Skills</h2>${ed("skills")}</div><div class="tags">${c.skills.filter(s=>!toolDom(s)).map(s=>`<span class="tagl">${esc(s)}</span>`).join("")||`<span class="hint">No skills yet</span>`}</div></section>
+       ${c.skills.some(toolDom)?`<section class="sect"><div class="secth"><h2>Tech stack</h2>${ed("skills")}</div><div class="tags tech">${c.skills.filter(toolDom).map(s=>{const d=toolDom(s);return `<span class="tagl">${logoBox(s,d==="-"?"":FAV(d),"tk")}${esc(s)}</span>`}).join("")}</div></section>`:""}
        <section class="sect"><div class="secth"><h2>Experience</h2>${ed("exp")}</div><div class="xp">${c.exp.map(expItem).join("")||`<span class="hint">Nothing added yet</span>`}</div></section>
        <section class="sect"><div class="secth"><h2>Education</h2>${ed("edu")}</div><div class="xp">${(c.edu||[]).map(e=>`<div class="xpi">${schoolLogo(e,!pv)}<div><b>${eduLine(e)}</b><span>${pv?"School shown after you accept":esc(e.school||"School not added")}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")||`<span class="hint">Add your degree. Companies see the degree, field and year. The school name unlocks only after you accept an invite.</span>`}</div></section>
        
@@ -4314,5 +4321,12 @@ document.addEventListener("click",e=>{const a=e.target.closest(".jbapply");if(!a
 
 boot();
 </script>
-<style>.sections .sect{padding:24px 26px!important;margin-bottom:14px!important;border-bottom:0!important}.sect .post{background:var(--surface)!important;border-radius:20px!important}</style><style id="darkfix">:root[data-theme="dark"] .topin,:root[data-theme="dark"] .top{background:color-mix(in srgb,#0D0D0E 85%,transparent)!important}:root[data-theme="dark"] aside.side,:root[data-theme="dark"] .app>.side{background:#0D0D0E!important}:root[data-theme="dark"] .drillmini .dmt b{color:var(--ink)!important}:root[data-theme="dark"] .drillmini .dmt span{color:var(--muted)!important}:root[data-theme="dark"] .drillmini .dmc{color:#3CC9A8!important}:root[data-theme="dark"] .drillmini.bad .dmc{color:#FF9A6A!important}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .topin,:root:not([data-theme="light"]) .top{background:color-mix(in srgb,#0D0D0E 85%,transparent)!important}:root:not([data-theme="light"]) aside.side,:root:not([data-theme="light"]) .app>.side{background:#0D0D0E!important}:root:not([data-theme="light"]) .drillmini .dmt b{color:var(--ink)!important}:root:not([data-theme="light"]) .drillmini .dmt span{color:var(--muted)!important}:root:not([data-theme="light"]) .drillmini .dmc{color:#3CC9A8!important}:root:not([data-theme="light"]) .drillmini.bad .dmc{color:#FF9A6A!important}}</style></body>
+<style>.sections .sect{padding:24px 26px!important;margin-bottom:14px!important;border-bottom:0!important}.sect .post{background:var(--surface)!important;border-radius:20px!important}</style><style id="darkfix">:root[data-theme="dark"] .topin,:root[data-theme="dark"] .top{background:color-mix(in srgb,#0D0D0E 85%,transparent)!important}:root[data-theme="dark"] aside.side,:root[data-theme="dark"] .app>.side{background:#0D0D0E!important}:root[data-theme="dark"] .drillmini .dmt b{color:var(--ink)!important}:root[data-theme="dark"] .drillmini .dmt span{color:var(--muted)!important}:root[data-theme="dark"] .drillmini .dmc{color:#3CC9A8!important}:root[data-theme="dark"] .drillmini.bad .dmc{color:#FF9A6A!important}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .topin,:root:not([data-theme="light"]) .top{background:color-mix(in srgb,#0D0D0E 85%,transparent)!important}:root:not([data-theme="light"]) aside.side,:root:not([data-theme="light"]) .app>.side{background:#0D0D0E!important}:root:not([data-theme="light"]) .drillmini .dmt b{color:var(--ink)!important}:root:not([data-theme="light"]) .drillmini .dmt span{color:var(--muted)!important}:root:not([data-theme="light"]) .drillmini .dmc{color:#3CC9A8!important}:root:not([data-theme="light"]) .drillmini.bad .dmc{color:#FF9A6A!important}}</style><style id="fix2">
+.sect p.about,p.about{font-size:15px!important;line-height:1.65!important}
+.sect .tagl,.post .tagl,.idcard .tagl,.jbres .tagl,.jbdet .tagl,.jbr .tagl,.jbr .ch,.jbdet .ch{background:#F2F2F4!important}
+:root[data-theme="dark"] :is(.sect,.post,.idcard,.jbres,.jbdet,.jbr) :is(.tagl,.ch){background:#1E1E22!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) :is(.sect,.post,.idcard,.jbres,.jbdet,.jbr) :is(.tagl,.ch){background:#1E1E22!important}}
+:root:not(#z) .tagl.on,:root:not(#z) .chip.on,:root:not(#z) .pill.on{background:var(--ink)!important;color:var(--bg)!important}.jblist{overflow-x:hidden!important}.jbr{margin:2px 0!important}
+</style>
+</body>
 </html>
