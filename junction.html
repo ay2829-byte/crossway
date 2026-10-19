@@ -1639,7 +1639,27 @@ html body .arxbar .ard-hard{background:var(--accent)}
 :root{--m-md-s:rgba(242,100,61,.14)}
 .jbst .dims .ch{border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:500}.jbst .dims .ch.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 </style>
-</head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"><style>/* clean look: Inter, soft gray ground, white rounded surfaces. Layout untouched. */
+:root{--f:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif!important;--line:#E8E8EA;--sh:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);--sh2:0 1px 2px rgba(0,0,0,.04)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--line:#2A2A2E}}
+:root[data-theme="dark"]{--line:#2A2A2E}
+html,body,button,input,select,textarea{font-family:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif!important}
+html,body{background:#EFEFEF!important;letter-spacing:-.005em}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body,:root:not([data-theme="light"]){background:#0D0D0E!important}}
+:root[data-theme="dark"],:root[data-theme="dark"] body{background:#0D0D0E!important}
+h1,h2,h3{letter-spacing:-.03em!important;font-weight:600!important}
+.top,.topin,header.top{background:color-mix(in srgb,#EFEFEF 85%,transparent)!important;backdrop-filter:blur(12px);border-bottom:0!important}
+:root[data-theme="dark"] .top{background:color-mix(in srgb,#0D0D0E 85%,transparent)!important}
+/* cards and panels become white tiles with no hard borders */
+.jbres,.jbdet,.jblist,.side,.sect,.idcard,.drill,.invite,.panel,.card,.box,.ar-card,.aq,.arx,.axc,.post,.composer,.chc,.jbmc,.kp,.sp,.stat,.tile,.lbox,.feed>*,.cpage section{border-color:transparent!important;box-shadow:none}
+.jbres,.idcard,.composer,.post,.sect,.side>section,.lbox{background:var(--bg)!important;border-radius:26px!important}
+.jbsbar .in,.jbfl .ch,.ch,.chip,.tagl,.pill{border-color:transparent!important;background:var(--bg)!important}
+.jbfl .ch.on,.ch.on{background:var(--ink)!important;color:var(--bg)!important}
+.btn{border-radius:14px!important}
+.tabs,.prod,.seg{background:var(--bg)!important;border-color:transparent!important;box-shadow:none!important}
+.jbr{border-radius:16px;margin:2px 6px}
+input,select,textarea{border-radius:14px}
+</style></head>
 <body>
 <header class="top" id="top"></header>
 <main id="main"><div class="loading">Loading…</div></main>
@@ -4294,5 +4314,5 @@ document.addEventListener("click",e=>{const a=e.target.closest(".jbapply");if(!a
 
 boot();
 </script>
-</body>
+<style>.sections .sect{padding:24px 26px!important;margin-bottom:14px!important;border-bottom:0!important}.sect .post{background:var(--surface)!important;border-radius:20px!important}</style><style id="darkfix">:root[data-theme="dark"] .topin,:root[data-theme="dark"] .top{background:color-mix(in srgb,#0D0D0E 85%,transparent)!important}:root[data-theme="dark"] aside.side,:root[data-theme="dark"] .app>.side{background:#0D0D0E!important}:root[data-theme="dark"] .drillmini .dmt b{color:var(--ink)!important}:root[data-theme="dark"] .drillmini .dmt span{color:var(--muted)!important}:root[data-theme="dark"] .drillmini .dmc{color:#3CC9A8!important}:root[data-theme="dark"] .drillmini.bad .dmc{color:#FF9A6A!important}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .topin,:root:not([data-theme="light"]) .top{background:color-mix(in srgb,#0D0D0E 85%,transparent)!important}:root:not([data-theme="light"]) aside.side,:root:not([data-theme="light"]) .app>.side{background:#0D0D0E!important}:root:not([data-theme="light"]) .drillmini .dmt b{color:var(--ink)!important}:root:not([data-theme="light"]) .drillmini .dmt span{color:var(--muted)!important}:root:not([data-theme="light"]) .drillmini .dmc{color:#3CC9A8!important}:root:not([data-theme="light"]) .drillmini.bad .dmc{color:#FF9A6A!important}}</style></body>
 </html>
