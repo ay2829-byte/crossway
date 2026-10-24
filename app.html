@@ -10,7 +10,7 @@
 <meta property="og:image" content="logo.png">
 <link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="config.js"></script>
+<script src="config.js"></script><script src="cw-google.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
 <style>
@@ -1957,7 +1957,7 @@ function renderLanding(){
     <div class="foot"><span>${FULL}. Also from us: <a href="./">Crossway</a>, the free project tracker.</span><span><a href="privacy">Privacy</a> · <a href="terms">Terms</a></span></div>
   </div>`;
 }
-function authSheet(role,view,msg){
+function authSheet(role,view,msg){if(!PREVIEW&&role){setIntent(role);try{if(window.WORKBOARD_CONFIG&&WORKBOARD_CONFIG.googleClientId)markNext(role)}catch(_){}}
   S.authRole=role;S.authView=view;
   const co=role==="company",up=view==="signup",m=msg?`<div class="amsg ${msg.err?"err":"ok"}">${esc(msg.text)}</div>`:"";
   const chip=`<span class="rolechip">${co?I.brief:I.users}${co?"Hiring on Crossway":"Crossway member"}</span>`;
