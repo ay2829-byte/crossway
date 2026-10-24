@@ -7,7 +7,7 @@ import {GH,LV,AS,SR,WD,WD_NAMES,OC,NAMES,DOMAINS} from "./companies.mjs";
 
 const UA={"User-Agent":"JunctionJobsBot/1.0 (+https://crosswayhq.com)","Accept":"application/json"};
 const MAX_JOBS=+(process.env.MAX_JOBS||120000),PER_CO=+(process.env.PER_CO||250),BRAND_CO=+(process.env.BRAND_CO||3000),SNIP=320,SHARD=1000,OUT=process.env.OUT||"jobs";
-const DEADLINE=Date.now()+60000*+(process.env.FETCH_MINUTES||40),WD_CAP=+(process.env.WD_CAP||2000);
+const DEADLINE=Date.now()+60000*+(process.env.FETCH_MINUTES||34),WD_CAP=+(process.env.WD_CAP||2000);
 export const FAMS=["eng","product","data","design","growth","sales","ops","other"];
 const uniq=a=>[...new Set(a.filter(t=>t&&/^[\w.-]+$/.test(t)))];
 
@@ -88,7 +88,7 @@ async function workday(key){const [ten,wd,site]=key.split("|");const host=`https
   for(let off=0;off<Math.min(total,WD_CAP)&&Date.now()<DEADLINE;off+=20){const j=await getJSON(api,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({appliedFacets:{},limit:20,offset:off,searchText:""})});
     if(!j||!Array.isArray(j.jobPostings))return off?out:null;if(off===0)total=j.total||0;if(!j.jobPostings.length)break;
     for(const x of j.jobPostings){if(!x.title||!x.externalPath)continue;const ago=wdAgo(x.postedOn);
-      out.push({co,t:x.title,loc:x.locationsText||"",dept:"",url:host+"/"+site+x.externalPath,at:ago>=0?new Date(Date.now()-ago*864e5).toISOString():null,txt:"",wp:/remote/i.test(x.remoteType||"")?"remote":/hybrid/i.test(x.remoteType||"")?"hybrid":""})}}
+      out.push({co,t:x.title,loc:x.locationsText||"",dept:"",url:host+"/"+site+x.externalPath,wdApi:`${host}/wday/cxs/${ten}/${site}${x.externalPath}`,at:ago>=0?new Date(Date.now()-ago*864e5).toISOString():null,txt:"",wp:/remote/i.test(x.remoteType||"")?"remote":/hybrid/i.test(x.remoteType||"")?"hybrid":""})}}
   return out}
 
 // Oracle Recruiting Cloud career sites: key is "host|site", e.g. "eeho.fa.us2.oraclecloud.com|CX_45001"
@@ -235,7 +235,12 @@ async function main(){const t0=Date.now();const today=Math.round(t0/864e5);
   const order=["gh","lv","as","sr","oc","wd"],tasks=[...cand.keys()].sort((a,b)=>order.indexOf(a.slice(0,2))-order.indexOf(b.slice(0,2)));
   const ok={};const apis=Promise.all([amazon(),microsoftAll(),apple(),google(),...EF.slice(1).map(e=>eightfold(e)),muse(),arbeitnow(),himalayas(),remotive(),jobicy(),adzuna()].map(p=>p.catch(()=>[])));
   const res=await pool(tasks,24,async k=>{const r=await F[k.slice(0,2)](k.slice(3));if(r&&r.length){ok[k]=r.length;return r}return[]});
-  const api=await apis;const raw=[...res.flat(),...sim.out,...api.flat()];const out=pack(raw);
+  const api=await apis;const raw=[...res.flat(),...sim.out,...api.flat()];
+  // Workday lists only titles; open the full posting for office roles so years of experience and skills get read
+  {const need=raw.filter(r=>r.wdApi&&!r.txt&&corporate(String(r.t||""),r.dept)).sort((a,b)=>(isBrand(b.co)-isBrand(a.co))||((/senior|staff|principal|director|\bvp\b|head of/i.test(a.t)?1:0)-(/senior|staff|principal|director|\bvp\b|head of/i.test(b.t)?1:0)));
+   const cap=+(process.env.WD_DETAILS||25000),dl=Date.now()+60000*+(process.env.DETAIL_MINUTES||10);let got=0;
+   await pool(need.slice(0,cap),20,async r=>{const j=await getJSON(r.wdApi,{},15000);const d=j&&j.jobPostingInfo;if(d&&d.jobDescription){r.txt=strip(d.jobDescription);got++}return[]},dl);
+   console.log(`Workday details: ${got} of ${need.length} read`)}const out=pack(raw);
   const prev=readJSON(OUT+"/index.json");
   if(out.rows.length<500||(prev&&prev.rows&&out.rows.length<prev.rows.length*0.2)){console.log("Too few jobs fetched ("+out.rows.length+"), keeping the last good files.");process.exitCode=0;return}
   const nb={};for(const [k,v] of Object.entries(cache))if(today-(v.d||0)<=21)nb[k]=v;for(const k of Object.keys(ok))nb[k]={d:today,n:cand.get(k)||""};

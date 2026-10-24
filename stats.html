@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Junction Stats</title><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Crossway Stats</title><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="robots" content="noindex">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
@@ -269,7 +269,7 @@ function render(){
   const c1=css("--s1"),c2=css("--s2");
   const mau=E.mau||0,stick=pct(E.dau||0,mau);
   $("#app").innerHTML=`<main>
-   <div class="hello"><div><h1>Junction stats</h1><p>Last ${days} days, since ${dl(D.from)}. Updated ${ago(D.generated_at)}.</p></div></div>
+   <div class="hello"><div><h1>Crossway stats</h1><p>Last ${days} days, since ${dl(D.from)}. Updated ${ago(D.generated_at)}.</p></div></div>
    <div class="kpis">
      ${kpi("New job seekers",P.seekers)}${kpi("New companies",P.companies)}${kpi("Active job seekers",P.active,"showed up at least once")}${kpi("Hires",P.hires)}
      ${kpi("Drills answered",P.drills)}${kpi("Posts and proof",P.posts)}${kpi("Nods given",P.nods,`${fmt((P.company_nods||{}).cur)} from companies`)}${kpi("Invites sent",P.invites)}
@@ -288,7 +288,7 @@ function render(){
      <section class="card"><div class="ch"><div><h2>Hiring funnel</h2><p>Invites sent in this range and how far they got</p></div></div>
        ${hbars([["Invites sent",F.sent],["Answered",F.answered],["Accepted",F.accepted],["Interviewing",F.interviewing],["Offer",F.offer],["Hired",F.hired]].map(([l,v])=>({label:l,n:v||0,sub:F.sent?pct(v,F.sent)+"%":""})),{cls:"funnel"})}
        <div class="mini" style="margin-top:16px"><div><b>${pct(F.accepted,F.answered)}%</b><span>Accept rate</span></div><div><b>${fmt(F.declined)}</b><span>Declined</span></div></div></section>
-     <section class="card"><div class="ch"><div><h2>Engagement</h2><p>How sticky Junction is right now</p></div></div>
+     <section class="card"><div class="ch"><div><h2>Engagement</h2><p>How sticky Crossway is right now</p></div></div>
        <div class="mini"><div><b>${fmt(E.dau)}</b><span>Active today</span></div><div><b>${fmt(E.wau)}</b><span>Active this week</span></div>
          <div><b>${fmt(E.mau)}</b><span>Active this month</span></div><div><b>${stick}%</b><span>Daily of monthly (DAU/MAU)</span></div>
          <div><b>${fmt(E.streak7)}</b><span>Showed up all 7 days</span></div><div><b>${pct(E.profiles_ready,T.seekers)}%</b><span>Profiles ready to match</span></div>
@@ -335,8 +335,8 @@ matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>render(
 /* ---------- sign in gate ---------- */
 function gate(kind){
   $("#range").style.visibility="hidden";$("#reload").style.visibility="hidden";
-  if(kind==="notadmin"){$("#app").innerHTML=`<div class="gate"><div class="gbox"><h1>Admins only</h1><p>This account can't see Junction stats. Add its email to jx_admins in Supabase, or sign in with your admin account.</p><button class="btn line" id="so">Sign out</button></div></div>`;$("#so").onclick=async()=>{await sb.auth.signOut();gate("signin")};return}
-  $("#app").innerHTML=`<div class="gate"><div class="gbox"><h1>Junction stats</h1><p>Sign in with your admin account.</p>
+  if(kind==="notadmin"){$("#app").innerHTML=`<div class="gate"><div class="gbox"><h1>Admins only</h1><p>This account can't see Crossway stats. Add its email to jx_admins in Supabase, or sign in with your admin account.</p><button class="btn line" id="so">Sign out</button></div></div>`;$("#so").onclick=async()=>{await sb.auth.signOut();gate("signin")};return}
+  $("#app").innerHTML=`<div class="gate"><div class="gbox"><h1>Crossway stats</h1><p>Sign in with your admin account.</p>
     <form id="fIn"><button type="button" class="btn line" id="gIn">Continue with Google</button><input id="em" type="email" placeholder="Email" autocomplete="email" required><input id="pw" type="password" placeholder="Password" autocomplete="current-password" required><div class="err" id="er"></div><button class="btn dark">Sign in</button></form></div></div>`;
   $("#gIn").onclick=()=>sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.href.split("#")[0]}});
   $("#fIn").onsubmit=async e=>{e.preventDefault();$("#er").textContent="";const{error}=await sb.auth.signInWithPassword({email:$("#em").value.trim(),password:$("#pw").value});if(error){$("#er").textContent=error.message;return}start()};

@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Junction by Crossway: skill based jobs and hiring, no resumes</title><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://crosswayhq.com/#org","name":"Crossway","url":"https://crosswayhq.com","logo":"https://crosswayhq.com/logo.png"},{"@type":"WebApplication","name":"Junction","alternateName":"Junction by Crossway","url":"https://crosswayhq.com/junction","applicationCategory":"BusinessApplication","operatingSystem":"Web","publisher":{"@id":"https://crosswayhq.com/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Skill based hiring network. People prove skills through daily drills, Arena work challenges and proof of work posts, then get matched to 100,000+ live jobs pulled from company career pages every few hours, each with a match score and the reason it fits. Companies see their 10 best matched candidates and invite them, with no resumes or applications."},{"@type":"WebApplication","name":"Crossway","url":"https://crosswayhq.com","applicationCategory":"BusinessApplication","operatingSystem":"Web","publisher":{"@id":"https://crosswayhq.com/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free project tracker with table, Kanban, timeline, calendar and habit views and no seat limits. A free alternative to monday.com and Asana."}]}</script>
-<meta name="description" content="Prove your skills with daily drills and Arena challenges, get matched to 100,000+ live jobs with a score and the reason each fits, and get invited by companies. Free.">
-<meta property="og:title" content="Junction by Crossway">
+<title>Crossway: jobs, Arena and your career network</title><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://crosswayhq.com/#org","name":"Crossway","url":"https://crosswayhq.com","logo":"https://crosswayhq.com/logo.png"},{"@type":"WebApplication","name":"Crossway","url":"https://crosswayhq.com/","applicationCategory":"BusinessApplication","operatingSystem":"Web","publisher":{"@id":"https://crosswayhq.com/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Skill based hiring network. People prove skills through daily drills, Arena work challenges and proof of work posts, then get matched to 100,000+ live jobs pulled from company career pages every few hours, each with a match score and the reason it fits. Companies see their 10 best matched candidates and invite them, with no resumes or applications."},{"@type":"WebApplication","name":"Crossway Projects","url":"https://crosswayhq.com/projects","applicationCategory":"BusinessApplication","operatingSystem":"Web","publisher":{"@id":"https://crosswayhq.com/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free project tracker with table, Kanban, timeline, calendar and habit views and no seat limits. A free alternative to monday.com and Asana."}]}</script>
+<meta name="description" content="Crossway is the free career network. Prove your skills on real job problems in Arena, get your 10 best matched jobs every day, and get invited by companies.">
+<meta property="og:title" content="Crossway">
 <meta property="og:description" content="Get hired on proof, not resumes.">
 <meta property="og:image" content="logo.png">
 <link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
 <style>
-/* Junction by Crossway. Layout: premium consumer. Pill role bar, a big headline, then a grid of large match cards. Detail opens as a full sheet. Candidate side is a host style profile: sticky identity card on the left, airy sections on the right */
+/* Crossway. Layout: premium consumer. Pill role bar, a big headline, then a grid of large match cards. Detail opens as a full sheet. Candidate side is a host style profile: sticky identity card on the left, airy sections on the right */
 :root{
   --bg:#FFFFFF;--surface:#F7F7F7;--ink:#222222;--ink2:#484848;--muted:#717171;--faint:#B0B0B0;--line:#EBEBEB;
   --btn:#222222;--btn-ink:#FFFFFF;--accent:#3B5BDB;--good:#0B8A6F;--good-soft:#E7F6F1;--wait:#B26B00;--wait-soft:#FFF4E0;
@@ -821,7 +821,7 @@ textarea.code,.ptx.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,m
 /* searchable chips */
 .chipbox{display:flex;flex-direction:column;gap:10px}
 .chips3{display:flex;flex-wrap:wrap;gap:8px}.chips3:empty{display:none}
-.ch3{display:inline-flex;align-items:center;gap:4px;padding:6px 6px 6px 13px;border-radius:999px;background:var(--ink);color:#fff;font-size:13.5px;font-weight:500}
+.ch3{display:inline-flex;align-items:center;gap:4px;padding:6px 6px 6px 13px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:13.5px;font-weight:500}
 .ch3 button{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:inherit;opacity:.7}
 .ch3 button:hover{opacity:1;background:rgba(255,255,255,.16)}
 .ch3 button svg{width:12px;height:12px}
@@ -1673,7 +1673,7 @@ const TOOLS={"excel":"excel.cloud.microsoft","microsoft excel":"excel.cloud.micr
 const toolDom=s=>TOOLS[String(s||"").trim().toLowerCase()]||"";
 
 const PREVIEW=!!window.PATHS_PREVIEW;
-const BRAND="Junction",FULL="Junction by Crossway";
+const BRAND="Crossway",FULL="Crossway";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const TRACK={product:"Product",engineering:"Engineering",growth:"Growth",ops:"Business ops",data:"Data"};
@@ -1862,15 +1862,15 @@ function renderTop(){
     const photo=S.role==="seeker"?(S.me&&S.me.photo):(S.co&&S.co.logo_url);
     right=`${headIcons()}<div class="acct"><button class="acctbtn" data-act="menu" aria-haspopup="true" aria-expanded="${S.menu}"><span class="nm">${esc(nm)}</span><span class="ava" style="background:var(--surface)">${photo?`<img src="${esc(photo)}" alt="">`:esc(ini(nm))}</span></button>
       ${S.menu?`<div class="menu" role="menu"><div class="mhd"><b>${S.role==="company"?"Company account":"Member account"}</b><span>${esc(S.user.email||"")}</span></div>
-        ${S.isAdmin?`<a class="mi" href="stats">Junction stats</a>`:""}<a class="mi" href="./">Go to Crossway</a>${S.role==="company"?`<button class="mi" data-act="coname">Company details</button>`:`<button class="mi" data-act="edit" data-s="basics">Edit profile</button>`}<button class="mi" data-act="signout">Sign out</button></div>`:""}</div>`;
+        ${S.isAdmin?`<a class="mi" href="stats">Crossway stats</a>`:""}<a class="mi" href="tracker">Crossway Projects</a>${S.role==="company"?`<button class="mi" data-act="coname">Company details</button>`:`<button class="mi" data-act="edit" data-s="basics">Edit profile</button>`}<button class="mi" data-act="signout">Sign out</button></div>`:""}</div>`;
   }else if(S.user){
     right=`<div class="navlinks"><button data-act="signout">Sign out</button></div>`;
   }else{
     right=`<div class="navlinks"><a class="show-sm" href="./">Crossway</a><button class="hide-sm" data-act="auth" data-r="company" data-v="signin">Company sign in</button><button data-act="auth" data-r="seeker" data-v="signin">Member sign in</button></div>`;
   }
   $("#top").innerHTML=`${PREVIEW?`<div class="demo">Preview with sample data.${S.role?` Viewing as ${S.role==="company"?"a company":"a member"}.<button data-act="demoswap">Switch to ${S.role==="company"?"member":"company"}</button><button data-act="signout">Sign out</button>`:""}</div>`:""}
-   <div class="topin"><a class="brand" href="junction">${BARS}junction<span class="by">by Crossway</span></a>
-   <nav class="prod" aria-label="Switch product"><a href="./" title="Go to Crossway"><span class="mb3"><i></i><i></i><i></i></span>Crossway</a><span>Junction</span></nav>
+   <div class="topin"><a class="brand" href="junction">${BARS}crossway</a>
+   <nav class="prod" aria-label="Switch product"><span>Crossway</span><a href="tracker" title="Go to Crossway Projects"><span class="mb3"><i></i><i></i><i></i></span>Projects</a></nav>
    <div class="sp"></div>${S.role==="seeker"?`<div class="tabs2" role="tablist"><button class="${S.stab==="today"||!S.stab?"on":""}" data-act="stab" data-t="today">Today</button><button class="${S.stab==="jobs"?"on":""}" data-act="stab" data-t="jobs">Jobs</button><button class="${S.stab==="arena"?"on":""}" data-act="stab" data-t="arena">Arena</button><button class="${S.stab==="community"?"on":""}" data-act="stab" data-t="community">Community</button><button class="${S.stab==="profile"?"on":""}" data-act="stab" data-t="profile">Profile</button></div>`:S.role==="company"?`<div class="tabs2" role="tablist"><button class="${S.ctab!=="challenges"?"on":""}" data-act="ctab" data-t="roles">Roles</button><button class="${S.ctab==="challenges"?"on":""}" data-act="ctab" data-t="challenges">Challenges</button></div>`:""}<div class="sp"></div>${right}</div>`;
 }
 
@@ -1899,7 +1899,7 @@ function renderLanding(){
 function authSheet(role,view,msg){
   S.authRole=role;S.authView=view;
   const co=role==="company",up=view==="signup",m=msg?`<div class="amsg ${msg.err?"err":"ok"}">${esc(msg.text)}</div>`:"";
-  const chip=`<span class="rolechip">${co?I.brief:I.users}${co?"Hiring on Junction":"Junction member"}</span>`;
+  const chip=`<span class="rolechip">${co?I.brief:I.users}${co?"Hiring on Crossway":"Crossway member"}</span>`;
   let body;
   if(view==="forgot")body=`${chip}<h3>Reset your password</h3><p class="lead">We'll email you a link to set a new one.</p>${m}
     <form class="aform" id="fForgot"><div class="f"><label for="aEmail">Email</label><input type="email" id="aEmail" required autocomplete="email"></div><button class="btn dark" type="submit">Send reset link</button></form>
@@ -1964,10 +1964,10 @@ async function onSession(sess,intentOverride){try{if(sess&&sess.user)localStorag
     if(intent&&intent!==role)toast(`This email is set up as a ${role==="company"?"company":"member"} account, so we opened that side.`);
     await load();S.loading=false;closeSheet();render();startPoll();
     if(role==="company"&&!(S.co&&S.co.name))coSheet(true);
-  }catch(err){$("#main").innerHTML=`<div class="state"><h2>Junction isn't set up yet</h2><p>${esc(friendly(err))}</p><p class="hint">If you just added Junction, run supabase-junction.sql in your Supabase SQL editor, then reload.</p></div>`}
+  }catch(err){$("#main").innerHTML=`<div class="state"><h2>Crossway isn't set up yet</h2><p>${esc(friendly(err))}</p><p class="hint">If you just added Crossway, run supabase-junction.sql in your Supabase SQL editor, then reload.</p></div>`}
 }
 function renderChoose(){
-  $("#main").innerHTML=`<div class="land"><div class="lhero"><h1 style="font-size:48px">How do you want to use Junction?</h1><p>You're signed in as ${esc(S.user.email||"")}. Pick one. Each account is either a company or a member.</p></div>
+  $("#main").innerHTML=`<div class="land"><div class="lhero"><h1 style="font-size:48px">How do you want to use Crossway?</h1><p>You're signed in as ${esc(S.user.email||"")}. Pick one. Each account is either a company or a member.</p></div>
    <div class="doors"><div class="door co"><span class="dl">For companies</span><h2>I'm hiring</h2><div class="dacts"><button class="btn" data-act="pick" data-r="company">Set up a company account</button></div></div>
    <div class="door se"><span class="dl">For members</span><h2>I'm building my career</h2><div class="dacts"><button class="btn" data-act="pick" data-r="seeker">Create my profile</button></div></div></div></div>`;
 }
@@ -2010,7 +2010,7 @@ function renderCo(){
     <div class="mini"><button class="${S.tab==="top"?"on":""}" data-act="tab" data-t="top">Matches</button><button class="${S.tab==="pipe"?"on":""}" data-act="tab" data-t="pipe">Pipeline <span class="n">${pipeN}</span></button></div></div>`;
   let body;
   if(S.tab==="pipe")body=pipe(j);
-  else if(!R.top.length)body=`<div class="state"><span class="ic">${I.search}</span><h2>No matches yet</h2><p>${S.cands.length?`None of the ${S.cands.length} members on Junction fit this role yet. Try a wider pay band, more cities, or fewer must haves.`:"Members are just getting started on Junction. Your best matches will show up here as they join."}</p></div>`;
+  else if(!R.top.length)body=`<div class="state"><span class="ic">${I.search}</span><h2>No matches yet</h2><p>${S.cands.length?`None of the ${S.cands.length} members on Crossway fit this role yet. Try a wider pay band, more cities, or fewer must haves.`:"Members are just getting started on Crossway. Your best matches will show up here as they join."}</p></div>`;
   else body=`<div class="blind">${I.eye}<span><b>Blind matching.</b> ${R.pass.length} of ${S.cands.length} members fit this role. Tiles are colored by field. Names and photos unlock when someone accepts your invite.</span></div>
       <div class="grid">${R.top.map((r,i)=>card(j,r,i)).join("")}</div>`;
   $("#main").innerHTML=`<div class="page">${bar}${hero}${body}</div>`;
@@ -2099,7 +2099,7 @@ function newJob(){
 }
 const skBtns=()=>ALLSK.map(s=>`<button type="button" class="tagl pick ${draft.must.includes(s)?"on":draft.nice.includes(s)?"on2":""}" data-act="sk" data-v="${esc(s)}">${esc(s)}</button>`).join("");
 function coSheet(first){S.coLogoDraft=null;
-  openSheet(`<div class="shh">${first?`<span style="width:36px"></span>`:`<button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button>`}<h2>${first?"Welcome to Junction":"Company details"}</h2><span style="width:36px"></span></div>
+  openSheet(`<div class="shh">${first?`<span style="width:36px"></span>`:`<button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button>`}<h2>${first?"Welcome to Crossway":"Company details"}</h2><span style="width:36px"></span></div>
     <div class="shb">${first?`<p style="font-size:16px">Members see this name on your invites.</p>`:""}<div class="f"><label for="coN">Company name</label><input id="coN" maxlength="80" value="${esc((S.co&&S.co.name)||"")}" placeholder="Fieldnote"></div>
     ${coLogoBlock()}<div class="f"><label for="coW">Website (optional)</label><input id="coW" maxlength="120" value="${esc((S.co&&S.co.website)||"")}" placeholder="fieldnote.co"></div></div>
     <div class="shf"><button class="btn dark" data-act="cosave">${first?"Continue":"Save"}</button></div>`,true);
@@ -2148,7 +2148,7 @@ function renderSeeker(){
        <section class="sect"><div class="secth"><h2>Showcase</h2>${ed("links")}</div>${pv?((c.links||[]).length?`<p class="hint">${c.links.length} ${c.links.length===1?"link":"links"} on file. They unlock after you accept.</p>`:`<p class="hint">No links yet.</p>`):(c.links||[]).length?linkChips(c.links):`<p class="hint" style="font-size:15px">Show your GitHub, Figma, Behance, Kaggle or portfolio.</p><button class="btn line sm2" data-act="edit" data-s="links">Add links</button>`}</section>
        <section class="sect"><div class="secth"><h2>Projects</h2>${ed("projects")}</div>${projBlock(pv?(c.projects||[]).map(x=>({...x,u:""})):c.projects,{uid:c.id,blind:pv,empty:pv?`<p class="hint">No projects yet.</p>`:`<p class="hint" style="font-size:15px">Your best proof of work. Import one from a GitHub, Figma or Notion link.</p><button class="btn line sm2" data-act="edit" data-s="projects">Add a project</button>`})}</section>
        <section class="sect"><div class="secth"><h2>Arena</h2>${pv?"":`<button class="ulink" data-act="stab" data-t="arena">Solve more</button>`}</div>${arSlot(c.id,{self:!pv})}</section>
-       ${pv?"":`<section class="sect"><div class="secth"><h2>Open roles on Junction</h2></div>${fits.length?`<div class="stand">${fits.map(({j,r})=>{const m=j.must.filter(s=>!c.skills.includes(s));
+       ${pv?"":`<section class="sect"><div class="secth"><h2>Open roles on Crossway</h2></div>${fits.length?`<div class="stand">${fits.map(({j,r})=>{const m=j.must.filter(s=>!c.skills.includes(s));
           const lab=!r.fails.length&&r.s>=75?["fit-strong","Strong fit"]:!r.fails.length?["fit-maybe","Possible fit"]:["fit-no","Not a fit yet"];
           const tip=r.fails.length?r.fails[0]:m.length?"Add "+m.slice(0,2).join(" and ")+" to rank higher":"You match every must have";
           return `<div class="sti"><div><b>${esc(j.title)}</b><span class="m">${esc(j.company)} · ${esc(place(j))} · ${esc(tip)}</span></div><span class="fitp ${lab[0]}">${lab[1]}</span></div>`}).join("")}</div><p class="hint">You don't apply. If you're one of a company's best matches, they'll invite you.</p>`:`<p class="hint" style="font-size:15px">No open roles yet. You'll see them here as companies join.</p>`}</section>`}
@@ -2178,7 +2178,7 @@ function edBody(k){
     <div class="f full"><label for="eA">About</label><textarea id="eA" data-d="about" maxlength="600" placeholder="What you do best, in two or three sentences">${esc(D.about||"")}</textarea><span class="hint">Leave your name out of this so matching stays blind.</span></div></div>
     ${photoBlock()}`;
   if(k==="prefs")return `<div class="f"><span class="lbl">Roles you want</span>${chipBox("titles",D.titles,"roleList","Type a role, like Data Analyst")}<span class="hint" id="roleHint">${D.roles.length?`Matched to: ${D.roles.map(r=>TRACK[r]).join(", ")}. Your first role sets your field and tile color.`:"Pick at least one role."}</span></div>
-    <div class="f"><span class="lbl">Cities</span>${chipBox("locs",D.locs,"placeList","Type a city")}<span class="hint">Pick from the list or type any city and press Enter.</span></div>
+    <div class="f"><span class="lbl">Cities or countries</span>${chipBox("locs",D.locs,"placeList","Type a city or country")}<span class="hint">Add cities or whole countries. A country matches every city in it.</span></div>
     <div class="f"><label for="eP">Minimum pay (in thousands, per year)</label><div class="payrow"><select id="eCur" data-d="cur" data-curfor="eP">${curOpts(D.cur)}</select><input id="eP" type="number" min="0" step="5" data-d="pay" value="${D.pay||""}" data-payprev="ePv" data-cur="eCur"></div><span class="hint" id="ePv">${D.pay?money(D.pay,D.cur)+" a year":""}</span></div>
     <label class="sw"><input type="checkbox" data-d="remote" ${D.remote?"checked":""}><span class="tr"></span>Open to remote roles</label>
     <label class="sw"><input type="checkbox" data-d="sponsor" ${D.sponsor?"checked":""}><span class="tr"></span>I need visa sponsorship</label>`;
@@ -2928,7 +2928,7 @@ function trackOfTitle(t){const k=String(t||"").toLowerCase().trim();if(TITLE_TRA
   if(/market|growth|seo|content|brand|social|sales|account exec|business development|partnership|community|copy/.test(k))return"growth";
   if(/product|ux|ui|design/.test(k))return"product";return"ops"}
 const titleOfTrack=t=>({product:"Product Manager",engineering:"Software Engineer",growth:"Growth Marketer",ops:"Business Operations",data:"Data Analyst"}[t]||TRACK[t]||t);
-const PLACES=["Remote","New York","Los Angeles","Chicago","Houston","Phoenix","Philadelphia","San Antonio","San Diego","Dallas","Austin","San Jose","Fort Worth","Jacksonville","Columbus","Charlotte","Indianapolis","San Francisco","Seattle","Denver","Washington DC","Boston","Nashville","El Paso","Detroit","Oklahoma City","Portland","Las Vegas","Memphis","Louisville","Baltimore","Milwaukee","Albuquerque","Tucson","Fresno","Sacramento","Kansas City","Mesa","Atlanta","Omaha","Colorado Springs","Raleigh","Long Beach","Virginia Beach","Miami","Oakland","Minneapolis","Tulsa","Tampa","Arlington","New Orleans","Wichita","Cleveland","Bakersfield","Aurora","Anaheim","Honolulu","Santa Ana","Riverside","Corpus Christi","Lexington","Henderson","Stockton","Saint Paul","Cincinnati","St. Louis","Pittsburgh","Greensboro","Lincoln","Anchorage","Plano","Orlando","Irvine","Newark","Durham","Chula Vista","Toledo","Fort Wayne","St. Petersburg","Laredo","Jersey City","Chandler","Madison","Lubbock","Scottsdale","Reno","Buffalo","Gilbert","Glendale","North Las Vegas","Winston Salem","Chesapeake","Norfolk","Fremont","Garland","Irving","Hialeah","Richmond","Boise","Spokane","Baton Rouge","Des Moines","Salt Lake City","Provo","Palo Alto","Mountain View","Sunnyvale","Menlo Park","Redmond","Bellevue","Cambridge","Ann Arbor","Boulder","Princeton","Stamford","Hoboken","Brooklyn","Columbus OH","Charleston","Savannah","Birmingham","Little Rock","Hartford","Providence","Burlington","Portland ME","Toronto","Vancouver","Montreal","London","Dublin","Berlin","Amsterdam","Paris","Zurich","Singapore","Dubai","Sydney","Melbourne","Bangalore","Mumbai","Delhi","Gurgaon","Hyderabad","Pune","Chennai","Tokyo","Hong Kong","Mexico City","Sao Paulo","Tel Aviv"];
+const PLACES=["Remote","United States","Canada","United Kingdom","India","Germany","Ireland","Netherlands","Singapore","Australia","New York","Los Angeles","Chicago","Houston","Phoenix","Philadelphia","San Antonio","San Diego","Dallas","Austin","San Jose","Fort Worth","Jacksonville","Columbus","Charlotte","Indianapolis","San Francisco","Seattle","Denver","Washington DC","Boston","Nashville","El Paso","Detroit","Oklahoma City","Portland","Las Vegas","Memphis","Louisville","Baltimore","Milwaukee","Albuquerque","Tucson","Fresno","Sacramento","Kansas City","Mesa","Atlanta","Omaha","Colorado Springs","Raleigh","Long Beach","Virginia Beach","Miami","Oakland","Minneapolis","Tulsa","Tampa","Arlington","New Orleans","Wichita","Cleveland","Bakersfield","Aurora","Anaheim","Honolulu","Santa Ana","Riverside","Corpus Christi","Lexington","Henderson","Stockton","Saint Paul","Cincinnati","St. Louis","Pittsburgh","Greensboro","Lincoln","Anchorage","Plano","Orlando","Irvine","Newark","Durham","Chula Vista","Toledo","Fort Wayne","St. Petersburg","Laredo","Jersey City","Chandler","Madison","Lubbock","Scottsdale","Reno","Buffalo","Gilbert","Glendale","North Las Vegas","Winston Salem","Chesapeake","Norfolk","Fremont","Garland","Irving","Hialeah","Richmond","Boise","Spokane","Baton Rouge","Des Moines","Salt Lake City","Provo","Palo Alto","Mountain View","Sunnyvale","Menlo Park","Redmond","Bellevue","Cambridge","Ann Arbor","Boulder","Princeton","Stamford","Hoboken","Brooklyn","Columbus OH","Charleston","Savannah","Birmingham","Little Rock","Hartford","Providence","Burlington","Portland ME","Toronto","Vancouver","Montreal","London","Dublin","Berlin","Amsterdam","Paris","Zurich","Singapore","Dubai","Sydney","Melbourne","Bangalore","Mumbai","Delhi","Gurgaon","Hyderabad","Pune","Chennai","Tokyo","Hong Kong","Mexico City","Sao Paulo","Tel Aviv"];
 const sameCity=(a,b)=>String(a||"").toLowerCase().replace(/[^a-z]/g,"")===String(b||"").toLowerCase().replace(/[^a-z]/g,"");
 
 /* the editor pieces: chips you can remove, plus a box with suggestions you can type into */
@@ -4011,7 +4011,7 @@ function renderMsgs(scrollEnd){
 }
 async function sendMsg(retry){const mi=$("#msgIn");if(!mi&&!retry)return;const body=retry?retry.body:mi.value.trim();const files=retry?(retry.files||[]):attReady("msg");if(!files)return;if(!body&&!files.length)return;const tid=(mi&&mi.dataset.t)||S.msg.thread;if(!tid){toast("Pick a conversation first");return}S.msg.thread=tid;if(mi)mi.value="";
   if(!retry){S.att.msg=[]}const tmp=retry||{id:"tmp"+Date.now(),body,files,mine:true,at:new Date().toISOString()};tmp.pending=true;tmp.failed="";if(!retry)S.msg.list=(S.msg.list||[]).concat(tmp);renderMsgs(true);
-  try{const m=await API.send(tid,body,files);if(!m||!m.id)throw new Error("The server didn't confirm the message. Run the latest Junction SQL in Supabase.");
+  try{const m=await API.send(tid,body,files);if(!m||!m.id)throw new Error("The server didn't confirm the message. Run the latest Crossway SQL in Supabase.");
     S.msg.list=S.msg.list.map(x=>x===tmp?m:x);renderMsgs(true);S.msg.threads=await API.threads().catch(()=>S.msg.threads);renderMsgs(true)}
   catch(err){tmp.pending=false;tmp.failed=friendly(err);renderMsgs(true);toast(tmp.failed)}}
 async function startMsg(other,invite){try{const id=await API.startThread(other,invite);closeSheet();await openMsgs(id);await selectThread(id)}catch(err){toast(friendly(err))}}
@@ -4090,7 +4090,15 @@ function jbMe(){const m=S.me||{};const b=S.badges&&m.id&&S.badges[m.id];const pr
     s.forEach(x=>{ar[x]=ar[x]||{n:0,t:0};ar[x].n++;if(intime)ar[x].t++})});
   const titles=(m.titles||[]).filter(Boolean),fams=new Set();(m.roles||[]).forEach(r=>(JB_TRK2FAM[r]||[]).forEach(f=>fams.add(f)));titles.forEach(t=>{const f=jbFamOf(t);if(f)fams.add(f)});
   const cy=typeof calcYears==="function"?calcYears((m.exp||[]).filter(e=>!/\bintern(ship)?\b/i.test(e.t||""))):null;const yrs=cy!=null?cy:(+m.yrs||0);
-  return{roles:m.roles||[],fams,titles,tn:titles.map(t=>({n:jbNorm(t),h:jbHead(t),f:jbFamOf(t),raw:t})),skills:new Set(m.skills||[]),locs:(m.locs||[]).map(l=>String(l).toLowerCase().split(",")[0].trim()).filter(Boolean),remote:m.remote!==false,yrs,ar}}
+  return{roles:m.roles||[],fams,titles,tn:titles.map(t=>({n:jbNorm(t),h:jbHead(t),f:jbFamOf(t),raw:t})),skills:new Set(m.skills||[]),...(()=>{const raw=(m.locs||[]).map(l=>String(l).toLowerCase().trim()).filter(Boolean),ctry=new Set(),ctryOnly=new Set(),locs=[];
+    raw.forEach(l=>{const k=JB_CTRY_ALIAS[l]||l;if(JB_CTRY[k]){ctry.add(k);ctryOnly.add(k)}else{locs.push(l.split(",")[0].trim());const c=jbCountryOf(l);if(c)ctry.add(c)}});
+    (m.countries||[]).forEach(c=>{const k=JB_CTRY_ALIAS[String(c).toLowerCase()]||String(c).toLowerCase();ctry.add(k);ctryOnly.add(k)});return{locs,ctry,ctryOnly}})(),remote:m.remote!==false,yrs,ar}}
+/* where a job is vs where you want to work: your city is a full fit, your country is a good fit, remote counts if you're open to it */
+const JB_CTRY={"united states":/\b(us|usa|u\.s\.a?|united states|america)\b|,\s*(a[lkzr]|c[aot]|d[ec]|fl|ga|hi|i[adln]|k[sy]|la|m[adeinost]|n[cdehjmvy]|o[hkr]|pa|ri|s[cd]|t[nx]|ut|v[at]|w[aivy])\b|new york|san francisco|seattle|austin|boston|chicago|los angeles|atlanta|denver|miami|dallas|houston|washington,? dc|san jose|san diego|philadelphia|phoenix/,"canada":/\bcanada\b|toronto|vancouver|montreal|ottawa|calgary|,\s*(on|bc|qc|ab)\b/,"united kingdom":/\b(uk|united kingdom|england|scotland)\b|london|manchester|edinburgh/,"india":/\bindia\b|bengaluru|bangalore|mumbai|delhi|gurgaon|gurugram|hyderabad|pune|chennai|noida/,"germany":/germany|berlin|munich|hamburg|frankfurt/,"france":/france|paris/,"netherlands":/netherlands|amsterdam/,"ireland":/ireland|dublin/,"singapore":/singapore/,"australia":/australia|sydney|melbourne/,"spain":/spain|madrid|barcelona/,"poland":/poland|warsaw|krakow/,"mexico":/mexico|ciudad de m/,"brazil":/brazil|s[aã]o paulo/,"japan":/japan|tokyo/,"israel":/israel|tel aviv/,"uae":/\buae\b|dubai|abu dhabi/};
+const JB_CTRY_ALIAS={us:"united states",usa:"united states","united states of america":"united states",america:"united states",uk:"united kingdom",england:"united kingdom","great britain":"united kingdom"};
+function jbCountryOf(l){l=String(l||"").toLowerCase();for(const [c,re] of Object.entries(JB_CTRY))if(re.test(l))return c;return""}
+function jbLocFit(j,me){if(j.wp==="remote")return me.remote?1:.35;if(!me.locs.length&&!me.ctry.size)return .6;
+  if(me.locs.some(c=>j.ll.includes(c)))return 1;const jc=j._c!==undefined?j._c:(j._c=jbCountryOf(j.ll));if(jc&&me.ctry.has(jc))return me.ctryOnly.has(jc)?.95:.6;return j.wp==="hybrid"?.1:.05}
 function jbParts(j,me){
   /* 1. is this the kind of role they want */
   let fam=.6;if(me.fams.size){fam=me.fams.has(j.fam)?1:0;me.fams.forEach(f=>{fam=Math.max(fam,(JB_NEAR[f]||{})[j.fam]||0)});if(!fam)fam=.05}
@@ -4104,11 +4112,11 @@ function jbParts(j,me){
   let yf=null;if(j.yrs>0){const gap=j.yrs-y;yf=gap<=0?(y-j.yrs>8&&lv!=="senior"?.6:1):gap===1?.65:gap===2?.35:.1}
   let exp=yf==null?L:Math.min(L,yf)*.5+yf*.5;
   /* 5. location */
-  const loc=j.wp==="remote"?(me.remote?1:.4):me.locs.length?(me.locs.some(c=>j.ll.includes(c))?1:(j.wp==="hybrid"?.15:.1)):.6;
+  const loc=jbLocFit(j,me);
   const age=jbDay()-j.day,rec=age<=3?1:age<=10?.7:age<=30?.4:.15;let arw=0;have.forEach(s=>{if(me.ar[s])arw+=me.ar[s].n+me.ar[s].t*.5});const ar=Math.min(1,arw/5);
   exp=Math.max(exp,Math.min(1,ar)*.8*sk); // strong proven work in their skills makes up for fewer years
   return{fam,title,tHit,sk,have,exp,yf,loc,rec,ar}}
-function jbScore(j,me){const p=jbParts(j,me);const base=100*(p.fam*.22+p.title*.32+p.sk*.16+p.exp*.18+p.loc*.12);
+function jbScore(j,me){const p=jbParts(j,me);const base=100*(p.fam*.2+p.title*.28+p.sk*.14+p.exp*.16+p.loc*.22);
   let s=Math.round(base*.97+p.ar*3+p.rec*1+(j.lvl==="entry"&&me.yrs<=3?1:0)+jbLearnBoost(j,JB.pref)+(jbBrand(j)?7:0));
   return Math.max(1,Math.min(98,s))}
 /* score color: green is a strong match, orange is worth a look, red is a stretch */
@@ -4148,7 +4156,7 @@ function jbTop(){if(JB.top)return JB.top;const uid=(S.me&&S.me.id)||"x",key="jb_
   const byUrl=new Map(JB.data.jobs.map(j=>[j.url,j]));let t=[];if(ids){t=ids.map(u=>byUrl.get(u)).filter(Boolean);if(t.length>=10){JB.top=t;return t}}
   // today's 10 stay fixed all day; only a role that closed gets replaced
   const me=JB.me||jbMe(),have=new Set(t.map(j=>j.url)),per={};t.forEach(j=>per[j.co]=(per[j.co]||0)+1);
-  const pool=JB.data.jobs.filter(j=>!have.has(j.url)&&jbDay()-j.day<=30&&(!me.fams.size||jbParts(j,me).fam>=1)).sort((a,b)=>b.m-a.m);for(const j of pool){if(t.length>=10)break;if((per[j.co]||0)>=2)continue;per[j.co]=(per[j.co]||0)+1;t.push(j)}
+  const pool=JB.data.jobs.filter(j=>!have.has(j.url)&&jbDay()-j.day<=30&&(!me.fams.size||jbParts(j,me).fam>=1)&&jbLocFit(j,me)>=.6).sort((a,b)=>b.m-a.m);for(const j of pool){if(t.length>=10)break;if((per[j.co]||0)>=2)continue;per[j.co]=(per[j.co]||0)+1;t.push(j)}
   JB.top=t;jbLs.set(key,JSON.stringify(t.map(j=>j.url)));return t}
 
 
@@ -4171,6 +4179,11 @@ function jbCounts(){if(JB.cntLoaded)return;JB.cntLoaded=true;
   sb.from("jx_job_events").select("kind,url,co,title,fam,lvl,wp,match,created_at").eq("user_id",S.user.id).in("kind",["applied","unapplied"]).order("created_at").then(({data})=>{if(!data||!data.length)return;
     const s=jbApplied(),inf=jbInfo(),byUrl=new Map(JB.data.jobs.map(j=>[j.url,j]));data.forEach(r=>{if(r.kind==="unapplied"){s.delete(r.url);delete inf[r.url];return}s.add(r.url);if(!inf[r.url]){const j=byUrl.get(r.url)||{};inf[r.url]={co:r.co,dom:j.dom,t:r.title,loc:j.loc||"",fam:r.fam,lvl:r.lvl,wp:r.wp,pay:j.pay||"",m:r.match||j.m||0,sk:j.sk||[],at:Date.parse(r.created_at)}}});
     jbSaveSet("jb_applied");jbLs.set("jb_applied_info",JSON.stringify(inf));if(S.stab==="jobs"&&document.querySelector(".jb"))jbKeep()},()=>{});
+  // what you opened, applied to, saved or hid on any device teaches the feed, not just this browser
+  sb.from("jx_job_events").select("kind,url,co,title,fam,lvl,wp,created_at").eq("user_id",S.user.id).in("kind",["view","apply","applied","save","hide"]).gte("created_at",new Date(Date.now()-60*864e5).toISOString()).order("created_at",{ascending:false}).limit(400).then(({data})=>{if(!data||!data.length)return;
+    const b=jbBeh(),seen=new Set(b.map(e=>e.u+"|"+e.k)),byUrl=new Map(JB.data.jobs.map(j=>[j.url,j]));let add=0;
+    data.forEach(r=>{if(!(r.kind in JB_BW)||seen.has(r.url+"|"+r.kind))return;seen.add(r.url+"|"+r.kind);const j=byUrl.get(r.url)||{};b.push({u:r.url,k:r.kind,ts:Date.parse(r.created_at),f:r.fam||j.fam,l:r.lvl||j.lvl,w:r.wp||j.wp,h:jbHead(r.title||j.t||""),s:(j.sk||[]).slice(0,6),c:r.co||j.co});add++});
+    if(add){b.sort((x,y)=>x.ts-y.ts);if(b.length>400)b.splice(0,b.length-400);jbLs.set("jb_beh",JSON.stringify(b));JB.me=null;if(S.stab==="jobs"&&document.querySelector(".jb"))jbKeep()}},()=>{});
   sb.rpc("jx_job_counts").then(({data})=>{(data||[]).forEach(r=>JB.cnt[r.url]={c:r.clicks||0,a:r.applied||0});if(S.stab==="jobs"&&document.querySelector(".jb"))jbKeep()},()=>{})}
 function jbInfo(){if(!JB._info){try{JB._info=JSON.parse(jbLs.get("jb_applied_info")||"{}")}catch(_){JB._info={}}}return JB._info}
 function jbMarkApplied(j,on){const s=jbApplied(),inf=jbInfo();if(on){if(s.has(j.url))return;s.add(j.url);inf[j.url]={co:j.co,dom:j.dom,t:j.t,loc:j.loc,fam:j.fam,lvl:j.lvl,wp:j.wp,pay:j.pay,m:j.m,sk:j.sk,at:Date.now()};jbLs.set("jb_applied_info",JSON.stringify(inf));const c=JB.cnt[j.url]=JB.cnt[j.url]||{c:0,a:0};c.a++;jbLog("applied",j,{src:JB.src||"list"})}
@@ -4179,7 +4192,7 @@ function jbMarkApplied(j,on){const s=jbApplied(),inf=jbInfo();if(on){if(s.has(j.
 /* ---------- your stats: only you see this ---------- */
 const jbPayMid=p=>{const m=String(p||"").match(/\$(\d+)k to \$(\d+)k/);return m?[+m[1],+m[2]]:null};
 function jbStatsView(){const inf=jbInfo(),A=[...jbApplied()].map(u=>inf[u]?{url:u,...inf[u]}:null).filter(Boolean).sort((a,b)=>b.at-a.at),n=A.length,me=JB.me||jbMe();
-  const head=`<div class="jbhd"><div><button class="jbback" data-act="jbstback">${svg(JI.back)}Back to jobs</button><h1>Your stats</h1><p>Everything you've applied to through Junction. Only you see this.</p></div></div>`;
+  const head=`<div class="jbhd"><div><button class="jbback" data-act="jbstback">${svg(JI.back)}Back to jobs</button><h1>Your stats</h1><p>Everything you've applied to through Crossway. Only you see this.</p></div></div>`;
   if(!n)return `<div class="cpage tpage jb jbst">${head}<div class="state"><h2>No applications yet</h2><p>When you apply to a job, tap "I applied" and it shows up here with your stats.</p><button class="btn dark" data-act="jbstback">Find jobs</button></div></div>`;
   const now=Date.now(),D=864e5,age=a=>Math.floor((now-a.at)/D),wk=A.filter(a=>age(a)<7).length,prev=A.filter(a=>age(a)>=7&&age(a)<14).length;
   const avg=Math.round(A.reduce((t,a)=>t+(a.m||0),0)/n),P=A.map(a=>jbPayMid(a.pay)).filter(Boolean),mids=P.map(p=>(p[0]+p[1])/2).sort((x,y)=>x-y),med=mids.length?Math.round(mids[Math.floor(mids.length/2)]):0;
@@ -4215,7 +4228,7 @@ function jbStatsView(){const inf=jbInfo(),A=[...jbApplied()].map(u=>inf[u]?{url:
     <section class="sp"><h2>Pay you're applying for</h2><p class="sub">Listed base pay, where the posting shows it</p>
       ${pj.length?`<div class="pyh"><span>$${pl}k</span><span>Median $${med}k</span><span>$${ph}k</span></div><div class="py">${pj.map(({a,p})=>`<div title="${esc(a.co)}: $${p[0]}k to $${p[1]}k"><i style="left:${sx(p[0])}%;width:${Math.max(2,sx(p[1])-sx(p[0]))}%"></i></div>`).join("")}<span class="pmed" style="left:${sx(med)}%"></span></div>`:`<p class="hint" style="margin-top:12px">None of your applications listed pay.</p>`}
       <p class="sub" style="margin-top:10px">${n-pj.length} of ${n} didn't list pay.</p>
-      <h3>Others from Junction</h3><div class="oth"><b>${avgO}</b><span>others applied to the same jobs, on average</span></div>
+      <h3>Others on Crossway</h3><div class="oth"><b>${avgO}</b><span>others applied to the same jobs, on average</span></div>
       ${busy&&oth(busy)?`<p class="sub">Busiest: ${esc(busy.co)}, ${oth(busy)} others.</p>`:""}
       <div class="sks">${quiet.map(a=>`<div class="skr"><span>${esc(a.t)}<small>${esc(a.co)}</small></span><span class="tag have">${oth(a)} ${oth(a)===1?"other":"others"}</span></div>`).join("")}</div></section>
     <section class="sp wide"><h2>All applications</h2><p class="sub">Newest first</p>
@@ -4245,12 +4258,17 @@ function jbDetail(j){if(!j)return `<div class="jbdet empty"><p class="hint">Pick
     <div class="jbdm"><div><span>Level</span><b>${JB_LVLN[j.lvl]}</b></div><div><span>Team</span><b>${JB_FAMN[j.fam]}</b></div><div><span>Where</span><b>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</b></div><div><span>Pay</span><b>${esc(j.pay||"Not listed")}</b></div></div>
     <div class="jbfit"><h4>${j.m>=60?"Why this fits you":"Why it's a stretch"} · <span class="jbsc ${jbTone(j.m)}">${j.m}%</span></h4><ul>${w.good.map(x=>`<li>${esc(x)}</li>`).join("")||`<li>Matches the role and level you set in your profile</li>`}${w.miss?`<li class="miss">${esc(w.miss)}</li>`:""}</ul></div>
     ${j.sk.length?`<div class="jbsk">${j.sk.slice(0,10).map(s=>`<span class="${JB.me&&(JB.me.skills.has(s)||JB.me.ar[s])?"have":""}">${esc(s)}</span>`).join("")}</div>`:""}
-    ${(()=>{const c=JB.cnt[j.url]||{c:0,a:0};return `<div class="jbsoc"><div><b>${c.c}</b><span>clicked apply</span></div><div><b>${c.a}</b><span>applied</span></div><p>${c.c||c.a?"From people on Junction.":"Nobody from Junction has applied yet. Be the first."}</p></div>`})()}
+    ${(()=>{const c=JB.cnt[j.url]||{c:0,a:0};return `<div class="jbsoc"><div><b>${c.c}</b><span>clicked apply</span></div><div><b>${c.a}</b><span>applied</span></div><p>${c.c||c.a?"From people on Crossway.":"Nobody on Crossway has applied yet. Be the first."}</p></div>`})()}
     <div class="jbdesc" id="jbDesc"><span class="hint">Loading the description…</span></div>
     ${JB.ask===j.url&&!ap?`<div class="jbask"><span>Did you finish applying at ${esc(j.co)}?</span><button class="btn" data-act="jbyes" data-u="${esc(j.url)}">Yes, I applied</button><button class="btn line" data-act="jbnotyet">Not yet</button></div>`:""}
     <div class="jbcta">${ap?`<button class="btn jbdone" data-act="jbunapp" data-u="${esc(j.url)}">${svg(JI.check)}Applied</button><a class="btn line" href="${esc(j.url)}" target="_blank" rel="noopener">Open posting ${svg(JI.out)}</a>`:`<a class="btn jbapply" href="${esc(j.url)}" target="_blank" rel="noopener">${j.src?"Apply":"Apply on "+esc(j.co)} ${svg(JI.out)}</a><button class="btn line" data-act="jbyes" data-u="${esc(j.url)}">I applied</button>`}<button class="btn line" data-act="jbsave" data-u="${esc(j.url)}">${sv?"Saved":"Save"}</button><button class="btn ghost jbnot" data-act="jbhide" data-u="${esc(j.url)}">Not for me</button><small>Opens ${esc(host||"their careers page")}${j.src?" · via "+esc(j.src):""}</small></div></div>`}
 function jbFillDesc(j){if(!j)return;jbDesc(j).then(t=>{const el=document.getElementById("jbDesc");if(!el||JB.sel!==j.i)return;el.innerHTML=t?`<p>${esc(t)}</p><a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting ${svg(JI.out)}</a>`:`<a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting on ${esc(j.co)} ${svg(JI.out)}</a>`})}
+const JB_POS="jb_pos";
+function jbSavePos(){if(S.stab!=="jobs"||!document.querySelector(".jb")||JB.view==="stats")return;const l=document.querySelector(".jblist");try{sessionStorage.setItem(JB_POS,JSON.stringify({y:scrollY,ly:l?l.scrollTop:0,show:JB.show,sel:JB.sel,at:Date.now()}))}catch(_){}}
+addEventListener("scroll",()=>{clearTimeout(JB._pt);JB._pt=setTimeout(jbSavePos,120)},{passive:true,capture:true});
+addEventListener("pagehide",jbSavePos);document.addEventListener("visibilitychange",()=>{if(document.hidden)jbSavePos()});
 function renderJobs(){const M=$("#main");jbLoad();
+  let jbPos=null;if(!JB._keeping&&JB.data&&JB.view!=="stats"){try{jbPos=JSON.parse(sessionStorage.getItem(JB_POS)||"null")}catch(_){}if(jbPos&&Date.now()-jbPos.at<6*36e5){if(jbPos.show>JB.show)JB.show=jbPos.show;if(jbPos.sel!=null&&JB.data.jobs[jbPos.sel])JB.sel=jbPos.sel}else jbPos=null}
   if(!JB.data){M.innerHTML=JB.err?`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div></div><div class="state"><h2>Jobs are on their way</h2><p>The first daily refresh hasn't run yet. Check back in a little while.</p></div></div>`:`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Loading thousands of open roles…</p></div></div><div class="jbskel"></div></div>`;return}
   if(!JB.me)jbScoreAll();jbCounts();jbLog("open");if(JB.view==="stats"){M.innerHTML=jbStatsView();return}const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
   if(JB.sel==null||!JB.data.jobs[JB.sel])JB.sel=(list[0]||top[0]||{}).i;const sel=JB.data.jobs[JB.sel];
@@ -4270,8 +4288,8 @@ function renderJobs(){const M=$("#main");jbLoad();
       ${list.length>JB.show?`<button class="jbmore" data-act="jbmore">Show more (${(list.length-JB.show).toLocaleString()} left)</button>`:""}</div>
       ${jbDetail(sel)}</div>
     ${JB.data.demo?`<p class="axnote">Preview with sample jobs. The live site pulls real openings every morning.</p>`:""}</div>`;
-  jbFillDesc(sel)}
-const jbKeep=()=>{const y=window.scrollY,l=document.querySelector(".jblist"),ly=l?l.scrollTop:0;renderJobs();window.scrollTo(0,y);const l2=document.querySelector(".jblist");if(l2)l2.scrollTop=ly};
+  jbFillDesc(sel);if(jbPos){const go=()=>{window.scrollTo(0,jbPos.y);const l=document.querySelector(".jblist");if(l)l.scrollTop=jbPos.ly};go();requestAnimationFrame(go)}}
+const jbKeep=()=>{const y=window.scrollY,l=document.querySelector(".jblist"),ly=l?l.scrollTop:0;JB._keeping=true;try{renderJobs()}finally{JB._keeping=false}window.scrollTo(0,y);const l2=document.querySelector(".jblist");if(l2)l2.scrollTop=ly};
 document.addEventListener("click",e=>{const el=e.target.closest("[data-act^=jb]");if(!el||!document.querySelector(".jb"))return;const a=el.dataset.act;
   if(a==="jbsel"){JB.sel=+el.dataset.i;JB.src=el.dataset.top?"top":"list";jbLog("view",JB.data.jobs[JB.sel],{src:JB.src});const narrow=matchMedia("(max-width:900px)").matches;if(narrow){JB.mobileDetail=true;renderJobs();window.scrollTo(0,0);return}
     if(el.dataset.top){jbKeep();const d=document.querySelector(".jbdet");if(d)d.scrollIntoView({block:"nearest",behavior:"smooth"});return}
@@ -4296,7 +4314,7 @@ document.addEventListener("change",e=>{if(e.target.id==="jbDays"){JB.days=+e.tar
 
 document.addEventListener("click",e=>{const a=e.target.closest(".jbapply");if(!a||!JB.data)return;const j=JB.data.jobs[JB.sel];if(j&&j.url===a.getAttribute("href")){jbLog("apply",j,{src:JB.src||"list"});const c=JB.cnt[j.url]=JB.cnt[j.url]||{c:0,a:0};if(!JB.clicked)JB.clicked=new Set();if(!JB.clicked.has(j.url)){JB.clicked.add(j.url);c.c++}setTimeout(()=>{JB.ask=j.url;const d=document.querySelector(".jbdet");if(d){d.outerHTML=jbDetail(j);jbFillDesc(j)}},400)}},true);
 
-/* ---------- browser back and forward stay inside Junction ---------- */
+/* ---------- browser back and forward stay inside Crossway ---------- */
 (function(){
   const key=()=>({r:S.role||"",st:S.stab||"",ct:S.ctab||"",j:S.job||"",t:S.tab||"",ar:S.ar&&S.ar.open!=null?String(S.ar.open):"",pv:S.preview?1:0,m:$("#modalRoot")&&$("#modalRoot").innerHTML?1:0});
   const same=(a,b)=>a&&b&&["r","st","ct","j","t","ar","pv","m"].every(k=>a[k]===b[k]);
