@@ -4178,7 +4178,8 @@ function jbMe(){const m=S.me||{};const b=S.badges&&m.id&&S.badges[m.id];const pr
 const JB_CTRY={"united states":/\b(us|usa|u\.s\.a?|united states|america)\b|,\s*(a[lkzr]|c[aot]|d[ec]|fl|ga|hi|i[adln]|k[sy]|la|m[adeinost]|n[cdehjmvy]|o[hkr]|pa|ri|s[cd]|t[nx]|ut|v[at]|w[aivy])\b|new york|san francisco|seattle|austin|boston|chicago|los angeles|atlanta|denver|miami|dallas|houston|washington,? dc|san jose|san diego|philadelphia|phoenix/,"canada":/\bcanada\b|toronto|vancouver|montreal|ottawa|calgary|,\s*(on|bc|qc|ab)\b/,"united kingdom":/\b(uk|united kingdom|england|scotland)\b|london|manchester|edinburgh/,"india":/\bindia\b|bengaluru|bangalore|mumbai|delhi|gurgaon|gurugram|hyderabad|pune|chennai|noida/,"germany":/germany|berlin|munich|hamburg|frankfurt/,"france":/france|paris/,"netherlands":/netherlands|amsterdam/,"ireland":/ireland|dublin/,"singapore":/singapore/,"australia":/australia|sydney|melbourne/,"spain":/spain|madrid|barcelona/,"poland":/poland|warsaw|krakow/,"mexico":/mexico|ciudad de m/,"brazil":/brazil|s[aã]o paulo/,"japan":/japan|tokyo/,"israel":/israel|tel aviv/,"uae":/\buae\b|dubai|abu dhabi/};
 const JB_CTRY_ALIAS={us:"united states",usa:"united states","united states of america":"united states",america:"united states",uk:"united kingdom",england:"united kingdom","great britain":"united kingdom"};
 function jbCountryOf(l){l=String(l||"").toLowerCase();for(const [c,re] of Object.entries(JB_CTRY))if(re.test(l))return c;return""}
-function jbLocFit(j,me){if(j.wp==="remote")return me.remote?1:.35;if(!me.locs.length&&!me.ctry.size)return .6;
+const JB_ELSE=/\b(south korea|korea|japan|china|taiwan|hong kong|philippines|vietnam|thailand|malaysia|indonesia|pakistan|bangladesh|sri lanka|nepal|saudi|qatar|egypt|nigeria|kenya|south africa|ghana|morocco|turkey|t[uü]rkiye|greece|italy|portugal|belgium|switzerland|austria|sweden|norway|denmark|finland|czech|romania|hungary|ukraine|serbia|croatia|bulgaria|lithuania|latvia|estonia|argentina|chile|colombia|peru|uruguay|costa rica|new zealand|emea|apac|latam|europe|asia|africa|middle east)\b/;
+function jbLocFit(j,me){if(j.wp==="remote"){if(!me.remote)return .35;const jc=j._c!==undefined?j._c:(j._c=jbCountryOf(j.ll));if(me.ctry.size){if(jc)return me.ctry.has(jc)?1:.15;if(JB_ELSE.test(j.ll))return .15}return 1}if(!me.locs.length&&!me.ctry.size)return .6;
   if(me.locs.some(c=>j.ll.includes(c)))return 1;const jc=j._c!==undefined?j._c:(j._c=jbCountryOf(j.ll));if(jc&&me.ctry.has(jc))return me.ctryOnly.has(jc)?.95:.6;return j.wp==="hybrid"?.1:.05}
 function jbParts(j,me){
   /* 1. is this the kind of role they want */
@@ -4321,9 +4322,10 @@ function jbStatsView(){const inf=jbInfo(),A=[...jbApplied()].map(u=>inf[u]?{url:
 /* ---------- filter ---------- */
 function jbFiltered(){const q=JB.q.toLowerCase().split(/\s+/).filter(Boolean),loc=JB.loc.toLowerCase().trim(),sv=JB.saved?jbSaved():null,today=jbDay();
   const locs=loc?loc.split(/\s*(?:,|\bor\b|\/)\s*/).filter(Boolean):[];const wantRemote=locs.includes("remote");const places=locs.filter(l=>l!=="remote"&&l!=="anywhere");
-  const hid=jbHidden(),ap=JB.applied?jbApplied():null;
-  let a=JB.data.jobs.filter(j=>!hid.has(j.url)&&(!ap||ap.has(j.url))&&(!JB.fam||j.fam===JB.fam)&&(!JB.lvl||j.lvl===JB.lvl)&&(!JB.wp.length||JB.wp.includes(j.wp))&&(!JB.days||today-j.day<=JB.days)&&(!sv||sv.has(j.url))
-    &&q.every(w=>j.tl.includes(w))&&(!locs.length||(wantRemote&&j.wp==="remote")||places.some(p=>j.ll.includes(p))));
+  const hid=jbHidden(),ap=JB.applied?jbApplied():null,me=JB.me||jbMe(),mine=JB.here!==false&&!locs.length&&!ap&&!sv&&(me.locs.length||me.ctry.size);
+  const pm=p=>{const c=JB_CTRY_ALIAS[p]||p;return JB_CTRY[c]?(j=>jbCountryOf(j.ll)===c):(j=>j.ll.includes(p))},pms=places.map(pm);
+  let a=JB.data.jobs.filter(j=>(!mine||jbLocFit(j,me)>=.6)&&!hid.has(j.url)&&(!ap||ap.has(j.url))&&(!JB.fam||j.fam===JB.fam)&&(!JB.lvl||j.lvl===JB.lvl)&&(!JB.wp.length||JB.wp.includes(j.wp))&&(!JB.days||today-j.day<=JB.days)&&(!sv||sv.has(j.url))
+    &&q.every(w=>j.tl.includes(w))&&(!locs.length||(wantRemote&&j.wp==="remote")||pms.some(f=>f(j))));
   const ca=j=>(JB.cnt[j.url]||{}).a||0,cc=j=>(JB.cnt[j.url]||{}).c||0;
   return JB.sort==="new"?a.sort((x,y)=>y.day-x.day||y.m-x.m):JB.sort==="pop"?a.sort((x,y)=>ca(y)-ca(x)||cc(y)-cc(x)||y.m-x.m):a.sort((x,y)=>y.m-x.m||y.day-x.day)}
 function jbCities(){if(JB.cities)return JB.cities;const c={};JB.data.jobs.forEach(j=>{j.loc.split(/[\/;|]/).forEach(p=>{const k=p.replace(/\(.*?\)/g,"").trim();if(k&&k.length<40&&!/remote/i.test(k))c[k]=(c[k]||0)+1})});
@@ -4363,7 +4365,7 @@ function renderJobs(){const M=$("#main");jbLoad();
     <form class="jbsbar" id="jbForm"><label class="in q">${svg(JI.search)}<input id="jbQ" value="${esc(JB.q)}" placeholder="Role, skill or company" aria-label="Search jobs"></label><label class="in l">${svg(JI.pin)}<input id="jbL" value="${esc(JB.loc)}" placeholder="City, or Remote" list="jbCities" aria-label="Location"></label><datalist id="jbCities"><option value="Remote">${jbCities().map(c=>`<option value="${esc(c)}">`).join("")}</datalist><button class="go" type="submit">Search</button></form>
     <div class="jbfl">${chips(JB_FAM,"fam")}<span class="sep"></span>${chips(JB_LVL,"lvl")}<span class="sep"></span>${chips(JB_WP,"wp",true)}<span class="sep"></span>
       <label class="ch sel"><select id="jbDays" aria-label="Posted within"><option value="0">Any time</option><option value="1" ${JB.days==1?"selected":""}>Past 24 hours</option><option value="3" ${JB.days==3?"selected":""}>Past 3 days</option><option value="7" ${JB.days==7?"selected":""}>Past week</option><option value="30" ${JB.days==30?"selected":""}>Past month</option></select></label>
-      <button class="ch ${JB.saved?"on":""}" data-act="jbsavedf">${svg(JI.star)}Saved</button><button class="ch ${JB.applied?"on":""}" data-act="jbappf">${svg(JI.check)}Applied${jbApplied().size?` · ${jbApplied().size}`:""}</button></div>
+      ${(()=>{const me=JB.me||jbMe();return me.locs.length||me.ctry.size?`<button class="ch ${JB.here!==false?"on":""}" data-act="jbhere" title="Only jobs in the cities and countries you picked, plus remote if you picked it">${svg(JI.pin)}Your places</button>`:""})()}<button class="ch ${JB.saved?"on":""}" data-act="jbsavedf">${svg(JI.star)}Saved</button><button class="ch ${JB.applied?"on":""}" data-act="jbappf">${svg(JI.check)}Applied${jbApplied().size?` · ${jbApplied().size}`:""}</button></div>
     <div class="jbres"><div class="jblist"><div class="lh"><span>${list.length.toLocaleString()} ${list.length===1?"job":"jobs"}</span><label>Sort <select id="jbSort"><option value="match">Best match</option><option value="new" ${JB.sort==="new"?"selected":""}>Newest</option><option value="pop" ${JB.sort==="pop"?"selected":""}>Most applied</option></select></label></div>
       ${list.slice(0,JB.show).map(j=>jbRow(j,j.i===JB.sel)).join("")||`<div class="jbnone"><b>No jobs match these filters</b><span>Try a wider location or fewer filters.</span><button class="btn line" data-act="jbclear">Clear filters</button></div>`}
       ${list.length>JB.show?`<button class="jbmore" data-act="jbmore">Show more (${(list.length-JB.show).toLocaleString()} left)</button>`:""}</div>
@@ -4378,6 +4380,7 @@ document.addEventListener("click",e=>{const el=e.target.closest("[data-act^=jb]"
   if(a==="jbback"){JB.mobileDetail=false;renderJobs();return}
   if(a==="jball10"){JB.all10=!JB.all10;jbKeep();return}
   if(a==="jbf"){const k=el.dataset.k,v=el.dataset.v;if(k==="wp"){JB.wp=JB.wp.includes(v)?JB.wp.filter(x=>x!==v):[...JB.wp,v]}else JB[k]=JB[k]===v?"":v;JB.show=40;JB.sel=null;jbKeep();return}
+  if(a==="jbhere"){JB.here=JB.here===false;JB.show=40;JB.sel=null;jbKeep();return}
   if(a==="jbsavedf"){JB.saved=!JB.saved;JB.show=40;JB.sel=null;jbKeep();return}
   if(a==="jbstats"){JB.view="stats";renderJobs();window.scrollTo(0,0);return}
   if(a==="jbstback"){JB.view="";renderJobs();window.scrollTo(0,0);return}
