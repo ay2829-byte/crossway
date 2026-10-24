@@ -1,0 +1,36 @@
+# Crossway
+
+> Crossway (crosswayhq.com) is a free career network and job search platform. People prove their skills on real job problems in Arena, get matched to live roles from company career pages, and get invited by companies. It's a free alternative to LinkedIn for job seekers and to LeetCode for interview practice, for every field, not just coding. Crossway also offers Crossway Projects, a free project tracker.
+
+## Jobs
+
+- Live roles pulled straight from company career pages (Greenhouse, Lever, Ashby, Workday, Oracle and more), refreshed every few hours, focused on office and early career roles at big tech, large companies and top startups.
+- Every job gets a match score and a plain reason it fits, based on your field, skills, experience, the cities or countries you want and what you've proven in Arena.
+- Your 10 best matches each morning, filtered to where you want to work. Recommendations learn from what you open, save, hide and apply to.
+- Track what you applied to, see how many others applied, and view your own application stats.
+
+## Arena
+
+- Real work problems for product, engineering, data and SQL, design, marketing and growth, sales, operations, finance and consulting, from Easy to Hard.
+- A colored code and SQL editor that runs in the browser, hidden tests, timed solves, hints, solutions and company style problems.
+- Every solve shows on your profile and lifts your job match scores.
+
+## Community
+
+- Daily drill questions, proof of work posts, nods from people in your field, streaks and weekly leagues.
+
+## For companies
+
+- Post a role or a real challenge and see your 10 best matched people, ranked by what they've proven. No resume screening.
+
+## Crossway Projects
+
+- A free project tracker with table, Kanban, timeline and calendar views and no seat limits. A free alternative to monday.com and Asana.
+
+## Links
+
+- Home: https://crosswayhq.com/
+- Projects: https://crosswayhq.com/projects
+- Crossway vs LinkedIn: https://crosswayhq.com/compare/linkedin-alternative
+- Crossway vs LeetCode: https://crosswayhq.com/compare/leetcode-alternative
+- Blog: https://crosswayhq.com/blog
