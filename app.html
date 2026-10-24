@@ -1930,7 +1930,7 @@ function renderTop(){
     right=`<div class="navlinks"><a class="show-sm" href="./">Crossway</a><button class="hide-sm" data-act="auth" data-r="company" data-v="signin">Company sign in</button><button data-act="auth" data-r="seeker" data-v="signin">Member sign in</button></div>`;
   }
   $("#top").innerHTML=`${PREVIEW?`<div class="demo">Preview with sample data.${S.role?` Viewing as ${S.role==="company"?"a company":"a member"}.<button data-act="demoswap">Switch to ${S.role==="company"?"member":"company"}</button><button data-act="signout">Sign out</button>`:""}</div>`:""}
-   <div class="topin"><a class="brand" href="junction">${BARS}crossway</a>
+   <div class="topin"><a class="brand" href="app">${BARS}crossway</a>
    <nav class="prod" aria-label="Switch product"><span>Crossway</span><a href="tracker" title="Go to Crossway Projects"><span class="mb3"><i></i><i></i><i></i></span>Projects</a></nav>
    <div class="sp"></div>${S.role==="seeker"?`<div class="tabs2" role="tablist"><button class="${S.stab==="today"||!S.stab?"on":""}" data-act="stab" data-t="today">Today</button><button class="${S.stab==="jobs"?"on":""}" data-act="stab" data-t="jobs">Jobs</button><button class="${S.stab==="arena"?"on":""}" data-act="stab" data-t="arena">Arena</button><button class="${S.stab==="community"?"on":""}" data-act="stab" data-t="community">Community</button><button class="${S.stab==="profile"?"on":""}" data-act="stab" data-t="profile">Profile</button></div>`:S.role==="company"?`<div class="tabs2" role="tablist"><button class="${S.ctab!=="challenges"?"on":""}" data-act="ctab" data-t="roles">Roles</button><button class="${S.ctab==="challenges"?"on":""}" data-act="ctab" data-t="challenges">Challenges</button></div>`:""}<div class="sp"></div>${right}</div>`;
 }
@@ -1981,7 +1981,7 @@ function authSheet(role,view,msg){
 }
 const here=()=>location.origin+location.pathname;
 /* remember where to come back to, in case the sign in returns to the Crossway page */
-const markNext=role=>{try{localStorage.setItem("cw_next",JSON.stringify({to:location.pathname.replace(/\/[^/]*$/,"/")+"junction?as="+role,at:Date.now()}))}catch(_){}};
+const markNext=role=>{try{localStorage.setItem("cw_next",JSON.stringify({to:location.pathname.replace(/\/[^/]*$/,"/")+"app?as="+role,at:Date.now()}))}catch(_){}};
 function setIntent(r){try{localStorage.setItem("paths_intent",r)}catch(_){}}
 function takeIntent(){let r=new URLSearchParams(location.search).get("as");try{r=r||localStorage.getItem("paths_intent");localStorage.removeItem("paths_intent")}catch(_){}
   if(location.search)history.replaceState(null,"",here()+location.hash);return r==="company"||r==="seeker"?r:null}

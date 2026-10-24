@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <script>/* signed in people go straight to the app; logins that come back here finish where they started */
 (function(){try{var h=location.hash,q=location.search,cb=h.indexOf("access_token")>-1||q.indexOf("code=")>-1||h.indexOf("error_description")>-1,n=null;try{n=JSON.parse(localStorage.getItem("cw_next")||"null")}catch(e){}
-if(cb){var to=n&&Date.now()-n.at<9e5?n.to:"junction";localStorage.removeItem("cw_next");location.replace(to+(q?(to.indexOf("?")>-1?"&":"?")+q.slice(1):"")+h);return}
-if(/[?&]home\b/.test(q))return;for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^sb-.*-auth-token$/.test(k)&&localStorage.getItem(k)){location.replace("junction"+q+h);return}}}catch(e){}})();</script><title>Crossway: Get Hired on Proof, Not Resumes</title><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+if(cb){var to=n&&Date.now()-n.at<9e5?n.to:"app";localStorage.removeItem("cw_next");location.replace(to+(q?(to.indexOf("?")>-1?"&":"?")+q.slice(1):"")+h);return}
+if(/[?&]home\b/.test(q))return;for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^sb-.*-auth-token$/.test(k)&&localStorage.getItem(k)){location.replace("app"+q+h);return}}}catch(e){}})();</script><title>Crossway: Get Hired on Proof, Not Resumes</title><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="description" content="The free career network. Prove your skills on real job problems in Arena, a better LeetCode for every field, and get matched to live roles from top companies.">
 <link rel="canonical" href="https://crosswayhq.com/">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://crosswayhq.com/#org","name":"Crossway","url":"https://crosswayhq.com/","logo":"https://crosswayhq.com/crossway-logo.png","sameAs":["https://x.com/Crosswayhq"]},{"@type":"WebApplication","name":"Crossway","url":"https://crosswayhq.com/","applicationCategory":"BusinessApplication","operatingSystem":"Web","publisher":{"@id":"https://crosswayhq.com/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free career network and job search platform. Practice real job problems in Arena for product, data, engineering, design, marketing and finance, get matched to live roles from company career pages with a score and the reason each fits, and get invited by companies. A free alternative to LinkedIn for job seekers and to LeetCode for interview practice."},{"@type":"WebApplication","name":"Crossway Projects","url":"https://crosswayhq.com/projects","applicationCategory":"BusinessApplication","operatingSystem":"Web","publisher":{"@id":"https://crosswayhq.com/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free project tracker with table, Kanban, timeline and calendar views and no seat limits."}]}</script>
@@ -399,7 +399,7 @@ footer .sp{flex:1}
             <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>Get your 10 best matched jobs every morning</li>
             <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>Companies see their 10 best matches, blind</li>
           </ul>
-          <div class="dacts"><a class="btn white" href="junction?join=seeker">Join free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn ghostw" href="junction?join=company">I'm hiring</a></div>
+          <div class="dacts"><a class="btn white" href="app?join=seeker">Join free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn ghostw" href="app?join=company">I'm hiring</a></div>
         </div><div class="dplay" id="dplay"><div class="ftabs" role="tablist" aria-label="Pick your field"></div><span class="qk"></span><p class="qq"></p><div class="ops"></div><div class="res"><div class="ring"><svg width="74" height="74" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="11"/><circle cx="50" cy="50" r="42" fill="none" stroke="#3CC9A8" stroke-width="11" stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/></svg><span></span></div><div class="jl"></div></div></div></article>
         
       </div>
@@ -485,7 +485,7 @@ footer .sp{flex:1}
       <div class="finalin">
         <h2>Your next job starts with one solve.</h2>
         <p>Free forever. Set up in under a minute.</p>
-        <div class="finalacts"><a class="btn white xl" href="junction?join=seeker">Join Crossway free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn ghostw xl" href="projects">Start a project</a></div>
+        <div class="finalacts"><a class="btn white xl" href="app?join=seeker">Join Crossway free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="btn ghostw xl" href="projects">Start a project</a></div>
       </div>
     </div>
   </section>
@@ -585,7 +585,7 @@ const sb=(window.supabase&&cfg.supabaseUrl&&!/YOUR_/.test(cfg.supabaseUrl+cfg.su
 const APP=location.origin+"/";
 const saveUse=()=>{try{localStorage.setItem("cw_usecase",pick)}catch(_){}};
 let mode="signup",lastFocus=null,busy=false;
-function goApp(){location.href="junction"}
+function goApp(){location.href="app"}
 if(sb)sb.auth.getSession().then(({data})=>{if(data.session){document.querySelectorAll('[data-auth]').forEach(b=>{b.dataset.auth="app";if(b.classList.contains("plain"))b.textContent="My board";else b.firstChild.nodeValue="Open my board "})}});
 const friendly=e=>{const t=(e&&e.message)||"Something went wrong. Try again.";if(/Invalid login/i.test(t))return"That email and password don't match. Try again or reset your password.";if(/not confirmed/i.test(t))return"Confirm your email first. Check your inbox for the link.";if(/already registered/i.test(t))return"That email already has an account. Log in instead.";if(/rate limit/i.test(t))return"Too many attempts right now. Wait a minute, or continue with Google.";return t};
 function drawModal(msg,err){const up=mode==="signup",fg=mode==="forgot",c=CASES[pick];

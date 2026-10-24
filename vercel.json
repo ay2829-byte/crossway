@@ -27,6 +27,11 @@
       "source": "/welcome",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/junction",
+      "destination": "/app",
+      "permanent": true
     }
   ]
 }
