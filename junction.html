@@ -1697,6 +1697,11 @@ body.obopen{overflow:hidden}
 .arcw #arEd::selection{background:rgba(110,130,255,.35);-webkit-text-fill-color:transparent}
 .arhl i{font-style:normal}.arhl .hk{color:#C792EA}.arhl .hs{color:#C3E88D}.arhl .hn{color:#F78C6C}.arhl .hc{color:#6A7280;font-style:italic}.arhl .hb{color:#82AAFF}.arhl .hf{color:#FFCB6B}
 @media(max-width:760px){.arhl{font-size:13px}}
+.arhdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.arend{padding:8px 14px;font-size:13px}
+.chz{max-width:820px;margin:0 auto;padding:72px 20px 80px;display:flex;flex-direction:column;gap:22px}
+.chz .obtile{min-height:220px;justify-content:space-between}.chz .obtile.on{border-color:var(--ink)}
+.chz .chgo{align-self:flex-start;font-weight:600;font-size:15px;padding:10px 16px;border-radius:12px;background:var(--ink);color:var(--bg)}
+.chz .obtile:not(.on) .chgo{background:var(--surface);color:var(--ink)}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"><style>/* clean look: Inter, soft gray ground, white rounded surfaces. Layout untouched. */
 :root{--f:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif!important;--line:#E8E8EA;--sh:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);--sh2:0 1px 2px rgba(0,0,0,.04)}
@@ -2004,12 +2009,15 @@ async function google(){
 }
 
 /* ---------- session ---------- */
+/* nothing from one account leaks into the next one that signs in on this browser */
+function resetUserCaches(){if(typeof JB!=="undefined"){Object.keys(JB).forEach(k=>{if(k[0]==="_")delete JB[k]});JB.me=null;JB.top=null;JB.cnt={};JB.sel=null;JB.view=null;JB.saved=false;JB.applied=false}if(S.ar){S.ar.stats=null;S.ar.open=null}try{sessionStorage.removeItem("jb_pos")}catch(_){}}
 async function onSession(sess,intentOverride){try{if(sess&&sess.user)localStorage.removeItem("cw_next")}catch(_){}
   if(S.recover)return;
   const u=sess&&sess.user;
-  if(!u){S.user=null;S.role=null;S.loading=false;stopPoll();renderTop();renderLanding();
+  if(!u){resetUserCaches();S.user=null;S.role=null;S.loading=false;stopPoll();renderTop();renderLanding();
     const jn=new URLSearchParams(location.search).get("join");if(jn==="company"||jn==="seeker"){history.replaceState(null,"",here()+location.hash);authSheet(jn,"signup")}return}
   if(S.user&&S.user.id===u.id&&(S.role||S.loading))return;
+  if(!S.user||S.user.id!==u.id)resetUserCaches();
   S.user=u;S.loading=true;renderTop();$("#main").innerHTML=`<div class="loading">Loading…</div>`;
   const jn0=new URLSearchParams(location.search).get("join");const intent=intentOverride||takeIntent()||(jn0==="company"||jn0==="seeker"?jn0:null);
   try{
@@ -2023,9 +2031,10 @@ async function onSession(sess,intentOverride){try{if(sess&&sess.user)localStorag
   }catch(err){$("#main").innerHTML=`<div class="state"><h2>Crossway isn't set up yet</h2><p>${esc(friendly(err))}</p><p class="hint">If you just added Crossway, run supabase-junction.sql in your Supabase SQL editor, then reload.</p></div>`}
 }
 function renderChoose(){
-  $("#main").innerHTML=`<div class="land"><div class="lhero"><h1 style="font-size:48px">How do you want to use Crossway?</h1><p>You're signed in as ${esc(S.user.email||"")}. Pick one. Each account is either a company or a member.</p></div>
-   <div class="doors"><div class="door co"><span class="dl">For companies</span><h2>I'm hiring</h2><div class="dacts"><button class="btn" data-act="pick" data-r="company">Set up a company account</button></div></div>
-   <div class="door se"><span class="dl">For members</span><h2>I'm building my career</h2><div class="dacts"><button class="btn" data-act="pick" data-r="seeker">Create my profile</button></div></div></div></div>`;
+  $("#main").innerHTML=`<div class="chz"><h1 class="obh">Welcome to <span class="obg">Crossway</span></h1><p class="obp">You're signed in as ${esc(S.user.email||"")}. How will you use it?</p>
+   <div class="obgrid2"><button type="button" class="obtile on" data-act="pick" data-r="seeker">${typeof obIco==="function"?obIco("#3B5BDB","M4 18l6-6 4 4 6-8",44):""}<span><b>I'm building my career</b><small>Prove your skills in Arena, get your 10 best matched jobs every day and join people in your field.</small></span><span class="chgo">Continue</span></button>
+   <button type="button" class="obtile" data-act="pick" data-r="company">${typeof obIco==="function"?obIco("#16171B","M4 7h16v12H4zM9 7V5h6v2",44):""}<span><b>I'm hiring</b><small>Set up a company account and meet your 10 best matched people. No resume pile.</small></span><span class="chgo">Set up company</span></button></div>
+   <p class="obnote">Each account is either a member or a company. You can't switch later, so pick the one that fits this email.</p></div>`;
 }
 async function load(){
   if(S.role==="company"){
@@ -3271,7 +3280,7 @@ const AR_ICO={code:svg('<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>'),sq
 ai:svg('<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M18.5 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>'),eye:svg('<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>'),pause:svg('<path d="M8 5.5v13M16 5.5v13"/>'),
   clock:svg('<circle cx="12" cy="13" r="7.5"/><path d="M12 9.5V13l2.5 2M9.5 3h5"/>'),
   play:svg('<path d="M8 5.5v13l10.5-6.5z"/>'),check:svg('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),x:svg('<path d="M6 6l12 12M18 6L6 18"/>'),dot:svg('<circle cx="12" cy="12" r="3.5"/>')};
-const arLs={get(k){try{return localStorage.getItem(k)}catch(_){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(_){}}};
+const arLs={k(k){const u=typeof S!=="undefined"&&S.user&&S.user.id;return u?k+"@"+u:k},get(k){try{return localStorage.getItem(this.k(k))}catch(_){return null}},set(k,v){try{localStorage.setItem(this.k(k),v)}catch(_){}}};
 const arCamel=s=>s.replace(/_([a-z0-9])/g,(_,c)=>c.toUpperCase());
 const arMins=s=>s==null?"":s<60?"under 1 min":Math.round(s/60)+" min";
 const arWords=t=>(String(t||"").trim().match(/\S+/g)||[]).length;
@@ -3280,6 +3289,7 @@ const arWords=t=>(String(t||"").trim().match(/\S+/g)||[]).length;
 Object.assign(LIVE,{
   async arena(uid){return need(await sb.rpc("jx_arena",{p_user:uid||null}))},
   async startAttempt(pid,timed){return need(await sb.rpc("jx_start_attempt",{p_problem:pid,p_timed:!!timed}))},
+  async endAttempt(pid){need(await sb.rpc("jx_end_attempt",{p_problem:pid}))},
   async submitSolution(pid,lang,code,passed,total,ms,trace){return need(await sb.rpc("jx_submit_solution",{p_problem:pid,p_lang:lang,p_code:code,p_passed:passed,p_total:total,p_ms:Math.round(ms||0),p_day:localDay(),p_trace:trace||null}))},
   async saveNote(pid,note){need(await sb.rpc("jx_save_note",{p_problem:pid,p_note:note}))},
   async solution(uid,pid){return need(await sb.rpc("jx_solution",{p_user:uid,p_problem:pid}))},
@@ -3326,6 +3336,7 @@ Object.assign(LIVE,{
   const chStarts={};
   Object.assign(DEMO,{
     async arena(uid){const u=uid||me();return stats(u,u===me())},
+    async endAttempt(pid){const u=me(),r=(store[u]||{})[pid];if(r&&!r.passed){r.started=null;r.timed=false}},
     async startAttempt(pid,timed){const u=me(),p=AR_BY[pid];let r=(store[u]||{})[pid];
       if(!r){r={lang:"",code:"",passed:false,tp:0,tt:0,ms:0,attempts:0,at:"",timed:!!timed,secs:null,started:new Date().toISOString()};put(u,pid,r)}
       else if(!r.started)r.started=new Date().toISOString();
@@ -3555,7 +3566,7 @@ function arStartHtml(p){const what={debug:"Read the broken code, find the bug, f
     <div class="arsbtns"><button class="btn brand" data-act="arstart" data-t="1">${AR_ICO.play} Start${p.ch?"":" timed"}</button>${p.ch?"":`<button class="btn line" data-act="arstart" data-t="0">Practice untimed</button>`}</div></div>`}
 function renderArProblem(){const A=S.ar,p=arP(A.open);if(!p){A.open=null;renderArena();return}const m=arMine(p);
   const solvedTag=m&&m.passed?`<span class="arok">${AR_ICO.check} Solved${m.timed&&m.secs!=null&&m.secs<=p.mins*60?` in ${arMins(m.secs)}`:""}</span>`:"";
-  const head=`<div class="arhead"><button class="btn line sm2" data-act="arback">${SVGI.back} ${p.ch?"Back":"Arena"}</button><div class="arti"><h1>${esc(p.title)}</h1><div class="armeta">${p.ch?`<span class="ardf ard-ch">Challenge</span>`:`<span class="ardf ${arDiffCls(p.diff)}">${p.diff}</span>`}<span>${arTaskLabel(p)}</span><span>${esc(p.topic)}</span><span>${esc(TRACK[p.track]||p.track)}</span><span>${p.mins} min</span>${solvedTag}</div></div>${arClockHtml(p)}</div>`;
+  const head=`<div class="arhead"><button class="btn line sm2" data-act="arback">${SVGI.back} ${p.ch?"Back":"Arena"}</button><div class="arti"><h1>${esc(p.title)}</h1><div class="armeta">${p.ch?`<span class="ardf ard-ch">Challenge</span>`:`<span class="ardf ${arDiffCls(p.diff)}">${p.diff}</span>`}<span>${arTaskLabel(p)}</span><span>${esc(p.topic)}</span><span>${esc(TRACK[p.track]||p.track)}</span><span>${p.mins} min</span>${solvedTag}</div></div><div class="arhdr">${arClockHtml(p)}${!p.ch&&arMine(p)&&arMine(p).started&&!(arMine(p).passed)?`<button class="btn line sm arend" data-act="arend">End attempt</button>`:""}</div></div>`;
   if(!m||!m.started&&!m.tt&&!m.passed){$("#main").innerHTML=`<div class="cpage tpage arpage arprob">${head}${arStartHtml(p)}</div>`;return}
   let body;
   if(p.kind==="case"){const ans=A.ans[p.id]||(A.ans[p.id]=(()=>{try{return JSON.parse(arLs.get("ar:"+p.id+":case")||"null")||[]}catch(_){return[]}})());
@@ -3658,6 +3669,8 @@ document.addEventListener("click",async e=>{const el=e.target.closest("[data-act
       if(p.ch){const c=(S.chals||[]).find(x=>x.id===p.ch);if(c)c.started_at=r.started_at}
       else{A.stats=A.stats||{mine:{}};A.stats.mine=A.stats.mine||{};A.stats.mine[p.id]={...(A.stats.mine[p.id]||{}),started:r.started_at,timed:r.timed,mins:r.mins,passed:false,tt:0}}
       renderArProblem()}catch(err){toast(friendly(err));el.disabled=false}return}
+  if(a==="arend"){const p=arP(A.open);if(!p||p.ch)return;if(!confirm("End this attempt? Your code stays saved, and you can start the clock again later."))return;el.disabled=true;
+    try{await API.endAttempt(p.id);const m=A.stats&&A.stats.mine&&A.stats.mine[p.id];if(m){m.started=null;m.timed=false}clearInterval(A.timer);A.overTold=0;renderArProblem();toast("Attempt ended. Start it again whenever you're ready.")}catch(err){toast(friendly(err));el.disabled=false}return}
   if(a==="arlang"){A.lang=el.dataset.v;arLs.set("ar:lang",A.lang);A.res=null;renderArProblem();if(A.lang==="python")arPyWorker();return}
   if(a==="arreset"){const p=arP(A.open);const ed=$("#arEd");if(!p||!ed)return;ed.value=arStarter(p,arLangOf(p));arLs.set(arDraftKey(p),ed.value);arRecord(p,ed.value,"reset");arGutter();return}
   if(a==="aropt"){const p=arP(A.open);const ans=A.ans[p.id]||(A.ans[p.id]=[]);ans[+el.dataset.q]=+el.dataset.k;arLs.set("ar:"+p.id+":case",JSON.stringify(ans));
@@ -4114,7 +4127,7 @@ const JB_LVL=[["intern","Intern"],["entry","Entry & junior"],["mid","Mid"],["sen
 const JB_LVLN={intern:"Intern",entry:"Entry",mid:"Mid",senior:"Senior"},JB_FAMN={eng:"Engineering",product:"Product",data:"Data",design:"Design",growth:"Marketing",sales:"Sales",ops:"Operations",other:"Other"};
 const JB_WP=[["remote","Remote"],["hybrid","Hybrid"],["onsite","Onsite"]];
 const JB_TRACK={eng:"engineering",product:"product",data:"data",design:"product",growth:"growth",sales:"growth",ops:"ops",other:""};
-const jbLs={get(k){try{return localStorage.getItem(k)}catch(_){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(_){}}};
+const jbLs={k(k){const u=typeof S!=="undefined"&&S.user&&S.user.id;return u?k+"@"+u:k},get(k){try{return localStorage.getItem(this.k(k))}catch(_){return null}},set(k,v){try{localStorage.setItem(this.k(k),v)}catch(_){}}};
 const jbSaved=()=>{try{return new Set(JSON.parse(jbLs.get("jb_saved")||"[]"))}catch(_){return new Set()}};
 const jbDay=()=>Math.floor(Date.now()/864e5);
 const JB_COL=["#4C6BF5","#12A38A","#F2643D","#8B5CF6","#222","#0EA5E9","#D97706","#DB2777","#059669","#6366F1"];
@@ -4527,8 +4540,8 @@ button,.btn,a{transition:transform .15s,background .2s,box-shadow .2s}
 button:active,.btn:active{transform:scale(.96)}
 .btn.dark,.tabs2 button.on,.pitem.on,.seg .on{box-shadow:0 6px 18px -6px rgba(80,90,255,.45),inset 0 1px 0 rgba(255,255,255,.15)!important}
 :root:not([data-theme="dark"]) .btn.dark:not(:disabled){background:linear-gradient(135deg,#1B1C22,#2A2D45)!important}
-h1{background:linear-gradient(90deg,var(--ink) 55%,#5B6CFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-html body .topin{background:transparent!important}html body .top{background:transparent!important}:root[data-theme="dark"] body .top{background:transparent!important}html body aside.side,html body #side,html body .sidebar{background:rgba(239,239,239,.6)!important;backdrop-filter:blur(20px)}:root[data-theme="dark"] body aside.side,:root[data-theme="dark"] body #side{background:rgba(13,13,14,.6)!important}.greet h1,main h1,h1{background:linear-gradient(90deg,var(--ink) 55%,#5B6CFF)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important}
+
+html body .topin{background:transparent!important}html body .top{background:transparent!important}:root[data-theme="dark"] body .top{background:transparent!important}html body aside.side,html body #side,html body .sidebar{background:rgba(239,239,239,.6)!important;backdrop-filter:blur(20px)}:root[data-theme="dark"] body aside.side,:root[data-theme="dark"] body #side{background:rgba(13,13,14,.6)!important}:is(.aqhd,.arti,.jbhd,.hello,.lhero,.cpage>.hd) h1{background:linear-gradient(90deg,var(--ink) 55%,#5B6CFF)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important}
 :root:not([data-a]):not([data-b]) .app{background:transparent!important}
 :root[data-theme="dark"] body,:root[data-theme="dark"] .app{background:transparent!important}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{background:transparent!important}}
 </style>
