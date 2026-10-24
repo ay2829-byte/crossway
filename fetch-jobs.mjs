@@ -6,7 +6,7 @@ import {writeFileSync,readFileSync,existsSync,mkdirSync,readdirSync,unlinkSync,r
 import {GH,LV,AS,SR,WD,WD_NAMES,OC,NAMES,DOMAINS} from "./companies.mjs";
 
 const UA={"User-Agent":"JunctionJobsBot/1.0 (+https://crosswayhq.com)","Accept":"application/json"};
-const MAX_JOBS=+(process.env.MAX_JOBS||120000),PER_CO=+(process.env.PER_CO||250),BRAND_CO=+(process.env.BRAND_CO||3000),SNIP=320,SHARD=1000,OUT=process.env.OUT||"jobs";
+const MAX_JOBS=+(process.env.MAX_JOBS||180000),PER_CO=+(process.env.PER_CO||250),BRAND_CO=+(process.env.BRAND_CO||5000),SNIP=320,SHARD=1000,OUT=process.env.OUT||"jobs";
 const DEADLINE=Date.now()+60000*+(process.env.FETCH_MINUTES||34),WD_CAP=+(process.env.WD_CAP||2000);
 export const FAMS=["eng","product","data","design","growth","sales","ops","other"];
 const uniq=a=>[...new Set(a.filter(t=>t&&/^[\w.-]+$/.test(t)))];
@@ -69,7 +69,7 @@ export function pay(txt){const m=txt.match(/\$\s?(\d{2,3}(?:,\d{3})+|\d{2,3}(?:\
 async function greenhouse(tok){let [b,j]=await Promise.all([getJSON(`https://boards-api.greenhouse.io/v1/boards/${tok}`),getJSON(`https://boards-api.greenhouse.io/v1/boards/${tok}/jobs?content=true`,{},90000)]);
   if(!j||!Array.isArray(j.jobs))j=await getJSON(`https://boards-api.greenhouse.io/v1/boards/${tok}/jobs`,{},45000); // big boards: titles only
   if(!j||!Array.isArray(j.jobs))return null;const co=(b&&b.name)||pretty(tok);
-  return j.jobs.map(x=>{const txt=strip(x.content);const loc=(x.location&&x.location.name)||"";return{tok,co,t:x.title,loc,dept:(x.departments||[]).map(d=>d.name).join(", "),url:x.absolute_url,at:x.first_published||x.updated_at,txt,wp:""}})}
+  return j.jobs.map(x=>{const txt=strip(x.content);const loc=(x.location&&x.location.name)||"";return{tok,co,t:x.title,loc,dept:(x.departments||[]).map(d=>d.name).join(", "),url:x.absolute_url,at:x.updated_at||x.first_published,txt,wp:""}})}
 async function lever(tok){const j=await getJSON(`https://api.lever.co/v0/postings/${tok}?mode=json`);if(!Array.isArray(j))return null;const co=pretty(tok);
   return j.map(x=>{const c=x.categories||{};const txt=(x.descriptionPlain||"")+" "+(x.lists||[]).map(l=>l.text+" "+strip(l.content)).join(" ")+" "+(x.additionalPlain||"");
     const sr=x.salaryRange;const p=sr&&sr.min&&sr.max&&(sr.currency||"USD")==="USD"&&/year|annual/i.test(sr.interval||"year")?"$"+Math.round(sr.min/1000)+"k to $"+Math.round(sr.max/1000)+"k":"";
@@ -109,22 +109,28 @@ async function microsoft(){const out=[];for(let p=1;p<=150&&Date.now()<DEADLINE;
 
 // Eightfold career sites (Microsoft, Netflix, American Express and others): host|domain|name
 const EF=[["apply.careers.microsoft.com","microsoft.com","Microsoft"],["explore.jobs.netflix.net","netflix.com","Netflix"],["aexp.eightfold.ai","aexp.com","American Express"],["careers.qualcomm.com","qualcomm.com","Qualcomm"],["jobs.vodafone.com","vodafone.com","Vodafone"]];
-async function eightfold([host,dom,name]){const out=[];for(let st=0;st<5000&&Date.now()<DEADLINE;st+=100){const j=await getJSON(`https://${host}/api/apply/v2/jobs?domain=${dom}&start=${st}&num=100&sort_by=timestamp`);
+async function eightfold([host,dom,name]){const out=[];for(let st=0;st<5000&&Date.now()<DEADLINE;){const j=await getJSON(`https://${host}/api/apply/v2/jobs?domain=${dom}&start=${st}&num=100&sort_by=timestamp`);
     const L=j&&j.positions;if(!Array.isArray(L)||!L.length)break;
     L.forEach(x=>out.push({co:name,tok:dom.split(".")[0],t:x.name,loc:(x.locations&&x.locations.length?x.locations.slice(0,3).join(" / "):x.location)||"",dept:x.department||"",url:x.canonicalPositionUrl||`https://${host}/careers/job/${x.id}`,at:x.t_create?new Date(x.t_create*1000).toISOString():"",txt:strip(x.job_description||""),wp:/remote/i.test(x.work_location_option||"")?"remote":/hybrid/i.test(x.work_location_option||"")?"hybrid":""}));
-    if(L.length<10)break}return out}
-// Apple's public job search
-async function apple(){const out=[];const tk=await fetch("https://jobs.apple.com/api/csrfToken",{headers:UA}).then(r=>r.headers.get("x-apple-csrf-token")).catch(()=>null);
-  for(let p=1;p<=200&&Date.now()<DEADLINE;p++){const j=await getJSON("https://jobs.apple.com/api/role/search",{method:"POST",headers:{...UA,"Content-Type":"application/json",...(tk?{"x-apple-csrf-token":tk}:{})},body:JSON.stringify({query:"",filters:{range:{standardWeeklyHours:{start:null,end:null}}},page:p,locale:"en-us",sort:"newest"})});
-    const L=j&&j.res&&j.res.searchResults;if(!Array.isArray(L)||!L.length)break;
-    L.forEach(x=>out.push({co:"Apple",tok:"apple",t:x.postingTitle,loc:(x.locations||[]).map(l=>l.name).slice(0,3).join(" / "),dept:(x.team&&x.team.teamName)||"",url:`https://jobs.apple.com/en-us/details/${x.positionId}/${x.transformedPostingTitle||""}`,at:x.postDateInGMT||x.postingDate,txt:strip(x.jobSummary||""),wp:x.homeOffice?"remote":""}))}return out}
+    st+=L.length;if(L.length<5)break}return out}
+// Apple renders its search results into the page, so read them from there
+async function apple(){const page=async n=>{const c=new AbortController(),tm=setTimeout(()=>c.abort(),25000);const h=await fetch(`https://jobs.apple.com/en-us/search?page=${n}`,{headers:{...UA,Accept:"text/html"},signal:c.signal}).then(r=>r.ok?r.text():"").catch(()=>"");clearTimeout(tm);
+    const i=h.indexOf('__staticRouterHydrationData = JSON.parse("');if(i<0)return null;const a=i+'__staticRouterHydrationData = JSON.parse("'.length,b=h.indexOf('");',a);let d;try{d=JSON.parse(JSON.parse('"'+h.slice(a,b)+'"'))}catch{return null}
+    let res=null;const walk=o=>{if(res||!o||typeof o!=="object")return;if(Array.isArray(o.searchResults)){res=o;return}for(const k in o)walk(o[k])};walk(d);return res};
+  const first=await page(1);if(!first)return[];const total=Math.min(+first.totalRecords||+first.total||0,8000),per=(first.searchResults||[]).length||20,n=total?Math.ceil(total/per):250;const nums=[];for(let p=2;p<=n;p++)nums.push(p);
+  const rest=await pool(nums,4,async p=>{const r=await page(p);return r?r.searchResults:[]});
+  return [...first.searchResults,...rest.flat()].map(x=>({co:"Apple",tok:"apple",t:x.postingTitle,loc:(x.locations||[]).map(l=>[l.city,l.stateProvince,l.countryName].filter(Boolean).join(", ")||l.name).slice(0,3).join(" / "),dept:(x.team&&x.team.teamName)||"",url:`https://jobs.apple.com/en-us/details/${x.positionId}/${x.transformedPostingTitle||""}`,at:x.postDateInGMT||"",txt:String(x.jobSummary||"").slice(0,2000),wp:x.homeOffice?"remote":""}))}
 // Google careers: the results pages are plain HTML, so read titles and links from them
 async function google(){const out=[];for(let p=1;p<=150&&Date.now()<DEADLINE;p++){const c=new AbortController();const tm=setTimeout(()=>c.abort(),25000);
     const h=await fetch(`https://www.google.com/about/careers/applications/jobs/results?page=${p}`,{headers:{...UA,Accept:"text/html"},signal:c.signal}).then(r=>r.ok?r.text():"").catch(()=>"");clearTimeout(tm);
     const ids=[...h.matchAll(/href="jobs\/results\/(\d+)-([a-z0-9-]+)/g)];if(!ids.length)break;const seen=new Set();
     const locs=[...h.matchAll(/<span class="r0wTof[^"]*">([^<]+)<\/span>/g)].map(m=>m[1]);let li=0;
     ids.forEach(m=>{if(seen.has(m[1]))return;seen.add(m[1]);const t=m[2].replace(/-/g," ").replace(/\b\w/g,c=>c.toUpperCase());out.push({co:"Google",tok:"google",t,loc:locs[li++]||"",dept:"",url:`https://www.google.com/about/careers/applications/jobs/results/${m[1]}-${m[2]}`,at:"",txt:"",wp:""})})}return out}
-async function microsoftAll(){const a=await microsoft().catch(()=>[]);return a.length>=300?a:a.concat(await eightfold(EF[0]).catch(()=>[]))}
+// Microsoft moved to an Eightfold site; its search pages hand back 10 roles at a time
+async function microsoftPcsx(){const base="https://apply.careers.microsoft.com/api/pcsx/search?domain=microsoft.com&query=&location=&num=10&start=";const first=await getJSON(base+"0");const total=Math.min(6000,(first&&first.data&&first.data.count)||0);if(!total)return[];
+  const starts=[];for(let st=0;st<total;st+=10)starts.push(st);const pages=await pool(starts,6,async st=>{const j=st===0?first:await getJSON(base+st);return(j&&j.data&&j.data.positions)||[]});
+  return pages.flat().map(x=>({co:"Microsoft",tok:"microsoft",t:x.name,loc:(x.standardizedLocations&&x.standardizedLocations.length?x.standardizedLocations:x.locations||[]).slice(0,3).join(" / "),dept:x.department||"",url:"https://apply.careers.microsoft.com"+(x.positionUrl||("/careers/job/"+x.id)),at:x.postedTs?new Date(x.postedTs*1000).toISOString():"",txt:"",wp:/remote/i.test(x.workLocationOption||"")?"remote":/hybrid/i.test(x.workLocationOption||"")?"hybrid":""}))}
+async function microsoftAll(){const a=await microsoftPcsx().catch(()=>[]);if(a.length>=200)return a;const b=await microsoft().catch(()=>[]);return a.concat(b)}
 /* ---------- open lists and job APIs ---------- */
 const SIMPLIFY=[["New-Grad-Positions","entry_level"],["Summer2026-Internships","internship"],["Summer2027-Internships","internship"]];
 const SCAT={"Software":"Engineering","Hardware":"Engineering","AI/ML/Data":"Data","Data Science, AI & Machine Learning":"Data","Quant":"Data","Product":"Product","Product Management":"Product"};
@@ -255,4 +261,5 @@ async function main(){const t0=Date.now();const today=Math.round(t0/864e5);
   const by={};out.rows.forEach(r=>{const s=out.srcs[r[11]]||"boards";by[s]=(by[s]||0)+1});const lv={};out.rows.forEach(r=>{const l=["intern","entry","mid","senior"][r[4]];lv[l]=(lv[l]||0)+1});
   console.log(`${out.rows.length} jobs (${raw.length} fetched) from ${Object.keys(ok).length} of ${tasks.length} boards in ${Math.round((Date.now()-t0)/1000)}s`);
   console.log("By source:",JSON.stringify(by));console.log("By level:",JSON.stringify(lv));console.log("US or remote:",out.rows.filter(r=>r[5]===0||isUS(out.locs[r[2]])).length)}
+export {apple,microsoftPcsx,eightfold,EF};
 if(process.argv[1]&&process.argv[1].endsWith("fetch-jobs.mjs"))main();

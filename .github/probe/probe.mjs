@@ -1,12 +1,4 @@
-// second check: shapes of the responses that worked
-const UA={"User-Agent":"Mozilla/5.0 (compatible; JunctionJobsBot/1.0; +https://crosswayhq.com)","Accept":"application/json"};const OUT=[];
-const j=async(u,o={})=>{const r=await fetch(u,{...o,headers:{...UA,...(o.headers||{})},signal:AbortSignal.timeout(60000)});return r.text()};
-const cut=(s,n=700)=>String(s).replace(/\s+/g," ").slice(0,n);
-try{const t=JSON.parse(await j("https://apply.careers.microsoft.com/api/pcsx/search?domain=microsoft.com&query=&location=&start=0&num=10"));OUT.push("MS keys "+JSON.stringify(Object.keys(t.data))+" count "+JSON.stringify(t.data.count??t.data.total??"")+" pos0 "+cut(JSON.stringify(t.data.positions&&t.data.positions[0])));
- const t2=JSON.parse(await j("https://apply.careers.microsoft.com/api/pcsx/search?domain=microsoft.com&query=&location=&start=100&num=100"));OUT.push("MS num100 len "+(t2.data&&t2.data.positions&&t2.data.positions.length))}catch(e){OUT.push("MS err "+e.message)}
-try{const t=JSON.parse(await j("https://explore.jobs.netflix.net/api/apply/v2/jobs?domain=netflix.com&start=0&num=100"));OUT.push("NFLX count "+t.count+" len "+t.positions.length+" pos0 "+cut(JSON.stringify(t.positions[0]),400))}catch(e){OUT.push("NFLX err "+e.message)}
-try{const t=JSON.parse(await j("https://www-api.ibm.com/search/api/v2",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({appId:"careers",scopes:["careers2"],query:{bool:{must:[]}},size:5,from:0})}));OUT.push("IBM total "+JSON.stringify(t.hits.total)+" hit0 "+cut(JSON.stringify(t.hits.hits[0])))}catch(e){OUT.push("IBM err "+e.message)}
-try{const h=await j("https://jobs.apple.com/en-us/search?page=2",{headers:{Accept:"text/html"}});const i=h.indexOf("__staticRouterHydrationData");OUT.push("APPLE hyd at "+i+" "+cut(h.slice(i,i+600)));const k=h.indexOf("positionId");OUT.push("APPLE pid at "+k+" "+cut(h.slice(Math.max(0,k-300),k+500)))}catch(e){OUT.push("APPLE err "+e.message)}
-try{const t=JSON.parse(await j("https://boards-api.greenhouse.io/v1/boards/stripe/jobs"));const d=t.jobs.map(x=>x.first_published||"").sort();const u=t.jobs.map(x=>x.updated_at||"").sort();OUT.push("STRIPE n "+t.jobs.length+" first_pub oldest "+d[0]+" median "+d[d.length>>1]+" updated median "+u[u.length>>1]+" sample "+cut(JSON.stringify(t.jobs[0]),300))}catch(e){OUT.push("STRIPE err "+e.message)}
-try{const t=JSON.parse(await j("https://boards-api.greenhouse.io/v1/boards/databricks/jobs"));const d=t.jobs.map(x=>x.first_published||"").sort();OUT.push("DBX n "+t.jobs.length+" first_pub median "+d[d.length>>1])}catch(e){OUT.push("DBX err "+e.message)}
-for(const s of OUT)console.log("::notice title=p2::"+s.replace(/::/g,": :"));
+// check the new Microsoft, Apple and Netflix readers return real roles
+const m=await import("../../fetch-jobs.mjs");const OUT=[];
+for(const [n,f] of [["Microsoft",()=>m.microsoftPcsx()],["Apple",()=>m.apple()],["Netflix",()=>m.eightfold(m.EF[1])]]){const t=Date.now();try{const r=await f();OUT.push(`${n}: ${r.length} roles in ${Math.round((Date.now()-t)/1000)}s, e.g. ${r.slice(0,2).map(x=>x.t+" @ "+x.loc).join(" ; ")}`)}catch(e){OUT.push(n+" error "+e.message)}}
+for(const s of OUT)console.log("::notice title=p3::"+s.replace(/::/g,": :"));
