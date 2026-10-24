@@ -1,6 +1,7 @@
 // one off check of career site APIs, prints status and how many jobs each returns
 const UA={"User-Agent":"Mozilla/5.0 (compatible; JunctionJobsBot/1.0; +https://crosswayhq.com)","Accept":"application/json"};
-async function hit(name,url,opt={}){const t=Date.now();try{const r=await fetch(url,{...opt,headers:{...UA,...(opt.headers||{})},signal:AbortSignal.timeout(60000)});const txt=await r.text();let n="";try{const j=JSON.parse(txt);n=JSON.stringify(Object.keys(j)).slice(0,120)+" "+(j.count??j.total??j.totalRecords??(j.jobs&&j.jobs.length)??(j.positions&&j.positions.length)??(j.data&&j.data.positions&&j.data.positions.length)??(j.res&&j.res.totalRecords)??(j.operationResult&&j.operationResult.result&&j.operationResult.result.totalJobs)??"")}catch{n="html "+txt.length+" "+txt.slice(0,160).replace(/\s+/g," ")}console.log(`${name} | ${r.status} | ${Date.now()-t}ms | ${n}`)}catch(e){console.log(`${name} | ERR ${e.name} ${e.message} | ${Date.now()-t}ms`)}}
+async function hit(name,url,opt={}){const t=Date.now();try{const r=await fetch(url,{...opt,headers:{...UA,...(opt.headers||{})},signal:AbortSignal.timeout(60000)});const txt=await r.text();let n="";try{const j=JSON.parse(txt);n=JSON.stringify(Object.keys(j)).slice(0,120)+" "+(j.count??j.total??j.totalRecords??(j.jobs&&j.jobs.length)??(j.positions&&j.positions.length)??(j.data&&j.data.positions&&j.data.positions.length)??(j.res&&j.res.totalRecords)??(j.operationResult&&j.operationResult.result&&j.operationResult.result.totalJobs)??"")}catch{n="html "+txt.length+" "+txt.slice(0,160).replace(/\s+/g," ")}OUT.push(`${name} | ${r.status} | ${Date.now()-t}ms | ${n}`)}catch(e){OUT.push(`${name} | ERR ${e.name} ${e.message} | ${Date.now()-t}ms`)}}
+const OUT=[];
 const gh=t=>hit("gh "+t,`https://boards-api.greenhouse.io/v1/boards/${t}/jobs`);
 await Promise.all([
  hit("ms gcs","https://gcsservices.careers.microsoft.com/search/api/v1/search?l=en_us&pg=1&pgSz=20&o=Recent&flt=true"),
@@ -24,3 +25,5 @@ await Promise.all([
  hit("sr atlassian","https://api.smartrecruiters.com/v1/companies/Atlassian/postings?limit=10"),
  hit("lv atlassian","https://api.lever.co/v0/postings/atlassian?mode=json"),
 ]);
+
+for(let i=0;i<OUT.length;i+=8)console.log("::notice title=probe "+i+"::"+OUT.slice(i,i+8).join("%0A").replace(/::/g,": :"));
