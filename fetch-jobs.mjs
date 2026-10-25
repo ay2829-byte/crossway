@@ -262,7 +262,7 @@ async function main(){const t0=Date.now();const today=Math.round(t0/864e5);
    raw.filter(r=>r.det&&r.yp==null&&!(minYears(r.txt||"")>0)&&corporate(String(r.t||""),r.dept)).forEach(r=>{const k=r.det.k+(r.det.u.split("/")[2]);(by[k]=by[k]||[]).push(r)});
    const one=async r=>{for(let k=0;k<4;k++){let res;try{res=await fetch(r.det.u,{headers:{...UA,"User-Agent":"Mozilla/5.0 (compatible; JunctionJobsBot/1.0; +https://crosswayhq.com)",Accept:r.det.k==="html"?"text/html":"application/json"},signal:AbortSignal.timeout(20000)})}catch{await wait(1500);continue}
      if(res.status===429){await wait(4000*(k+1));continue}if(!res.ok)return;const s=await res.text();let x="";
-     try{if(r.det.k==="ms"){const j=JSON.parse(s);x=(j.data||j).jobDescription||""}else if(r.det.k==="ef"){x=JSON.parse(s).job_description||""}else{x=s.replace(/\\n/g," ").replace(/\\u003c/g,"<").replace(/\\u003e/g,">").replace(/<script[^>]*src=[^>]*><\/script>/g,"")}}catch{}
+     try{if(r.det.k==="ms"){const j=JSON.parse(s);x=(j.data||j).jobDescription||""}else if(r.det.k==="ef"){x=JSON.parse(s).job_description||""}else{const q=["minimumQualifications","keyQualifications","preferredQualifications"].map(k=>{const i=s.indexOf(k);return i<0?"":s.slice(i,i+3000)}).join(" . ");x=(q.trim()?q:s).replace(/\\n/g," ").replace(/\\u003c/g,"<").replace(/\\u003e/g,">").replace(/<script[^>]*src=[^>]*><\/script>/g,"")}}catch{}
      if(x){r.txt=(r.txt?r.txt+" ":"")+strip(x).slice(0,8000)}return}};
    const stats=await Promise.all(Object.entries(by).map(async([k,L])=>{let n=0;await pool(L,3,async r=>{await one(r);if(minYears(r.txt||"")>0)n++;await wait(250);return[]},dl);return k+" "+n+"/"+L.length}));
    console.log("::notice title=Site details::"+stats.join(", "))}const out=pack(raw);
