@@ -4200,6 +4200,8 @@ function jbParts(j,me){
   return{fam,title,tHit,sk,have,exp,yf,loc,rec,ar}}
 function jbScore(j,me){const p=jbParts(j,me);const base=100*(p.fam*.2+p.title*.28+p.sk*.14+p.exp*.16+p.loc*.22);
   let s=Math.round(base*.97+p.ar*3+p.rec*1+(j.lvl==="entry"&&me.yrs<=3?1:0)+jbLearnBoost(j,JB.pref)+(jbBrand(j)?7:0));
+  /* a big years gap caps the score, so a role asking for far more experience can never read as a top match */
+  if(j.yrs>0&&j.yrs>me.yrs){const g=j.yrs-me.yrs,cap=(g>=5?52:g>=3?64:g>=2?76:88)+Math.round(p.ar*6);s=Math.min(s,cap)}
   return Math.max(1,Math.min(98,s))}
 /* score color: green is a strong match, orange is worth a look, red is a stretch */
 const jbTone=m=>m>=80?"hi":m>=60?"md":"lo";
@@ -4228,7 +4230,7 @@ function jbWhy(j){const me=JB.me||jbMe(),p=jbParts(j,me),out=[];
   if(j.wp==="remote"&&me.remote)out.push("Remote, and you're open to remote");else if(me.locs.some(c=>j.ll.includes(c)))out.push(`It's in ${j.loc.split(/[\/;]/)[0].trim()}, where you want to work`);
   const miss=j.sk.find(s=>!me.skills.has(s)&&!me.ar[s]);const fix=miss&&typeof AR_ALL!=="undefined"&&AR_ALL.some(q=>(q.skills||[]).includes(miss));
   const warn=p.fam<.5?`Heads up: this is a ${JB_FAMN[j.fam].toLowerCase()} role, not one of your target roles.`:"";
-  const yrGap=j.yrs>0&&j.yrs>me.yrs?`They ask for ${j.yrs}+ years and you have ${me.yrs}, so it's a stretch.`:(j.yrs<=0&&j.lvl!=="entry"&&j.lvl!=="intern"?"The posting doesn't list years of experience, so check before applying.":"");
+  const yrGap=j.yrs>0&&j.yrs>me.yrs?(j.yrs-me.yrs>=3?`They ask for ${j.yrs}+ years and you have ${me.yrs}, so it's a big stretch.`:`They ask for ${j.yrs}+ years and you have ${me.yrs}, so it's a stretch.`):(j.yrs<=0&&j.lvl!=="entry"&&j.lvl!=="intern"?"The posting doesn't list years of experience, so check before applying.":"");
   return{good:out.slice(0,4),miss:yrGap||warn||(miss?`Missing: ${miss} isn't on your profile yet.${fix?" One Arena problem would prove it.":""}`:"")}}
 function jbShort(j){const me=JB.me||jbMe(),p=jbParts(j,me),list=a=>a.length<2?a[0]:a.slice(0,-1).join(", ")+" and "+a[a.length-1];
   const bits=[];if(p.title>=.8&&p.tHit)bits.push(`Matches your goal of ${p.tHit}`);if(j.yrs>0&&p.yf>=1)bits.push(`asks for ${j.yrs}+ years, you have ${me.yrs}`);
