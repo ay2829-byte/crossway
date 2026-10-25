@@ -3,6 +3,9 @@ on:
   schedule:
     - cron: "17 */4 * * *"   # every 4 hours
   workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: [fetch-jobs.mjs, companies.mjs, .github/workflows/jobs.yml]   # refresh right away when the job readers change
 permissions:
   contents: write
 concurrency: refresh-jobs
