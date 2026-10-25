@@ -111,7 +111,7 @@ async function microsoft(){const out=[];for(let p=1;p<=150&&Date.now()<DEADLINE;
 const EF=[["apply.careers.microsoft.com","microsoft.com","Microsoft"],["explore.jobs.netflix.net","netflix.com","Netflix"],["aexp.eightfold.ai","aexp.com","American Express"],["careers.qualcomm.com","qualcomm.com","Qualcomm"],["jobs.vodafone.com","vodafone.com","Vodafone"]];
 async function eightfold([host,dom,name]){const out=[];for(let st=0;st<5000&&Date.now()<DEADLINE;){const j=await getJSON(`https://${host}/api/apply/v2/jobs?domain=${dom}&start=${st}&num=100&sort_by=timestamp`);
     const L=j&&j.positions;if(!Array.isArray(L)||!L.length)break;
-    L.forEach(x=>out.push({co:name,tok:dom.split(".")[0],t:x.name,loc:(x.locations&&x.locations.length?x.locations.slice(0,3).join(" / "):x.location)||"",dept:x.department||"",url:x.canonicalPositionUrl||`https://${host}/careers/job/${x.id}`,at:x.t_create?new Date(x.t_create*1000).toISOString():"",txt:strip(x.job_description||""),wp:/remote/i.test(x.work_location_option||"")?"remote":/hybrid/i.test(x.work_location_option||"")?"hybrid":""}));
+    L.forEach(x=>out.push({co:name,tok:dom.split(".")[0],t:x.name,loc:(x.locations&&x.locations.length?x.locations.slice(0,3).join(" / "):x.location)||"",dept:x.department||"",url:x.canonicalPositionUrl||`https://${host}/careers/job/${x.id}`,at:x.t_create?new Date(x.t_create*1000).toISOString():"",txt:strip(x.job_description||""),det:x.job_description?null:{u:`https://${host}/api/apply/v2/jobs/${x.id}?domain=${dom}`,k:"ef"},wp:/remote/i.test(x.work_location_option||"")?"remote":/hybrid/i.test(x.work_location_option||"")?"hybrid":""}));
     st+=L.length;if(L.length<5)break}return out}
 // Apple renders its search results into the page, so read them from there
 async function apple(){const page=async n=>{const c=new AbortController(),tm=setTimeout(()=>c.abort(),25000);const h=await fetch(`https://jobs.apple.com/en-us/search?page=${n}`,{headers:{...UA,Accept:"text/html"},signal:c.signal}).then(r=>r.ok?r.text():"").catch(()=>"");clearTimeout(tm);
@@ -122,19 +122,20 @@ async function apple(){const page=async n=>{const c=new AbortController(),tm=set
   // Apple Store roles (Specialist, Genius, Creative, store leaders and the always open pipelines) are left out: corporate roles only
   const RETAIL=/\b(specialist|expert|genius|creative|store|retail|market leader|business pro|technical pro|operations pro|apple at work|seasonal|part[ -]time|full[ -]time)\b|^[A-Z]{2,3}\s*[-–]\s/i;
   const corp=x=>!x.managedPipelineRole&&!/^PIPE-/.test(x.reqId||"")&&!/retail|store/i.test((x.team&&(x.team.teamName+" "+(x.team.teamCode||"")))||"")&&!RETAIL.test(x.postingTitle||"");
-  return [...first.searchResults,...rest.flat()].filter(corp).map(x=>({co:"Apple",tok:"apple",t:x.postingTitle,loc:(x.locations||[]).map(l=>[l.city,l.stateProvince,l.countryName].filter(Boolean).join(", ")||l.name).slice(0,3).join(" / "),dept:(x.team&&x.team.teamName)||"",url:`https://jobs.apple.com/en-us/details/${x.positionId}/${x.transformedPostingTitle||""}`,at:x.postDateInGMT||"",txt:String(x.jobSummary||"").slice(0,2000),wp:x.homeOffice?"remote":""}))}
+  return [...first.searchResults,...rest.flat()].filter(corp).map(x=>({co:"Apple",tok:"apple",t:x.postingTitle,loc:(x.locations||[]).map(l=>[l.city,l.stateProvince,l.countryName].filter(Boolean).join(", ")||l.name).slice(0,3).join(" / "),dept:(x.team&&x.team.teamName)||"",url:`https://jobs.apple.com/en-us/details/${x.positionId}/${x.transformedPostingTitle||""}`,at:x.postDateInGMT||"",txt:String(x.jobSummary||"").slice(0,2000),det:{u:`https://jobs.apple.com/en-us/details/${x.positionId}/${x.transformedPostingTitle||""}`,k:"html"},wp:x.homeOffice?"remote":""}))}
 // Google careers: the results pages are plain HTML, so read titles and links from them
 async function google(){const out=[];for(let p=1;p<=150&&Date.now()<DEADLINE;p++){const c=new AbortController();const tm=setTimeout(()=>c.abort(),25000);
     const h=await fetch(`https://www.google.com/about/careers/applications/jobs/results?page=${p}`,{headers:{...UA,Accept:"text/html"},signal:c.signal}).then(r=>r.ok?r.text():"").catch(()=>"");clearTimeout(tm);
     const ids=[...h.matchAll(/href="jobs\/results\/(\d+)-([a-z0-9-]+)/g)];if(!ids.length)break;const seen=new Set();
     const locs=[...h.matchAll(/<span class="r0wTof[^"]*">([^<]+)<\/span>/g)].map(m=>m[1]);let li=0;
-    ids.forEach(m=>{if(seen.has(m[1]))return;seen.add(m[1]);const t=m[2].replace(/-/g," ").replace(/\b\w/g,c=>c.toUpperCase());out.push({co:"Google",tok:"google",t,loc:locs[li++]||"",dept:"",url:`https://www.google.com/about/careers/applications/jobs/results/${m[1]}-${m[2]}`,at:"",txt:"",wp:""})})}return out}
+    const seg=id=>{const a=h.indexOf('["'+id+'","');if(a<0)return"";const b=h.slice(a+30).search(/\["\d{15,}","/);return strip(h.slice(a,b<0?a+12000:a+30+b).replace(/\\u003c/g,"<").replace(/\\u003e/g,">").replace(/\\n/g," ").replace(/\\u0026/g,"&")).slice(0,6000)};
+    ids.forEach(m=>{if(seen.has(m[1]))return;seen.add(m[1]);const t=m[2].replace(/-/g," ").replace(/\b\w/g,c=>c.toUpperCase());out.push({co:"Google",tok:"google",t,loc:locs[li++]||"",dept:"",url:`https://www.google.com/about/careers/applications/jobs/results/${m[1]}-${m[2]}`,at:"",txt:seg(m[1]),wp:""})})}console.log(`::notice title=Google::${out.filter(r=>minYears(r.txt)>0).length} of ${out.length} with years`);return out}
 // Microsoft moved to an Eightfold site; its search pages hand back 10 roles at a time
 async function microsoftPcsx(){const base="https://apply.careers.microsoft.com/api/pcsx/search?domain=microsoft.com&query=&location=&num=10&start=",wait=ms=>new Promise(r=>setTimeout(r,ms));
   // the site rate limits, so go one page at a time and back off when it says slow down
   const get=async st=>{for(let k=0;k<5;k++){try{const r=await fetch(base+st,{headers:{...UA,"User-Agent":"Mozilla/5.0 (compatible; JunctionJobsBot/1.0; +https://crosswayhq.com)"},signal:AbortSignal.timeout(20000)});if(r.status===429){await wait(4000*(k+1));continue}if(!r.ok)return null;return await r.json()}catch{await wait(1500)}}return null};
   const out=[];let total=Infinity;for(let st=0;st<Math.min(total,4000)&&Date.now()<DEADLINE;st+=10){const j=await get(st);const L=j&&j.data&&j.data.positions;if(!Array.isArray(L)||!L.length)break;if(st===0)total=+j.data.count||0;
-    L.forEach(x=>out.push({co:"Microsoft",tok:"microsoft",t:x.name,loc:(x.standardizedLocations&&x.standardizedLocations.length?x.standardizedLocations:x.locations||[]).slice(0,3).join(" / "),dept:x.department||"",url:"https://apply.careers.microsoft.com"+(x.positionUrl||("/careers/job/"+x.id)),at:x.postedTs?new Date(x.postedTs*1000).toISOString():"",txt:"",wp:/remote/i.test(x.workLocationOption||"")?"remote":/hybrid/i.test(x.workLocationOption||"")?"hybrid":""}));await wait(350)}
+    L.forEach(x=>out.push({co:"Microsoft",tok:"microsoft",t:x.name,loc:(x.standardizedLocations&&x.standardizedLocations.length?x.standardizedLocations:x.locations||[]).slice(0,3).join(" / "),dept:x.department||"",url:"https://apply.careers.microsoft.com"+(x.positionUrl||("/careers/job/"+x.id)),at:x.postedTs?new Date(x.postedTs*1000).toISOString():"",txt:"",det:{u:`https://apply.careers.microsoft.com/api/pcsx/position_details?position_id=${x.id}&domain=microsoft.com&hl=en`,k:"ms"},wp:/remote/i.test(x.workLocationOption||"")?"remote":/hybrid/i.test(x.workLocationOption||"")?"hybrid":""}));await wait(350)}
   return out}
 async function microsoftAll(){const a=await microsoftPcsx().catch(()=>[]);if(a.length>=200)return a;const b=await microsoft().catch(()=>[]);return a.concat(b)}
 /* ---------- open lists and job APIs ---------- */
@@ -203,7 +204,7 @@ export function pack(raw){const now=Date.now();const seen=new Set();const cos=[]
     const loc=(r.loc||"").replace(/\s+/g," ").trim().slice(0,90);if(!(loc in locIx)){locIx[loc]=locs.length;locs.push(loc)}
     const cut=r.url.lastIndexOf("/")+1,pre=r.url.slice(0,cut);if(!(pre in preIx)){preIx[pre]=pres.length;pres.push(pre)}
     let si=0;if(r.src){si=srcs.indexOf(r.src);if(si<0){si=srcs.length;srcs.push(r.src)}}
-    rows.push([coIx[co],t,locIx[loc],FAMS.indexOf(fam),LVS.indexOf(lv[0]),"rho".indexOf(workplace(loc,r.wp)[0]),isNaN(at)?0:Math.round(at/864e5),[preIx[pre],r.url.slice(cut)],p,skillsOf(t+" "+txt),minYears(txt),si,snippet(txt)])}
+    rows.push([coIx[co],t,locIx[loc],FAMS.indexOf(fam),LVS.indexOf(lv[0]),"rho".indexOf(workplace(loc,r.wp)[0]),isNaN(at)?0:Math.round(at/864e5),[preIx[pre],r.url.slice(cut)],p,(r.skp?[...new Set([...skillsOf(t+" "+txt),...r.skp])]:skillsOf(t+" "+txt)),(r.yp!=null&&!(minYears(txt)>0)?r.yp:minYears(txt)),si,snippet(txt)])}
   // keep every intern, entry and 2 to 4 year role first, then US, then the newest senior roles
   const today=Math.round(now/864e5),score=r=>{const yrs=r[10],early=r[4]<=1||(r[4]===2&&(yrs<0||yrs<=4));return(BR[r[0]]?-3000:0)+(FAMS[r[3]]==="other"?500:0)+(early?0:r[4]===2?1:2)*1000+(isUS(locs[r[2]])||r[5]===0?0:300)+Math.min(299,r[6]?today-r[6]:60)};const BR=cos.map(isBrand);
   // no single company floods the board: keep each company's best PER_CO roles
@@ -249,10 +250,22 @@ async function main(){const t0=Date.now();const today=Math.round(t0/864e5);
   const res=await pool(tasks,24,async k=>{const r=await F[k.slice(0,2)](k.slice(3));if(r&&r.length){ok[k]=r.length;return r}return[]});
   const api=await apis;const raw=[...res.flat(),...sim.out,...api.flat()];
   // Workday lists only titles; open the full posting for office roles so years of experience and skills get read
-  {const need=raw.filter(r=>r.wdApi&&!r.txt&&corporate(String(r.t||""),r.dept)).sort((a,b)=>(isBrand(b.co)-isBrand(a.co))||((/senior|staff|principal|director|\bvp\b|head of/i.test(a.t)?1:0)-(/senior|staff|principal|director|\bvp\b|head of/i.test(b.t)?1:0)));
-   const cap=+(process.env.WD_DETAILS||25000),dl=Date.now()+60000*+(process.env.DETAIL_MINUTES||10);let got=0;
-   await pool(need.slice(0,cap),20,async r=>{const j=await getJSON(r.wdApi,{},15000);const d=j&&j.jobPostingInfo;if(d&&d.jobDescription){r.txt=strip(d.jobDescription);got++}return[]},dl);
-   console.log(`Workday details: ${got} of ${need.length} read`)}const out=pack(raw);
+  // keep years and skills read on earlier runs, so each run only has to open postings it hasn't seen
+  {const pv=readJSON(OUT+"/index.json"),carry=new Map();if(pv&&pv.rows){const ps=pv.skills||[];for(const x of pv.rows){if(!(x[10]>0))continue;const u=Array.isArray(x[7])?pv.pres[x[7][0]]+x[7][1]:x[7];carry.set(u,[x[10],(x[9]||[]).map(i=>SK.indexOf(ps[i])).filter(i=>i>=0)])}}
+   let hit=0;raw.forEach(r=>{if(r.url&&!(minYears(r.txt||"")>0)){const c=carry.get(r.url);if(c){r.yp=c[0];r.skp=c[1];hit++}}});console.log(`::notice title=Carried years::${hit}`)}
+  {const need=raw.filter(r=>r.wdApi&&!r.txt&&r.yp==null&&corporate(String(r.t||""),r.dept)).sort((a,b)=>(isBrand(b.co)-isBrand(a.co))||((/senior|staff|principal|director|\bvp\b|head of/i.test(a.t)?1:0)-(/senior|staff|principal|director|\bvp\b|head of/i.test(b.t)?1:0)));
+   const cap=+(process.env.WD_DETAILS||25000),dl=Date.now()+60000*+(process.env.DETAIL_MINUTES||25);let got=0;
+   await pool(need.slice(0,cap),32,async r=>{const j=await getJSON(r.wdApi,{},15000);const d=j&&j.jobPostingInfo;if(d&&d.jobDescription){r.txt=strip(d.jobDescription);got++}return[]},dl);
+   console.log(`::notice title=Workday details::${got} of ${need.length} read`)}
+  // Microsoft, Apple and Eightfold sites list roles without the full posting, so open each one (a few at a time, they rate limit)
+  {const wait=ms=>new Promise(r=>setTimeout(r,ms)),dl=Date.now()+60000*+(process.env.SITE_DETAIL_MINUTES||12);const by={};
+   raw.filter(r=>r.det&&r.yp==null&&!(minYears(r.txt||"")>0)&&corporate(String(r.t||""),r.dept)).forEach(r=>{const k=r.det.k+(r.det.u.split("/")[2]);(by[k]=by[k]||[]).push(r)});
+   const one=async r=>{for(let k=0;k<4;k++){let res;try{res=await fetch(r.det.u,{headers:{...UA,"User-Agent":"Mozilla/5.0 (compatible; JunctionJobsBot/1.0; +https://crosswayhq.com)",Accept:r.det.k==="html"?"text/html":"application/json"},signal:AbortSignal.timeout(20000)})}catch{await wait(1500);continue}
+     if(res.status===429){await wait(4000*(k+1));continue}if(!res.ok)return;const s=await res.text();let x="";
+     try{if(r.det.k==="ms"){const j=JSON.parse(s);x=(j.data||j).jobDescription||""}else if(r.det.k==="ef"){x=JSON.parse(s).job_description||""}else{x=s.replace(/\\n/g," ").replace(/\\u003c/g,"<").replace(/\\u003e/g,">").replace(/<script[^>]*src=[^>]*><\/script>/g,"")}}catch{}
+     if(x){r.txt=(r.txt?r.txt+" ":"")+strip(x).slice(0,8000)}return}};
+   const stats=await Promise.all(Object.entries(by).map(async([k,L])=>{let n=0;await pool(L,3,async r=>{await one(r);if(minYears(r.txt||"")>0)n++;await wait(250);return[]},dl);return k+" "+n+"/"+L.length}));
+   console.log("::notice title=Site details::"+stats.join(", "))}const out=pack(raw);
   const prev=readJSON(OUT+"/index.json");
   if(out.rows.length<500||(prev&&prev.rows&&out.rows.length<prev.rows.length*0.2)){console.log("Too few jobs fetched ("+out.rows.length+"), keeping the last good files.");process.exitCode=0;return}
   const nb={};for(const [k,v] of Object.entries(cache))if(today-(v.d||0)<=21)nb[k]=v;for(const k of Object.keys(ok))nb[k]={d:today,n:cand.get(k)||""};
