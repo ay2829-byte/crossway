@@ -1,0 +1,6 @@
+const UA={"User-Agent":"Mozilla/5.0 (compatible; JunctionJobsBot/1.0; +https://crosswayhq.com)"};
+const n=(k,v)=>console.log(`::notice title=${k}::${String(v).replace(/\s+/g," ").slice(0,1500)}`);
+const get=async(u,h={})=>{try{const r=await fetch(u,{headers:{...UA,...h},signal:AbortSignal.timeout(20000)});return [r.status,await r.text()]}catch(e){return[0,String(e)]}};
+const [as,ab]=await get("https://jobs.apple.com/en-us/search?page=1",{Accept:"text/html"});const L=[...ab.matchAll(/\/en-us\/details\/[^"\\]+/g)].map(m=>m[0]);
+for(const u of L.slice(0,40).filter((x,i)=>!/specialist|genius|creative|store|expert/i.test(x)).slice(0,2)){const [x,y]=await get("https://jobs.apple.com"+u,{Accept:"text/html"});const i=y.search(/years/i);n("apple "+x+" "+u.slice(16,70)+" len "+y.length,i>0?y.slice(i-300,i+150):"no years; keys "+(y.match(/minimumQualifications|keyQualifications|preferredQualifications/g)||[]).join(","))}
+for(const h of ["explore.jobs.netflix.net"]){const [s,b]=await get(`https://${h}/api/apply/v2/jobs?domain=netflix.com&start=0&num=100&sort_by=timestamp`,{Accept:"application/json"});let c="";try{const j=JSON.parse(b);c=j.count+" "+(j.positions||[]).length}catch{c=b.slice(0,200)}n("netflix "+s,c)}
