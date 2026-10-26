@@ -1702,6 +1702,107 @@ body.obopen{overflow:hidden}
 .chz .obtile{min-height:220px;justify-content:space-between}.chz .obtile.on{border-color:var(--ink)}
 .chz .chgo{align-self:flex-start;font-weight:600;font-size:15px;padding:10px 16px;border-radius:12px;background:var(--ink);color:var(--bg)}
 .chz .obtile:not(.on) .chgo{background:var(--surface);color:var(--ink)}
+
+/* ===== Jobs redesign: matches the rest of Crossway (Poppins, soft cards, dark hero) ===== */
+.jb button,.jb input,.jb select{font-family:inherit}
+.jb .jbhd h1{font-weight:600;letter-spacing:-.04em}
+.jb .jbhd p b{color:var(--ink);font-weight:500}
+/* your 10 best: its own row */
+.jb .jbten{background:linear-gradient(135deg,#F3F5FF,#F7F1FF 60%,#FFF4EE);border:1px solid #E6E8FF;color:var(--ink);padding:22px 24px 24px;border-radius:28px;margin-bottom:22px}
+.jb .jbten::after{display:none}
+.jb .jbten .th{align-items:center;flex-wrap:nowrap;margin-bottom:16px}
+.jb .jbten .th>div{margin-right:auto;min-width:0}
+.jb .jbten .th b{display:block;color:var(--ink);font-size:20px;font-weight:500}
+.jb .jbten .th span{font-size:13px;color:var(--muted)}
+.jb .jbten .arr{width:36px;height:36px;border-radius:50%;background:#fff;border:0;display:grid;place-items:center;box-shadow:0 1px 3px rgba(20,20,40,.1);color:var(--ink);cursor:pointer;flex:none}
+.jb .jbten .arr svg{width:16px;height:16px}.jb .jbten .arr.nx svg{transform:scaleX(-1)}
+.jb .jbten .strip{display:flex!important;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:2px;margin:-2px;grid-template-columns:none!important}
+.jb .jbten .strip::-webkit-scrollbar{display:none}
+.jb .jbmc{flex:none;width:214px;scroll-snap-align:start;background:#fff;border:0;border-radius:20px;padding:16px 18px;position:relative;text-align:left;box-shadow:0 1px 3px rgba(20,20,40,.07);color:var(--ink);cursor:pointer;display:block;min-height:0;transition:transform .15s,box-shadow .15s}
+.jb .jbmc:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(20,20,40,.1)}
+.jb .jbmc.on{box-shadow:0 0 0 2px var(--accent),0 14px 30px rgba(76,107,245,.15)}
+.jb .jbmc .rk{position:absolute;right:16px;top:14px;font-size:12px;color:var(--muted);font-weight:500}
+.jb .jbmc .mt{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.jb .jbmc .mt .jblg{width:38px;height:38px;border-radius:12px}
+.jb .jbmc .pct{font-size:13px;font-weight:500;border-radius:99px;padding:3px 10px;background:#E3F6F0;color:#0B8A6F}
+.jb .jbmc .pct.mid,.jb .jbmc .pct.md{background:#FFF1DE;color:#B5650A}
+.jb .jbmc .ro{font-weight:500;font-size:14px;line-height:1.35;height:38px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.jb .jbmc .co{font-size:12px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* list: separate rounded cards */
+.jb .jbres{border:0;background:none;overflow:visible;gap:24px}
+.jb .jblist{display:flex;flex-direction:column;gap:12px;border:0}
+.jb .jblist .lh{border:0;padding:0 6px 2px;background:none}
+.jb .jbr{border:1.5px solid var(--line);border-radius:22px;padding:16px 18px;background:var(--bg);grid-template-columns:48px minmax(0,1fr) auto;gap:2px 14px}
+.jb .jbr:hover{border-color:color-mix(in srgb,var(--accent) 30%,var(--line));background:var(--bg)}
+.jb .jbr.sel{background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(120deg,#4C6BF5,#8B5CF6,#F2643D) border-box;border:2px solid transparent;box-shadow:0 16px 36px rgba(76,107,245,.12)}
+.jb .jbr b{font-weight:500;font-size:15px}
+.jb .jbr .jblg{width:48px;height:48px;border-radius:14px}
+.jb .jbr .p{grid-row:1/3;background:none!important;padding:0!important}
+.jbring{position:relative;display:grid;place-items:center;width:50px;height:50px;font-size:14px;font-weight:500}
+.jbring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.jbring .tr{stroke:color-mix(in srgb,var(--ink) 9%,transparent)}
+.jbring .fg{stroke:#12A38A}.jbring b{font-weight:500;color:#0B8A6F;position:relative}
+.jbring.mid .fg,.jbring.md .fg{stroke:#EE8E0B}.jbring.mid b,.jbring.md b{color:#B5650A}
+.jbring.lo .fg,.jbring.low .fg{stroke:#E5484D}.jbring.lo b,.jbring.low b{color:#C0392B}
+.jbring.big{width:118px;height:118px;flex:none;margin-left:auto;align-content:center}
+.jbring.big .tr{stroke:rgba(255,255,255,.12)}.jbring.big .fg{stroke:#3DDC97}
+.jbring.big b{color:#fff;font-size:30px;line-height:1;letter-spacing:-.03em}.jbring.big small{display:block;font-size:10px;letter-spacing:.12em;color:#A9ABBD;position:relative;margin-top:4px}
+.jbring.big.mid .fg,.jbring.big.md .fg{stroke:#FFB547}
+/* detail */
+.jb .jbdet{padding:0;gap:18px;background:none}
+.jb .jbhero{position:relative;overflow:hidden;isolation:isolate;border-radius:30px;background:#0C0D14;color:#fff;padding:32px 36px}
+.jb .jbhero::before,.jb .jbhero::after{content:"";position:absolute;z-index:-1;border-radius:50%;filter:blur(100px)}
+.jb .jbhero::before{width:560px;height:420px;right:-160px;top:-200px;background:#3B4BDB;opacity:.55}
+.jb .jbhero::after{width:420px;height:320px;left:-140px;bottom:-200px;background:#8B5CF6;opacity:.35}
+.jb .jbhero .jbdh{display:flex;align-items:center;gap:20px}
+.jb .jbhero .jbdh .jblg{width:64px;height:64px;border-radius:18px;background:#fff}
+.jb .jbhero .eb{display:block;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#9DB0FF}
+.jb .jbhero h2{color:#fff;font-weight:500;font-size:30px;letter-spacing:-.035em;margin:4px 0 2px;line-height:1.15}
+.jb .jbhero small{color:#A9ABBD;font-size:15px}
+.jb .jbhero .jbdm{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px;border:0;background:none}
+.jb .jbhero .jbdm>div{border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);padding:13px 16px}
+.jb .jbhero .jbdm span{color:#A9ABBD;font-size:12px}.jb .jbhero .jbdm b{color:#fff;font-weight:500;font-size:16px}
+.jb .jbhero .jbcta{margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;border:0;padding:0}
+.jb .jbhero .jbcta .btn{border-radius:99px;font-weight:500;white-space:nowrap}
+.jb .jbhero .jbcta .btn{text-decoration:none}
+.jb .jbhero .jbcta .jbapply{background:#fff;color:#0C0D14;border-color:#fff}
+.jb .jbhero .jbcta .btn.line{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18)}
+.jb .jbhero .jbcta .jbdone{background:linear-gradient(95deg,#12A38A,#3DDC97);color:#06231C;border:0}
+.jb .jbhero .jbcta .jbdone+.btn.line{background:#fff;color:#0C0D14;border-color:#fff}
+.jb .jbhero .jbcta .jbnot{color:#C9CBD8;background:none;border:0;text-decoration:underline}
+.jb .jbhero .jbcta small{margin-left:auto;color:#A9ABBD;font-size:12px}
+.jb .jbrow2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.jb .jbfit{border-radius:26px;padding:24px 26px;background:linear-gradient(135deg,#F3F5FF,#F7F1FF 60%,#FFF4EE);border:1px solid #E6E8FF;margin:0}
+.jb .jbfit h4,.jb .jbsoc h4{margin:0 0 10px;font-size:18px;font-weight:500;color:var(--ink);letter-spacing:-.02em}
+.jb .jbfit ul{list-style:none;padding:0;margin:0}
+.jb .jbfit li{position:relative;padding:7px 0 7px 36px;font-size:14.5px;color:var(--ink2,#46464F)}
+.jb .jbfit li::before{content:"✓";position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;background:#12A38A;color:#fff;font-size:12px;display:grid;place-items:center}
+.jb .jbfit li.miss::before{content:"!";background:#F2643D}
+.jb .jbsoc{border-radius:26px;padding:24px 26px;border:1.5px solid var(--line);display:flex;flex-wrap:wrap;gap:6px 28px;align-content:flex-start;margin:0;background:var(--bg)}
+.jb .jbsoc h4{width:100%}
+.jb .jbsoc b{display:block;font-size:28px;font-weight:500;letter-spacing:-.03em;line-height:1.1}
+.jb .jbsoc span{font-size:13px;color:var(--muted)}.jb .jbsoc p{width:100%;margin:8px 0 0;font-size:13px;color:var(--muted)}
+.jb .jbdesc{border-radius:26px;border:1.5px solid var(--line);padding:24px 26px}
+@media (max-width:1100px){.jb .jbrow2{grid-template-columns:1fr}.jb .jbhero .jbdm{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.jb .jbhero{padding:24px 20px}.jb .jbhero h2{font-size:24px}.jbring.big{width:84px;height:84px}.jbring.big b{font-size:22px}.jb .jbhero .jbdh{flex-wrap:wrap}}
+/* dark mode */
+html.dark .jb .jbten,[data-theme=dark] .jb .jbten,html.dark .jb .jbfit,[data-theme=dark] .jb .jbfit{background:linear-gradient(135deg,#1B1D2E,#221B33 60%,#2A1E1C);border-color:#2E3150}
+html.dark .jb .jbmc,[data-theme=dark] .jb .jbmc,html.dark .jb .jbten .arr,[data-theme=dark] .jb .jbten .arr{background:#16171D;color:var(--ink)}
+
+.jb .jbr{text-align:left;align-items:center}
+.jb .jbr>.jblg{grid-column:1;grid-row:1/4;align-self:start}
+.jb .jbr>b{grid-column:2;grid-row:1;text-align:left}
+.jb .jbr>.c{grid-column:2;grid-row:2;text-align:left;justify-self:start}
+.jb .jbr>.tg{grid-column:2/4;grid-row:3;justify-self:start;margin-top:8px}
+.jb .jbr>.p{grid-column:3;grid-row:1/3;justify-self:end;align-self:start}
+.jb .jbr>.tm{grid-column:3;grid-row:3;justify-self:end;align-self:end;font-size:12px;color:var(--muted)}
+.jb .jbr>.tg{grid-column:2;}
+.jb .jbsoc{display:grid;grid-template-columns:auto auto 1fr;gap:4px 28px;text-align:left}
+.jb .jbsoc h4,.jb .jbsoc p{grid-column:1/-1}
+.jb .jbsoc>div{display:block}
+.jb .jbsoc>div span{display:block}
+.jb .jbsoc p{text-align:left}
+@media (max-width:600px){.jb .jbten .arr{display:none}.jb .jbten{padding:18px 16px 18px;border-radius:24px}.jb .jbmc{width:180px}}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"><style>/* clean look: Inter, soft gray ground, white rounded surfaces. Layout untouched. */
 :root{--f:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif!important;--line:#E8E8EA;--sh:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);--sh2:0 1px 2px rgba(0,0,0,.04)}
@@ -4335,18 +4436,19 @@ function jbCities(){if(JB.cities)return JB.cities;const c={};JB.data.jobs.forEac
 
 /* ---------- render ---------- */
 const JI={search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',pin:'<path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',out:'<path d="M14 5h5v5M19 5l-8 8M18 14v5H5V6h5"/>',back:'<path d="M15 6l-6 6 6 6"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',star:'<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>'};
-function jbRow(j,sel){return `<button class="jbr ${sel?"sel":""}" data-act="jbsel" data-i="${j.i}">${jbLogo(j.co,"",j.dom)}<b>${esc(j.t)}</b><span class="p ${jbTone(j.m)}">${j.m}%</span><span class="c">${esc(j.co)} · ${esc(j.loc||"Location not listed")}</span><span class="tm">${jbAgo(j.day)}</span>
+function jbRing(m,big){const r=big?51:21,w=big?9:4.5,s=big?118:50,c=2*Math.PI*r,o=c*(1-Math.max(0,Math.min(100,m))/100);return `<span class="jbring ${big?"big":""} ${jbTone(m)}"><svg viewBox="0 0 ${s} ${s}" aria-hidden="true"><circle cx="${s/2}" cy="${s/2}" r="${r}" fill="none" stroke-width="${w}" class="tr"/><circle cx="${s/2}" cy="${s/2}" r="${r}" fill="none" stroke-width="${w}" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${o.toFixed(1)}" class="fg"/></svg><b>${m}</b>${big?"<small>MATCH</small>":""}</span>`}
+function jbRow(j,sel){return `<button class="jbr ${sel?"sel":""}" data-act="jbsel" data-i="${j.i}">${jbLogo(j.co,"",j.dom)}<b>${esc(j.t)}</b><span class="p ${jbTone(j.m)}">${jbRing(j.m)}</span><span class="c">${esc(j.co)} · ${esc(j.loc||"Location not listed")}</span><span class="tm">${jbAgo(j.day)}</span>
   <span class="tg">${JB.me&&j.sk.some(s=>JB.me.ar[s])?`<span class="ar">Fits your Arena</span>`:""}<span>${JB_LVLN[j.lvl]}</span>${j.wp!=="onsite"?`<span>${j.wp==="remote"?"Remote":"Hybrid"}</span>`:""}${j.pay?`<span>${esc(j.pay)}</span>`:""}${jbApplied().has(j.url)?`<span class="apd">Applied</span>`:""}${(JB.cnt[j.url]||{}).a?`<span class="ppl">${JB.cnt[j.url].a} applied</span>`:""}</span></button>`}
 function jbDetail(j){if(!j)return `<div class="jbdet empty"><p class="hint">Pick a job to see why it fits.</p></div>`;const w=jbWhy(j),sv=jbSaved().has(j.url),ap=jbApplied().has(j.url),host=(()=>{try{return new URL(j.url).hostname.replace(/^www\./,"")}catch(_){return""}})();
   return `<div class="jbdet">${JB.mobileDetail?`<button class="jbback" data-act="jbback">${svg(JI.back)}Back to jobs</button>`:""}
-    <div class="jbdh">${jbLogo(j.co,"big",j.dom)}<div><h2>${esc(j.t)}</h2><small>${esc(j.co)} · ${esc(j.loc||"Location not listed")} · ${jbAgoLong(j.day)}</small></div></div>
+    <div class="jbhero"><div class="jbdh">${jbLogo(j.co,"big",j.dom)}<div><span class="eb">${esc(j.co)} · ${esc(jbAgoLong(j.day))}</span><h2>${esc(j.t)}</h2><small>${esc(j.loc||"Location not listed")}</small></div>${jbRing(j.m,1)}</div>
     <div class="jbdm"><div><span>Level</span><b>${JB_LVLN[j.lvl]}</b></div><div><span>Team</span><b>${JB_FAMN[j.fam]}</b></div><div><span>Where</span><b>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</b></div><div><span>Pay</span><b>${esc(j.pay||"Not listed")}</b></div></div>
-    <div class="jbfit"><h4>${j.m>=60?"Why this fits you":"Why it's a stretch"} · <span class="jbsc ${jbTone(j.m)}">${j.m}%</span></h4><ul>${w.good.map(x=>`<li>${esc(x)}</li>`).join("")||`<li>Matches the role and level you set in your profile</li>`}${w.miss?`<li class="miss">${esc(w.miss)}</li>`:""}</ul></div>
-    ${j.sk.length?`<div class="jbsk">${j.sk.slice(0,10).map(s=>`<span class="${JB.me&&(JB.me.skills.has(s)||JB.me.ar[s])?"have":""}">${esc(s)}</span>`).join("")}</div>`:""}
-    ${(()=>{const c=JB.cnt[j.url]||{c:0,a:0};return `<div class="jbsoc"><div><b>${c.c}</b><span>clicked apply</span></div><div><b>${c.a}</b><span>applied</span></div><p>${c.c||c.a?"From people on Crossway.":"Nobody on Crossway has applied yet. Be the first."}</p></div>`})()}
-    <div class="jbdesc" id="jbDesc"><span class="hint">Loading the description…</span></div>
+    <div class="jbcta">${ap?`<button class="btn jbdone" data-act="jbunapp" data-u="${esc(j.url)}">${svg(JI.check)}Applied</button><a class="btn line" href="${esc(j.url)}" target="_blank" rel="noopener">Open posting ${svg(JI.out)}</a>`:`<a class="btn jbapply" href="${esc(j.url)}" target="_blank" rel="noopener">${j.src?"Apply":"Apply on "+esc(j.co)} ${svg(JI.out)}</a><button class="btn line" data-act="jbyes" data-u="${esc(j.url)}">I applied</button>`}<button class="btn line" data-act="jbsave" data-u="${esc(j.url)}">${sv?"Saved":"Save"}</button><button class="btn ghost jbnot" data-act="jbhide" data-u="${esc(j.url)}">Not for me</button><small>Opens ${esc(host||"their careers page")}${j.src?" · via "+esc(j.src):""}</small></div></div>
     ${JB.ask===j.url&&!ap?`<div class="jbask"><span>Did you finish applying at ${esc(j.co)}?</span><button class="btn" data-act="jbyes" data-u="${esc(j.url)}">Yes, I applied</button><button class="btn line" data-act="jbnotyet">Not yet</button></div>`:""}
-    <div class="jbcta">${ap?`<button class="btn jbdone" data-act="jbunapp" data-u="${esc(j.url)}">${svg(JI.check)}Applied</button><a class="btn line" href="${esc(j.url)}" target="_blank" rel="noopener">Open posting ${svg(JI.out)}</a>`:`<a class="btn jbapply" href="${esc(j.url)}" target="_blank" rel="noopener">${j.src?"Apply":"Apply on "+esc(j.co)} ${svg(JI.out)}</a><button class="btn line" data-act="jbyes" data-u="${esc(j.url)}">I applied</button>`}<button class="btn line" data-act="jbsave" data-u="${esc(j.url)}">${sv?"Saved":"Save"}</button><button class="btn ghost jbnot" data-act="jbhide" data-u="${esc(j.url)}">Not for me</button><small>Opens ${esc(host||"their careers page")}${j.src?" · via "+esc(j.src):""}</small></div></div>`}
+    <div class="jbrow2"><div class="jbfit"><h4>${j.m>=60?"Why it fits you":"Why it's a stretch"}</h4><ul>${w.good.map(x=>`<li>${esc(x)}</li>`).join("")||`<li>Matches the role and level you set in your profile</li>`}${w.miss?`<li class="miss">${esc(w.miss)}</li>`:""}</ul></div>
+    ${(()=>{const c=JB.cnt[j.url]||{c:0,a:0};return `<div class="jbsoc"><h4>On Crossway</h4><div><b>${c.c}</b><span>clicked apply</span></div><div><b>${c.a}</b><span>applied</span></div><p>${c.c||c.a?"From people on Crossway.":"Nobody on Crossway has applied yet. Be the first."}</p></div></div>`})()}
+    <div class="jbdesc" id="jbDesc"><span class="hint">Loading the description…</span></div>
+</div>`}
 function jbFillDesc(j){if(!j)return;jbDesc(j).then(t=>{const el=document.getElementById("jbDesc");if(!el||JB.sel!==j.i)return;el.innerHTML=t?`<p>${esc(t)}</p><a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting ${svg(JI.out)}</a>`:`<a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting on ${esc(j.co)} ${svg(JI.out)}</a>`})}
 const JB_POS="jb_pos";
 function jbSavePos(){if(S.stab!=="jobs"||!document.querySelector(".jb")||JB.view==="stats")return;const l=document.querySelector(".jblist");try{sessionStorage.setItem(JB_POS,JSON.stringify({y:scrollY,ly:l?l.scrollTop:0,show:JB.show,sel:JB.sel,at:Date.now()}))}catch(_){}}
@@ -4358,17 +4460,17 @@ function renderJobs(){const M=$("#main");jbLoad();
   if(!JB.me)jbScoreAll();jbCounts();jbLog("open");if(JB.view==="stats"){M.innerHTML=jbStatsView();return}const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
   if(JB.sel==null||!JB.data.jobs[JB.sel])JB.sel=(list[0]||top[0]||{}).i;const sel=JB.data.jobs[JB.sel];
   const upd=new Date(JB.data.updated),updH=Math.max(0,Math.round((Date.now()-upd)/36e5)),updS=updH<1?"updated just now":updH<24?"updated "+updH+"h ago":"updated "+upd.toLocaleDateString(undefined,{month:"short",day:"numeric"});
-  const mc=j=>`<button class="jbmc" data-act="jbsel" data-i="${j.i}" data-top="1"><div class="mt">${jbLogo(j.co,"",j.dom)}<div><div class="co">${esc(j.co)} · ${esc((j.wp==="remote"?"Remote":j.loc.split(/[\/;,]/)[0])||"")}</div><div class="ro">${esc(j.t)}</div></div><span class="pct ${jbTone(j.m)}">${j.m}%</span></div><div class="why"><b>Why you:</b> ${esc(jbShort(j))}</div><div class="meta"><span>${JB_LVLN[j.lvl]}</span><span>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</span><span>${jbAgo(j.day)}</span></div></button>`;
-  const shown=JB.all10?top:top.slice(0,3);const chips=(arr,key,multi)=>arr.map(([k,l])=>`<button class="ch ${multi?(JB[key].includes(k)?"on":""):(JB[key]===k?"on":"")}" data-act="jbf" data-k="${key}" data-v="${k}">${l}</button>`).join("");
+  const mc=(j,k)=>`<button class="jbmc ${j.i===JB.sel&&JB.src==="top"?"on":""}" data-act="jbsel" data-i="${j.i}" data-top="1"><span class="rk">${k+1}</span><div class="mt">${jbLogo(j.co,"",j.dom)}<span class="pct ${jbTone(j.m)}">${j.m}%</span></div><div class="ro">${esc(j.t)}</div><div class="co">${esc(j.co)} · ${esc((j.wp==="remote"?"Remote":j.loc.split(/[\/;,]/)[0])||"")}</div></button>`;
+  const shown=top;const chips=(arr,key,multi)=>arr.map(([k,l])=>`<button class="ch ${multi?(JB[key].includes(k)?"on":""):(JB[key]===k?"on":"")}" data-act="jbf" data-k="${key}" data-v="${k}">${l}</button>`).join("");
   M.innerHTML=`<div class="cpage tpage jb ${JB.mobileDetail?"mdet":""}">
-    <div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div><div class="jbhr"><span class="upd"><i></i>${total.toLocaleString()} open roles · ${updS}</span><button class="btn line jbstb" data-act="jbstats">${svg(JI.chart)}Your stats${jbApplied().size?` · ${jbApplied().size}`:""}</button></div></div>
-    ${top.length?`<section class="jbten"><div class="th"><div><span class="tk">Your 10 for today</span><b>Picked from your Arena solves, projects and skills</b></div><span>New 10 tomorrow morning</span></div>
-      <div class="strip ${JB.all10?"all":""}">${shown.map(mc).join("")}${JB.all10?"":`<button class="jbmc more" data-act="jball10"><b>+${top.length-3}</b>See all ${top.length} matches</button>`}</div>${JB.all10?`<button class="jbless" data-act="jball10">Show fewer</button>`:""}</section>`:""}
+    <div class="jbhd"><div><h1>Your jobs</h1><p><b>${list.length.toLocaleString()} matches</b> from ${total.toLocaleString()} live roles</p></div><div class="jbhr"><button class="btn line jbstb" data-act="jbstats">${svg(JI.chart)}Your stats${jbApplied().size?` · ${jbApplied().size}`:""}</button></div></div>
+    ${top.length?`<section class="jbten"><div class="th"><div><b>Your ${top.length} best today</b><span>Picked this morning from your skills, Arena solves and what you open. New ones tomorrow.</span></div><button class="arr" data-act="jbscroll" data-d="-1" aria-label="Previous">${svg(JI.back)}</button><button class="arr nx" data-act="jbscroll" data-d="1" aria-label="Next">${svg(JI.back)}</button></div>
+      <div class="strip" id="jbStrip">${shown.map(mc).join("")}</div></section>`:""}
     <form class="jbsbar" id="jbForm"><label class="in q">${svg(JI.search)}<input id="jbQ" value="${esc(JB.q)}" placeholder="Role, skill or company" aria-label="Search jobs"></label><label class="in l">${svg(JI.pin)}<input id="jbL" value="${esc(JB.loc)}" placeholder="City, or Remote" list="jbCities" aria-label="Location"></label><datalist id="jbCities"><option value="Remote">${jbCities().map(c=>`<option value="${esc(c)}">`).join("")}</datalist><button class="go" type="submit">Search</button></form>
     <div class="jbfl">${chips(JB_FAM,"fam")}<span class="sep"></span>${chips(JB_LVL,"lvl")}<span class="sep"></span>${chips(JB_WP,"wp",true)}<span class="sep"></span>
       <label class="ch sel"><select id="jbDays" aria-label="Posted within"><option value="0">Any time</option><option value="1" ${JB.days==1?"selected":""}>Past 24 hours</option><option value="3" ${JB.days==3?"selected":""}>Past 3 days</option><option value="7" ${JB.days==7?"selected":""}>Past week</option><option value="30" ${JB.days==30?"selected":""}>Past month</option></select></label>
       ${(()=>{const me=JB.me||jbMe();return me.locs.length||me.ctry.size?`<button class="ch ${JB.here!==false?"on":""}" data-act="jbhere" title="Only jobs in the cities and countries you picked, plus remote if you picked it">${svg(JI.pin)}Your places</button>`:""})()}<button class="ch ${JB.saved?"on":""}" data-act="jbsavedf">${svg(JI.star)}Saved</button><button class="ch ${JB.applied?"on":""}" data-act="jbappf">${svg(JI.check)}Applied${jbApplied().size?` · ${jbApplied().size}`:""}</button></div>
-    <div class="jbres"><div class="jblist"><div class="lh"><span>${list.length.toLocaleString()} ${list.length===1?"job":"jobs"}</span><label>Sort <select id="jbSort"><option value="match">Best match</option><option value="new" ${JB.sort==="new"?"selected":""}>Newest</option><option value="pop" ${JB.sort==="pop"?"selected":""}>Most applied</option></select></label></div>
+    <div class="jbres"><div class="jblist"><div class="lh"><span>All matches · ${list.length.toLocaleString()}</span><label>Sort <select id="jbSort"><option value="match">Best match</option><option value="new" ${JB.sort==="new"?"selected":""}>Newest</option><option value="pop" ${JB.sort==="pop"?"selected":""}>Most applied</option></select></label></div>
       ${list.slice(0,JB.show).map(j=>jbRow(j,j.i===JB.sel)).join("")||`<div class="jbnone"><b>No jobs match these filters</b><span>Try a wider location or fewer filters.</span><button class="btn line" data-act="jbclear">Clear filters</button></div>`}
       ${list.length>JB.show?`<button class="jbmore" data-act="jbmore">Show more (${(list.length-JB.show).toLocaleString()} left)</button>`:""}</div>
       ${jbDetail(sel)}</div>
@@ -4381,6 +4483,7 @@ document.addEventListener("click",e=>{const el=e.target.closest("[data-act^=jb]"
     document.querySelectorAll(".jbr").forEach(b=>b.classList.toggle("sel",+b.dataset.i===JB.sel));const d=document.querySelector(".jbdet");if(d){d.outerHTML=jbDetail(JB.data.jobs[JB.sel]);jbFillDesc(JB.data.jobs[JB.sel])}return}
   if(a==="jbback"){JB.mobileDetail=false;renderJobs();return}
   if(a==="jball10"){JB.all10=!JB.all10;jbKeep();return}
+  if(a==="jbscroll"){const s=document.getElementById("jbStrip");if(s)s.scrollBy({left:(+el.dataset.d)*Math.max(240,s.clientWidth*.8),behavior:"smooth"});return}
   if(a==="jbf"){const k=el.dataset.k,v=el.dataset.v;if(k==="wp"){JB.wp=JB.wp.includes(v)?JB.wp.filter(x=>x!==v):[...JB.wp,v]}else JB[k]=JB[k]===v?"":v;JB.show=40;JB.sel=null;jbKeep();return}
   if(a==="jbhere"){JB.here=JB.here===false;JB.show=40;JB.sel=null;jbKeep();return}
   if(a==="jbsavedf"){JB.saved=!JB.saved;JB.show=40;JB.sel=null;jbKeep();return}
