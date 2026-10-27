@@ -1594,7 +1594,7 @@ const hGet=(d,g)=>(H.data.log[d]&&H.data.log[d][g])||0;
 function hSet(d,g,v){const L=H.data.log;L[d]=L[d]||{};if(v>0)L[d][g]=v;else{delete L[d][g];if(!Object.keys(L[d]).length)delete L[d]}hSave()}
 const hWeekCount=(g,days)=>days.reduce((a,d)=>a+hGet(d,g.id),0);
 const hElapsed=off=>{if(off<0)return 7;if(off>0)return 1;return hDays(0).indexOf(hDs(new Date()))+1};
-const hNeed=(g,off)=>g.kind==="day"?hElapsed(off||0):(g.target||1);
+const hNeed=(g,off)=>g.kind==="day"?7:(g.target||1); // daily habits count against the whole week, same as weekly targets
 function hHabStreak(id){let n=0;const d=new Date();d.setHours(0,0,0,0);if(!hGet(hDs(d),id))d.setDate(d.getDate()-1);while(hGet(hDs(d),id)&&n<999){n++;d.setDate(d.getDate()-1)}return n}
 function hScore(off){const gs=H.data.goals;if(!gs.length)return 0;const days=hDays(off);
   return gs.reduce((a,g)=>a+Math.min(1,hWeekCount(g,days)/hNeed(g,off)),0)/gs.length}
