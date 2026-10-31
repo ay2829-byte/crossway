@@ -1703,6 +1703,52 @@ body.obopen{overflow:hidden}
 .chz .chgo{align-self:flex-start;font-weight:600;font-size:15px;padding:10px 16px;border-radius:12px;background:var(--ink);color:var(--bg)}
 .chz .obtile:not(.on) .chgo{background:var(--surface);color:var(--ink)}
 </style>
+<style id="unslop">
+/* Unslop: keep Crossway's colors and soft glow, drop the AI tells. Works in light and dark */
+:root{--ease-out:cubic-bezier(.23,1,.32,1)}
+.lhero h1 em,.obg{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:var(--b)!important}
+.orbl span{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--b)}
+:is(.aqhd,.arti,.jbhd,.hello,.lhero,.cpage>.hd) h1{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:var(--ink)!important;-webkit-text-fill-color:currentColor!important}
+.door .dl,.pdl dt,.bh,.axpk,.aqk,.aqd span,.aqlh,.jbten .tk,.jblist .lh{text-transform:none!important;letter-spacing:0!important;font-size:13px!important}
+.chc:hover,.orb:hover,.opt:not([disabled]):hover,.axft:hover,.axpick:hover,.axc:hover,.aqstart:hover,.aqgo:hover,.jbmc:hover,.obtile:hover,.post:hover,.idcard:hover,.stat:hover,.side>section:hover,.jbr:hover{transform:none!important;box-shadow:none!important}
+button,.btn,.aqstart,.aqgo{transition:transform 160ms var(--ease-out),background-color 160ms ease,border-color 160ms ease,color 160ms ease}
+@media (hover:hover) and (pointer:fine){button:active,.btn:active,.aqstart:active,.aqgo:active{transform:scale(.97)}}
+/* Arena ticket of the day: light card instead of the dark slab */
+.aqday{background:var(--bg)!important;color:var(--ink)!important;border:1px solid var(--line)}
+.aqglow{opacity:.35}
+.aqday h1{color:var(--ink)!important}
+.aqday p{color:var(--ink2)!important}
+.aqk{color:var(--b)!important}
+.aqchips span{color:var(--ink2);background:var(--surface);border-color:var(--line)}
+.aqchips code{color:var(--ink)}
+.aqcd div{background:var(--surface)}
+.aqcd b{color:var(--ink)}
+.aqcd span{color:var(--muted)}
+.aqstart{background:var(--ink);color:var(--bg)}
+/* Jobs: your 10 for today, light */
+.jbten{background:var(--bg)!important;color:var(--ink)!important;border:1px solid var(--line)}
+.jbten::after{opacity:.3}
+.jbten .th b{color:var(--ink)}
+.jbten .th>span{color:var(--muted)}
+.jbten .tk{color:var(--b)!important}
+.jbmc{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.jbmc .co,.jbmc .why,.jbmc .meta{color:var(--muted)}
+.jbmc .why b,.jbmc.more b{color:var(--ink)}
+.jbmc .pct{color:var(--good);background:color-mix(in srgb,var(--good) 12%,transparent)}
+.jbmc .meta span{background:var(--bg);border:1px solid var(--line)}
+.jbmc.more{color:var(--ink2)}
+/* Live challenges: light cards */
+.chc,.chc.closed{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.chc::after{opacity:.12}
+.chtop .logo{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.chft .ok{color:var(--good)}
+.chhead{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.chhead .about{color:var(--ink2)}
+.chhead .psk span{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.axpick{background:var(--bg)!important;color:var(--ink)!important;border:1px solid var(--line)}
+.axpick p{color:var(--ink2)!important}
+.axpk{color:var(--b)!important}
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"><style>/* clean look: Inter, soft gray ground, white rounded surfaces. Layout untouched. */
 :root{--f:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif!important;--line:#E8E8EA;--sh:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);--sh2:0 1px 2px rgba(0,0,0,.04)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--line:#2A2A2E}}
