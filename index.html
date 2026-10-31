@@ -499,6 +499,59 @@ footer .sp{flex:1}
 .bgc:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(20,20,30,.09)}.bgcv{display:block;aspect-ratio:1200/630}.bgcv svg{display:block;width:100%;height:100%}
 .bgt{display:flex;flex-direction:column;gap:8px;padding:20px 22px 24px}.bgt em{font-style:normal;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink2)}.bgt em i{width:8px;height:8px;border-radius:50%}
 .bgt b{font-size:18px;line-height:1.3;letter-spacing:-.015em;color:var(--ink)}@media (max-width:900px){.bgg{grid-template-columns:1fr}}</style>
+<style id="unslop">
+/* Unslop: keep Crossway's colors and soft glow, drop the AI tells */
+:root{--ease-out:cubic-bezier(.23,1,.32,1)}
+.grad,.orbl .o1{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--blue)}
+.orbl .o2{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--orange)}
+.rot span{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--a,var(--blue))}
+.zero{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--ink)}
+.kick,.dl{text-transform:none;letter-spacing:0;font-size:14px;font-weight:600}
+.or{text-transform:none;letter-spacing:0;font-size:13px}
+.mside h6{text-transform:none;letter-spacing:0;font-size:12px}
+.btn{transition:transform 160ms var(--ease-out),background-color 160ms ease,border-color 160ms ease,color 160ms ease}
+.btn:hover{transform:none!important;box-shadow:none!important}
+.btn:active{transform:scale(.97)!important}
+.door:hover,.jt:hover,.bgc:hover{transform:none;box-shadow:none}
+.door.cw{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.door.cw::after{background:radial-gradient(circle,rgba(76,107,245,.16),transparent 65%)}
+.door.cw .dl{color:var(--blue)}
+.door.cw li{color:var(--ink2)}
+.door.cw li svg{color:var(--green)}
+.door.cw .btn.white{background:var(--ink);color:#fff}
+.door.cw .btn.ghostw{border-color:var(--line2);color:var(--ink)}
+.door.cw .btn.ghostw:hover{border-color:var(--ink)}
+.dplay{background:#F7F8FB;border:1px solid var(--line);backdrop-filter:none}
+.dplay .ftabs{background:#ECEEF3}
+.dplay .ftabs button{color:var(--ink2)}
+.dplay .ftabs button.on{background:#fff;color:var(--ink)}
+.dplay .qk{color:var(--blue);letter-spacing:0}
+.dplay .op{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.dplay .op:hover{background:#fff;border-color:var(--line2);transform:none}
+.dplay .op b{background:#F0F1F5;color:var(--ink2)}
+.dplay .op.ok{border-color:#12A38A;background:#E8F6F1}
+.dplay .op.ok b{background:#12A38A;color:#fff}
+.dplay .op.no{border-color:#F2643D;background:#FDEFEA}
+.dplay .op.no b{background:#F2643D;color:#fff}
+.dplay .jr{background:#fff;border:1px solid var(--line)}
+.dplay .jr em{color:#0B8A6F}
+.dplay .ring svg circle:first-child{stroke:#E6E8EE}
+.dplay .ring span{color:var(--ink)}
+.finalin{background:#F4F5FA;color:var(--ink);border:1px solid var(--line)}
+.finalin::before{opacity:.35}
+.finalin p{color:var(--ink2)}
+.finalin .btn.white{background:var(--ink);color:#fff}
+.finalin .btn.ghostw{border-color:var(--line2);color:var(--ink)}
+.finalin .btn.ghostw:hover{border-color:var(--ink)}
+.orb{background:var(--blue)}
+.pav{background:#DCE3FF}
+.week i{background:var(--orange);box-shadow:none}
+.dbar i{background:var(--green)}
+.demo .tiles .mt{background:#E8EDFE!important}
+.demo .tiles .mt:nth-child(2){background:#FDEBE3!important}
+.demo .tiles .mt:nth-child(3){background:#E3F4EE!important}
+@media (hover:none){.btn:active{transform:none!important}}
+</style>
 <footer>
   <div class="wrap">
     <a class="brand" href="#top"><span class="bars3" aria-hidden="true"><i style="width:16px;background:#4C6BF5"></i><i style="width:10px;background:#F2643D"></i><i style="width:19px;background:#12A38A"></i></span><span class="wordmark">crossway<span class="dot">.</span></span></a>
@@ -652,7 +705,7 @@ const F=[["Product","MEDIUM","Checkout conversion dropped 9% overnight. What do 
 ["Design","EASY","People miss the main button on signup. Best first fix?",["Make it the one high contrast action","Animate it","Add a tooltip"],0,[["Product Designer","Fieldline · Austin","92%"],["UX Designer","Driftwood · Remote","87%"],["Design Associate","Northbeam · NYC","81%"]]]];
 const C=["#6C8CFF","#3CC9A8","#FF8A5C","#B59CFF"];let f=0;const tabs=P.querySelector(".ftabs"),ops=P.querySelector(".ops"),res=P.querySelector(".res"),arc=P.querySelector(".ring circle:last-child"),rk=P.querySelector(".ring span"),jl=P.querySelector(".jl");
 function draw(){const d=F[f];tabs.innerHTML=F.map((x,i)=>`<button type="button" role="tab" aria-selected="${i===f}" class="${i===f?"on":""}" data-i="${i}">${x[0]}</button>`).join("");
-P.querySelector(".qk").textContent="TRY IT · "+d[0].toUpperCase()+" · "+d[1];P.querySelector(".qq").textContent=d[2];
+P.querySelector(".qk").textContent="Try it · "+d[0]+" · "+d[1].charAt(0)+d[1].slice(1).toLowerCase();P.querySelector(".qq").textContent=d[2];
 ops.innerHTML=d[3].map((t,i)=>`<button type="button" class="op" data-o="${i}"><b>${"ABC"[i]}</b>${t}</button>`).join("");ops.style.display="flex";ops.style.flexDirection="column";ops.style.gap="8px";res.classList.remove("show");arc.style.strokeDashoffset=263.9}
 tabs.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;f=+b.dataset.i;draw()});
 ops.addEventListener("click",e=>{const b=e.target.closest(".op");if(!b||ops.dataset.done===String(f)+"x")return;const d=F[f],k=+b.dataset.o,ok=k===d[4];
