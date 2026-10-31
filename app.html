@@ -1707,7 +1707,12 @@ body.obopen{overflow:hidden}
 /* Unslop: keep Crossway's colors and soft glow, drop the AI tells. Works in light and dark */
 :root{--ease-out:cubic-bezier(.23,1,.32,1)}
 .lhero h1 em,.obg{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:var(--b)!important}
-.orbl span{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--b)}
+.orbl span,.orbl span.o1,.orbl span.o2{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;-webkit-text-fill-color:currentColor}
+.orbl span.o1{color:var(--b)}
+.orbl span.o2{color:var(--m-md)}
+.orbl svg{stroke:currentColor}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) :is(.orbl span.o1,.aqk,.jbten .tk,.axpk,.lhero h1 em,.obg){color:#8FA2FF!important}}
+:root[data-theme="dark"] :is(.orbl span.o1,.aqk,.jbten .tk,.axpk,.lhero h1 em,.obg){color:#8FA2FF!important}
 :is(.aqhd,.arti,.jbhd,.hello,.lhero,.cpage>.hd) h1{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:var(--ink)!important;-webkit-text-fill-color:currentColor!important}
 .door .dl,.pdl dt,.bh,.axpk,.aqk,.aqd span,.aqlh,.jbten .tk,.jblist .lh{text-transform:none!important;letter-spacing:0!important;font-size:13px!important}
 .chc:hover,.orb:hover,.opt:not([disabled]):hover,.axft:hover,.axpick:hover,.axc:hover,.aqstart:hover,.aqgo:hover,.jbmc:hover,.obtile:hover,.post:hover,.idcard:hover,.stat:hover,.side>section:hover,.jbr:hover{transform:none!important;box-shadow:none!important}
@@ -1734,7 +1739,9 @@ button,.btn,.aqstart,.aqgo{transition:transform 160ms var(--ease-out),background
 .jbmc{background:var(--surface);border-color:var(--line);color:var(--ink)}
 .jbmc .co,.jbmc .why,.jbmc .meta{color:var(--muted)}
 .jbmc .why b,.jbmc.more b{color:var(--ink)}
-.jbmc .pct{color:var(--good);background:color-mix(in srgb,var(--good) 12%,transparent)}
+.jbmc .pct,.jbmc .pct.hi{color:var(--m-hi);background:var(--m-hi-s)}
+.jbmc .pct.md{color:var(--m-md);background:var(--m-md-s)}
+.jbmc .pct.lo{color:var(--m-lo);background:var(--m-lo-s)}
 .jbmc .meta span{background:var(--bg);border:1px solid var(--line)}
 .jbmc.more{color:var(--ink2)}
 /* Live challenges: light cards */
