@@ -55,13 +55,23 @@ const skillsOf=txt=>{const out=[];SKRE.forEach(([s,re],i)=>{if(re.test(txt)||(s=
 const WNUM={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,twelve:12,fifteen:15};
 export function minYears(txt){
   const t=String(txt||"").replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten|twelve|fifteen)\b/gi,w=>WNUM[w.toLowerCase()]).replace(/(\d{1,2})\s*\(\s*\1\s*\)/g,"$1");
-  const re=/(\d{1,2})\s*\+?\s*(?:(?:-|–|—|to)\s*\d{1,2}\s*)?\+?\s*(?:or more\s+|plus\s+)?years?(?:'s|’s)?\b([^.;]{0,70})/gi;let m;
-  while((m=re.exec(t))){const n=+m[1];const after=m[2]||"",before=t.slice(Math.max(0,m.index-50),m.index);const ctx=before+" | "+after;
+  const re=/(\d{1,2})\s*\+?\s*(?:(?:-|–|—|to)\s*\d{1,2}\s*)?\+?\s*(?:or more\s+|plus\s+)?(years?|yrs?|yoe)(?:'s|’s|(?<=yrs?)\.)?(?![a-z])([^.;]{0,70})/gi;let m;
+  while((m=re.exec(t))){const n=+m[1];const after=m[3]||"",before=t.slice(Math.max(0,m.index-50),m.index);const ctx=before+" | "+after;
     if(n<1||n>15)continue;
     if(/\b(old|age|aged|ago|history|founded|warranty|anniversary|in business|been around|running|of age|tenure with us|we've|we have been|over the (past|last))\b/i.test(ctx))continue;
     if(/experience|exp\b|working|work(ed)? (in|on|with|as)|industry|professional|background|track record|hands.on|relevant|related|proven|building|managing|leading|shipping|owning|in (a|an|the)\b|in [a-z]+ (roles?|management|marketing|sales|engineering|design|analytics|operations)|as an?\b|of\b|post.?grad|full.?time/i.test(after)
-      ||/\b(minimum|at least|min\.?|requires?|required|must have|need|over|more than|bring)\b[^\d]{0,25}$/i.test(before))return n}
+      ||/\b(minimum|at least|min\.?|requires?|required|must have|need|over|more than|bring)\b[^\d]{0,25}$/i.test(before)
+      ||/^yoe$/i.test(m[2])||/\bexperience\b[^.\d]{0,25}:\s*$/i.test(before))return n}
   return -1}
+// bump when the years reader changes, so postings it found nothing in get read again
+const YV=2;
+// Apple detail pages carry the posting as router data; pull the qualification and description text out of it
+export function appleText(s){const K='__staticRouterHydrationData = JSON.parse("';const i=s.indexOf(K);const out=[];
+  if(i>=0){const a=i+K.length,b=s.indexOf('");',a);try{const d=JSON.parse(JSON.parse('"'+s.slice(a,b)+'"'));
+    const walk=(o,k)=>{if(!o)return;if(typeof o==="string"){if(o.length>40&&/qualif|description|summary|responsib|requirement/i.test(k||""))out.push(o);return}if(typeof o!=="object")return;for(const j in o)walk(o[j],Array.isArray(o)?k:j)};walk(d,"")}catch{}}
+  if(out.length)return out.join(" . ");
+  const q=["minimumQualifications","keyQualifications","preferredQualifications"].map(k=>{const i=s.indexOf(k);return i<0?"":s.slice(i,i+3000)}).join(" . ");
+  return q.trim()?q.replace(/\\n/g," ").replace(/\\u003c/g,"<").replace(/\\u003e/g,">"):""}
 export function pay(txt){const m=txt.match(/\$\s?(\d{2,3}(?:,\d{3})+|\d{2,3}(?:\.\d)?\s?[kK])(?:\.00)?\s*(?:USD)?\s*(?:-|–|—|to)\s*\$?\s?(\d{2,3}(?:,\d{3})+|\d{2,3}(?:\.\d)?\s?[kK])/);
   if(!m)return"";const n=v=>/k/i.test(v)?parseFloat(v)*1000:+v.replace(/,/g,"");const a=n(m[1]),b=n(m[2]);if(a<20000||b<a||b>2e6)return"";const f=v=>"$"+Math.round(v/1000)+"k";return f(a)+" to "+f(b)}
 
@@ -80,7 +90,7 @@ async function ashby(tok){const j=await getJSON(`https://api.ashbyhq.com/posting
     return{tok,co,t:x.title,loc:locs.join(" / ")+(x.isRemote&&!/remote/i.test(locs.join(" "))?" (Remote)":""),dept:[x.department,x.team].filter(Boolean).join(", "),url:x.jobUrl,at:x.publishedAt,txt:x.descriptionPlain||strip(x.descriptionHtml),wp:x.workplaceType||(x.isRemote?"remote":""),pay:pay(cs),lvl:/intern/i.test(x.employmentType||"")?"internship":""}})}
 async function smart(tok){const out=[];let co=pretty(tok);for(let off=0;off<2000;off+=100){const j=await getJSON(`https://api.smartrecruiters.com/v1/companies/${tok}/postings?limit=100&offset=${off}`);
     if(!j||!Array.isArray(j.content))return off?out:null;j.content.forEach(x=>{const l=x.location||{};if(x.company&&x.company.name)co=x.company.name;
-      out.push({tok,co,t:x.name,loc:[l.city,l.region,l.country&&l.country.toUpperCase()].filter(Boolean).join(", ")+(l.remote?" (Remote)":""),dept:(x.department&&x.department.label)||(x.function&&x.function.label)||"",url:`https://jobs.smartrecruiters.com/${tok}/${x.id}`,at:x.releasedDate,txt:"",wp:l.remote?"remote":(l.hybrid?"hybrid":""),lvl:x.experienceLevel&&x.experienceLevel.id})});
+      out.push({tok,co,t:x.name,loc:[l.city,l.region,l.country&&l.country.toUpperCase()].filter(Boolean).join(", ")+(l.remote?" (Remote)":""),dept:(x.department&&x.department.label)||(x.function&&x.function.label)||"",url:`https://jobs.smartrecruiters.com/${tok}/${x.id}`,at:x.releasedDate,txt:"",wp:l.remote?"remote":(l.hybrid?"hybrid":""),lvl:x.experienceLevel&&x.experienceLevel.id,srApi:`https://api.smartrecruiters.com/v1/companies/${tok}/postings/${x.id}`})});
     if(j.content.length<100)break}return out}
 // Workday career sites: key is "tenant|wdN|Site"
 export function wdAgo(s){s=String(s||"").toLowerCase();if(/today|just/.test(s))return 0;if(/yesterday/.test(s))return 1;const m=s.match(/(\d+)\+?\s*day/);return m?+m[1]:-1}
@@ -96,7 +106,7 @@ async function oracle(key){const [host,site]=key.split("|");const out=[];const c
   for(let off=0;off<3000&&Date.now()<DEADLINE;off+=100){const j=await getJSON(`https://${host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions?onlyData=true&expand=requisitionList.secondaryLocations&finder=findReqs;siteNumber=${site},limit=100,offset=${off},sortBy=POSTING_DATES_DESC`);
     const it=j&&Array.isArray(j.items)&&j.items[0];const L=it&&Array.isArray(it.requisitionList)?it.requisitionList:null;if(!L)return off?out:null;
     L.forEach(x=>{const locs=[x.PrimaryLocation,...(x.secondaryLocations||[]).map(l=>l.Name)].filter(Boolean);
-      out.push({co,t:x.Title,loc:[...new Set(locs)].slice(0,3).join(" / "),dept:x.JobFamily||x.Organization||"",url:`https://${host}/hcmUI/CandidateExperience/en/sites/${site}/job/${x.Id}`,at:x.PostedDate,txt:strip(x.ShortDescriptionStr||""),wp:/remote/i.test(x.WorkplaceType||"")?"remote":/hybrid/i.test(x.WorkplaceType||"")?"hybrid":""})});
+      out.push({co,t:x.Title,loc:[...new Set(locs)].slice(0,3).join(" / "),dept:x.JobFamily||x.Organization||"",url:`https://${host}/hcmUI/CandidateExperience/en/sites/${site}/job/${x.Id}`,at:x.PostedDate,txt:strip(x.ShortDescriptionStr||""),ocApi:`https://${host}/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true&finder=ById;Id=%22${x.Id}%22,siteNumber=${site}`,wp:/remote/i.test(x.WorkplaceType||"")?"remote":/hybrid/i.test(x.WorkplaceType||"")?"hybrid":""})});
     if(L.length<100||(it.TotalJobsCount&&off+100>=it.TotalJobsCount))break}return out}
 // Amazon's public job search
 async function amazon(){const out=[];for(const [q,pages] of [["country%5B%5D=USA",60],["",30]]){for(let p=0;p<pages&&Date.now()<DEADLINE;p++){const j=await getJSON(`https://www.amazon.jobs/en/search.json?${q}&offset=${p*100}&result_limit=100&sort=recent`);if(!j||!Array.isArray(j.jobs)||!j.jobs.length)break;
@@ -249,23 +259,39 @@ async function main(){const t0=Date.now();const today=Math.round(t0/864e5);
   const ok={};const apis=Promise.all([amazon(),microsoftAll(),apple(),google(),...EF.slice(1).map(e=>eightfold(e)),muse(),arbeitnow(),himalayas(),remotive(),jobicy(),adzuna()].map(p=>p.catch(()=>[])));
   const res=await pool(tasks,24,async k=>{const r=await F[k.slice(0,2)](k.slice(3));if(r&&r.length){ok[k]=r.length;return r}return[]});
   const api=await apis;const raw=[...res.flat(),...sim.out,...api.flat()];
-  // Workday lists only titles; open the full posting for office roles so years of experience and skills get read
-  // keep years and skills read on earlier runs, so each run only has to open postings it hasn't seen
-  {const pv=readJSON(OUT+"/index.json"),carry=new Map();if(pv&&pv.rows){const ps=pv.skills||[];for(const x of pv.rows){if(!(x[10]>0))continue;const u=Array.isArray(x[7])?pv.pres[x[7][0]]+x[7][1]:x[7];carry.set(u,[x[10],(x[9]||[]).map(i=>SK.indexOf(ps[i])).filter(i=>i>=0)])}}
+  // keep years and skills read on earlier runs, so each run only has to open postings it hasn't seen.
+  // 0 means "opened, no years listed"; those are kept too, unless the years reader changed since that run
+  {const pv=readJSON(OUT+"/index.json"),carry=new Map();if(pv&&pv.rows){const ps=pv.skills||[],keep0=pv.yv===YV;for(const x of pv.rows){if(!(x[10]>0||(keep0&&x[10]===0)))continue;const u=Array.isArray(x[7])?pv.pres[x[7][0]]+x[7][1]:x[7];carry.set(u,[x[10],(x[9]||[]).map(i=>SK.indexOf(ps[i])).filter(i=>i>=0)])}}
    let hit=0;raw.forEach(r=>{if(r.url&&!(minYears(r.txt||"")>0)){const c=carry.get(r.url);if(c){r.yp=c[0];r.skp=c[1];hit++}}});console.log(`::notice title=Carried years::${hit}`)}
-  {const need=raw.filter(r=>r.wdApi&&!r.txt&&r.yp==null&&corporate(String(r.t||""),r.dept)).sort((a,b)=>(isBrand(b.co)-isBrand(a.co))||((/senior|staff|principal|director|\bvp\b|head of/i.test(a.t)?1:0)-(/senior|staff|principal|director|\bvp\b|head of/i.test(b.t)?1:0)));
-   const cap=+(process.env.WD_DETAILS||25000),dl=Date.now()+60000*+(process.env.DETAIL_MINUTES||25);let got=0;
-   await pool(need.slice(0,cap),32,async r=>{const j=await getJSON(r.wdApi,{},15000);const d=j&&j.jobPostingInfo;if(d&&d.jobDescription){r.txt=strip(d.jobDescription);got++}return[]},dl);
-   console.log(`::notice title=Workday details::${got} of ${need.length} read`)}
-  // Microsoft, Apple and Eightfold sites list roles without the full posting, so open each one (a few at a time, they rate limit)
-  {const wait=ms=>new Promise(r=>setTimeout(r,ms)),dl=Date.now()+60000*+(process.env.SITE_DETAIL_MINUTES||12);const by={};
-   raw.filter(r=>r.det&&r.yp==null&&!(minYears(r.txt||"")>0)&&corporate(String(r.t||""),r.dept)).forEach(r=>{const k=r.det.k+(r.det.u.split("/")[2]);(by[k]=by[k]||[]).push(r)});
+  // open the full posting where the list only has a title or a short summary: Workday, SmartRecruiters, Oracle, and the Microsoft, Apple and Eightfold sites.
+  // All four run side by side under one clock; postings for the fields members pick and early career roles go first
+  {const wait=ms=>new Promise(r=>setTimeout(r,ms)),dl=Date.now()+60000*+(process.env.DETAIL_MINUTES||20);
+   const need=r=>r.yp==null&&!(minYears(r.txt||"")>0)&&corporate(String(r.t||""),r.dept);
+   const rank=r=>{const t=String(r.t||"");return(family(t,r.dept)==="other"?4:0)+(/senior|\bsr\b|staff|principal|director|\bvp\b|head of|lead\b|manager/i.test(t)?2:0)+(isBrand(r.co)?0:1)};
+   const first=L=>L.sort((a,b)=>rank(a)-rank(b));
+   const read=(r,x)=>{if(!x)return false;r.txt=(r.txt?r.txt+" ":"")+strip(x).slice(0,8000);if(!(minYears(r.txt)>0))r.yp=0;return true};
+   const tally={};const note=(k,s)=>{const t=tally[k]=tally[k]||{};t[s]=(t[s]||0)+1};
+   const workdayAll=async()=>{const L=first(raw.filter(r=>r.wdApi&&!r.txt&&need(r)));const cap=+(process.env.WD_DETAILS||60000);let got=0;
+     await pool(L.slice(0,cap),32,async r=>{const j=await getJSON(r.wdApi,{},15000);const d=j&&j.jobPostingInfo;if(d&&d.jobDescription&&read(r,d.jobDescription))got++;return[]},dl);
+     return `Workday ${got} of ${L.length}`};
+   // SmartRecruiters: one posting at a time; the ad has description and qualification sections
+   const smartAll=async()=>{const L=first(raw.filter(r=>r.srApi&&need(r)));let got=0;
+     await pool(L,12,async r=>{const j=await getJSON(r.srApi,{},15000);const S=j&&j.jobAd&&j.jobAd.sections;if(!S)return[];const x=["qualifications","jobDescription","additionalInformation"].map(k=>(S[k]&&S[k].text)||"").join(" . ");if(x.trim()&&read(r,x))got++;return[]},dl);
+     return `SmartRecruiters ${got} of ${L.length}`};
+   // Oracle: the requisition details call has the full description and qualifications; a few at a time per site
+   const oracleAll=async()=>{const by={};raw.filter(r=>r.ocApi&&need(r)).forEach(r=>{const h=r.ocApi.split("/")[2];(by[h]=by[h]||[]).push(r)});let got=0,n=0;
+     await Promise.all(Object.values(by).map(L=>{n+=L.length;return pool(first(L),4,async r=>{const j=await getJSON(r.ocApi,{},20000);const d=j&&Array.isArray(j.items)&&j.items[0];if(!d)return[];
+       const x=[d.ExternalQualificationsStr,d.ExternalResponsibilitiesStr,d.ExternalDescriptionStr].filter(Boolean).join(" . ");if(x.trim()&&read(r,x))got++;return[]},dl)}));
+     return `Oracle ${got} of ${n}`};
+   // Microsoft, Apple and Eightfold sites rate limit, so a few at a time with a pause
    const one=async r=>{for(let k=0;k<4;k++){let res;try{res=await fetch(r.det.u,{headers:{...UA,"User-Agent":"Mozilla/5.0 (compatible; JunctionJobsBot/1.0; +https://crosswayhq.com)",Accept:r.det.k==="html"?"text/html":"application/json"},signal:AbortSignal.timeout(20000)})}catch{await wait(1500);continue}
-     if(res.status===429){await wait(4000*(k+1));continue}if(!res.ok)return;const s=await res.text();let x="";
-     try{if(r.det.k==="ms"){const j=JSON.parse(s);x=(j.data||j).jobDescription||""}else if(r.det.k==="ef"){x=JSON.parse(s).job_description||""}else{const q=["minimumQualifications","keyQualifications","preferredQualifications"].map(k=>{const i=s.indexOf(k);return i<0?"":s.slice(i,i+3000)}).join(" . ");x=(q.trim()?q:s).replace(/\\n/g," ").replace(/\\u003c/g,"<").replace(/\\u003e/g,">").replace(/<script[^>]*src=[^>]*><\/script>/g,"")}}catch{}
-     if(x){r.txt=(r.txt?r.txt+" ":"")+strip(x).slice(0,8000)}return}};
-   const stats=await Promise.all(Object.entries(by).map(async([k,L])=>{let n=0;await pool(L,3,async r=>{await one(r);if(minYears(r.txt||"")>0)n++;await wait(250);return[]},dl);return k+" "+n+"/"+L.length}));
-   console.log("::notice title=Site details::"+stats.join(", "))}const out=pack(raw);
+     note(r.det.k,res.status);if(res.status===429){await wait(4000*(k+1));continue}if(!res.ok)return;const s=await res.text();let x="";
+     try{if(r.det.k==="ms"){const j=JSON.parse(s);x=(j.data||j).jobDescription||""}else if(r.det.k==="ef"){x=JSON.parse(s).job_description||""}else x=appleText(s)}catch{}
+     if(!x)note(r.det.k,"empty");read(r,x);return}};
+   const sitesAll=async()=>{const by={};raw.filter(r=>r.det&&need(r)).forEach(r=>{const k=r.det.k+(r.det.u.split("/")[2]);(by[k]=by[k]||[]).push(r)});
+     const st=await Promise.all(Object.entries(by).map(async([k,L])=>{let n=0;await pool(first(L),3,async r=>{await one(r);if(minYears(r.txt||"")>0)n++;await wait(250);return[]},dl);return k+" "+n+"/"+L.length}));return st.join(", ")};
+   const res=await Promise.all([workdayAll(),smartAll(),oracleAll(),sitesAll()].map(p=>p.catch(e=>"failed: "+e.message)));
+   console.log("::notice title=Full postings::"+res.join(", "));console.log("::notice title=Site responses::"+JSON.stringify(tally))}const out=pack(raw);out.yv=YV;
   const prev=readJSON(OUT+"/index.json");
   if(out.rows.length<500||(prev&&prev.rows&&out.rows.length<prev.rows.length*0.2)){console.log("Too few jobs fetched ("+out.rows.length+"), keeping the last good files.");process.exitCode=0;return}
   const nb={};for(const [k,v] of Object.entries(cache))if(today-(v.d||0)<=21)nb[k]=v;for(const k of Object.keys(ok))nb[k]={d:today,n:cand.get(k)||""};
