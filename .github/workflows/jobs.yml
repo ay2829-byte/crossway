@@ -25,6 +25,7 @@ jobs:
       - name: Pull jobs
         env:
           OUT: out
+          NODE_OPTIONS: --max-old-space-size=6144   # the pull holds every board's postings in memory; the default ~2 GB heap ran out
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
         run: node fetch-jobs.mjs
