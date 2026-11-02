@@ -172,6 +172,16 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stro
 .whys li{display:flex;gap:14px;align-items:flex-start;font-size:15px;color:var(--ink2)}
 .whys li svg{margin-top:2px;color:var(--ink)}
 .whys li.meh svg{color:var(--wait)}
+.sigbox{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.sigi{display:grid;grid-template-columns:24px minmax(0,1fr);gap:1px 12px;align-items:center;padding:11px 14px;font-size:14.5px}
+.sigi+.sigi{border-top:1px solid var(--line)}
+.sigi .sgi{grid-row:span 2;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--m-hi-s);color:var(--m-hi)}
+.sigi .sgi svg{width:14px;height:14px}
+.sigi b{font-weight:600;color:var(--ink);min-width:0}
+.sigi span.d{font-size:13px;color:var(--muted);min-width:0}
+.sigi.no .sgi{background:var(--line);color:var(--muted)}.sigi.no b{color:var(--muted);font-weight:500}
+.sigh{display:flex;align-items:baseline;justify-content:space-between;gap:12px}.sigh span{font-size:13px;color:var(--muted)}
+
 .facts{display:flex;flex-direction:column;gap:16px}
 .fact{display:flex;gap:16px;align-items:flex-start}
 .fact svg{width:24px;height:24px;margin-top:2px}
@@ -258,7 +268,7 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stro
 @media (max-width:960px){
   .layout{grid-template-columns:minmax(0,1fr);gap:36px}
   .idcard{position:static}
-  .dcols{grid-template-columns:1fr;gap:28px}
+  .dcols{grid-template-columns:minmax(0,1fr);gap:28px}
   .invite{grid-template-columns:1fr;gap:20px;padding:24px}
 }
 @media (max-width:640px){
@@ -688,6 +698,18 @@ textarea.code,.ptx.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,m
 .logo.hasimg{background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.07)}
 .logo.hasimg>em,.logo.hasimg>svg{visibility:hidden}
 .logo.big{width:72px;height:72px;border-radius:18px;font-size:22px}
+.logo.xl{width:96px;height:96px;border-radius:24px;font-size:30px}
+.logo.xl img{padding:0}
+.cofacts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.cofacts span{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:99px;background:var(--soft,var(--surface));font-size:13px;color:var(--ink2)}
+.cofacts span.ok{background:var(--m-hi-s);color:var(--m-hi);font-weight:600}
+.cofacts a{color:inherit}
+.costeps{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;counter-reset:s}
+.costeps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start;font-size:15px;color:var(--ink2)}
+.costeps li:before{content:counter(s);flex:none;width:24px;height:24px;border-radius:50%;background:var(--soft,var(--surface));display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink)}
+.cochal{border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:4px;text-align:left;background:transparent;font:inherit;color:inherit;cursor:pointer}
+.cochal small{color:var(--m-md);font-weight:600;font-size:12.5px}.cochal b{font-size:14.5px;font-weight:600}.cochal span{font-size:13px;color:var(--muted)}
+
 .lw{display:inline-flex;flex:none}.lw .logo{width:100%;height:100%;border-radius:12px}
 .ava img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .phrow{display:flex;gap:16px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:18px}
@@ -1979,7 +2001,7 @@ function renderTop(){
     const photo=S.role==="seeker"?(S.me&&S.me.photo):(S.co&&S.co.logo_url);
     right=`${headIcons()}<div class="acct"><button class="acctbtn" data-act="menu" aria-haspopup="true" aria-expanded="${S.menu}"><span class="nm">${esc(nm)}</span><span class="ava" style="background:var(--surface)">${photo?`<img src="${esc(photo)}" alt="">`:esc(ini(nm))}</span></button>
       ${S.menu?`<div class="menu" role="menu"><div class="mhd"><b>${S.role==="company"?"Company account":"Member account"}</b><span>${esc(S.user.email||"")}</span></div>
-        ${S.isAdmin?`<a class="mi" href="stats">Crossway stats</a>`:""}<a class="mi" href="tracker">Crossway Projects</a>${S.role==="company"?`<button class="mi" data-act="coname">Company details</button>`:`<button class="mi" data-act="edit" data-s="basics">Edit profile</button>`}<button class="mi" data-act="signout">Sign out</button></div>`:""}</div>`;
+        ${S.isAdmin?`<a class="mi" href="stats">Crossway stats</a>`:""}<a class="mi" href="tracker">Crossway Projects</a>${S.role==="company"?`<button class="mi" data-act="copage">Company page</button><button class="mi" data-act="coname">Company details</button>`:`<button class="mi" data-act="edit" data-s="basics">Edit profile</button>`}<button class="mi" data-act="signout">Sign out</button></div>`:""}</div>`;
   }else if(S.user){
     right=`<div class="navlinks"><button data-act="signout">Sign out</button></div>`;
   }else{
@@ -2182,6 +2204,7 @@ function renderSheet(){
     <div class="shb">
       <div class="dtop">${miniAva(c,96)}<div><h2>${esc(dname(c))}</h2><p>${esc(c.headline||"No headline yet")}</p>${s?`<div style="margin-top:10px">${pillx(s)}</div>`:""}${badgeRow(S.badges[c.id],1,0,1)}</div></div>
       <div class="dcols"><div>
+        <div class="dsec">${sigSlot(c,j)}</div>
         <div class="dsec"><h3>Why they're a match</h3><ul class="whys">${r.why.map(w=>`<li class="${w.ok?"":"meh"}">${w.ok?I.check:I.warn}<span>${esc(w.t)}</span></li>`).join("")}</ul></div>
         
         ${c.about?`<div class="dsec"><h3>About</h3><p class="about" style="font-size:15px">${esc(c.about)}</p></div>`:""}
@@ -2275,7 +2298,7 @@ function renderSeeker(){
        ${pv?"":`<section class="sect"><div class="secth"><h2>Open roles on Crossway</h2></div>${fits.length?`<div class="stand">${fits.map(({j,r})=>{const m=j.must.filter(s=>!c.skills.includes(s));
           const lab=!r.fails.length&&r.s>=75?["fit-strong","Strong fit"]:!r.fails.length?["fit-maybe","Possible fit"]:["fit-no","Not a fit yet"];
           const tip=r.fails.length?r.fails[0]:m.length?"Add "+m.slice(0,2).join(" and ")+" to rank higher":"You match every must have";
-          return `<div class="sti"><div><b>${esc(j.title)}</b><span class="m">${esc(j.company)} · ${esc(place(j))} · ${esc(tip)}</span></div><span class="fitp ${lab[0]}">${lab[1]}</span></div>`}).join("")}</div><p class="hint">You don't apply. If you're one of a company's best matches, they'll invite you.</p>`:`<p class="hint" style="font-size:15px">No open roles yet. You'll see them here as companies join.</p>`}</section>`}
+          return `<div class="sti"><div><b>${esc(j.title)}</b><span class="m"><a href="#" class="ulink" data-act="copage" data-co="${esc(j.company)}">${esc(j.company)}</a> · ${esc(place(j))} · ${esc(tip)}</span></div><span class="fitp ${lab[0]}">${lab[1]}</span></div>`}).join("")}</div><p class="hint">You don't apply. If you're one of a company's best matches, they'll invite you.</p>`:`<p class="hint" style="font-size:15px">No open roles yet. You'll see them here as companies join.</p>`}</section>`}
      </div>
    </div></div>`;
 }
@@ -3830,6 +3853,57 @@ document.addEventListener("click",e=>{const el=e.target.closest("[data-act=arcop
 async function arAllSolves(uid,name){const st=S.arCache[uid]||await API.arena(uid).catch(()=>null);if(!st)return;const back=arPush();
   openSheet(`<div class="shh"><button class="xbtn" data-act="${back?"arsolback":"mclose"}" aria-label="Back">${back?SVGI.back:I.x}</button><h2>${name?esc(name)+"'s Arena":"Arena solves"}</h2><span style="width:36px"></span></div>
     <div class="shb"><div class="arsum">${arRing(st)}${arDiffBars(st,arBankFor(st,""))}</div><div class="arrec">${st.recent.map(r=>arRecRow(r,uid,name)).join("")}</div></div>`,false)}
+
+/* ---------- company pages: a public page per company, opened from invites, roles and challenges ---------- */
+const CO_DEMO={Fieldnote:{tagline:"Field research tools for product teams",industry:"Software",size:"51 to 200",hq:"Austin, TX",website:"fieldnote.co",founded:"2019",sponsor:true,
+  about:"Fieldnote helps product teams run customer interviews, tag what they hear and turn it into decisions. We're 120 people, mostly in Austin, and we hire on what people can do, not where they studied.",
+  how:["We invite you after looking at your work on Crossway","A 30 minute intro with the hiring manager","One timed problem from our real work","A chat with the team, then a decision within a week"],
+  perks:["Health, dental and vision","401k match","Learning budget","Summer Fridays off"],followers:214}};
+function coPage(name){const P=(S.coPages&&S.coPages[name])||CO_DEMO[name]||{};const mine=S.role==="company"&&S.co&&S.co.name===name;
+  const roles=mine?S.jobs.filter(j=>j.open!==false):S.openJobs.filter(j=>j.company===name);
+  const ch=(S.chals||[]).find(c=>c.company===name&&c.open);
+  const row=j=>{let pill="";if(!mine&&S.me){const r=evalC(S.me,j);const lab=!r.fails.length&&r.s>=75?["fit-strong","Strong fit"]:!r.fails.length?["fit-maybe","Possible fit"]:["fit-no","Not a fit yet"];pill=`<span class="fitp ${lab[0]}">${lab[1]}</span>`}
+    return `<div class="sti"><div><b>${esc(j.title)}</b><span class="m">${esc(place(j))} · ${esc(band(j))} · ${j.exp?`${j.exp[0]} to ${j.exp[1]} years`:""}</span></div>${pill}</div>`};
+  const web=P.website?`<a href="${esc(/^https?:/i.test(P.website)?P.website:"https://"+P.website)}" target="_blank" rel="noopener">${esc(P.website)}</a>`:"";
+  openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Company</h2><span style="width:36px"></span></div>
+   <div class="shb">
+    <div class="dtop">${coLogo(name,"xl")}<div><h2>${esc(name)}</h2><p>${esc(P.tagline||"")}</p>
+      <div class="cofacts">${[P.industry,P.size&&P.size+" people",P.hq].filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join("")}${web?`<span>${web}</span>`:""}${P.sponsor?`<span class="ok">Sponsors visas</span>`:""}</div></div></div>
+    <div class="dcols"><div>
+      ${P.about?`<div class="dsec"><h3>About</h3><p class="about" style="font-size:15px">${esc(P.about)}</p></div>`:""}
+      <div class="dsec"><h3>Open roles${roles.length?` · ${roles.length}`:""}</h3>${roles.length?`<div class="stand">${roles.map(row).join("")}</div>${mine?"":`<p class="hint">You don't apply. If you're one of their best matches, they'll invite you.</p>`}`:`<p class="hint" style="font-size:15px">No open roles right now.</p>`}</div>
+      ${(P.how||[]).length?`<div class="dsec"><h3>How they hire</h3><ol class="costeps">${P.how.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div>`:""}
+    </div><div class="scorecard">
+      ${mine?`<button class="btn dark" data-act="coedit" style="width:100%">Edit page</button><span class="hint" style="text-align:center">This is how members see your page</span>`:`<button class="btn brand" data-act="cofollow" style="width:100%">Follow</button><span class="hint" style="text-align:center">${P.followers?kfmt(P.followers)+" people follow "+esc(name)+". ":""}You'll see their new roles and challenges first.</span>`}
+      <div class="facts" style="margin-top:6px">
+        ${P.founded?`<div class="fact">${I.brief}<div><b>Founded ${esc(P.founded)}</b><span>${esc(P.size||"")} people</span></div></div>`:""}
+        ${P.hq?`<div class="fact">${I.pin}<div><b>${esc(P.hq)}</b><span>Headquarters</span></div></div>`:""}
+        ${roles.length?`<div class="fact">${I.users}<div><b>Hiring in ${esc([...new Set(roles.map(j=>j.team||TRACK[j.track]).filter(Boolean))].slice(0,3).join(", "))}</b><span>${roles.length} open ${roles.length===1?"role":"roles"}</span></div></div>`:""}</div>
+      ${ch?`<button class="cochal" data-act="chopen" data-id="${esc(ch.id)}"><small>Live challenge</small><b>${esc(ch.title)}</b><span>Winners get invited</span></button>`:""}
+      ${(P.perks||[]).length?`<div class="dsec" style="gap:10px"><h3 style="font-size:15px">Benefits</h3><div class="cofacts" style="margin-top:0">${P.perks.map(x=>`<span>${esc(x)}</span>`).join("")}</div></div>`:""}
+    </div></div></div>`)}
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act=copage]");if(!el)return;e.preventDefault();S.menu=false;renderTop();coPage(el.dataset.co||(S.co&&S.co.name))});
+
+/* ---------- signals: proof a company sees on each candidate, read from Arena, projects and challenges ---------- */
+function sigList(c,j,st){const b=(S.badges&&S.badges[c.id])||{},rec=(st&&st.recent)||[],must=j.must||[];
+  const sk={};rec.forEach(r=>{const P=AR_BY[r.id];const set=new Set((P&&P.skills)||[]);if(r.kind==="sql"||r.kind==="design")set.add("SQL");if(r.kind==="code")set.add(r.lang==="js"?"JavaScript":"Python");set.forEach(x=>{if(must.includes(x))sk[x]=(sk[x]||0)+1})});
+  const proven=Object.keys(sk),nPr=Object.values(sk).reduce((a,x)=>a+x,0);
+  const solved=(st&&st.solved)||0,hard=(st&&st.hard)||0,timed=(st&&st.timed)||0,tmd=rec.filter(r=>r.secs!=null).length;
+  const wk=new Set(Object.keys((st&&st.days)||{}).filter(d=>Date.now()-new Date(d)<56*864e5).map(d=>Math.floor(new Date(d)/(7*864e5)))).size;
+  const pr=(c.projects||[]).length,smp=c.hasSample||!!c.sample;
+  return[
+   [proven.length>0,proven.length?"Proved "+proven.slice(0,2).join(" and ")+(proven.length>2?` +${proven.length-2}`:"")+" in Arena":"Must haves not proven in Arena yet",proven.length?`${nPr} ${nPr===1?"solve":"solves"} on your must have skills`:"Their skills are self reported for now"],
+   [hard>0,hard?`${hard} hard ${hard===1?"solve":"solves"}`:"No hard solves yet",hard?`Out of ${solved} Arena solves`:solved?`${solved} easy and medium solves`:"No Arena solves yet"],
+   [tmd>0&&timed/tmd>=.5,tmd?`Finishes inside the clock`:"No timed solves yet",tmd?`${timed} of ${tmd} timed solves done in time`:"Timed solves show speed"],
+   [pr>0,pr?`${pr} shipped ${pr===1?"project":"projects"}`:"No projects yet",pr?"With write ups on their profile":"Nothing shipped on Crossway yet"],
+   [smp,smp?"Has a work sample":"No work sample yet",smp?(revealedC(c)?"Link is open to you":"Link unlocks when you invite"):"Ranked a little lower for now"],
+   [(b.wins||0)>0,b.wins?`Won ${b.wins} company ${b.wins===1?"challenge":"challenges"}`:"No challenge wins yet",b.wins?"Picked by a hiring team":`${b.challenges||0} ${(b.challenges||0)===1?"challenge":"challenges"} answered`],
+   [wk>=4,wk?`Active ${wk} of the last 8 weeks`:"Not active lately",wk>=4?"Practices steadily":"Arena activity over 2 months"]]}
+function sigHtml(c,j,st){const L=sigList(c,j,st),n=L.filter(x=>x[0]).length;
+  return `<div class="sigh"><h3>Signals</h3><span>${n} of ${L.length} met</span></div><div class="sigbox">${L.sort((a,b)=>b[0]-a[0]).map(([ok,t,d])=>`<div class="sigi ${ok?"":"no"}"><span class="sgi">${ok?I.check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M7 12h10"/></svg>'}</span><b>${esc(t)}</b><span class="d">${esc(d)}</span></div>`).join("")}</div>`}
+function sigSlot(c,j){const k="sg"+Math.random().toString(36).slice(2,8);
+  if(!S.arCache[c.id])setTimeout(()=>API.arena(c.id).then(st=>{S.arCache[c.id]=st;const el=document.getElementById(k);if(el)el.innerHTML=sigHtml(c,j,st)}).catch(()=>{}),0);
+  return `<div id="${k}" style="display:flex;flex-direction:column;gap:14px">${sigHtml(c,j,S.arCache[c.id]||null)}</div>`}
 
 /* ---------- matching: Arena proof for the skills a role needs ---------- */
 function arenaFit(c,j){const b=S.badges&&S.badges[c.id],proof=(b&&b.proof)||[],need=new Set([...(j.must||[]),...(j.nice||[])]);
