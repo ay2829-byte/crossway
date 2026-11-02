@@ -303,14 +303,6 @@ async function main(){const t0=Date.now();const today=Math.round(t0/864e5);
   mkdirSync(`${OUT}/s/${ver}`,{recursive:true});const desc=out.rows.map(r=>r.pop());out.shard=SHARD;out.ver=ver;
   for(let i=0;i*SHARD<desc.length;i++)writeFileSync(`${OUT}/s/${ver}/d${i}.json`,JSON.stringify(desc.slice(i*SHARD,(i+1)*SHARD)));
   writeFileSync(OUT+"/index.json",JSON.stringify(out));writeFileSync(OUT+"/boards.json",JSON.stringify(nb));
-  // one small file per company for its page at crosswayhq.com/c/<slug>, plus the list of companies
-  {const slug=n=>String(n||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"company";
-   const per={};out.rows.forEach((r,i)=>{(per[r[0]]=per[r[0]]||[]).push(i)});const order=Object.keys(per).map(Number).sort((a,b)=>per[b].length-per[a].length);
-   if(existsSync(OUT+"/co"))rmSync(OUT+"/co",{recursive:true,force:true});mkdirSync(OUT+"/co",{recursive:true});const seenS=new Set(),list=[];
-   for(const ci of order){let s=slug(out.cos[ci]),b=s,k=2;while(seenS.has(s))s=b+"-"+(k++);seenS.add(s);
-     const roles=per[ci].slice(0,200).map(i=>{const r=out.rows[i];const u=Array.isArray(r[7])?out.pres[r[7][0]]+r[7][1]:r[7];return{t:r[1],l:out.locs[r[2]],f:out.fams[r[3]],v:["intern","entry","mid","senior"][r[4]],w:["remote","hybrid","onsite"][r[5]],d:r[6],u,p:r[8]||"",y:r[10]}});
-     writeFileSync(`${OUT}/co/${s}.json`,JSON.stringify({slug:s,name:out.cos[ci],domain:(out.doms||[])[ci]||"",n:per[ci].length,roles,updated:out.updated}));list.push([s,out.cos[ci],(out.doms||[])[ci]||"",per[ci].length])}
-   writeFileSync(OUT+"/co/_list.json",JSON.stringify(list));console.log(`Company pages: ${list.length}`)}
   const by={};out.rows.forEach(r=>{const s=out.srcs[r[11]]||"boards";by[s]=(by[s]||0)+1});const lv={};out.rows.forEach(r=>{const l=["intern","entry","mid","senior"][r[4]];lv[l]=(lv[l]||0)+1});
   console.log(`${out.rows.length} jobs (${raw.length} fetched) from ${Object.keys(ok).length} of ${tasks.length} boards in ${Math.round((Date.now()-t0)/1000)}s`);
   console.log("By source:",JSON.stringify(by));console.log("By level:",JSON.stringify(lv));console.log("US or remote:",out.rows.filter(r=>r[5]===0||isUS(out.locs[r[2]])).length)}

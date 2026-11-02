@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Company · Crossway</title>
-<meta name="description" content="Open roles, posts and people at this company on Crossway, the free job board and career network.">
+<meta name="description" content="Company pages on Crossway, the free job board and career network.">
 <link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap">
@@ -139,7 +139,6 @@ textarea:focus,input:focus,select:focus{border-color:var(--co2)}
 <script>
 (function(){
 const CFG=window.WORKBOARD_CONFIG||{};const sb=window.supabase&&CFG.supabaseUrl?window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseAnonKey):null;
-const RAW="https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/co/";
 const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const slugify=n=>String(n||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const parts=location.pathname.split("/").filter(Boolean);
@@ -178,8 +177,8 @@ const BADGE=`<span class="vck" title="Verified company"><svg viewBox="0 0 24 24"
 function render(){
   const claimed=PG&&PG.claimed,mine=PG&&PG.mine,n=(CO&&CO.n)||ROLES.length,posts=(PG&&PG.posts)||[],chs=(PG&&PG.challenges)||[];
   palette((PG&&PG.color)||PALS[hash(SLUG)%PALS.length]);
-  document.title=`${name()} jobs and company page · Crossway`;
-  const meta=document.querySelector('meta[name="description"]');if(meta)meta.content=`${name()} on Crossway: ${n} open roles${PG&&PG.tagline?", "+PG.tagline:""}. See the jobs, follow the company and get matched.`;
+  document.title=`${name()} · Crossway`;
+  const meta=document.querySelector('meta[name="description"]');if(meta)meta.content=`${name()} on Crossway${PG&&PG.tagline?": "+PG.tagline:""}. Follow the company, see its posts and get matched to its roles.`;
   const tagline=claimed&&PG.tagline?PG.tagline:[PG&&PG.industry,(PG&&PG.location)||""].filter(Boolean).join(" · ")||(CO&&CO.domain?CO.domain:"Company page on Crossway");
   const fol=(PG&&PG.followers)||0;
   const facts=claimed?[["Industry",PG.industry],["Size",PG.size],["Founded",PG.founded],["Location",PG.location],["Website",PG.website]].filter(f=>f[1]):[];
@@ -192,7 +191,7 @@ function render(){
       <div class="clogo">${logoHTML()}</div>
       <div><h1><span>${esc(name())}</span>${claimed&&PG.verified?BADGE:""}</h1>
         <div class="tag">${esc(tagline)}</div>
-        <div class="hfoot"><span class="fols"><b>${fol.toLocaleString()}</b> ${fol===1?"follower":"followers"}</span>${claimed&&PG.hiring?`<span class="live"><i></i>Hiring now</span>`:n?`<span class="live"><i></i>${n} open ${n===1?"role":"roles"}</span>`:""}</div></div>
+        <div class="hfoot"><span class="fols"><b>${fol.toLocaleString()}</b> ${fol===1?"follower":"followers"}</span>${claimed&&PG.hiring?`<span class="live"><i></i>Hiring now</span>`:""}</div></div>
       <div class="acts">
         <button class="btn ${PG&&PG.following?"g":"w"}" type="button" data-a="follow">${PG&&PG.following?"Following":`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>Follow`}</button>
         ${claimed&&PG.website?`<a class="btn g" href="${esc(/^https?:/.test(PG.website)?PG.website:"https://"+PG.website)}" target="_blank" rel="noopener">Website</a>`:""}
@@ -201,7 +200,7 @@ function render(){
     </div>
   </section>
   <div class="tabs" role="tablist">
-    ${[["all","Overview"],["posts","Posts",posts.length],["jobs","Jobs",n],...(chs.length?[["ch","Challenges",chs.length]]:[])].map(([k,l,c])=>`<button type="button" role="tab" aria-selected="${TAB===k}" class="${TAB===k?"on":""}" data-tab="${k}">${l}${c?`<span class="n">${c}</span>`:""}</button>`).join("")}
+    ${[["all","Overview"],["posts","Posts",posts.length],...(chs.length?[["ch","Challenges",chs.length]]:[])].map(([k,l,c])=>`<button type="button" role="tab" aria-selected="${TAB===k}" class="${TAB===k?"on":""}" data-tab="${k}">${l}${c?`<span class="n">${c}</span>`:""}</button>`).join("")}
   </div>
   <div class="grid"><div class="col">
     ${sec("all")?`<section class="card"><h2>About</h2>
@@ -213,23 +212,14 @@ function render(){
       ${mine?`<form class="compose" id="cmp"><textarea id="pBody" maxlength="3000" placeholder="Share news, a launch, a role you're excited about..." required></textarea><div class="crow"><input type="url" id="pLink" placeholder="Link (optional)"><button class="btn ink" type="submit">Post</button></div></form>`:""}
       ${posts.length?posts.slice(0,TAB==="posts"?20:3).map(p=>`<article class="pc"><div class="ph"><span class="mini">${logoHTML()}</span><div><b>${esc(name())}</b><small>${when(p.created_at)}</small></div>${mine?`<button class="pdel" type="button" data-del="${esc(p.id)}">Delete</button>`:""}</div><p>${esc(p.body)}</p>${p.link?`<a class="plink" href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.link.replace(/^https?:\/\//,""))}</a>`:""}</article>`).join(""):claimed&&!mine?`<div class="empty">No posts yet.</div>`:""}
     </section>`:""}
-    ${sec("all")||sec("jobs")?`<section class="card"><div class="chd"><h2>Open roles</h2>${n?`<span class="note">${n} live from their career site</span>`:""}</div><p class="sub">Pulled from ${esc(name())}'s own career site every few hours. Apply opens their site.</p>
-      ${n>6?`<div class="rfilter"><input type="text" id="rq" placeholder="Search roles or cities" value="${esc(rq)}" aria-label="Search roles"><button type="button" class="chip ${!rf?"on":""}" data-f="">All</button>${fams.map(f=>`<button type="button" class="chip ${rf===f?"on":""}" data-f="${esc(f)}">${esc(f[0].toUpperCase()+f.slice(1))}</button>`).join("")}</div>`:""}
-      ${list.length?`<div class="roles">${list.slice(0,showN).map(r=>`<a class="role" href="${esc(r.u)}" target="_blank" rel="noopener"><b>${esc(r.t)}</b><div class="rm">${r.l?`<span>${esc(r.l.split(/[\/;]/)[0])}</span>`:""}${r.w&&r.w!=="onsite"?`<span>${WP[r.w]}</span>`:""}${r.v?`<span>${LV[r.v]}</span>`:""}${r.p?`<span class="pay">${esc(r.p)}</span>`:""}</div><div class="rf"><span>${ago(r.d)}</span><span style="color:var(--co2);font-weight:600">Apply</span></div></a>`).join("")}</div>
-        ${list.length>showN?`<button class="btn line more" type="button" data-a="more">Show more roles (${list.length-showN} left)</button>`:n>ROLES.length&&!rq&&!rf?`<a class="btn line more" href="/app" style="justify-content:center">See all ${n.toLocaleString()} roles in Crossway</a>`:""}`:`<div class="empty">${n?"No roles match that search.":"No open roles right now."}</div>`}
-    </section>`:""}
     ${chs.length&&(sec("all")||sec("ch"))?`<section class="card"><h2>Live challenges</h2><p class="sub">Real problems from ${esc(name())}. Strong answers get invited to interview.</p><div class="chs">${chs.map(c=>{const h=Math.max(0,Math.round((new Date(c.ends_at)-Date.now())/36e5));return `<div class="ch"><div class="ct"><span>${esc(c.track||"Challenge")}</span><span class="left">${h<48?h+"h left":Math.round(h/24)+" days left"}</span></div><b>${esc(c.title)}</b><a href="/app">Answer</a></div>`}).join("")}</div></section>`:""}
   </div>
   <aside class="col">
     <section class="card"><h2>Get matched to ${esc(name())}</h2><p class="sub">Crossway scores every role against your skills and tells you why it fits. Prove what you can do in Arena and companies invite you.</p><a class="btn ink" href="/app?join=seeker" style="justify-content:center">Join Crossway free</a></section>
-    <section class="card" id="simCard" hidden><h2>More companies hiring</h2><p class="sub">With open roles on Crossway.</p><div class="sim" id="sim"></div></section>
     <section class="card"><h2>Your company isn't here?</h2><p class="sub" style="margin-bottom:12px">Create a page with your work email. It's free.</p><a class="btn line" href="/c/new" style="justify-content:center">Create a company page</a></section>
   </aside></div>`;
-  heroBg();loadSim()}
+  heroBg()}
 
-let SIM=null;function loadSim(){const el=$("#sim");if(!el)return;const fill=L=>{const i=Math.max(0,L.findIndex(x=>x[0]===SLUG));const pick=L.filter(x=>x[0]!==SLUG).slice(Math.max(0,i-3),Math.max(0,i-3)+5);
-  if(!pick.length)return;el.innerHTML=pick.map(([s,nm,,c])=>`<a class="sm" href="/c/${esc(s)}"><span class="lg" style="background:${PALS[hash(s)%PALS.length]}">${esc(initials(nm))}</span><div><b>${esc(nm)}</b><small>${c} open ${c===1?"role":"roles"}</small></div></a>`).join("");$("#simCard").hidden=false};
-  if(SIM)return fill(SIM);fetch(RAW+"_list.json").then(r=>r.ok?r.json():[]).then(L=>{SIM=L;fill(L)}).catch(()=>{})}
 
 /* dialogs */
 function dlg(html){const o=$("#ov");o.innerHTML=`<div class="dlg" role="dialog" aria-modal="true">${html}</div>`;o.hidden=false;o.onclick=e=>{if(e.target===o||e.target.closest("[data-x]"))o.hidden=true};const f=o.querySelector("input,textarea,button");if(f)f.focus()}
@@ -276,9 +266,9 @@ async function newPage(){document.title="Create a company page · Crossway";pale
   const nf=$("#nf");if(nf)nf.onsubmit=async e=>{e.preventDefault();const nm=$("#nName").value.trim();if(!nm)return;try{const r=await rpc("cw_claim_company",{p_slug:slugify(nm),p_name:nm});location.href="/c/"+r.slug}catch(er){$("#nErr").textContent=er.message}}}
 
 async function load(){if(NEW)return newPage();
-  const [co,pg]=await Promise.all([fetch(RAW+encodeURIComponent(SLUG)+".json").then(r=>r.ok?r.json():null).catch(()=>null),sb?sb.rpc("cw_company_page",{p_slug:SLUG}).then(r=>r.data).catch(()=>null):null]);
-  CO=co;PG=pg;ROLES=(co&&co.roles)||[];
-  if(!CO&&!PG){document.title="Company not found · Crossway";$("#root").innerHTML=`<section class="card" style="max-width:560px;margin:20px auto;text-align:center"><h2>We couldn't find that company</h2><p class="sub">It may not have open roles right now.</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><a class="btn ink" href="/app">Browse jobs</a><a class="btn line" href="/c/new">Create a company page</a></div></section>`;return}
+  const pg=sb?await sb.rpc("cw_company_page",{p_slug:SLUG}).then(r=>r.data).catch(()=>null):null;
+  CO=null;PG=pg&&pg.claimed?pg:null;ROLES=[];
+  if(!PG){document.title="Company not found · Crossway";$("#root").innerHTML=`<section class="card" style="max-width:560px;margin:20px auto;text-align:center"><h2>We couldn't find that company</h2><p class="sub">This company hasn't made a Crossway page yet.</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><a class="btn ink" href="/app">Browse jobs</a><a class="btn line" href="/c/new">Create a company page</a></div></section>`;return}
   render()}
 if(sb)sb.auth.onAuthStateChange(ev=>{if(ev==="SIGNED_IN"&&!$("#ov").hidden){$("#ov").hidden=true;load()}});
 load();

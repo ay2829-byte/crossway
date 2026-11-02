@@ -4,4 +4,3 @@ Disallow: /admin
 Disallow: /stats
 
 Sitemap: https://crosswayhq.com/sitemap.xml
-Sitemap: https://crosswayhq.com/sitemap-companies.xml
