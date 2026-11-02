@@ -1,0 +1,184 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>System design estimation questions, explained for beginners | Crossway</title><meta name="description" content="Back of the envelope math for system design interviews: requests per second, storage, uptime, caching and sharding, with worked examples."><link rel="canonical" href="https://crosswayhq.com/blog/system-design-estimation-questions">
+<meta property="og:type" content="article"><meta property="og:site_name" content="Crossway"><meta property="og:title" content="System design estimation questions, explained for beginners | Crossway"><meta property="og:description" content="Back of the envelope math for system design interviews: requests per second, storage, uptime, caching and sharding, with worked examples."><meta property="og:url" content="https://crosswayhq.com/blog/system-design-estimation-questions"><meta property="og:image" content="https://crosswayhq.com/blog/covers/system-design-estimation-questions.png">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://crosswayhq.com/blog/covers/system-design-estimation-questions.png"><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap">
+<style>
+:root{--bg:#fff;--soft:#F7F7F8;--soft2:#F1F1F4;--ink:#1F1F23;--ink2:#46464F;--muted:#72727C;--faint:#A9A9B2;--line:#ECECEF;--line2:#DEDEE3;
+--blue:#4C6BF5;--orange:#F2643D;--green:#12A38A;--violet:#8B5CF6;
+--font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--logo:"Bricolage Grotesque","Inter",ui-sans-serif,system-ui,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit}img,svg{max-width:100%}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:24px}
+.bars3{display:inline-flex;flex-direction:column;gap:3px}.bars3 i{display:block;height:4.5px;border-radius:9px}
+.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.86);backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:72px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.wordmark{font:800 25px/1 var(--logo);letter-spacing:-.04em;color:var(--ink)}.wordmark .dot{color:var(--orange)}
+.links{display:flex;gap:6px;font-size:14.5px;color:var(--ink2)}
+.links a{text-decoration:none;padding:8px 12px;border-radius:99px;transition:background .15s,color .15s}
+.links a:hover,.links a.on{background:var(--soft);color:var(--ink)}
+.sp{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:999px;padding:11px 22px;font-weight:600;font-size:15px;border:1px solid transparent;text-decoration:none;white-space:nowrap;transition:transform .2s,box-shadow .2s,background .2s}
+.btn svg{width:16px;height:16px;flex:none;transition:transform .2s}.btn:hover svg{transform:translateX(3px)}
+.btn.dark{background:var(--ink);color:#fff}.btn.dark:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(20,20,30,.18)}
+.btn.line{border-color:var(--line2);color:var(--ink);background:#fff}.btn.plain{color:var(--ink)}
+.btn.white{background:#fff;color:var(--ink)}
+.hero{position:relative;isolation:isolate;overflow:hidden;padding:84px 0 56px}
+.lanes{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.lane{position:absolute;height:120px;border-radius:999px;filter:blur(56px);opacity:.26}
+.lane.l1{top:40px;left:-10vw;width:60vw;background:#4C6BF5}.lane.l2{top:200px;right:-8vw;width:40vw;background:#F2643D;opacity:.2}.lane.l3{top:330px;left:10vw;width:50vw;background:#12A38A;opacity:.18}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line2);background:#fff;border-radius:999px;padding:6px 16px 6px 6px;font-size:14px;color:var(--ink2);box-shadow:0 1px 2px rgba(0,0,0,.04);text-decoration:none}
+.eyebrow b{background:var(--ink);color:#fff;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:700;letter-spacing:.06em}
+h1{font:700 clamp(40px,6.2vw,76px)/1 var(--font);letter-spacing:-.045em;margin:24px 0 0;text-wrap:balance;max-width:16ch}
+h1 em{font-style:normal;background:linear-gradient(90deg,#4C6BF5,#8B5CF6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:52ch;margin:22px 0 0;line-height:1.6;text-wrap:pretty}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+/* blog index */
+.feat{display:grid;grid-template-columns:1.25fr 1fr;gap:0;border:1px solid var(--line);border-radius:28px;overflow:hidden;text-decoration:none;background:#fff;transition:box-shadow .25s,transform .25s}
+.feat:hover{box-shadow:0 24px 60px rgba(20,20,30,.10);transform:translateY(-2px)}
+.feat .cv{aspect-ratio:auto;min-height:340px}
+.feat .tx{padding:40px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.feat h2{font:700 clamp(26px,2.6vw,36px)/1.12 var(--font);letter-spacing:-.03em;margin:0}
+.feat p{margin:0;color:var(--ink2);font-size:16.5px;line-height:1.6}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink2)}
+.chip i{width:8px;height:8px;border-radius:50%}
+.by{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
+.av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4C6BF5,#8B5CF6);color:#fff;font-size:11.5px;font-weight:700;display:grid;place-items:center;flex:none}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:48px 0 22px}
+.filters a{font-size:14px;padding:8px 16px;border-radius:99px;border:1px solid var(--line2);text-decoration:none;color:var(--ink2);background:#fff}
+.filters a.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:22px;overflow:hidden;text-decoration:none;background:#fff;transition:box-shadow .25s,transform .25s}
+.card:hover{box-shadow:0 18px 44px rgba(20,20,30,.09);transform:translateY(-3px)}
+.card .cv{aspect-ratio:1200/630}
+.card .tx{padding:22px 22px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h3{font-size:19px;line-height:1.3;letter-spacing:-.015em;margin:0}
+.card p{margin:0;font-size:14.5px;color:var(--ink2);line-height:1.6;flex:1}
+.card .ft{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:6px}
+.cv{display:block;width:100%;height:100%;background:#F4F6FE}
+.cv svg{display:block;width:100%;height:100%}
+/* article */
+.ahead{padding:64px 0 0;position:relative;isolation:isolate;overflow:hidden}
+.ahead .wrap{max-width:860px}
+.crumb{display:flex;gap:8px;align-items:center;font-size:13.5px;color:var(--muted)}
+.crumb a{text-decoration:none}.crumb a:hover{color:var(--ink)}
+.ahead h1{font-size:clamp(34px,4.8vw,56px);max-width:none;line-height:1.05}
+.ahead .sub{max-width:none}
+.ahead .by{margin-top:26px}.by b{color:var(--ink);font-weight:600}
+.acover{max-width:1060px;margin:40px auto 0;padding-inline:24px}
+.acover .cv{border-radius:26px;overflow:hidden;aspect-ratio:1200/500;border:1px solid var(--line)}
+.abody{max-width:1060px;margin:0 auto;padding:48px 24px 0;display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px}
+.toc{position:sticky;top:96px;align-self:start;font-size:13.5px}
+.toc b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+.toc a{display:block;text-decoration:none;color:var(--muted);padding:6px 0 6px 12px;border-left:2px solid var(--line);line-height:1.4}
+.toc a:hover{color:var(--ink);border-left-color:var(--blue)}
+.prose{font-size:18px;line-height:1.8;color:#2B2B31;max-width:700px}
+.prose>p:first-child{font-size:20px;line-height:1.7;color:var(--ink)}
+.prose h2{font:700 29px/1.2 var(--font);letter-spacing:-.025em;margin:52px 0 14px;color:var(--ink);scroll-margin-top:96px}
+.prose h3{font-size:19px;margin:30px 0 6px;color:var(--ink)}
+.prose p{margin:0 0 20px}.prose ul,.prose ol{padding-left:22px;margin:0 0 22px}.prose li{margin:8px 0;padding-left:4px}
+.prose li::marker{color:var(--blue);font-weight:600}
+.prose a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(76,107,245,.35);text-underline-offset:3px}
+.prose a:hover{text-decoration-color:var(--blue)}
+.prose b{color:var(--ink)}
+.prose blockquote{margin:32px 0;padding:22px 26px;border-radius:18px;background:var(--soft);font-size:18px;color:var(--ink);border:0;position:relative}
+.prose blockquote::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:4px;border-radius:4px;background:linear-gradient(#4C6BF5,#8B5CF6)}
+.src{font-size:14px;color:var(--muted);line-height:1.6}
+.inline-cta{margin:40px 0;border-radius:22px;padding:26px 28px;background:linear-gradient(135deg,#F3F5FF,#FDF3EF);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.inline-cta b{display:block;font-size:18px;color:var(--ink)}.inline-cta span{font-size:15px;color:var(--ink2)}
+.inline-cta .btn{text-decoration:none;color:#fff}
+.share{display:flex;gap:10px;margin:36px 0 0;padding-top:26px;border-top:1px solid var(--line);font-size:14px;color:var(--muted);align-items:center;flex-wrap:wrap}
+.share a{text-decoration:none;border:1px solid var(--line2);border-radius:99px;padding:7px 14px;color:var(--ink2)}
+.share a:hover{color:var(--ink);border-color:var(--ink)}
+.related{margin-top:80px}
+.related h2{font:700 28px/1.2 var(--font);letter-spacing:-.025em;margin:0 0 22px}
+/* compare */
+.tbl{overflow:auto;border:1px solid var(--line);border-radius:22px;margin:28px 0;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+th,td{padding:16px 20px;text-align:left;border-top:1px solid var(--line);vertical-align:top;line-height:1.5}
+thead th{border-top:0;font-weight:600;font-size:14.5px;background:var(--soft)}
+thead th.us{background:var(--ink);color:#fff}
+td:first-child{font-weight:500;color:var(--ink2);width:30%}
+td.us{background:#F6F8FF;font-weight:500;color:var(--ink)}
+.y,.n{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.y{color:var(--green)}.n{color:var(--faint)}
+.y::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.n::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--soft2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5 5l6 6M11 5l-6 6' fill='none' stroke='%23A9A9B2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/11px no-repeat}
+.cmp{max-width:1200px;margin:0 auto;padding:10px 24px 0}
+.cmp .prose{max-width:760px}
+.cmp h2.big{font:700 clamp(28px,3.4vw,40px)/1.1 var(--font);letter-spacing:-.03em;margin:64px 0 8px}
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:26px 0}
+.feats div{border:1px solid var(--line);border-radius:20px;padding:24px;background:#fff}
+.feats i{display:block;width:34px;height:6px;border-radius:9px;margin-bottom:16px}
+.feats b{display:block;font-size:17.5px;margin-bottom:6px}.feats span{font-size:15px;color:var(--ink2);line-height:1.6}
+.honest{border-radius:20px;padding:24px 26px;margin:28px 0;background:var(--soft);font-size:16px;line-height:1.7;color:var(--ink2)}
+.honest b{display:block;margin-bottom:4px;color:var(--ink);font-size:17px}
+.faq details{border-bottom:1px solid var(--line);padding:18px 0}.faq summary{cursor:pointer;font-weight:600;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";font-size:22px;color:var(--muted);line-height:1}.faq details[open] summary::after{content:"\2212"}
+.faq p{margin:10px 0 0;color:var(--ink2);font-size:16px;line-height:1.7}
+.end{max-width:1200px;margin:90px auto 0;padding-inline:24px}
+.endc{position:relative;overflow:hidden;isolation:isolate;border-radius:30px;background:#17171B;color:#fff;padding:56px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.endc::before{content:"";position:absolute;z-index:-1;width:60%;height:140px;left:-10%;top:-40px;border-radius:99px;background:#4C6BF5;filter:blur(70px);opacity:.5}
+.endc::after{content:"";position:absolute;z-index:-1;width:40%;height:120px;right:-5%;bottom:-40px;border-radius:99px;background:#F2643D;filter:blur(70px);opacity:.4}
+.endc h2{font:700 clamp(28px,3.4vw,42px)/1.08 var(--font);letter-spacing:-.035em;margin:0}.endc p{margin:10px 0 0;color:#B9B9C4;font-size:17px}
+footer{border-top:1px solid var(--line);padding-block:30px;color:var(--muted);font-size:14px;margin-top:90px}
+footer .wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+footer .wordmark{font-size:20px}footer a{text-decoration:none}footer a:hover{color:var(--ink)}
+@media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.abody{grid-template-columns:1fr}.toc{display:none}.feat{grid-template-columns:1fr}.feat .cv{min-height:220px}}
+@media (max-width:680px){.wrap{padding-inline:16px}.links{display:none}.nav .btn.plain{display:none}.grid{grid-template-columns:1fr}.hero{padding:52px 0 36px}.feat .tx{padding:26px}
+ .abody,.acover,.cmp,.end{padding-inline:16px}.prose{font-size:17px}.prose>p:first-child{font-size:18px}.feats{grid-template-columns:1fr}.endc{padding:32px}.acover .cv{aspect-ratio:1200/630}}
+
+.topcta{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:10px 12px 10px 16px;border-radius:999px;background:#fff;border:1px solid #E4E6F2;box-shadow:0 6px 20px rgba(60,70,140,.08);font-size:15px;color:#2A2A33;text-decoration:none;transition:transform .15s,box-shadow .15s;flex-wrap:wrap}
+.topcta:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(60,70,140,.14)}
+.topcta .dot{width:8px;height:8px;border-radius:50%;background:#12A38A;box-shadow:0 0 0 4px rgba(18,163,138,.15)}
+.topcta b{display:inline-flex;align-items:center;gap:6px;background:#17171B;color:#fff;border-radius:999px;padding:6px 12px;font-size:13.5px}.topcta b svg{width:14px;height:14px}
+.inline-cta.big{padding:26px 28px;border-radius:22px;background:linear-gradient(135deg,#17171B,#262B4A);border:0;color:#fff;margin:34px 0}
+.inline-cta.big{display:flex;align-items:center;justify-content:space-between;gap:20px}.inline-cta.big b{font-size:22px;line-height:1.2;letter-spacing:-.02em;color:#fff;display:block}.inline-cta.big span{color:#C4C5D2;font-size:15px;line-height:1.45;margin-top:6px;display:block}.inline-cta.big .btn{flex:none}
+.inline-cta.big .btn.dark{background:#fff;color:#17171B;font-size:15.5px;padding:13px 22px}
+.stick{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid #ECECEF;box-shadow:0 -10px 30px rgba(0,0,0,.06)}
+.stick .wrap{display:flex;align-items:center;gap:16px;padding-top:12px;padding-bottom:12px}
+.stick span{flex:1;min-width:0;display:flex;flex-direction:column}.stick b{font-size:16px;letter-spacing:-.01em}.stick em{font-style:normal;font-size:13.5px;color:#717171;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stick button{border:0;background:none;font-size:22px;color:#9A9AA5;cursor:pointer;padding:4px 6px;line-height:1}
+@media (max-width:640px){.stick em{display:none}.stick b{font-size:14px}.stick .btn{padding:10px 14px;font-size:14px}.topcta{font-size:14px}.inline-cta.big{flex-direction:column;align-items:flex-start}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "System design estimation questions, explained for beginners", "description": "Back of the envelope math for system design interviews: requests per second, storage, uptime, caching and sharding, with worked examples.", "datePublished": "2026-11-02", "dateModified": "2026-11-02", "image": "https://crosswayhq.com/blog/covers/system-design-estimation-questions.png", "author": {"@type": "Person", "name": "Anuj Yadav", "url": "https://www.linkedin.com/in/anujyadav7"}, "publisher": {"@type": "Organization", "name": "Crossway", "logo": {"@type": "ImageObject", "url": "https://crosswayhq.com/logo.png"}}, "mainEntityOfPage": "https://crosswayhq.com/blog/system-design-estimation-questions"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is back of the envelope estimation?", "acceptedAnswer": {"@type": "Answer", "text": "Quick math from rough assumptions to size traffic, storage and servers. Interviewers care about reasoning, not exact numbers."}}, {"@type": "Question", "name": "How do I convert daily requests to requests per second?", "acceptedAnswer": {"@type": "Answer", "text": "Divide by 86,400. 1 million requests a day is about 12 per second on average."}}, {"@type": "Question", "name": "How do you calculate availability for services in a chain?", "acceptedAnswer": {"@type": "Answer", "text": "Multiply each service's availability. Three services at 99.9% give about 99.7% overall."}}]}</script></head>
+<body>
+<header class="nav"><div class="wrap"><a class="brand" href="/" aria-label="Crossway home"><span class="bars3" aria-hidden="true"><i style="width:19px;background:#4C6BF5"></i><i style="width:12px;background:#F2643D"></i><i style="width:23px;background:#12A38A"></i></span><span class="wordmark">crossway<span class="dot">.</span></span></a><nav class="links"><a href="/" class="">Crossway</a><a href="/projects" class="">Projects</a><a href="/compare/monday-alternative" class="">Compare</a><a href="/blog" class="on">Blog</a></nav><span class="sp"></span><a class="btn plain" href="/">Log in</a><a class="btn dark" href="/">Start free <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div></header>
+<main>
+<section class="ahead"><div class="lanes"><i class="lane l1"></i><i class="lane l2"></i></div><div class="wrap">
+<div class="crumb"><a href="/blog">Blog</a><span>/</span><span class="chip"><i style="background:#4C6BF5"></i>Interview prep</span></div><h1>System design estimation questions, explained for beginners</h1><p class="sub">Back of the envelope math for system design interviews: requests per second, storage, uptime, caching and sharding, with worked examples.</p>
+<div class="by"><span class="av">AY</span><span><b>Anuj Yadav</b> · Founder, Crossway · 4 min read · Nov 2, 2026</span></div><a class="topcta" href="/app?join=seeker"><span class="dot"></span>Job hunting? See your 10 best matches on Crossway, free.<b>Get my matches <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></b></a></div></section>
+<div class="acover"><span class="cv"><svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="as" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1F1F23" flood-opacity=".10"/></filter></defs><rect width="1200" height="630" fill="#EEF1FE"/><rect x="300" y="170" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.92"/><circle cx="326" cy="200" r="7" fill="#12A38A"/><rect x="346" y="195" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="300" y="244" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.92"/><circle cx="326" cy="274" r="7" fill="#12A38A"/><rect x="346" y="269" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="300" y="318" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.92"/><circle cx="326" cy="348" r="7" fill="#F2643D"/><rect x="346" y="343" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="300" y="392" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.92"/><circle cx="326" cy="422" r="7" fill="#12A38A"/><rect x="346" y="417" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="520" y="170" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.8"/><circle cx="546" cy="200" r="7" fill="#12A38A"/><rect x="566" y="195" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="520" y="244" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.8"/><circle cx="546" cy="274" r="7" fill="#F2643D"/><rect x="566" y="269" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="520" y="318" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.8"/><circle cx="546" cy="348" r="7" fill="#12A38A"/><rect x="566" y="343" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="520" y="392" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.8"/><circle cx="546" cy="422" r="7" fill="#12A38A"/><rect x="566" y="417" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="740" y="170" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.68"/><circle cx="766" cy="200" r="7" fill="#F2643D"/><rect x="786" y="195" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="740" y="244" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.68"/><circle cx="766" cy="274" r="7" fill="#12A38A"/><rect x="786" y="269" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="740" y="318" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.68"/><circle cx="766" cy="348" r="7" fill="#12A38A"/><rect x="786" y="343" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><rect x="740" y="392" width="180" height="60" rx="12" fill="#1F1F23" opacity="0.68"/><circle cx="766" cy="422" r="7" fill="#12A38A"/><rect x="786" y="417" width="100" height="10" rx="5" fill="#fff" fill-opacity=".25"/><g opacity="1"><rect x="860" y="120" width="250" height="150" rx="22" fill="#fff" filter="url(#as)"/><text x="890" y="178" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700" fill="#4C6BF5">60M ÷ 86,400</text><text x="890" y="226" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="800" fill="#1F1F23">≈ 694 req/s</text></g></svg></span></div>
+<div class="abody"><aside class="toc"><b>On this page</b><a href="#numbers-to-remember">Numbers worth remembering</a><a href="#requests-per-second">Requests per second</a><a href="#storage">Storage</a><a href="#uptime">Uptime of a chain</a><a href="#caching">Caching</a><a href="#sharding">Sharding</a><a href="#how-to-answer">How to answer well</a><a href="#questions">Questions</a></aside>
+<article class="prose"><p>Many system design interviews start with estimation. How much traffic? How much storage? How many servers? Interviewers aren't checking exact numbers. They're checking that you can reason from a few assumptions to a sensible answer.</p>
+<h2 id="numbers-to-remember">Numbers worth remembering</h2>
+<ul>
+<li>There are about 86,400 seconds in a day. Round to 100,000 for quick math.</li>
+<li>1 million requests a day is roughly 12 per second on average.</li>
+<li>Peak traffic is often 2 to 3 times the average.</li>
+<li>99.9% uptime allows about 43 minutes of downtime a month.</li>
+</ul>
+<h2 id="requests-per-second">Requests per second</h2>
+<p><b>2 million daily users each make 30 requests a day. What's the load?</b> 60 million requests ÷ 86,400 ≈ 694 per second on average. At 3x peak, about 2,100 per second.</p>
+<h2 id="storage">Storage</h2>
+<p><b>Users upload 500,000 photos a day at 2 MB each, stored 3 times. How much a year?</b> 1 TB a day raw, so about 1,100 TB a year with copies. Then ask: do old photos need fast storage?</p>
+<h2 id="uptime">Uptime of a chain</h2>
+<p><b>A request passes through services at 99.99%, 99.9% and 99.95%. Overall?</b> Multiply them: about 99.84%, or roughly 69 minutes of downtime a month. Every extra hop costs availability.</p>
+<div class="inline-cta big"><div><b>29 estimation problems, plus 49 coding problems</b><span>Requests per second, caching, sharding, retries and cost, graded instantly. Free on Crossway Arena.</span></div><a class="btn dark" href="/app?join=seeker">Practice now <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+<h2 id="caching">Caching</h2>
+<p><b>A cache answers in 2 ms, the database in 50 ms, and 90% of reads hit the cache. Average latency?</b> 0.9 × 2 + 0.1 × 50 = 6.8 ms. Raising the hit rate to 98% brings it under 3 ms.</p>
+<h2 id="sharding">Sharding</h2>
+<p><b>40 TB of data, growing 20% a year, with shards under 2 TB and 2 years of headroom. How many shards?</b> 40 × 1.2² = 57.6 TB. 57.6 ÷ 2 = 28.8, so 29 shards.</p>
+<h2 id="how-to-answer">How to answer well</h2>
+<ul>
+<li>State assumptions out loud and round aggressively</li>
+<li>Show the formula before the number</li>
+<li>Say what the number means for the design</li>
+</ul>
+<p>For coding interviews too, see <a href="/blog/is-leetcode-still-worth-it">whether LeetCode is still worth it</a>.</p>
+<h2 id="questions">Questions</h2><section class="faq"><details><summary>What is back of the envelope estimation?</summary><p>Quick math from rough assumptions to size traffic, storage and servers. Interviewers care about reasoning, not exact numbers.</p></details><details><summary>How do I convert daily requests to requests per second?</summary><p>Divide by 86,400. 1 million requests a day is about 12 per second on average.</p></details><details><summary>How do you calculate availability for services in a chain?</summary><p>Multiply each service&#x27;s availability. Three services at 99.9% give about 99.7% overall.</p></details></section><div class="share"><span>Share</span><a href="https://twitter.com/intent/tweet?text=System design estimation questions, explained for beginners&url=https://crosswayhq.com/blog/system-design-estimation-questions" target="_blank" rel="noopener">X</a><a href="https://www.linkedin.com/sharing/share-offsite/?url=https://crosswayhq.com/blog/system-design-estimation-questions" target="_blank" rel="noopener">LinkedIn</a><a href="https://www.reddit.com/submit?url=https://crosswayhq.com/blog/system-design-estimation-questions&title=System design estimation questions, explained for beginners" target="_blank" rel="noopener">Reddit</a></div></article></div>
+<section class="end"><div class="endc"><div><h2>See your 10 best job matches today.</h2><p>180,000 live roles matched to your skills every morning. Free, and no resume needed.</p></div><a class="btn white" href="/app?join=seeker">Get my matches <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div></section>
+<section class="wrap related"><h2>Keep reading</h2><div class="grid"><a class="card" href="/blog/business-operations-interview-questions" data-tag="Interview prep"><span class="cv"><svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="c7s" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1F1F23" flood-opacity=".10"/></filter></defs><rect width="1200" height="630" fill="#E8F7F3"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(0 435 315)"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(36 435 315)"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(72 435 315)"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(108 435 315)"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(144 435 315)"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(180 435 315)"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(216 435 315)"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(252 435 315)"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(288 435 315)"/><rect x="415" y="168" width="40" height="56" rx="8" fill="#F2643D" transform="rotate(324 435 315)"/><circle cx="435" cy="315" r="120" fill="#F2643D"/><circle cx="435" cy="315" r="46" fill="#E8F7F3"/><path d="M560 315 L668 315" stroke="#1F1F23" stroke-width="10" stroke-linecap="round" stroke-dasharray="2 22"/><g filter="url(#c7s)"><circle cx="790" cy="315" r="120" fill="#12A38A"/></g><circle cx="790" cy="315" r="96" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="4"/><text x="790" y="350" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="110" font-weight="800" fill="#fff">$</text></svg></span><div class="tx"><span class="chip"><i style="background:#4C6BF5"></i>Interview prep</span><h3>Business operations and strategy case questions, solved</h3><p>Break even, capacity, pricing and market entry: the case questions ops and strategy interviews ask, with worked answers and a simple way to structure them.</p><div class="ft"><span>Anuj Yadav</span><span>4 min read</span></div></div></a><a class="card" href="/blog/data-analyst-interview-questions" data-tag="Interview prep"><span class="cv"><svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="c5s" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1F1F23" flood-opacity=".10"/></filter></defs><rect width="1200" height="630" fill="#E8F7F3"/><g opacity="1"><rect x="260" y="110" width="680" height="450" rx="22" fill="#fff" filter="url(#c5s)"/><rect x="330" y="380" width="64" height="120" rx="12" fill="#C9E9E1"/><rect x="422" y="320" width="64" height="180" rx="12" fill="#C9E9E1"/><rect x="514" y="350" width="64" height="150" rx="12" fill="#C9E9E1"/><rect x="606" y="260" width="64" height="240" rx="12" fill="#C9E9E1"/><rect x="698" y="200" width="64" height="300" rx="12" fill="#12A38A"/><path d="M340 330 L520 410 L840 160" fill="none" stroke="#1F1F23" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><circle cx="840" cy="160" r="40" fill="#12A38A"/><path d="M822 160 l12 13 l22 -26" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><rect x="300" y="520" width="600" height="6" rx="3.0" fill="#C9CCD8"/></g></svg></span><div class="tx"><span class="chip"><i style="background:#4C6BF5"></i>Interview prep</span><h3>Data analyst interview questions, with worked answers</h3><p>The SQL, statistics and business questions that come up most in data analyst interviews, with clear worked answers you can learn from.</p><div class="ft"><span>Anuj Yadav</span><span>4 min read</span></div></div></a><a class="card" href="/blog/is-linkedin-premium-worth-it" data-tag="Careers"><span class="cv"><svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="c12s" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1F1F23" flood-opacity=".10"/></filter></defs><rect width="1200" height="630" fill="#EEF1FE"/><g filter="url(#c12s)"><path d="M300 200 L560 200 L560 440 L300 440 L230 320 Z" fill="#E2B33C"/></g><circle cx="290" cy="320" r="18" fill="#EEF1FE"/><g filter="url(#c12s)" transform="translate(60 30) rotate(6 700 320)"><path d="M600 200 L880 200 Q900 200 900 220 L900 420 Q900 440 880 440 L600 440 Z" fill="#E2B33C"/></g><path d="M575 160 L590 480" stroke="#1F1F23" stroke-width="6" stroke-dasharray="16 12"/><text x="420" y="340" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="56" font-weight="800" fill="#5A4100">$$</text><text x="790" y="370" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="40" font-weight="800" fill="#5A4100">Premium</text></svg></span><div class="tx"><span class="chip"><i style="background:#12A38A"></i>Careers</span><h3>Is LinkedIn Premium worth it in 2026?</h3><p>What LinkedIn Premium actually gives job seekers, when it&#x27;s worth paying for, when it isn&#x27;t, and free ways to get the same results.</p><div class="ft"><span>Anuj Yadav</span><span>4 min read</span></div></div></a></div></section><div class="stick" id="stick" hidden><div class="wrap"><span><b>See your 10 best job matches today</b><em>180,000 live roles matched to your skills every morning. Free, and no resume needed.</em></span><a class="btn dark" href="/app?join=seeker">Get my matches <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><button aria-label="Close" onclick="this.closest('.stick').remove();try{sessionStorage.setItem('stk',1)}catch(e){}">×</button></div></div><script>(function(){var s=document.getElementById("stick");try{if(sessionStorage.getItem("stk"))return s.remove()}catch(e){}addEventListener("scroll",function(){var h=document.documentElement;s.hidden=!(h.scrollTop>h.clientHeight*.6&&h.scrollTop+h.clientHeight<h.scrollHeight-500)},{passive:true})})()</script></main>
+<footer><div class="wrap"><a class="brand" href="/"><span class="bars3" aria-hidden="true"><i style="width:16px;background:#4C6BF5"></i><i style="width:10px;background:#F2643D"></i><i style="width:19px;background:#12A38A"></i></span><span class="wordmark">crossway<span class="dot">.</span></span></a><span>© 2026 Crossway</span><span class="sp"></span><a href="/compare/monday-alternative">vs monday.com</a><a href="/compare/asana-alternative">vs Asana</a><a href="/compare/linkedin-alternative">vs LinkedIn</a><a href="/compare/leetcode-alternative">vs LeetCode</a><a href="/compare/jobright-alternative">vs Jobright</a><a href="/blog">Blog</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div><div class="wrap"><p style="font-size:12.5px;color:var(--faint);margin:14px 0 0">monday.com, Asana, LinkedIn and LeetCode are trademarks of their owners. Crossway is not affiliated with or endorsed by them. Comparisons are based on public information as of October 2026.</p></div></footer>
+</body></html>
