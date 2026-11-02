@@ -1919,7 +1919,7 @@ const DEMO=(()=>{
   const slots=mkSlots();let invites=[],passes=[],nid=1;
   const P=id=>people.find(p=>p.user_id===id);
   const toC=(p,reveal)=>({seeker_id:p.user_id,code:p.code,profile:p.profile,has_sample:!!p.sample_url,open_invites:p.code==="9F1"?4:hash(p.code)%6===0?3+hash(p.code)%3:0,name:reveal?p.name:"",photo_url:reveal?p.photo_url:"",sample_url:reveal?p.sample_url:"",schools:reveal?(p.schools||[]):[]});
-  const revealed=sid=>invites.some(i=>i.seeker_id===sid&&i.company_id==="co"&&STAGES.slice(1).includes(i.status));
+  const revealed=sid=>invites.some(i=>i.seeker_id===sid&&i.company_id==="co"&&STAGES.includes(i.status));
   // seed a little activity
   invites.push({id:"i"+nid++,job_id:"j1",seeker_id:"me",company_id:"co",status:"invited",msg:"Hi! Your product analytics work looked like a strong fit for our APM role. Would love a 30 minute intro with our Head of Product.",slots:slots.slice(0,3),slot:"",created_at:new Date().toISOString()});
   const clone=x=>JSON.parse(JSON.stringify(x));
@@ -1997,11 +1997,11 @@ function renderLanding(){
   $("#main").innerHTML=`<div class="land">
     <div class="lhero"><span class="eyep">${I.eye.replace('class="i"','class="i" style="width:16px;height:16px"')}No resumes. No applications. No guesswork.</span>
       <h1>Where the right <em>paths cross.</em></h1>
-      <p>Companies see their 10 best matches the moment they post a role. Members build one profile and get invited. Names stay hidden until both sides say yes.</p>
+      <p>Companies see their 10 best matches the moment they post a role. Members build one profile and get invited. Names stay hidden until a company invites you.</p>
       ${m?`<div class="lmsg"><div class="amsg ${m.err?"err":"ok"}">${esc(m.text)}</div></div>`:""}</div>
     <div class="doors">
       <div class="door co"><span class="dl">For companies</span><h2>Hire without the pile of applications</h2>
-        <ul><li>${I.check}Post a role in two minutes</li><li>${I.check}See your 10 best matches right away, ranked and explained</li><li>${I.check}Invite with one click. Names unlock when they accept</li></ul>
+        <ul><li>${I.check}Post a role in two minutes</li><li>${I.check}See your 10 best matches right away, ranked and explained</li><li>${I.check}Invite with one click. Names unlock when you invite</li></ul>
         <div class="dacts"><button class="btn" data-act="auth" data-r="company" data-v="signup">Start hiring</button><button class="ulink" data-act="auth" data-r="company" data-v="signin">Company sign in</button></div></div>
       <div class="door se"><span class="dl">For members</span><h2>Let the right jobs find you</h2>
         <ul><li>${I.check}One profile. No resume, no cover letters</li><li>${I.check}Get matched to roles that fit your skills and pay</li><li>${I.check}Pick an interview time and you're in</li></ul>
@@ -2009,7 +2009,7 @@ function renderLanding(){
     </div>
     <div class="how"><div><span class="n">1</span><b>Build once</b><p>Members add skills, experience, proof of work and what they want. Companies add the role.</p></div>
       <div><span class="n">2</span><b>Match, blind</b><p>Every role sees only its 10 best fits. Names, photos, age and gender never affect the ranking.</p></div>
-      <div><span class="n">3</span><b>Meet</b><p>Companies send an invite with a few times. Pick one and say yes. That's when your name unlocks.</p></div></div>
+      <div><span class="n">3</span><b>Meet</b><p>Companies invite you with a few times to talk. Your name unlocks for that company when they invite. Pick a time and say yes.</p></div></div>
     <div class="foot"><span>${FULL}. Also from us: <a href="./">Crossway</a>, the free project tracker.</span><span><a href="privacy">Privacy</a> · <a href="terms">Terms</a></span></div>
   </div>`;
 }
@@ -2132,7 +2132,7 @@ function renderCo(){
   let body;
   if(S.tab==="pipe")body=pipe(j);
   else if(!R.top.length)body=`<div class="state"><span class="ic">${I.search}</span><h2>No matches yet</h2><p>${S.cands.length?`None of the ${S.cands.length} members on Crossway fit this role yet. Try a wider pay band, more cities, or fewer must haves.`:"Members are just getting started on Crossway. Your best matches will show up here as they join."}</p></div>`;
-  else body=`<div class="blind">${I.eye}<span><b>Blind matching.</b> ${R.pass.length} of ${S.cands.length} members fit this role. Tiles are colored by field. Names and photos unlock when someone accepts your invite.</span></div>
+  else body=`<div class="blind">${I.eye}<span><b>Blind matching.</b> ${R.pass.length} of ${S.cands.length} members fit this role. Tiles are colored by field. Names and photos unlock when you send an invite.</span></div>
       <div class="grid">${R.top.map((r,i)=>card(j,r,i)).join("")}</div>`;
   $("#main").innerHTML=`<div class="page">${bar}${hero}${body}</div>`;
   S.fresh=null;
@@ -2147,7 +2147,7 @@ function card(j,r,i){
   return `<div class="mc ${S.fresh===c.id?"new":""}" role="button" tabindex="0" data-act="open" data-id="${c.id}">
     <div class="cv" style="background:${grad(c)}"><span class="score" style="z-index:1">${r.s}<small>match</small></span><span class="rk" style="z-index:1">#${i+1}</span>${tileInner(c,r)}${demandTag(c)}${s?pillx(s).replace('class="pillx','style="z-index:1" class="pillx'):""}</div>
     <div><div class="t1"><b>${esc(dname(c))}</b><span class="${all?"":"meh"}">${r.mh.length}/${j.must.length} skills</span></div>
-      <p>${esc(c.headline||"No headline yet")}</p><div class="t3">${yrs(c.yrs)}${(S.badges[c.id]||{}).nods?` · ${S.badges[c.id].nods} ${S.badges[c.id].nods===1?"nod":"nods"}`:""}${(S.badges[c.id]||{}).streak>=3?` · ${FLAME.replace('class="i"','class="i" style="width:14px;height:14px;vertical-align:-2px"')}${S.badges[c.id].streak}`:""}</div></div></div>`;
+      <p>${esc(c.headline||"No headline yet")}</p><div class="t3">${yrs(c.yrs)}${(S.badges[c.id]||{}).streak>=3?` · ${FLAME.replace('class="i"','class="i" style="width:14px;height:14px;vertical-align:-2px"')}${S.badges[c.id].streak}`:""}</div></div></div>`;
 }
 function miniAva(c,size){const s=size||44;return `<span class="ava" style="width:${s}px;height:${s}px;font-size:${Math.round(s/3.2)}px;background:${grad(c)}">${revealedC(c)?(c.photo?`<img src="${esc(c.photo)}" alt="">`:esc(ini(c.name))):esc(c.code)}</span>`}
 function pipe(j){
@@ -2174,25 +2174,25 @@ function renderSheet(){
   }
   const brk=Object.entries(r.parts).map(([k,[v,m]])=>`<div><span>${k}</span><span class="bar"><i style="width:${v/m*100}%"></i></span><span>${Math.round(v)}/${m}</span></div>`).join("");
   const nx=s&&STAGES[STAGES.indexOf(s)+1];
-  const cta=!s?`<button class="btn brand" data-act="invite" data-id="${c.id}" style="width:100%">Send invite</button><button class="btn ghost" data-act="pass" data-id="${c.id}">Pass on this person</button><span class="hint" style="text-align:center">Their name unlocks when they accept</span>`
+  const cta=!s?`<button class="btn brand" data-act="invite" data-id="${c.id}" style="width:100%">Send invite</button><button class="btn ghost" data-act="pass" data-id="${c.id}">Pass on this person</button><span class="hint" style="text-align:center">Their name and full profile unlock when you send the invite</span>`
     :s==="invited"?`<div class="hint" style="text-align:center">Invite sent. You'll see their answer here.</div>`
     :s==="declined"?`<div class="hint" style="text-align:center">They passed on this role.</div>`
     :nx?`<button class="btn dark" data-act="adv" data-id="${x.id}" style="width:100%">Move to ${SLABEL[nx]}</button><button class="btn ghost" data-act="msginv" data-inv="${x.id}" style="width:100%">Message</button>${x.slot?`<span class="hint" style="text-align:center">Interview ${esc(x.slot)}</span>`:""}`:`<button class="btn ghost" data-act="msginv" data-inv="${x.id}" style="width:100%">Message</button><div class="hint" style="text-align:center">Hired. Congrats!</div>`;
   openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>${rank>=0?`Match #${rank+1} of ${R.top.length}`:"Candidate"}</h2><span style="width:36px"></span></div>
     <div class="shb">
-      <div class="dtop">${miniAva(c,96)}<div><h2>${esc(dname(c))}</h2><p>${esc(c.headline||"No headline yet")}</p>${s?`<div style="margin-top:10px">${pillx(s)}</div>`:""}${badgeRow(S.badges[c.id],1)}</div></div>
+      <div class="dtop">${miniAva(c,96)}<div><h2>${esc(dname(c))}</h2><p>${esc(c.headline||"No headline yet")}</p>${s?`<div style="margin-top:10px">${pillx(s)}</div>`:""}${badgeRow(S.badges[c.id],1,0,1)}</div></div>
       <div class="dcols"><div>
         <div class="dsec"><h3>Why they're a match</h3><ul class="whys">${r.why.map(w=>`<li class="${w.ok?"":"meh"}">${w.ok?I.check:I.warn}<span>${esc(w.t)}</span></li>`).join("")}</ul></div>
-        <div class="dsec"><h3>Nods from the community</h3>${nodsBlock(S.badges[c.id]||{nods:0})}</div>
+        
         ${c.about?`<div class="dsec"><h3>About</h3><p class="about" style="font-size:15px">${esc(c.about)}</p></div>`:""}
         <div class="dsec"><h3>Skills</h3><div class="tags">${c.skills.slice().sort((a,b)=>(j.must.includes(b)*2+j.nice.includes(b))-(j.must.includes(a)*2+j.nice.includes(a))).map(s=>`<span class="tagl ${j.must.includes(s)||j.nice.includes(s)?"hit":""}">${esc(s)}</span>`).join("")||`<span class="hint">No skills listed</span>`}</div></div>
         ${(c.projects||[]).length?`<div class="dsec"><h3>Projects</h3>${projBlock(c.projects,{blind:!known,n:12})}</div>`:""}<div class="dsec" data-arwrap><h3>Arena</h3>${arSlot(c.id,{hideEmpty:1,name:dname(c),n:3})}</div>${c.exp.length?`<div class="dsec"><h3>Experience</h3><div class="xp">${c.exp.map(expItem).join("")}</div></div>`:""}
-        ${(c.edu||[]).length?`<div class="dsec"><h3>Education</h3><div class="xp">${c.edu.map(e=>`<div class="xpi">${schoolLogo(e,!!e.school)}<div><b>${eduLine(e)}</b><span>${e.school?esc(e.school):"School unlocks when they accept"}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")}</div></div>`:""}
+        ${(c.edu||[]).length?`<div class="dsec"><h3>Education</h3><div class="xp">${c.edu.map(e=>`<div class="xpi">${schoolLogo(e,!!e.school)}<div><b>${eduLine(e)}</b><span>${e.school?esc(e.school):"School unlocks when you invite"}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")}</div></div>`:""}
         <div class="dsec"><h3>Looking for</h3><div class="facts">
           <div class="fact">${I.brief}<div><b>${c.roles.map(x=>TRACK[x]).join(", ")||"Open to"} roles</b><span>${yrs(c.yrs)} of experience</span></div></div>
           <div class="fact">${I.pin}<div><b>${j.mode==="Remote"?(c.remote?"Open to remote":"Prefers in person"):(c.locs.some(l=>sameCity(l,j.city))?"Open to "+esc(j.city):c.remote?"Open to remote":"Not in "+esc(j.city))}</b><span>Their cities stay private</span></div></div>
           <div class="fact">${I.money}<div><b>${evalC(c,j).fails.includes("Pay above band")?"Above your band":"Fits your "+band(j)+" band"}</b><span>Their exact number stays private</span></div></div>
-          <div class="fact">${I.link}<div><b>${known&&c.sample?`<a href="${esc(/^https?:/i.test(c.sample)?c.sample:"https://"+c.sample)}" target="_blank" rel="noopener">${esc(c.sample)}</a>`:c.hasSample?"Work sample on file":"No work sample yet"}</b><span>${known?"Proof of work":c.hasSample?"The link unlocks when they accept":"Ranked a little lower for now"}</span></div></div></div></div>
+          <div class="fact">${I.link}<div><b>${known&&c.sample?`<a href="${esc(/^https?:/i.test(c.sample)?c.sample:"https://"+c.sample)}" target="_blank" rel="noopener">${esc(c.sample)}</a>`:c.hasSample?"Work sample on file":"No work sample yet"}</b><span>${known?"Proof of work":c.hasSample?"The link unlocks when you invite":"Ranked a little lower for now"}</span></div></div></div></div>
       </div><div class="scorecard"><div class="big">${r.s}<small>match score</small></div><div class="bk">${brk}</div>${cta}</div></div>
     </div>`);
 }
@@ -2250,7 +2250,7 @@ function renderSeeker(){
        <div class="idtop">${pv?seekerTile(c,112):`<span class="ava" style="width:112px;height:112px;font-size:38px;background:${grad(c)}">${c.photo?`<img src="${esc(c.photo)}" alt="">`:esc(ini(c.name))}</span>`}<h2>${pv?"Candidate #"+esc(c.code):esc(c.name||"Your name")}</h2><p>${esc(c.headline||"Add a headline")}</p>${pv?"":orbitLine(S.badges[c.id])}</div>
        ${record(S.badges[c.id])}${badgeRow(S.badges[c.id],1,1)}
        <div class="idstats"><div><b>${c.yrs}</b><span>${c.yrs===1?"year":"years"} experience</span></div><div><b>${pv?"Private":c.pay?money(c.pay,c.cur):"Open"}</b><span>${pv?"pay":"minimum pay · only you"}</span></div></div>
-       ${pv?`<div class="pv">Your name and photo unlock for a company only after you accept their invite.</div>`
+       ${pv?`<div class="pv">Your name and photo unlock for a company only when they invite you.</div>`
        :`${pct<100?`<div class="strength"><div class="row1"><span>Profile ${pct}% complete</span><button class="ulink" style="font-size:13px" data-act="edit" data-s="${miss.k}">Finish</button></div><div class="bar"><i style="width:${pct}%"></i></div></div>`:""}
        <label class="sw"><input type="checkbox" id="openSw" ${c.open?"checked":""}><span class="tr"></span>${c.open?"Open to invites":"Invites paused"}</label>`}
        <div class="idacts">${pv?`<button class="btn dark" data-act="preview">Back to my profile</button>`:`<button class="btn dark" data-act="edit" data-s="basics">Edit profile</button><button class="btn line" data-act="preview">Preview as a company</button>`}</div>
@@ -2267,9 +2267,9 @@ function renderSeeker(){
        <section class="sect"><div class="secth"><h2>Skills</h2>${ed("skills")}</div><div class="tags">${c.skills.filter(s=>!toolDom(s)).map(s=>`<span class="tagl">${esc(s)}</span>`).join("")||`<span class="hint">No skills yet</span>`}</div></section>
        ${c.skills.some(toolDom)?`<section class="sect"><div class="secth"><h2>Tech stack</h2>${ed("skills")}</div><div class="tags tech">${c.skills.filter(toolDom).map(s=>{const d=toolDom(s);return `<span class="tagl">${logoBox(s,d==="-"?"":FAV(d),"tk")}${esc(s)}</span>`}).join("")}</div></section>`:""}
        <section class="sect"><div class="secth"><h2>Experience</h2>${ed("exp")}</div><div class="xp">${c.exp.map(expItem).join("")||`<span class="hint">Nothing added yet</span>`}</div></section>
-       <section class="sect"><div class="secth"><h2>Education</h2>${ed("edu")}</div><div class="xp">${(c.edu||[]).map(e=>`<div class="xpi">${schoolLogo(e,!pv)}<div><b>${eduLine(e)}</b><span>${pv?"School shown after you accept":esc(e.school||"School not added")}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")||`<span class="hint">Add your degree. Companies see the degree, field and year. The school name unlocks only after you accept an invite.</span>`}</div></section>
+       <section class="sect"><div class="secth"><h2>Education</h2>${ed("edu")}</div><div class="xp">${(c.edu||[]).map(e=>`<div class="xpi">${schoolLogo(e,!pv)}<div><b>${eduLine(e)}</b><span>${pv?"School shown after you accept":esc(e.school||"School not added")}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")||`<span class="hint">Add your degree. Companies see the degree, field and year. The school name unlocks only when a company invites you.</span>`}</div></section>
        
-       <section class="sect"><div class="secth"><h2>Showcase</h2>${ed("links")}</div>${pv?((c.links||[]).length?`<p class="hint">${c.links.length} ${c.links.length===1?"link":"links"} on file. They unlock after you accept.</p>`:`<p class="hint">No links yet.</p>`):(c.links||[]).length?linkChips(c.links):`<p class="hint" style="font-size:15px">Show your GitHub, Figma, Behance, Kaggle or portfolio.</p><button class="btn line sm2" data-act="edit" data-s="links">Add links</button>`}</section>
+       <section class="sect"><div class="secth"><h2>Showcase</h2>${ed("links")}</div>${pv?((c.links||[]).length?`<p class="hint">${c.links.length} ${c.links.length===1?"link":"links"} on file. They unlock when a company invites you.</p>`:`<p class="hint">No links yet.</p>`):(c.links||[]).length?linkChips(c.links):`<p class="hint" style="font-size:15px">Show your GitHub, Figma, Behance, Kaggle or portfolio.</p><button class="btn line sm2" data-act="edit" data-s="links">Add links</button>`}</section>
        <section class="sect"><div class="secth"><h2>Projects</h2>${ed("projects")}</div>${projBlock(pv?(c.projects||[]).map(x=>({...x,u:""})):c.projects,{uid:c.id,blind:pv,empty:pv?`<p class="hint">No projects yet.</p>`:`<p class="hint" style="font-size:15px">Your best proof of work. Import one from a GitHub, Figma or Notion link.</p><button class="btn line sm2" data-act="edit" data-s="projects">Add a project</button>`})}</section>
        <section class="sect"><div class="secth"><h2>Arena</h2>${pv?"":`<button class="ulink" data-act="stab" data-t="arena">Solve more</button>`}</div>${arSlot(c.id,{self:!pv})}</section>
        ${pv?"":`<section class="sect"><div class="secth"><h2>Open roles on Crossway</h2></div>${fits.length?`<div class="stand">${fits.map(({j,r})=>{const m=j.must.filter(s=>!c.skills.includes(s));
@@ -2312,7 +2312,7 @@ function edBody(k){
   if(k==="projects")return projEditor();
   if(k==="exp")return expEditor();
   if(k==="edu")return eduEditor();
-  return `<div class="f"><label for="eW">Link to a case study, project or portfolio</label><input id="eW" data-d="sample" maxlength="200" value="${esc(D.sample)}" placeholder="yoursite.com/case-study"><span class="hint">Companies see that you have one. The link itself unlocks after you accept.</span></div>`;
+  return `<div class="f"><label for="eW">Link to a case study, project or portfolio</label><input id="eW" data-d="sample" maxlength="200" value="${esc(D.sample)}" placeholder="yoursite.com/case-study"><span class="hint">Companies see that you have one. The link itself unlocks when a company invites you.</span></div>`;
 }
 const skGrid=q=>{const sel=D.skills.filter(s=>!ALLSK.includes(s));return [...ALLSK,...sel].filter(s=>s.toLowerCase().includes(q.toLowerCase())).map(s=>`<button class="tagl pick ${D.skills.includes(s)?"on":""}" data-act="dtog" data-f="skills" data-v="${esc(s)}">${esc(s)}</button>`).join("")+(q.trim()&&!ALLSK.concat(D.skills).some(s=>s.toLowerCase()===q.trim().toLowerCase())?`<button class="tagl pick" data-act="skadd" data-v="${esc(q.trim())}">+ Add "${esc(q.trim())}"</button>`:"")};
 
@@ -2440,12 +2440,12 @@ let nodGid=0;const NODF=()=>{const g="ng"+(nodGid++);return `<svg class="i" view
 const TROPHY=svg('<path d="M8 4h8v5a4 4 0 0 1-8 0V4zM8 6H5a3 3 0 0 0 3 3.5M16 6h3a3 3 0 0 1-3 3.5M12 13v4M8.5 20h7M10 17h4"/>');
 const BOLT=svg('<path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12z"/>');
 const tierPill=t=>{const[n,c]=TIERS[t||0];return `<span class="tierp" style="--tc:${c}"><i></i>${n}</span>`};
-function badgeRow(b,compact,noCounts){if(!b)return"";const out=[];
+function badgeRow(b,compact,noCounts,forCo){if(!b)return"";const out=[];
   if(b.solved&&!noCounts)out.push(`<span class="bdg solved">${svg('<path d="M8 8l-4 4 4 4M16 8l4 4-4 4"/>')}${b.solved} Arena ${b.solved===1?"solve":"solves"}${b.solved_hard?` · ${b.solved_hard} hard`:""}</span>`);
-  if(b.drills&&!noCounts)out.push(`<span class="bdg">${I.check}${b.drills} ${b.drills===1?"drill":"drills"} answered</span>`);
+  if(b.drills&&!noCounts&&!forCo)out.push(`<span class="bdg">${I.check}${b.drills} ${b.drills===1?"drill":"drills"} answered</span>`);
   if(b.challenges&&!noCounts)out.push(`<span class="bdg">${BOLT}${b.challenges} ${b.challenges===1?"challenge":"challenges"} answered</span>`);
   if(b.streak)out.push(`<span class="bdg">${FLAME}${b.streak} day streak</span>`);
-  if(b.nods)out.push(`<span class="bdg">${NOD}${b.nods} nods${b.company_nods?` · ${b.company_nods} from companies`:""}</span>`);
+  if(b.nods&&!forCo)out.push(`<span class="bdg">${NOD}${b.nods} nods${b.company_nods?` · ${b.company_nods} from companies`:""}</span>`);
   out.push(`<span class="bdg">${tierPill(b.tier)} league</span>`);
   if(b.wins)out.push(`<span class="bdg win">${TROPHY}${b.wins} challenge ${b.wins>1?"wins":"win"}</span>`);
   return `<div class="bdgs ${compact?"sm":""}">${out.join("")}</div>`}
@@ -2818,7 +2818,7 @@ function eduEditor(){
     <div class="xform"><h3>${S.uEdit>=0?"Edit education":"Add education"}</h3>
     <div class="fg"><div class="f"><label for="uD">Degree</label><select id="uD">${DEGREES.map(x=>`<option ${x===e.degree?"selected":""}>${x}</option>`).join("")}</select></div><div class="f"><label for="uF">Field of study</label><input id="uF" maxlength="80" placeholder="Computer Science" value="${esc(e.field||"")}"></div>
     <div class="f"><label for="uS">School</label><input id="uS" maxlength="120" autocomplete="off" placeholder="Start typing, like NYU or Stanford" value="${esc(e.school||"")}"></div><div class="f"><label for="uY">Graduation year</label><input id="uY" type="number" min="1960" max="2035" placeholder="2026" value="${esc(e.year||"")}"></div></div>
-    <div class="xfa"><span class="hint" style="margin-right:auto">Companies see degree, field and year. Your school stays hidden until you accept an invite.</span>${S.uEdit>=0?`<button class="btn ghost" data-act="ucancel">Cancel edit</button>`:""}<button class="btn line" data-act="usave">${S.uEdit>=0?"Update":"Add"}</button></div></div>`;
+    <div class="xfa"><span class="hint" style="margin-right:auto">Companies see degree, field and year. Your school stays hidden until a company invites you.</span>${S.uEdit>=0?`<button class="btn ghost" data-act="ucancel">Cancel edit</button>`:""}<button class="btn line" data-act="usave">${S.uEdit>=0?"Update":"Add"}</button></div></div>`;
 }
 const redraw=k=>{$("#edBody").innerHTML=edBody(k)};
 function readExp(strict){const t=$("#xT").value.trim(),co=$("#xC").value.trim(),st=$("#xS").value,cur=$("#xNow").checked,en=cur?"":$("#xE").value;
@@ -3160,7 +3160,7 @@ const linkIcon=u=>{const h=hostOf(u);return `<span class="lkico"><i>${esc((h||"?
 function linkChips(links){return `<div class="lkchips">${(links||[]).map(l=>{const k=linkKind(l.u);return `<a class="lkchip" href="${esc(fixUrl(l.u))}" target="_blank" rel="noopener">${linkIcon(l.u)}<span>${esc(k.k==="site"?shortUrl(l.u):k.label)}</span>${SVGI.ext}</a>`}).join("")}</div>`}
 function projCard(p,o){o=o||{};const u=fixUrl(p.u),t=esc(p.t||"Untitled project");
   return `<div class="pjc">${u?`<a class="pjlogo" href="${esc(u)}" target="_blank" rel="noopener" tabindex="-1">${linkIcon(u)}</a>`:`<span class="pjlogo">${SVGI.doc}</span>`}
-    <div class="pjb">${u?`<a class="pjt" href="${esc(u)}" target="_blank" rel="noopener">${t}${SVGI.ext}</a><span class="pjh">${esc(shortUrl(u))}</span>`:`<b class="pjt">${t}</b>${o.blind?`<span class="pjh">Link unlocks after they accept</span>`:""}`}
+    <div class="pjb">${u?`<a class="pjt" href="${esc(u)}" target="_blank" rel="noopener">${t}${SVGI.ext}</a><span class="pjh">${esc(shortUrl(u))}</span>`:`<b class="pjt">${t}</b>${o.blind?`<span class="pjh">Link unlocks when you invite</span>`:""}`}
     ${p.d?`<p class="pjd">${esc(p.d)}</p>`:""}</div></div>`}
 function projBlock(list,o){o=o||{};list=list||[];const n=o.n||3;
   if(!list.length)return o.empty||`<p class="hint">No projects yet.</p>`;
@@ -3203,7 +3203,7 @@ function projEditor(){D.projects=D.projects||[];const e=S.pjEdit!=null&&S.pjEdit
     <div class="f"><label for="pjU">Link</label><input id="pjU" maxlength="300" value="${esc(e?e.u:"")}" placeholder="github.com/you/project"></div>
     <div class="f"><label for="pjD">Description</label><textarea id="pjD" maxlength="500" style="min-height:84px" placeholder="What it is, what you did, and the result">${esc(e?e.d:"")}</textarea></div>
     <div class="pjfa">${e?`<button class="btn ghost" data-act="pjcancel">Cancel</button>`:""}<button class="btn dark" data-act="pjsave">${e?"Update project":"Add project"}</button></div></div>
-   <span class="hint">Companies see your project titles and descriptions. Links unlock after you accept their invite.</span>`}
+   <span class="hint">Companies see your project titles and descriptions. Links unlock when a company invites you.</span>`}
 const pjRows=()=>(D.projects||[]).map((p,i)=>`<div class="pjrow">${projCard(p)}<div class="pjra"><button class="ulink" data-act="pjedit" data-i="${i}">Edit</button><button class="ulink" data-act="pjdel" data-i="${i}">Remove</button></div></div>`).join("");
 function pjRedraw(){const b=$("#edBody");if(b){const keep=b.scrollTop;b.innerHTML=projEditor();b.scrollTop=keep}}
 document.addEventListener("click",async e=>{const el=e.target.closest("[data-act]");if(!el||!D)return;const a=el.dataset.act;
@@ -3294,7 +3294,7 @@ async function personSheet(uid){let P;try{P=await API.person(uid)}catch(err){toa
      <div class="pacts">${P.me?"":orbBtn(uid,P.orbiting)}${!P.me&&S.role==="seeker"?`<button class="btn line sm2" data-act="msgto" data-u="${uid}">Message</button>`:""}</div></div></div>
      <button class="fullp" data-act="fullprof" data-u="${esc(uid)}">${svg('<circle cx="12" cy="8.5" r="3.5"/><path d="M5 19.5c1.2-3.4 4-5 7-5s5.8 1.6 7 5"/>')}<span><b>View full profile</b><small>Experience, education, projects and posts</small></span>${svg('<path d="M9 6l6 6-6 6"/>')}</button>
      ${badgeRow(b,1)}
-     ${(P.links||[]).length?linkChips(P.links):blind?`<p class="hint">Links unlock after they accept your invite.</p>`:""}
+     ${(P.links||[]).length?linkChips(P.links):blind?`<p class="hint">Links unlock when you invite them.</p>`:""}
      ${P.about?`<div><h3 class="psh">About</h3><p class="pabout">${esc(P.about)}</p></div>`:""}
      ${(P.skills||[]).length?`<div class="psk">${P.skills.slice(0,10).map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:""}
      ${(P.projects||[]).length?`<div><h3 class="psh">Projects</h3>${projBlock(P.projects,{uid,blind,n:2})}</div>`:""}
@@ -3327,8 +3327,8 @@ function fullProfile(P){const uid=P.user_id,b=P.badges||{},blind=S.role==="compa
      ${sec(`Posts${count?` <span class="pcount">${count}</span>`:""}`,`<div class="plist pprev">${(P.posts||[]).slice(0,2).map(p=>postCard(p)).join("")||`<p class="hint">No posts yet.</p>`}</div>${count>2?`<button class="seeall" data-act="allposts" data-u="${esc(uid)}">See all ${count} posts ${svg('<path d="M9 6l6 6-6 6"/>')}</button>`:""}`)}
      ${(P.skills||[]).length?sec("Skills",`<div class="tags">${P.skills.map(s=>`<span class="tagl">${esc(s)}</span>`).join("")}</div>`):""}
      ${sec("Experience",(P.exp||[]).length?`<div class="xp">${P.exp.map(expItem).join("")}</div>`:`<p class="hint">Nothing added yet.</p>`)}
-     ${sec("Education",(P.edu||[]).length?`<div class="xp">${P.edu.map(e=>`<div class="xpi">${schoolLogo(e,!!e.school)}<div><b>${eduLine(e)}</b><span>${e.school?esc(e.school):blind?"School unlocks when they accept":"School not added"}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")}</div>`:`<p class="hint">Nothing added yet.</p>`)}
-     ${sec("Showcase",(P.links||[]).length?linkChips(P.links):`<p class="hint">${blind?"Links unlock after they accept your invite.":"No links yet."}</p>`)}
+     ${sec("Education",(P.edu||[]).length?`<div class="xp">${P.edu.map(e=>`<div class="xpi">${schoolLogo(e,!!e.school)}<div><b>${eduLine(e)}</b><span>${e.school?esc(e.school):blind?"School unlocks when you invite":"School not added"}${e.year?" · "+esc(e.year):""}</span></div></div>`).join("")}</div>`:`<p class="hint">Nothing added yet.</p>`)}
+     ${sec("Showcase",(P.links||[]).length?linkChips(P.links):`<p class="hint">${blind?"Links unlock when you invite them.":"No links yet."}</p>`)}
      ${sec("Projects",projBlock(P.projects||[],{uid,blind,n:3}))}
      <section class="fpsec" data-arwrap><h3>Arena</h3>${arSlot(uid,{hideEmpty:1,name:P.me?"":(P.name||""),n:4})}</section>
    </div>`,false)}
