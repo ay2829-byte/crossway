@@ -812,7 +812,7 @@ textarea.code,.ptx.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,m
 .prod a,.prod span{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;font-size:14px;font-weight:500;text-decoration:none;line-height:1.2}
 .prod a{color:var(--muted)}
 .prod a:hover{color:var(--ink);background:var(--surface)}
-.prod>span{background:var(--surface);color:var(--ink);font-weight:600}
+.prod>span,.prod>a.cur{background:var(--surface);color:var(--ink);font-weight:600}
 .prod .mb3{display:inline-flex;flex-direction:column;gap:2px;padding:0;background:none;border-radius:0}
 .mb3 i{display:block;height:2.5px;border-radius:9px;background:#3B5BDB;width:11px}
 .mb3 i:nth-child(2){background:#F2643D;width:7px}.mb3 i:nth-child(3){background:#12A38A;width:13px}
@@ -1704,6 +1704,8 @@ body.obopen{overflow:hidden}
 .chz .obtile:not(.on) .chgo{background:var(--surface);color:var(--ink)}
 </style>
 <style id="unslop">
+.addsk{display:flex;gap:8px;margin-top:10px}.addsk input{flex:1;min-width:0}
+
 /* Unslop: keep Crossway's colors and soft glow, drop the AI tells. Works in light and dark */
 :root{--ease-out:cubic-bezier(.23,1,.32,1)}
 .lhero h1 em,.obg{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:var(--b)!important}
@@ -1791,6 +1793,7 @@ const BRAND="Crossway",FULL="Crossway";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const TRACK={product:"Product",engineering:"Engineering",growth:"Growth",ops:"Business ops",data:"Data"};
+const TEAMS=[["Product","product"],["Engineering","engineering"],["Data","data"],["Design","product"],["Growth","growth"],["Marketing","growth"],["Sales","growth"],["Customer success","ops"],["Business ops","ops"],["Finance","ops"],["People and HR","ops"],["Legal","ops"],["Research","data"],["Other","other"]];
 const CAP='<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-4.5L21 9l-9 4.5L3 9z"/><path d="M7 11v4.5c1.4 1.3 3.1 2 5 2s3.6-.7 5-2V11M21 9v5"/></svg>';
 const eduLine=(e,known)=>`${esc(e.degree||"Degree")}${e.field?" in "+esc(e.field):""}`;
 const DEGREES=["Bachelor's","Master's","MBA","PhD","Associate","Bootcamp","High school","Other"];
@@ -1847,7 +1850,7 @@ const profOf=c=>({headline:c.headline,about:c.about,yrs:c.yrs,roles:c.roles,titl
 function evalC(c,j){
   const fails=[],remote=j.mode==="Remote";
   if(remote?!c.remote:!(c.locs.some(l=>sameCity(l,j.city))))fails.push(remote?"Not open to remote":"Not in "+j.city);
-  {const a=toUSD(c.pay,c.cur),b=toUSD(j.pay[1],j.cur);if(c.pay&&(c.cur||"USD")===(j.cur||"USD")?c.pay>j.pay[1]:(a!=null&&b!=null&&c.pay&&a>b*1.02))fails.push("Pay above band")}
+  {const a=toUSD(c.pay,c.cur),b=toUSD(j.pay[1],j.cur);if(+j.pay[1]&&c.pay&&(c.cur||"USD")===(j.cur||"USD")?c.pay>j.pay[1]:(a!=null&&b!=null&&c.pay&&a>b*1.02))fails.push("Pay above band")}
   if(c.sponsor&&!j.sponsor)fails.push("Needs sponsorship");
   const mh=j.must.filter(s=>c.skills.includes(s)),nh=j.nice.filter(s=>c.skills.includes(s));
   const must=j.must.length?mh.length/j.must.length:1,nice=j.nice.length?nh.length/j.nice.length:1;
@@ -1858,7 +1861,7 @@ function evalC(c,j){
   const s=Math.round(must*45+nice*15+ex*15+role*10+ver*5+af.score*10);
   const why=[{t:`Has ${mh.length} of ${j.must.length} must haves${mh.length?": "+mh.join(", "):""}`,ok:mh.length===j.must.length},
     {t:`${yrs(c.yrs)} of experience, role asks for ${a} to ${b}`,ok:exIn},
-    {t:`Pay expectations fit the ${band(j)} band`,ok:true}];
+    {t:+j.pay[1]?`Pay expectations fit the ${band(j)} band`:"Pay not listed, so pay isn't used to rank",ok:true}];
   if(nh.length)why.push({t:"Bonus: "+nh.join(", "),ok:true});
   if(c.hasSample)why.push({t:"Has a work sample on file",ok:true});if(af.n)why.push({t:`Proved ${af.skills.slice(0,3).join(", ")} in Arena: ${af.n} ${af.n===1?"solve":"solves"}${af.t?`, ${af.t} inside the clock`:""}${af.h?`, ${af.h} hard`:""}. Open their work below`,ok:true});if(c.openInv>=3)why.push({t:`In demand: ${c.openInv} open invites with other companies, so they rank a little lower to give others a shot`,ok:false});
   return{c,s,fails,mh,nh,exIn,why,parts:{Skills:[must*45,45],Bonus:[nice*15,15],Experience:[ex*15,15],"Role fit":[role*10,10],"Arena proof":[af.score*10,10],"Work sample":[ver*5,5]}};
@@ -1983,8 +1986,8 @@ function renderTop(){
     right=`<div class="navlinks"><a class="show-sm" href="./">Crossway</a><button class="hide-sm" data-act="auth" data-r="company" data-v="signin">Company sign in</button><button data-act="auth" data-r="seeker" data-v="signin">Member sign in</button></div>`;
   }
   $("#top").innerHTML=`${PREVIEW?`<div class="demo">Preview with sample data.${S.role?` Viewing as ${S.role==="company"?"a company":"a member"}.<button data-act="demoswap">Switch to ${S.role==="company"?"member":"company"}</button><button data-act="signout">Sign out</button>`:""}</div>`:""}
-   <div class="topin"><a class="brand" href="app">${BARS}crossway</a>
-   <nav class="prod" aria-label="Switch product"><span>Crossway</span><a href="tracker" title="Go to Crossway Projects"><span class="mb3"><i></i><i></i><i></i></span>Projects</a></nav>
+   <div class="topin"><a class="brand" href="${S.user?"app":"/"}">${BARS}crossway</a>
+   <nav class="prod" aria-label="Switch product">${S.user?`<span>Crossway</span>`:`<a class="cur" href="/">Crossway</a>`}<a href="tracker" title="Go to Crossway Projects"><span class="mb3"><i></i><i></i><i></i></span>Projects</a></nav>
    <div class="sp"></div>${S.role==="seeker"?`<div class="tabs2" role="tablist"><button class="${S.stab==="today"||!S.stab?"on":""}" data-act="stab" data-t="today">Today</button><button class="${S.stab==="jobs"?"on":""}" data-act="stab" data-t="jobs">Jobs</button><button class="${S.stab==="arena"?"on":""}" data-act="stab" data-t="arena">Arena</button><button class="${S.stab==="community"?"on":""}" data-act="stab" data-t="community">Community</button><button class="${S.stab==="profile"?"on":""}" data-act="stab" data-t="profile">Profile</button></div>`:S.role==="company"?`<div class="tabs2" role="tablist"><button class="${S.ctab!=="challenges"?"on":""}" data-act="ctab" data-t="roles">Roles</button><button class="${S.ctab==="challenges"?"on":""}" data-act="ctab" data-t="challenges">Challenges</button></div>`:""}<div class="sp"></div>${right}</div>`;
 }
 
@@ -2196,26 +2199,29 @@ function renderSheet(){
 const slotBtns=()=>SLOTS.map((s,i)=>{const[d,t]=splitSlot(s);return `<button class="time ${pickSlots.includes(s)?"on":""}" data-act="slot" data-i="${i}"><b>${esc(d)}</b><span>${esc(t)}</span></button>`}).join("");
 let draft=null;
 function newJob(){
-  draft={must:[],nice:[]};
+  draft={must:[],nice:[],extra:[]};
   openSheet(`<div class="shh"><button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button><h2>Post a role</h2><span style="width:36px"></span></div>
    <div class="shb"><p class="hint" style="font-size:15px">No applications to sort through. You'll see your best 10 the moment you post.</p>
    <form id="jobForm" class="fg">
      <div class="f full"><label for="nT">Role title</label><input id="nT" placeholder="Associate Product Manager" maxlength="80"></div>
-     <div class="f"><label for="nTr">Team</label><select id="nTr">${Object.keys(TRACK).map(k=>`<option value="${k}">${TRACK[k]}</option>`).join("")}</select></div>
+     <div class="f"><label for="nTr">Team</label><select id="nTr" data-act="teamPick">${TEAMS.map(([t])=>`<option value="${esc(t)}">${esc(t)}</option>`).join("")}</select></div>
      <div class="f"><label for="nMode">Work mode</label><select id="nMode"><option>Hybrid</option><option>Onsite</option><option>Remote</option></select></div>
+     <div class="f full" id="nTeamWrap" hidden><label for="nTeam">Team name</label><input id="nTeam" maxlength="40" placeholder="Hardware, Clinical, Partnerships"></div>
      <div class="f full"><label for="nCity">City</label><input id="nCity" list="placeList2" autocomplete="off" placeholder="Type a city" value="${esc(CITIES[0])}"><datalist id="placeList2">${PLACES.filter(x=>x!=="Remote").map(c=>`<option value="${esc(c)}">`).join("")}</datalist></div>
      <div class="f full"><label for="nCur">Currency</label><select id="nCur" data-curfor="nP1">${curOpts((S.co&&S.co.cur)||"USD")}</select></div>
-     <div class="f"><label for="nP0">Pay from (thousands a year)</label><input id="nP0" type="number" min="1" value="80"></div>
-     <div class="f"><label for="nP1">Pay to (thousands a year)</label><input id="nP1" type="number" min="1" value="110" data-payprev="nPv" data-cur="nCur"><span class="hint" id="nPv"></span></div>
+     <div class="f"><label for="nP0">Pay from (thousands a year)</label><input id="nP0" type="number" min="0" value="80"></div>
+     <div class="f"><label for="nP1">Pay to (thousands a year)</label><input id="nP1" type="number" min="0" value="110" data-payprev="nPv" data-cur="nCur"><span class="hint" id="nPv">Leave both blank or 0 if you'd rather not list pay.</span></div>
      <div class="f"><label for="nE0">Experience from (years)</label><input id="nE0" type="number" min="0" value="0"></div>
      <div class="f"><label for="nE1">Experience to (years)</label><input id="nE1" type="number" min="0" value="3"></div>
      <label class="sw f full" style="flex-direction:row"><input type="checkbox" id="nSp"><span class="tr"></span>We sponsor visas</label>
-     <div class="f full"><span class="lbl">Skills</span><span class="hint">Tap once for must have (dark), twice for nice to have (green). Pick at least one must have.</span><div class="tags" id="skPick">${skBtns()}</div></div>
+     <div class="f full"><span class="lbl">Skills</span><span class="hint">Tap once for must have (dark), twice for nice to have (green). Pick at least one must have.</span><div class="tags" id="skPick">${skBtns()}</div><div class="addsk"><input id="nSkC" maxlength="40" placeholder="Add a skill that isn't listed" aria-label="Add a skill"><button type="button" class="btn ghost sm2" data-act="skAdd">Add</button></div></div>
    </form></div>
    <div class="shf"><button class="btn ghost" data-act="mclose">Cancel</button><button class="btn brand" data-act="postjob">Post and see matches</button></div>`,true);
   $("#nT").focus();
 }
-const skBtns=()=>ALLSK.map(s=>`<button type="button" class="tagl pick ${draft.must.includes(s)?"on":draft.nice.includes(s)?"on2":""}" data-act="sk" data-v="${esc(s)}">${esc(s)}</button>`).join("");
+document.addEventListener("change",e=>{if(e.target&&e.target.id==="nTr"){const w=$("#nTeamWrap");if(w){w.hidden=e.target.value!=="Other";if(!w.hidden)$("#nTeam").focus()}}});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target&&e.target.id==="nSkC"){e.preventDefault();const b=document.querySelector('[data-act="skAdd"]');if(b)b.click()}});
+const skBtns=()=>[...ALLSK,...(draft.extra||[]).filter(s=>!ALLSK.includes(s))].map(s=>`<button type="button" class="tagl pick ${draft.must.includes(s)?"on":draft.nice.includes(s)?"on2":""}" data-act="sk" data-v="${esc(s)}">${esc(s)}</button>`).join("");
 function coSheet(first){S.coLogoDraft=null;
   openSheet(`<div class="shh">${first?`<span style="width:36px"></span>`:`<button class="xbtn" data-act="mclose" aria-label="Close">${I.x}</button>`}<h2>${first?"Welcome to Crossway":"Company details"}</h2><span style="width:36px"></span></div>
     <div class="shb">${first?`<p style="font-size:16px">Members see this name on your invites.</p>`:""}<div class="f"><label for="coN">Company name</label><input id="coN" maxlength="80" value="${esc((S.co&&S.co.name)||"")}" placeholder="Fieldnote"></div>
@@ -2311,7 +2317,14 @@ function edBody(k){
 const skGrid=q=>{const sel=D.skills.filter(s=>!ALLSK.includes(s));return [...ALLSK,...sel].filter(s=>s.toLowerCase().includes(q.toLowerCase())).map(s=>`<button class="tagl pick ${D.skills.includes(s)?"on":""}" data-act="dtog" data-f="skills" data-v="${esc(s)}">${esc(s)}</button>`).join("")+(q.trim()&&!ALLSK.concat(D.skills).some(s=>s.toLowerCase()===q.trim().toLowerCase())?`<button class="tagl pick" data-act="skadd" data-v="${esc(q.trim())}">+ Add "${esc(q.trim())}"</button>`:"")};
 
 /* ---------- render + events ---------- */
+/* the open tab lives in the address (#jobs, #arena), so a refresh lands on the same page */
+const TAB_S=["today","jobs","arena","community","profile"],TAB_C=["roles","challenges"];
+let wantTab=(()=>{const h=location.hash.slice(1);return TAB_S.includes(h)||TAB_C.includes(h)?h:null})();
+function syncTab(){if(!S.user||!S.role||/access_token|error/.test(location.hash))return;
+  if(wantTab){if(S.role==="company"&&TAB_C.includes(wantTab))S.ctab=wantTab;else if(S.role!=="company"&&TAB_S.includes(wantTab))S.stab=wantTab;wantTab=null}
+  const t=S.role==="company"?(S.ctab||"roles"):(S.stab||"today");if(location.hash!=="#"+t)history.replaceState(null,"",location.pathname+location.search+"#"+t)}
 function render(){
+  if(S.user&&S.role&&!S.loading)syncTab();
   renderTop();
   if(S.loading&&S.user)return;
   if(!S.user)renderLanding();else if(!S.role)renderChoose();else if(S.role==="company"){if(S.ctab==="challenges")renderCoChallenges();else{renderCo();if(S.sheet&&S.mode==="view")renderSheet()}}else renderS();
@@ -2329,7 +2342,7 @@ document.addEventListener("click",async e=>{
   if(a==="menu"){S.menu=!S.menu;renderTop();return}
   if(a==="auth"){authSheet(el.dataset.r,el.dataset.v);return}
   if(a==="google"){google();return}
-  if(a==="signout"){S.menu=false;stopPoll();if(PREVIEW){S.user=null;S.role=null;render();return}await API.signOut();return}
+  if(a==="signout"){S.menu=false;stopPoll();if(PREVIEW){S.user=null;S.role=null;render();return}await API.signOut();location.replace("/");return}
   if(a==="demoswap"){const r=S.role==="company"?"seeker":"company";DEMO.demoRole=r;S.user=null;S.role=null;S.preview=false;await onSession({user:{id:r==="company"?"co":"me",email:r==="company"?"hiring@fieldnote.co":"jordan@example.com"}},r);return}
   if(a==="pick"){el.disabled=true;try{await API.register(el.dataset.r);S.role=null;const u=S.user;S.user=null;await onSession({user:u})}catch(err){toast(friendly(err));el.disabled=false}return}
   if(a==="coname"){S.menu=false;renderTop();coSheet(false);return}
@@ -2354,15 +2367,20 @@ document.addEventListener("click",async e=>{
   if(a==="pass"){const j=job(),id=el.dataset.id;await act(()=>API.pass(j.id,id));S.passes.push({job_id:j.id,seeker_id:id});closeSheet();const nx=ranked(j).top[9];S.fresh=nx&&nx.c.id;render();toast("Passed. The next best match moved in.");return}
   if(a==="adv"){e.stopPropagation();el.disabled=true;try{const st=await act(()=>API.advance(el.dataset.id));const x=S.inv.find(i=>i.id===el.dataset.id);if(x)x.status=st;render();if(st==="hired")toast("Hired. Congrats!")}catch(_){el.disabled=false}return}
   if(a==="new"){newJob();return}
+  if(a==="skAdd"){const inp=$("#nSkC"),v=(inp.value||"").trim().replace(/\s+/g," ");if(!v)return;const hit=[...ALLSK,...draft.extra].find(x=>x.toLowerCase()===v.toLowerCase())||v;
+    if(!ALLSK.includes(hit)&&!draft.extra.includes(hit))draft.extra.push(hit);if(!draft.must.includes(hit)&&!draft.nice.includes(hit))draft.must.push(hit);inp.value="";$("#skPick").innerHTML=skBtns();inp.focus();return}
   if(a==="sk"){const v=el.dataset.v;
     if(draft.must.includes(v)){draft.must=draft.must.filter(x=>x!==v);draft.nice.push(v)}else if(draft.nice.includes(v))draft.nice=draft.nice.filter(x=>x!==v);else draft.must.push(v);
     $("#skPick").innerHTML=skBtns();return}
   if(a==="postjob"){const v=id=>$("#"+id).value.trim();
     if(!v("nT")){toast("Add a role title.");$("#nT").focus();return}
     if(!draft.must.length){toast("Pick at least one must have skill.");return}
-    const mode=v("nMode"),p0=+v("nP0"),p1=+v("nP1"),e0=+v("nE0"),e1=+v("nE1");
-    if(!p0||!p1||p1<p0||e1<e0){toast("Check the pay and experience ranges. Each 'to' needs to be at least its 'from'.");return}
-    const d={title:v("nT"),city:mode==="Remote"?"Remote":v("nCity"),mode,track:v("nTr"),must:draft.must.slice(),nice:draft.nice.slice(),exp:[e0,e1],pay:[p0,p1],sponsor:$("#nSp").checked,cur:$("#nCur")?$("#nCur").value:"USD"};
+    const mode=v("nMode");let p0=+v("nP0")||0,p1=+v("nP1")||0;const e0=+v("nE0")||0,e1=+v("nE1")||0;
+    if(p0&&!p1)p1=p0;if(p1&&!p0)p0=p1;
+    if(p0<0||p1<0||p1<p0||e1<e0){toast("Check the pay and experience ranges. Each 'to' needs to be at least its 'from'.");return}
+    const teamSel=v("nTr"),teamT=teamSel==="Other"?v("nTeam"):teamSel,teamK=(TEAMS.find(t=>t[0]===teamSel)||[])[1]||"other";
+    if(teamSel==="Other"&&!teamT){toast("Add a team name.");$("#nTeam").focus();return}
+    const d={title:v("nT"),city:mode==="Remote"?"Remote":v("nCity"),mode,track:teamK,team:teamT,must:draft.must.slice(),nice:draft.nice.slice(),exp:[e0,e1],pay:[p0,p1],sponsor:$("#nSp").checked,cur:$("#nCur")?$("#nCur").value:"USD"};
     el.disabled=true;
     try{const nj=await act(()=>API.createJob(d));S.jobs.unshift(nj);S.job=nj.id;S.tab="top";closeSheet();render();window.scrollTo(0,0);const n=ranked(nj).top.length;toast(n?`Posted. Here ${n===1?"is your best match":"are your best "+n}.`:"Posted. We'll show matches as members join.")}catch(_){el.disabled=false}
     return}
@@ -2705,7 +2723,7 @@ function renderCoChallenges(){
     <div class="hero"><div><h1>Challenges</h1><div class="sub"><span>Post a real problem. See how people think. Invite the best answers straight to interviews.</span></div></div><button class="btn brand" data-act="newch">${svg('<path d="M12 5v14M5 12h14"/>')}Post a challenge</button></div>
     ${mine.length?`<div class="chgrid">${mine.map(chCard).join("")}</div>`:`<div class="state" style="margin-top:28px"><span class="ic">${BOLT}</span><h2>Post your first challenge</h2><p>A 3 day challenge usually beats a job post at finding people who can actually do the work.</p><button class="btn brand" data-act="newch">Post a challenge</button></div>`}
     <div class="sech2 fh" style="margin-top:44px"><h2>What members are sharing</h2><div class="fchips">${[[null,"All fields"],...Object.entries(TRACK)].map(([k,l])=>`<button class="tagl pick ${ft===k?"on":""}" data-act="ftrack" data-v="${k||""}">${l}</button>`).join("")}</div></div>
-    <div class="plist" style="max-width:760px">${(S.feed||[]).map(p=>postCard(p)).join("")||`<p class="hint">Nothing here yet.</p>`}</div>
+    <div class="plist" style="max-width:760px;margin-top:20px">${(S.feed||[]).map(p=>postCard(p)).join("")||`<p class="hint">Nothing here yet.</p>`}</div>
     ${(S.feed||[]).length?`<div class="caught" style="max-width:760px"><p>You're all caught up.</p></div>`:""}
   </div>`;
 }
@@ -3093,7 +3111,7 @@ function curList(){if(CURS)return CURS;let all=[];try{all=Intl.supportedValuesOf
 const curOpts=sel=>curList().map(([c,n],i)=>`${i===CUR_TOP.length?`<option disabled>──────────</option>`:""}<option value="${c}" ${c===(sel||"USD")?"selected":""}>${c} · ${esc(n)}</option>`).join("");
 /* pay is stored in thousands a year */
 function money(k,cur){cur=cur||"USD";const v=(+k||0)*1000;try{return new Intl.NumberFormat(cur==="INR"?"en-IN":"en-US",{style:"currency",currency:cur,notation:"compact",maximumFractionDigits:1}).format(v)}catch(_){return cur+" "+(+k||0)+"k"}}
-const band=j=>`${money(j.pay[0],j.cur)} to ${money(j.pay[1],j.cur)}`;
+const band=j=>!(j.pay&&+j.pay[1])?"Pay not listed":+j.pay[0]===+j.pay[1]?money(j.pay[1],j.cur):`${money(j.pay[0],j.cur)} to ${money(j.pay[1],j.cur)}`;
 const toUSD=(k,cur)=>FX[cur||"USD"]!=null?(+k||0)*FX[cur||"USD"]:null;
 document.addEventListener("input",e=>{const t=e.target;if(!t||!t.dataset||!t.dataset.payprev)return;const out=$("#"+t.dataset.payprev),cur=$("#"+t.dataset.cur);if(out)out.textContent=+t.value?`${money(+t.value,cur&&cur.value)} a year`:""});
 document.addEventListener("change",e=>{const t=e.target;if(!t||!t.dataset||!t.dataset.curfor)return;const i=$("#"+t.dataset.curfor);i&&i.dispatchEvent(new Event("input",{bubbles:true}))});
