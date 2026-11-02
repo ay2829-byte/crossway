@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Company · Crossway</title>
+<meta name="description" content="Open roles, posts and people at this company on Crossway, the free job board and career network.">
+<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap">
+<style>
+/* Company page: brand hero in the company's color, About and posts first, then open roles and challenges; side rail for people and more companies */
+:root{
+  --ground:#EFEFF1;--surf:#FFFFFF;--surf2:#F4F4F6;--line:#E8E8EC;--ink:#18181C;--ink2:#46464F;--mut:#73737C;
+  --co:#0E6B55;--co2:#12A38A;--coSoft:#E4F6F0;--blue:#4C6BF5;--green:#12A38A;--amber:#EE8E0B;--red:#D93A3A;
+  --glow1:rgba(108,140,255,.30);--glow2:rgba(255,138,92,.22);--glow3:rgba(60,201,168,.22);
+  --f:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--logo:"Bricolage Grotesque","Inter",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0C0C0E;--surf:#16161A;--surf2:#1E1E23;--line:#2A2A30;--ink:#F3F3F5;--ink2:#C9C9D0;--mut:#8D8D96;--glow1:rgba(108,140,255,.13);--glow2:rgba(255,138,92,.08);--glow3:rgba(60,201,168,.09);color-scheme:dark}}
+:root[data-theme="dark"]{--ground:#0C0C0E;--surf:#16161A;--surf2:#1E1E23;--line:#2A2A30;--ink:#F3F3F5;--ink2:#C9C9D0;--mut:#8D8D96;--glow1:rgba(108,140,255,.13);--glow2:rgba(255,138,92,.08);--glow3:rgba(60,201,168,.09);color-scheme:dark}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:radial-gradient(1000px 600px at 8% -4%,var(--glow1),transparent 70%),radial-gradient(900px 560px at 92% 2%,var(--glow2),transparent 70%),radial-gradient(700px 500px at 60% 110%,var(--glow3),transparent 70%),var(--ground);background-attachment:fixed;color:var(--ink);font:14px/1.55 var(--f);letter-spacing:-.006em;min-height:100vh}
+a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-block:0 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{display:flex;align-items:center;gap:18px;padding-block:18px}
+.brand{display:flex;align-items:center;gap:9px;font:800 20px/1 var(--logo);letter-spacing:-.04em}
+.bars{display:inline-flex;flex-direction:column;gap:3px}.bars i{display:block;height:4px;border-radius:4px}
+.tnav{margin-left:auto;display:flex;gap:6px;align-items:center}
+.tnav a{padding:8px 14px;border-radius:99px;color:var(--ink2);font-weight:500}.tnav a:hover{background:var(--surf)}
+.tnav a.cta{background:var(--ink);color:var(--surf)}
+/* hero */
+.hero{position:relative;border-radius:28px;overflow:hidden;background:var(--co);color:#fff;isolation:isolate}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.hin{padding:34px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:22px;align-items:center}
+.clogo{width:96px;height:96px;border-radius:26px;background:#fff;color:var(--co);display:grid;place-items:center;font:800 36px var(--f);letter-spacing:-.05em;box-shadow:0 18px 40px -12px rgba(0,0,0,.35);overflow:hidden}
+.clogo img{width:100%;height:100%;object-fit:contain;padding:12px}
+h1{margin:0;font-size:38px;line-height:1.05;font-weight:700;letter-spacing:-.04em;display:flex;align-items:center;gap:10px;flex-wrap:wrap;text-wrap:balance}
+.vck{width:28px;height:28px;flex:none;display:inline-grid}.vck svg{width:28px;height:28px}
+.tag{font-size:17px;color:rgba(255,255,255,.88);margin-top:6px}
+.hfoot{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:14px}
+.fols{font-size:13.5px;color:rgba(255,255,255,.85)}.fols b{color:#fff;font-weight:600}
+.live{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:5px 12px 5px 10px;font-size:13px;font-weight:500}
+.live i{width:8px;height:8px;border-radius:50%;background:#7CFFC9;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(124,255,201,.7)}70%{box-shadow:0 0 0 9px rgba(124,255,201,0)}100%{box-shadow:0 0 0 0 rgba(124,255,201,0)}}
+.acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn{border:0;border-radius:14px;padding:12px 18px;font-weight:600;display:inline-flex;gap:8px;align-items:center;white-space:nowrap;transition:transform .15s}
+.btn:active{transform:scale(.97)}.btn:disabled{opacity:.6;cursor:default}
+.btn.w{background:#fff;color:var(--co)}.btn.g{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.24)}
+.btn.ink{background:var(--ink);color:var(--surf)}.btn.line{background:var(--surf);color:var(--ink);border:1px solid var(--line)}
+.btn svg{width:15px;height:15px}
+.tabs{display:flex;gap:4px;margin-top:16px;overflow-x:auto;background:var(--surf);border-radius:16px;padding:6px}
+.tabs button{border:0;background:none;padding:9px 14px;border-radius:11px;color:var(--mut);font-weight:500;white-space:nowrap}
+.tabs button.on{background:var(--ink);color:var(--surf)}.tabs .n{opacity:.6;margin-left:5px;font-size:12.5px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;margin-top:20px;align-items:start}
+.col{display:flex;flex-direction:column;gap:20px;min-width:0}
+.card{background:var(--surf);border-radius:22px;padding:24px 26px}
+h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.03em}
+.sub{color:var(--mut);font-size:13.5px;margin:4px 0 16px}
+.chd{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.chd a,.chd button.lk{color:var(--co2);font-weight:600;font-size:13.5px;white-space:nowrap;background:none;border:0;padding:0}
+/* about */
+.lead{font-size:17px;line-height:1.55;margin:12px 0 0;max-width:62ch;white-space:pre-line}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.fact{display:inline-flex;align-items:center;gap:8px;background:var(--surf2);border-radius:12px;padding:9px 12px;font-size:13px;color:var(--ink2)}
+.fact b{color:var(--ink);font-weight:600}
+.claim{display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--surf2);border-radius:16px;padding:16px 18px;margin-top:14px}
+.claim p{margin:0;flex:1;min-width:220px;color:var(--ink2)}.claim b{color:var(--ink)}
+/* posts */
+.pc{padding:16px 0;border-top:1px solid var(--line)}.pc:first-of-type{border-top:0;padding-top:4px}
+.ph{display:flex;gap:10px;align-items:center}.ph b{font-weight:600}.ph small{display:block;color:var(--mut);font-size:12.5px}
+.mini{width:38px;height:38px;border-radius:11px;background:var(--co);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;overflow:hidden;flex:none}
+.mini img{width:100%;height:100%;object-fit:contain;background:#fff;padding:5px}
+.pc p{margin:10px 0 0;color:var(--ink2);white-space:pre-line;max-width:68ch}
+.plink{display:block;margin-top:12px;border:1px solid var(--line);border-radius:14px;padding:11px 14px;color:var(--co2);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pdel{margin-left:auto;background:none;border:0;color:var(--mut);font-size:12.5px}
+.empty{color:var(--mut);background:var(--surf2);border-radius:14px;padding:16px;text-align:center}
+.compose{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+textarea,input[type=text],input[type=url],input[type=number],select{width:100%;border:1px solid var(--line);background:var(--surf);border-radius:12px;padding:11px 13px;outline:none}
+textarea{resize:vertical;min-height:84px}
+textarea:focus,input:focus,select:focus{border-color:var(--co2)}
+.crow{display:flex;gap:10px}.crow input{flex:1}
+/* roles */
+.rfilter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.rfilter input{max-width:260px}
+.chip{border:1px solid var(--line);background:var(--surf);border-radius:99px;padding:7px 13px;font-weight:500;font-size:13px;color:var(--ink2)}
+.chip.on{background:var(--ink);color:var(--surf);border-color:var(--ink)}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.role{border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,transform .2s}
+.role:hover{border-color:var(--co2);transform:translateY(-2px)}
+.role b{font-weight:600;font-size:15px;letter-spacing:-.015em;line-height:1.3}
+.rm{display:flex;flex-wrap:wrap;gap:6px}
+.rm span{font-size:12.5px;padding:3px 9px;border-radius:7px;background:var(--surf2);color:var(--ink2)}
+.rm span.pay{background:var(--coSoft);color:var(--co2);font-weight:600}
+.rf{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);margin-top:auto}.rf a{color:var(--co2);font-weight:600}
+.more{margin-top:14px;width:100%}
+/* challenges */
+.chs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ch{border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px;color:#fff;background:linear-gradient(140deg,#1B1C2B,#2B2F55);min-height:160px}
+.ch:nth-child(2n){background:linear-gradient(140deg,#21150F,#4A2618)}
+.ch .ct{display:flex;justify-content:space-between;font-size:12.5px;color:rgba(255,255,255,.72)}
+.ch .left{background:rgba(255,255,255,.12);padding:4px 10px;border-radius:99px;color:#fff;font-weight:600}
+.ch b{font-size:16px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+.ch a{margin-top:auto;align-self:flex-start;background:#fff;color:#18181C;padding:7px 14px;border-radius:10px;font-weight:600}
+/* side */
+.sim{display:flex;flex-direction:column;gap:12px}
+.sm{display:flex;align-items:center;gap:12px}
+.sm .lg{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;flex:none}
+.sm b{font-weight:600;display:block}.sm small{color:var(--mut);font-size:12.5px}
+.note{font-size:12.5px;color:var(--mut)}
+/* dialogs */
+.ov{position:fixed;inset:0;background:rgba(10,10,14,.45);display:grid;place-items:center;padding:16px;z-index:50}
+.dlg{background:var(--surf);border-radius:22px;padding:24px;width:min(520px,100%);max-height:calc(100vh - 32px);overflow:auto;display:flex;flex-direction:column;gap:12px}
+.dlg h3{margin:0;font-size:19px;letter-spacing:-.02em}
+.dlg label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500;color:var(--ink2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dacts{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+.err{color:var(--red);font-size:13px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surf);padding:11px 16px;border-radius:12px;font-weight:500;z-index:60}
+.skel{height:220px;border-radius:28px;background:var(--surf);opacity:.6}
+@media (max-width:960px){.grid{grid-template-columns:1fr}}
+@media (max-width:640px){.hin{grid-template-columns:auto minmax(0,1fr);padding:22px 18px}.acts{grid-column:1/-1;justify-content:flex-start}h1{font-size:27px}.clogo{width:68px;height:68px;font-size:24px;border-radius:18px}.roles,.chs,.two{grid-template-columns:1fr}.card{padding:20px}.tnav a:not(.cta){display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="/"><span class="bars"><i style="width:22px;background:#4C6BF5"></i><i style="width:14px;background:#F2643D"></i><i style="width:26px;background:#12A38A"></i></span>crossway</a>
+    <nav class="tnav"><a href="/app">Jobs</a><a href="/blog">Blog</a><a class="cta" href="/app" id="appLink">Open Crossway</a></nav>
+  </div>
+  <div id="root"><div class="skel"></div></div>
+</div>
+<div id="ov" class="ov" hidden></div>
+
+<script src="/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="/cw-google.js" defer></script>
+<script>
+(function(){
+const CFG=window.WORKBOARD_CONFIG||{};const sb=window.supabase&&CFG.supabaseUrl?window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseAnonKey):null;
+const RAW="https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/co/";
+const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const slugify=n=>String(n||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const parts=location.pathname.split("/").filter(Boolean);
+let SLUG=parts[0]==="c"&&parts[1]?decodeURIComponent(parts[1]).toLowerCase():(new URLSearchParams(location.search).get("c")||"").toLowerCase();
+const NEW=!SLUG||SLUG==="new";
+let CO=null,PG=null,ROLES=[],showN=12,rq="",rf="",TAB="all";
+const LV={intern:"Intern",entry:"Entry",mid:"Mid",senior:"Senior"},WP={remote:"Remote",hybrid:"Hybrid",onsite:"Onsite"};
+const ago=d=>{if(!d)return"";const n=Math.round(Date.now()/864e5)-d;return n<=0?"Today":n===1?"1 day ago":n<7?n+" days ago":n<14?"1 week ago":n<60?Math.floor(n/7)+" weeks ago":Math.floor(n/30)+" months ago"};
+const when=t=>{const n=(Date.now()-new Date(t))/864e5;return n<1?"Today":n<2?"Yesterday":n<7?Math.floor(n)+" days ago":new Date(t).toLocaleDateString(undefined,{month:"short",day:"numeric"})};
+const initials=n=>{const w=String(n||"?").replace(/[^A-Za-z0-9 ]/g," ").trim().split(/\s+/);return (w.length>1?w[0][0]+w[1][0]:w[0][0]).toUpperCase()};
+const toast=t=>{const e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)};
+
+/* colors: from the company's chosen color, else a steady pick from its name. Very dark or gray colors become a deep slate */
+const PALS=["#0E6B55","#3B4FC4","#6D3BC4","#B23A12","#0B6E99","#8E2B57","#1F5F8B","#5B3FD6","#2D3A4F","#0F766E"];
+const hash=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return h};
+const hex=h=>{h=h.replace("#","");return[0,2,4].map(i=>parseInt(h.substr(i,2),16))};
+const toHsl=([r,g,b])=>{r/=255;g/=255;b/=255;const M=Math.max(r,g,b),m=Math.min(r,g,b),l=(M+m)/2;let h=0,s=0;if(M!==m){const d=M-m;s=l>.5?d/(2-M-m):d/(M+m);h=M===r?(g-b)/d+(g<b?6:0):M===g?(b-r)/d+2:(r-g)/d+4;h*=60}return[h,s,l]};
+const hsl=(h,s,l)=>`hsl(${Math.round(h)} ${Math.round(s*100)}% ${Math.round(l*100)}%)`;
+let P={};function palette(base){let [h,s,l]=toHsl(hex(base));if(s<.15){h=230;s=.18;l=.2}l=Math.min(Math.max(l,.24),.38);s=Math.max(s,.45);
+  P={base:hsl(h,s,l),light:hsl((h+8)%360,Math.min(.85,s),Math.min(.56,l+.15)),dark:hsl(h,s,Math.max(.12,l-.12))};
+  const r=document.documentElement.style;r.setProperty("--co",P.base);r.setProperty("--co2",P.light);
+  r.setProperty("--coSoft",`color-mix(in srgb, ${P.light} 14%, var(--surf))`)}
+
+function heroBg(){const c=$("#bg");if(!c)return;const x=c.getContext("2d"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const B=[{x:.82,y:.1,r:.55,k:"light",s:.00012},{x:.98,y:.95,r:.45,k:"dark",s:.0001},{x:.1,y:1.1,r:.5,k:"light",s:.00008}];
+  const size=()=>{const r=c.getBoundingClientRect();c.width=r.width*devicePixelRatio;c.height=r.height*devicePixelRatio};size();addEventListener("resize",size);
+  const draw=t=>{if(!c.isConnected)return;const w=c.width,h=c.height;x.fillStyle=P.base;x.fillRect(0,0,w,h);
+    B.forEach((b,i)=>{const ox=Math.sin(t*b.s+i)*.05,oy=Math.cos(t*b.s*1.3+i)*.05;const g=x.createRadialGradient((b.x+ox)*w,(b.y+oy)*h,0,(b.x+ox)*w,(b.y+oy)*h,b.r*w);g.addColorStop(0,P[b.k]);g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.fillRect(0,0,w,h)});
+    x.strokeStyle="rgba(255,255,255,.06)";x.lineWidth=devicePixelRatio;for(let gx=0;gx<w;gx+=48*devicePixelRatio){x.beginPath();x.moveTo(gx,0);x.lineTo(gx,h);x.stroke()}
+    if(!reduce)requestAnimationFrame(draw)};requestAnimationFrame(draw)}
+
+const logoHTML=(cls)=>PG&&PG.logo_url?`<img src="${esc(PG.logo_url)}" alt="" onerror="this.parentNode.textContent='${esc(initials(name()))}'">`:esc(initials(name()));
+const name=()=>(PG&&PG.name)||(CO&&CO.name)||SLUG;
+const BADGE=`<span class="vck" title="Verified company"><svg viewBox="0 0 24 24" aria-label="Verified company"><path fill="#fff" d="M12 1.6l2.3 1.7 2.8-.4 1.1 2.6 2.6 1.1-.4 2.8 1.7 2.3-1.7 2.3.4 2.8-2.6 1.1-1.1 2.6-2.8-.4L12 22.4l-2.3-1.7-2.8.4-1.1-2.6-2.6-1.1.4-2.8L1.9 12l1.7-2.3-.4-2.8 2.6-1.1 1.1-2.6 2.8.4z"/><path d="M7.6 12.3l3 3 5.8-6.2" fill="none" stroke="var(--co)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+
+function render(){
+  const claimed=PG&&PG.claimed,mine=PG&&PG.mine,n=(CO&&CO.n)||ROLES.length,posts=(PG&&PG.posts)||[],chs=(PG&&PG.challenges)||[];
+  palette((PG&&PG.color)||PALS[hash(SLUG)%PALS.length]);
+  document.title=`${name()} jobs and company page · Crossway`;
+  const meta=document.querySelector('meta[name="description"]');if(meta)meta.content=`${name()} on Crossway: ${n} open roles${PG&&PG.tagline?", "+PG.tagline:""}. See the jobs, follow the company and get matched.`;
+  const tagline=claimed&&PG.tagline?PG.tagline:[PG&&PG.industry,(PG&&PG.location)||""].filter(Boolean).join(" · ")||(CO&&CO.domain?CO.domain:"Company page on Crossway");
+  const fol=(PG&&PG.followers)||0;
+  const facts=claimed?[["Industry",PG.industry],["Size",PG.size],["Founded",PG.founded],["Location",PG.location],["Website",PG.website]].filter(f=>f[1]):[];
+  const fams=[...new Set(ROLES.map(r=>r.f).filter(f=>f&&f!=="other"))];
+  const list=ROLES.filter(r=>(!rf||r.f===rf)&&(!rq||(r.t+" "+r.l).toLowerCase().includes(rq)));
+  const sec=k=>TAB==="all"||TAB===k;
+  $("#root").innerHTML=`
+  <section class="hero"><canvas id="bg" aria-hidden="true"></canvas>
+    <div class="hin">
+      <div class="clogo">${logoHTML()}</div>
+      <div><h1><span>${esc(name())}</span>${claimed&&PG.verified?BADGE:""}</h1>
+        <div class="tag">${esc(tagline)}</div>
+        <div class="hfoot"><span class="fols"><b>${fol.toLocaleString()}</b> ${fol===1?"follower":"followers"}</span>${claimed&&PG.hiring?`<span class="live"><i></i>Hiring now</span>`:n?`<span class="live"><i></i>${n} open ${n===1?"role":"roles"}</span>`:""}</div></div>
+      <div class="acts">
+        <button class="btn ${PG&&PG.following?"g":"w"}" type="button" data-a="follow">${PG&&PG.following?"Following":`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>Follow`}</button>
+        ${claimed&&PG.website?`<a class="btn g" href="${esc(/^https?:/.test(PG.website)?PG.website:"https://"+PG.website)}" target="_blank" rel="noopener">Website</a>`:""}
+        ${mine?`<button class="btn g" type="button" data-a="edit">Edit page</button>`:""}
+      </div>
+    </div>
+  </section>
+  <div class="tabs" role="tablist">
+    ${[["all","Overview"],["posts","Posts",posts.length],["jobs","Jobs",n],...(chs.length?[["ch","Challenges",chs.length]]:[])].map(([k,l,c])=>`<button type="button" role="tab" aria-selected="${TAB===k}" class="${TAB===k?"on":""}" data-tab="${k}">${l}${c?`<span class="n">${c}</span>`:""}</button>`).join("")}
+  </div>
+  <div class="grid"><div class="col">
+    ${sec("all")?`<section class="card"><h2>About</h2>
+      ${claimed&&PG.about?`<p class="lead">${esc(PG.about)}</p>`:claimed?`<p class="sub" style="margin-bottom:0">${mine?"Add a short description so people know what you do.":"This company hasn't added a description yet."}</p>`:`<p class="sub" style="margin-bottom:0">This page was made from ${esc(name())}'s public job postings. It isn't run by ${esc(name())}.</p>`}
+      ${facts.length?`<div class="facts">${facts.map(([k,v])=>`<span class="fact">${k} <b>${esc(v)}</b></span>`).join("")}</div>`:""}
+      ${!claimed?`<div class="claim"><p><b>Work at ${esc(name())}?</b> Claim this page with your work email to add your story, post updates and get the verified badge.</p><button class="btn ink" type="button" data-a="claim">Claim this page</button></div>`:""}
+    </section>`:""}
+    ${sec("all")||sec("posts")?`<section class="card"><div class="chd"><h2>Posts</h2></div><p class="sub">${claimed?`What ${esc(name())} shares on Crossway.`:`Posts show up once ${esc(name())} claims this page.`}</p>
+      ${mine?`<form class="compose" id="cmp"><textarea id="pBody" maxlength="3000" placeholder="Share news, a launch, a role you're excited about..." required></textarea><div class="crow"><input type="url" id="pLink" placeholder="Link (optional)"><button class="btn ink" type="submit">Post</button></div></form>`:""}
+      ${posts.length?posts.slice(0,TAB==="posts"?20:3).map(p=>`<article class="pc"><div class="ph"><span class="mini">${logoHTML()}</span><div><b>${esc(name())}</b><small>${when(p.created_at)}</small></div>${mine?`<button class="pdel" type="button" data-del="${esc(p.id)}">Delete</button>`:""}</div><p>${esc(p.body)}</p>${p.link?`<a class="plink" href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.link.replace(/^https?:\/\//,""))}</a>`:""}</article>`).join(""):claimed&&!mine?`<div class="empty">No posts yet.</div>`:""}
+    </section>`:""}
+    ${sec("all")||sec("jobs")?`<section class="card"><div class="chd"><h2>Open roles</h2>${n?`<span class="note">${n} live from their career site</span>`:""}</div><p class="sub">Pulled from ${esc(name())}'s own career site every few hours. Apply opens their site.</p>
+      ${n>6?`<div class="rfilter"><input type="text" id="rq" placeholder="Search roles or cities" value="${esc(rq)}" aria-label="Search roles"><button type="button" class="chip ${!rf?"on":""}" data-f="">All</button>${fams.map(f=>`<button type="button" class="chip ${rf===f?"on":""}" data-f="${esc(f)}">${esc(f[0].toUpperCase()+f.slice(1))}</button>`).join("")}</div>`:""}
+      ${list.length?`<div class="roles">${list.slice(0,showN).map(r=>`<a class="role" href="${esc(r.u)}" target="_blank" rel="noopener"><b>${esc(r.t)}</b><div class="rm">${r.l?`<span>${esc(r.l.split(/[\/;]/)[0])}</span>`:""}${r.w&&r.w!=="onsite"?`<span>${WP[r.w]}</span>`:""}${r.v?`<span>${LV[r.v]}</span>`:""}${r.p?`<span class="pay">${esc(r.p)}</span>`:""}</div><div class="rf"><span>${ago(r.d)}</span><span style="color:var(--co2);font-weight:600">Apply</span></div></a>`).join("")}</div>
+        ${list.length>showN?`<button class="btn line more" type="button" data-a="more">Show more roles (${list.length-showN} left)</button>`:n>ROLES.length&&!rq&&!rf?`<a class="btn line more" href="/app" style="justify-content:center">See all ${n.toLocaleString()} roles in Crossway</a>`:""}`:`<div class="empty">${n?"No roles match that search.":"No open roles right now."}</div>`}
+    </section>`:""}
+    ${chs.length&&(sec("all")||sec("ch"))?`<section class="card"><h2>Live challenges</h2><p class="sub">Real problems from ${esc(name())}. Strong answers get invited to interview.</p><div class="chs">${chs.map(c=>{const h=Math.max(0,Math.round((new Date(c.ends_at)-Date.now())/36e5));return `<div class="ch"><div class="ct"><span>${esc(c.track||"Challenge")}</span><span class="left">${h<48?h+"h left":Math.round(h/24)+" days left"}</span></div><b>${esc(c.title)}</b><a href="/app">Answer</a></div>`}).join("")}</div></section>`:""}
+  </div>
+  <aside class="col">
+    <section class="card"><h2>Get matched to ${esc(name())}</h2><p class="sub">Crossway scores every role against your skills and tells you why it fits. Prove what you can do in Arena and companies invite you.</p><a class="btn ink" href="/app?join=seeker" style="justify-content:center">Join Crossway free</a></section>
+    <section class="card" id="simCard" hidden><h2>More companies hiring</h2><p class="sub">With open roles on Crossway.</p><div class="sim" id="sim"></div></section>
+    <section class="card"><h2>Your company isn't here?</h2><p class="sub" style="margin-bottom:12px">Create a page with your work email. It's free.</p><a class="btn line" href="/c/new" style="justify-content:center">Create a company page</a></section>
+  </aside></div>`;
+  heroBg();loadSim()}
+
+let SIM=null;function loadSim(){const el=$("#sim");if(!el)return;const fill=L=>{const i=Math.max(0,L.findIndex(x=>x[0]===SLUG));const pick=L.filter(x=>x[0]!==SLUG).slice(Math.max(0,i-3),Math.max(0,i-3)+5);
+  if(!pick.length)return;el.innerHTML=pick.map(([s,nm,,c])=>`<a class="sm" href="/c/${esc(s)}"><span class="lg" style="background:${PALS[hash(s)%PALS.length]}">${esc(initials(nm))}</span><div><b>${esc(nm)}</b><small>${c} open ${c===1?"role":"roles"}</small></div></a>`).join("");$("#simCard").hidden=false};
+  if(SIM)return fill(SIM);fetch(RAW+"_list.json").then(r=>r.ok?r.json():[]).then(L=>{SIM=L;fill(L)}).catch(()=>{})}
+
+/* dialogs */
+function dlg(html){const o=$("#ov");o.innerHTML=`<div class="dlg" role="dialog" aria-modal="true">${html}</div>`;o.hidden=false;o.onclick=e=>{if(e.target===o||e.target.closest("[data-x]"))o.hidden=true};const f=o.querySelector("input,textarea,button");if(f)f.focus()}
+function signIn(why){try{localStorage.setItem("cw_next",JSON.stringify({to:location.pathname,at:Date.now()}))}catch(_){}
+  dlg(`<h3>Sign in to Crossway</h3><p class="sub" style="margin:0">${esc(why)}</p><button class="btn ink" id="gAuth" type="button" data-act="google">Continue with Google</button><a class="btn line" href="/app" style="justify-content:center">Other ways to sign in</a><div class="dacts"><button class="btn line" type="button" data-x>Cancel</button></div>`)}
+
+async function session(){if(!sb)return null;try{const{data}=await sb.auth.getSession();return data.session}catch(_){return null}}
+async function rpc(fn,args){const{data,error}=await sb.rpc(fn,args);if(error)throw error;return data}
+
+async function act(a,el){const s=await session();
+  if(a==="follow"){if(!s)return signIn(`Sign in to follow ${name()} and see their posts and roles first.`);el.disabled=true;try{PG=await rpc("cw_company_follow",{p_slug:SLUG,p_on:!(PG&&PG.following)})||PG;render()}catch(e){toast(e.message||"Couldn't follow right now")}return}
+  if(a==="claim"){if(!s)return signIn(`Use your work Google account at ${name()} to claim this page.`);
+    if(PG&&PG.can_claim){dlg(`<h3>Claim ${esc(name())}</h3><p class="sub" style="margin:0">You're signed in as someone at <b>${esc(PG.email_domain)}</b>. You'll be able to edit this page, post updates, and it gets the verified badge.</p><p class="err" id="cErr"></p><div class="dacts"><button class="btn line" type="button" data-x>Cancel</button><button class="btn ink" type="button" id="cGo">Claim page</button></div>`);
+      $("#cGo").onclick=async()=>{$("#cGo").disabled=true;try{PG=await rpc("cw_claim_company",{p_slug:SLUG,p_name:name()});$("#ov").hidden=true;toast("Page claimed. Add your About next.");render();edit()}catch(e){$("#cErr").textContent=e.message;$("#cGo").disabled=false}}}
+    else dlg(`<h3>Use your work email</h3><p class="sub" style="margin:0">To claim ${esc(name())}, sign in with your work account${PG&&PG.domain?` at <b>${esc(PG.domain)}</b>`:""}. ${PG&&PG.email_domain?`You're signed in with <b>${esc(PG.email_domain)}</b>.`:""}</p><p class="sub" style="margin:0">If your company uses a different email domain, write to anuj.wn7@gmail.com and we'll verify you by hand.</p><div class="dacts"><button class="btn line" type="button" data-x>Close</button></div>`);return}
+  if(a==="edit")return edit();
+  if(a==="more"){showN+=12;render();return}}
+
+function edit(){const p=PG||{};dlg(`<h3>Edit ${esc(name())}</h3>
+  <label>Tagline<input type="text" id="eTag" maxlength="140" value="${esc(p.tagline)}" placeholder="What you do, in one line"></label>
+  <label>About<textarea id="eAbout" maxlength="2000" placeholder="Tell people what you build and how you work">${esc(p.about)}</textarea></label>
+  <div class="two"><label>Industry<input type="text" id="eInd" maxlength="60" value="${esc(p.industry)}"></label><label>Size<select id="eSize">${["","1 to 10","11 to 50","51 to 200","201 to 1,000","1,001 to 5,000","5,001 to 10,000","10,000+"].map(v=>`<option ${p.size===v?"selected":""}>${v}</option>`).join("")}</select></label></div>
+  <div class="two"><label>Location<input type="text" id="eLoc" maxlength="80" value="${esc(p.location)}" placeholder="City, State"></label><label>Founded<input type="number" id="eFound" min="1800" max="2100" value="${esc(p.founded)}"></label></div>
+  <div class="two"><label>Website<input type="text" id="eWeb" maxlength="120" value="${esc(p.website)}"></label><label>Brand color<input type="text" id="eColor" maxlength="7" value="${esc(p.color||"")}" placeholder="#0E6B55"></label></div>
+  <label>Logo image link<input type="url" id="eLogo" maxlength="400" value="${esc(p.logo_url)}" placeholder="https://..."></label>
+  <label style="flex-direction:row;align-items:center;gap:10px"><input type="checkbox" id="eHire" ${p.hiring?"checked":""}> Show "Hiring now"</label>
+  <p class="err" id="eErr"></p>
+  <div class="dacts"><button class="btn line" type="button" data-x>Cancel</button><button class="btn ink" type="button" id="eGo">Save</button></div>`);
+  $("#eGo").onclick=async()=>{const c=$("#eColor").value.trim();if(c&&!/^#[0-9a-fA-F]{6}$/.test(c)){$("#eErr").textContent="Brand color should look like #0E6B55";return}
+    $("#eGo").disabled=true;try{PG=await rpc("cw_save_company",{p_slug:SLUG,p:{tagline:$("#eTag").value,about:$("#eAbout").value,industry:$("#eInd").value,size:$("#eSize").value,location:$("#eLoc").value,founded:$("#eFound").value,website:$("#eWeb").value,color:c,logo_url:$("#eLogo").value,hiring:$("#eHire").checked}});$("#ov").hidden=true;toast("Saved");render()}catch(e){$("#eErr").textContent=e.message;$("#eGo").disabled=false}}}
+
+document.addEventListener("click",e=>{const t=e.target.closest("[data-tab]");if(t){TAB=t.dataset.tab;showN=12;render();return}
+  const f=e.target.closest("[data-f]");if(f){rf=f.dataset.f;showN=12;render();return}
+  const d=e.target.closest("[data-del]");if(d){rpc("cw_company_post_delete",{p_id:d.dataset.del}).then(()=>{PG.posts=PG.posts.filter(p=>p.id!==d.dataset.del);render()}).catch(er=>toast(er.message));return}
+  const a=e.target.closest("[data-a]");if(a)act(a.dataset.a,a)});
+document.addEventListener("input",e=>{if(e.target.id==="rq"){rq=e.target.value.toLowerCase().trim();showN=12;const pos=e.target.selectionStart;render();const i=$("#rq");if(i){i.focus();i.setSelectionRange(pos,pos)}}});
+document.addEventListener("submit",async e=>{if(e.target.id!=="cmp")return;e.preventDefault();const b=$("#pBody").value.trim();if(!b)return;try{PG=await rpc("cw_company_post",{p_slug:SLUG,p_body:b,p_link:$("#pLink").value.trim()||null});toast("Posted");render()}catch(er){toast(er.message)}});
+
+/* create a page for a company that isn't on the job board yet */
+async function newPage(){document.title="Create a company page · Crossway";palette("#3B4FC4");const s=await session();
+  $("#root").innerHTML=`<section class="card" style="max-width:560px;margin:20px auto"><h2>Create your company page</h2><p class="sub">Free. You'll need to be signed in with your work email at the company, so we can verify you.</p>
+    ${s?`<form id="nf" style="display:flex;flex-direction:column;gap:12px"><label style="display:flex;flex-direction:column;gap:6px;font-weight:500">Company name<input type="text" id="nName" maxlength="80" required placeholder="Acme"></label><p class="err" id="nErr"></p><button class="btn ink" type="submit" style="justify-content:center">Create page</button></form>`:`<button class="btn ink" type="button" id="nIn" style="width:100%;justify-content:center">Sign in to continue</button>`}</section>`;
+  const nIn=$("#nIn");if(nIn)nIn.onclick=()=>signIn("Sign in with your work Google account to create your company's page.");
+  const nf=$("#nf");if(nf)nf.onsubmit=async e=>{e.preventDefault();const nm=$("#nName").value.trim();if(!nm)return;try{const r=await rpc("cw_claim_company",{p_slug:slugify(nm),p_name:nm});location.href="/c/"+r.slug}catch(er){$("#nErr").textContent=er.message}}}
+
+async function load(){if(NEW)return newPage();
+  const [co,pg]=await Promise.all([fetch(RAW+encodeURIComponent(SLUG)+".json").then(r=>r.ok?r.json():null).catch(()=>null),sb?sb.rpc("cw_company_page",{p_slug:SLUG}).then(r=>r.data).catch(()=>null):null]);
+  CO=co;PG=pg;ROLES=(co&&co.roles)||[];
+  if(!CO&&!PG){document.title="Company not found · Crossway";$("#root").innerHTML=`<section class="card" style="max-width:560px;margin:20px auto;text-align:center"><h2>We couldn't find that company</h2><p class="sub">It may not have open roles right now.</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><a class="btn ink" href="/app">Browse jobs</a><a class="btn line" href="/c/new">Create a company page</a></div></section>`;return}
+  render()}
+if(sb)sb.auth.onAuthStateChange(ev=>{if(ev==="SIGNED_IN"&&!$("#ov").hidden){$("#ov").hidden=true;load()}});
+load();
+})();
+</script>
+</body>
+</html>
