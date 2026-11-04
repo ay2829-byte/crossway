@@ -4222,10 +4222,10 @@ const jbAgoLong=d=>{const n=jbDay()-d;return n<=0?"Posted today":n===1?"Posted y
 const JB_LIVE="https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/";
 function jbLoad(){if(JB.data||JB.loading)return;JB.loading=true;
   const done=d=>{const jobs=d.rows.map((r,i)=>({i,co:d.cos[r[0]],dom:(d.doms||[])[r[0]]||jbGuessDom(d.cos[r[0]]),t:r[1],loc:d.locs[r[2]],fam:jbFixFam(r[1],d.fams[r[3]]||"other"),lvl:["intern","entry","mid","senior"][r[4]]||"mid",wp:["remote","hybrid","onsite"][r[5]]||"onsite",day:r[6],url:Array.isArray(r[7])?d.pres[r[7][0]]+r[7][1]:r[7],src:(d.srcs||[])[r[11]]||"",pay:r[8],sk:r[9].map(k=>d.skills[k]),yrs:typeof r[10]==="number"?r[10]:-1,tl:(r[1]+" "+d.cos[r[0]]).toLowerCase(),ll:(d.locs[r[2]]||"").toLowerCase()}));
-    JB.data={jobs,updated:d.updated,shard:d.shard||1000,demo:!!d.demo,base:d._base||"/jobs/",ver:d.ver||""};JB.loading=false;jbScoreAll();if(S.stab==="jobs")renderJobs()};
+    JB.data={jobs,updated:d.updated,shard:d.shard||1000,demo:!!d.demo,base:d._base||"/jobs-feed/",ver:d.ver||""};JB.loading=false;jbScoreAll();if(S.stab==="jobs")renderJobs()};
   if(window.JOBS_DEMO){setTimeout(()=>done(window.JOBS_DEMO),60);return}
   const get=b=>fetch(b+"index.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error("missing");return r.json()}).then(d=>{d._base=b;return d});
-  get(JB_LIVE).catch(()=>get("/jobs/")).then(done).catch(()=>{JB.loading=false;JB.err="none";if(S.stab==="jobs")renderJobs()})}
+  get(JB_LIVE).catch(()=>get("/jobs-feed/")).then(done).catch(()=>{JB.loading=false;JB.err="none";if(S.stab==="jobs")renderJobs()})}
 function jbDesc(j){const n=Math.floor(j.i/JB.data.shard);if(window.JOBS_DEMO)return Promise.resolve(window.JOBS_DEMO.desc[j.i]||"");
   if(!JB.shards[n])JB.shards[n]=fetch(JB.data.ver?`${JB.data.base}s/${JB.data.ver}/d${n}.json`:`${JB.data.base}d${n}.json`).then(r=>r.ok?r.json():[]).catch(()=>[]);return JB.shards[n].then(a=>a[j.i%JB.data.shard]||"")}
 
