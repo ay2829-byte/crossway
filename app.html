@@ -2067,9 +2067,17 @@ async function google(){
 /* ---------- session ---------- */
 /* nothing from one account leaks into the next one that signs in on this browser */
 function resetUserCaches(){if(typeof JB!=="undefined"){Object.keys(JB).forEach(k=>{if(k[0]==="_")delete JB[k]});JB.me=null;JB.top=null;JB.cnt={};JB.sel=null;JB.view=null;JB.saved=false;JB.applied=false}if(S.ar){S.ar.stats=null;S.ar.open=null}try{sessionStorage.removeItem("jb_pos")}catch(_){}}
+/* Keep people signed in: after time away the access token can be stale for a moment, so check again before treating someone as signed out or new. */
+function hasStoredLogin(){try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(/^sb-.*-auth-token$/.test(k)&&localStorage.getItem(k))return true}}catch(_){}return false}
+async function roleWithRetry(uid){let known=null;try{known=localStorage.getItem("cw_role_"+uid)}catch(_){}
+  for(let i=0;i<3;i++){let role=null;try{role=await API.role()}catch(err){if(i===2)throw err}
+    if(role)return role;if(!known&&i>0)return null;
+    try{await sb.auth.refreshSession()}catch(_){}await new Promise(r=>setTimeout(r,400*(i+1)))}
+  return known}
 async function onSession(sess,intentOverride){try{if(sess&&sess.user)localStorage.removeItem("cw_next")}catch(_){}
   if(S.recover)return;
   const u=sess&&sess.user;
+  if(!u&&!PREVIEW&&!S.signingOut&&hasStoredLogin()&&!S.reauth){S.reauth=true;try{const r=await sb.auth.refreshSession();if(r.data&&r.data.session){S.reauth=false;return onSession(r.data.session,intentOverride)}}catch(_){}S.reauth=false}
   if(!u){resetUserCaches();S.user=null;S.role=null;S.loading=false;stopPoll();renderTop();renderLanding();
     const jn=new URLSearchParams(location.search).get("join");if(jn==="company"||jn==="seeker"){history.replaceState(null,"",here()+location.hash);authSheet(jn,"signup")}return}
   if(S.user&&S.user.id===u.id&&(S.role||S.loading))return;
@@ -2077,10 +2085,10 @@ async function onSession(sess,intentOverride){try{if(sess&&sess.user)localStorag
   S.user=u;S.loading=true;renderTop();$("#main").innerHTML=`<div class="loading">Loading…</div>`;
   const jn0=new URLSearchParams(location.search).get("join");const intent=intentOverride||takeIntent()||(jn0==="company"||jn0==="seeker"?jn0:null);
   try{
-    let role=await API.role();
+    let role=await roleWithRetry(u.id);
     if(!role&&intent)role=await API.register(intent);
     if(!role){S.role=null;renderTop();renderChoose();return}
-    S.role=role;reportGeo();
+    S.role=role;try{localStorage.setItem("cw_role_"+u.id,role)}catch(_){}reportGeo();
     if(intent&&intent!==role)toast(`This email is set up as a ${role==="company"?"company":"member"} account, so we opened that side.`);
     await load();S.loading=false;closeSheet();render();startPoll();if(typeof needsOnboard==="function"&&needsOnboard())obStart();
     if(role==="company"&&!(S.co&&S.co.name))coSheet(true);
@@ -2342,7 +2350,7 @@ document.addEventListener("click",async e=>{
   if(a==="menu"){S.menu=!S.menu;renderTop();return}
   if(a==="auth"){authSheet(el.dataset.r,el.dataset.v);return}
   if(a==="google"){google();return}
-  if(a==="signout"){S.menu=false;stopPoll();if(PREVIEW){S.user=null;S.role=null;render();return}await API.signOut();location.replace("/");return}
+  if(a==="signout"){S.menu=false;stopPoll();if(PREVIEW){S.user=null;S.role=null;render();return}S.signingOut=true;await API.signOut();try{Object.keys(localStorage).filter(k=>k.startsWith("cw_role_")).forEach(k=>localStorage.removeItem(k))}catch(_){}location.replace("/");return}
   if(a==="demoswap"){const r=S.role==="company"?"seeker":"company";DEMO.demoRole=r;S.user=null;S.role=null;S.preview=false;await onSession({user:{id:r==="company"?"co":"me",email:r==="company"?"hiring@fieldnote.co":"jordan@example.com"}},r);return}
   if(a==="pick"){el.disabled=true;try{await API.register(el.dataset.r);S.role=null;const u=S.user;S.user=null;await onSession({user:u})}catch(err){toast(friendly(err));el.disabled=false}return}
   if(a==="coname"){S.menu=false;renderTop();coSheet(false);return}
@@ -2409,7 +2417,7 @@ document.addEventListener("change",async e=>{
   if(e.target.id==="openSw"){const v=e.target.checked;const nd={...S.me,open:v};try{await act(()=>API.saveSeeker(nd));S.me=nd;renderS();toast(v?"You're visible to companies again.":"Paused. Companies won't see you until you turn this back on.")}catch(_){e.target.checked=!v}}
   const f=e.target.dataset&&e.target.dataset.d;if(f&&D&&e.target.type==="checkbox")D[f]=e.target.checked;
 });
-document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&S.role&&!$("#modalRoot").innerHTML)refresh(true)});
+document.addEventListener("visibilitychange",async()=>{if(document.visibilityState!=="visible"||!S.role)return;if(sb&&!PREVIEW){try{await sb.auth.getSession()}catch(_){}}if(!$("#modalRoot").innerHTML)refresh(true)});
 
 async function boot(){
   renderTop();
