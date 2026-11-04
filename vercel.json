@@ -38,6 +38,18 @@
     {
       "source": "/c/:slug",
       "destination": "/company"
+    },
+    {
+      "source": "/jobs",
+      "destination": "/api/jobs"
+    },
+    {
+      "source": "/jobs/:slug",
+      "destination": "/api/jobs?slug=:slug"
+    },
+    {
+      "source": "/sitemap-jobs.xml",
+      "destination": "/api/jobs-sitemap"
     }
   ]
 }

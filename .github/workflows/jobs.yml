@@ -5,7 +5,7 @@ on:
   workflow_dispatch: {}
   push:
     branches: [main]
-    paths: [fetch-jobs.mjs, companies.mjs, .github/workflows/jobs.yml]   # refresh right away when the job readers change
+    paths: [fetch-jobs.mjs, companies.mjs, job-pages.mjs, .github/workflows/jobs.yml]   # refresh right away when the job readers change
 permissions:
   contents: write
 concurrency: refresh-jobs
@@ -29,6 +29,10 @@ jobs:
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
         run: node fetch-jobs.mjs
+      - name: Build the job search pages
+        env:
+          OUT: out
+        run: node job-pages.mjs
       - name: Publish to the jobs-data branch
         run: |
           cd out

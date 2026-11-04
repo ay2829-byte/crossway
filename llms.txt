@@ -52,3 +52,17 @@
 - The best remote job boards in 2026: https://crosswayhq.com/blog/best-remote-job-boards
 - Is LinkedIn Premium worth it in 2026?: https://crosswayhq.com/blog/is-linkedin-premium-worth-it
 - Handshake alternatives for after you graduate: https://crosswayhq.com/blog/handshake-alternatives-after-graduation
+
+## Job search and interview guides
+- Entry level product manager jobs: we counted 1,314 PM roles. Here's what's really open.: https://crosswayhq.com/blog/entry-level-product-manager-jobs
+- APM programs: which companies run them, what they look for, and how to get in: https://crosswayhq.com/blog/apm-programs-guide
+- How to get a data analyst job with no experience (with what employers are asking for right now): https://crosswayhq.com/blog/data-analyst-no-experience
+- H-1B sponsorship for new grads: how it works now and how to find employers who sponsor: https://crosswayhq.com/blog/h1b-sponsorship-new-grads
+- Product sense interview questions, with full worked answers: https://crosswayhq.com/blog/product-sense-interview-questions
+- Metrics and root cause interview questions: "DAU dropped 10%, what happened?": https://crosswayhq.com/blog/metrics-interview-questions
+- SQL interview questions for data analysts: 20 questions with answers: https://crosswayhq.com/blog/sql-interview-questions-data-analyst
+- Take home assignment examples for product, data and growth roles (and how to ace them): https://crosswayhq.com/blog/take-home-assignment-examples
+- What "3+ years of experience" really means: we read the years line on 83,842 job postings: https://crosswayhq.com/blog/what-years-of-experience-really-means
+- Why your job applications get no response: 7 reasons, with the data behind each: https://crosswayhq.com/blog/why-applications-get-no-response
+- Entry level software engineer jobs right now: 1,441 open roles, who's hiring, and what they pay: https://crosswayhq.com/blog/entry-level-software-engineer-jobs
+- Strategy and operations jobs: the career switch role most people never search for: https://crosswayhq.com/blog/strategy-and-operations-jobs
