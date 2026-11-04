@@ -32,13 +32,13 @@ export function family(title,dept){const t=(title+" ").toLowerCase(),d=(dept||""
   if(/\b(sales|solutions?) engineer|account (executive|manager|director)|business development|\b[bs]dr\b|sales\b|customer success|partnerships?\b|revenue\b(?! operations)/.test(t))return"sales";
   if(/design engineer/.test(t))return"eng";
   if(/\bdesign|\bux\b|\bui\b|user research|ux research|illustrat|creative director|brand designer|motion/.test(t))return"design";
-  if(/data scien|data analy|data engineer|analytics|machine learning|\bml\b|\bai\b (engineer|scientist|research)|research scientist|statistic|business intelligence|\bbi\b|quantitative|\bquant\b|insights/.test(t))return"data";
+  if(/data scien|data analy|data engineer|analytics|product analy|machine learning|\bml\b|\bai\b (engineer|scientist|research)|research scientist|statistic|business intelligence|\bbi\b|quantitative|\bquant\b|insights/.test(t))return"data";
   if(/product manag|\bpm\b|product owner|product lead|head of product|vp,? product|product director|director,? product|\bapm\b|product strateg|product ops|product operations|group product/.test(t))return"product";
   if(/engineer|developer|software|\bswe\b|\bsre\b|devops|infrastructure|security|platform|front ?end|back ?end|full ?stack|mobile|\bios\b|android|firmware|hardware|architect|\bqa\b|test|technical program|\bcto\b|it support|systems admin|network/.test(t))return"eng";
   if(/market|growth|\bseo\b|content|brand|communications|social media|demand gen|lifecycle|community|\bpr\b|copywrit|editor|writer|journalis|influencer|events?\b/.test(t))return"growth";
   if(/operations|\bops\b|strategy|finance|financial|accountant|accounting|controller|legal|counsel|attorney|paralegal|recruit|people|\bhr\b|human resources|talent|support|program manag|project manag|business analyst|chief of staff|supply|logistics|procurement|office|executive assistant|payroll|tax|audit|risk|compliance|fp&a|treasury|customer (service|experience)|implementation|onboarding|consultant/.test(t))return"ops";
-  if(/\banalyst\b/.test(t))return"data";
-  if(/engineering/.test(d))return"eng";if(/product/.test(d))return"product";if(/data|analytics/.test(d))return"data";if(/design/.test(d))return"design";if(/marketing|growth/.test(d))return"growth";if(/sales|revenue/.test(d))return"sales";
+  if(/\banalyst\b/.test(t))return"ops"; // Benefits, Credit or Threat Analyst are not data roles
+  if(/engineering/.test(d))return"eng";if(/\bproducts?\b/.test(d))return"product"; // "Production" is the factory floor, not productif(/data|analytics/.test(d))return"data";if(/design/.test(d))return"design";if(/marketing|growth/.test(d))return"growth";if(/sales|revenue/.test(d))return"sales";
   if(/ops|operations|finance|people|legal|support|g&a/.test(d))return"ops";return"other"}
 export function level(title){const t=" "+title.toLowerCase()+" ";
   if(/intern\b|internship|co-?op\b|apprentice|summer (analyst|associate)|working student/.test(t))return"intern";
@@ -265,10 +265,10 @@ async function main(){const t0=Date.now();const today=Math.round(t0/864e5);
    let hit=0;raw.forEach(r=>{if(r.url&&!(minYears(r.txt||"")>0)){const c=carry.get(r.url);if(c){r.yp=c[0];r.skp=c[1];hit++}}});console.log(`::notice title=Carried years::${hit}`)}
   // open the full posting where the list only has a title or a short summary: Workday, SmartRecruiters, Oracle, and the Microsoft, Apple and Eightfold sites.
   // All four run side by side under one clock; postings for the fields members pick and early career roles go first
-  {const wait=ms=>new Promise(r=>setTimeout(r,ms)),dl=Date.now()+60000*+(process.env.DETAIL_MINUTES||20);
+  {const wait=ms=>new Promise(r=>setTimeout(r,ms)),dl=Date.now()+60000*+(process.env.DETAIL_MINUTES||30);
    const need=r=>r.yp==null&&!(minYears(r.txt||"")>0)&&corporate(String(r.t||""),r.dept);
-   const rank=r=>{const t=String(r.t||"");return(family(t,r.dept)==="other"?4:0)+(/senior|\bsr\b|staff|principal|director|\bvp\b|head of|lead\b|manager/i.test(t)?2:0)+(isBrand(r.co)?0:1)};
-   const first=L=>L.sort((a,b)=>rank(a)-rank(b));
+   const now0=Date.now(),rank=r=>{const t=String(r.t||"");const age=r.at?(now0-Date.parse(r.at))/864e5:20;return(family(t,r.dept)==="other"?4:0)+(/senior|\bsr\b|staff|principal|director|\bvp\b|head of|lead\b|manager/i.test(t)?2:0)+(isBrand(r.co)?0:1)+(isUS(r.loc)||/remote/i.test(r.loc||"")?0:3)+(age>30?3:0)};
+   const first=L=>{L.sort((a,b)=>rank(a)-rank(b));const n={};return L.filter(r=>{const k=String(r.co||"");n[k]=(n[k]||0)+1;return n[k]<=(isBrand(r.co)?BRAND_CO:PER_CO)})};
    const read=(r,x)=>{if(!x)return false;r.txt=(r.txt?r.txt+" ":"")+strip(x).slice(0,8000);if(!(minYears(r.txt)>0))r.yp=0;return true};
    const tally={};const note=(k,s)=>{const t=tally[k]=tally[k]||{};t[s]=(t[s]||0)+1};
    const workdayAll=async()=>{const L=first(raw.filter(r=>r.wdApi&&!r.txt&&need(r)));const cap=+(process.env.WD_DETAILS||60000);let got=0;

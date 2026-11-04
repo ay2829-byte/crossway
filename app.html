@@ -4221,7 +4221,7 @@ const jbAgoLong=d=>{const n=jbDay()-d;return n<=0?"Posted today":n===1?"Posted y
 // Roles refresh every few hours on the jobs-data branch; the site copy is a fallback
 const JB_LIVE="https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/";
 function jbLoad(){if(JB.data||JB.loading)return;JB.loading=true;
-  const done=d=>{const jobs=d.rows.map((r,i)=>({i,co:d.cos[r[0]],dom:(d.doms||[])[r[0]]||jbGuessDom(d.cos[r[0]]),t:r[1],loc:d.locs[r[2]],fam:d.fams[r[3]]||"other",lvl:["intern","entry","mid","senior"][r[4]]||"mid",wp:["remote","hybrid","onsite"][r[5]]||"onsite",day:r[6],url:Array.isArray(r[7])?d.pres[r[7][0]]+r[7][1]:r[7],src:(d.srcs||[])[r[11]]||"",pay:r[8],sk:r[9].map(k=>d.skills[k]),yrs:typeof r[10]==="number"?r[10]:-1,tl:(r[1]+" "+d.cos[r[0]]).toLowerCase(),ll:(d.locs[r[2]]||"").toLowerCase()}));
+  const done=d=>{const jobs=d.rows.map((r,i)=>({i,co:d.cos[r[0]],dom:(d.doms||[])[r[0]]||jbGuessDom(d.cos[r[0]]),t:r[1],loc:d.locs[r[2]],fam:jbFixFam(r[1],d.fams[r[3]]||"other"),lvl:["intern","entry","mid","senior"][r[4]]||"mid",wp:["remote","hybrid","onsite"][r[5]]||"onsite",day:r[6],url:Array.isArray(r[7])?d.pres[r[7][0]]+r[7][1]:r[7],src:(d.srcs||[])[r[11]]||"",pay:r[8],sk:r[9].map(k=>d.skills[k]),yrs:typeof r[10]==="number"?r[10]:-1,tl:(r[1]+" "+d.cos[r[0]]).toLowerCase(),ll:(d.locs[r[2]]||"").toLowerCase()}));
     JB.data={jobs,updated:d.updated,shard:d.shard||1000,demo:!!d.demo,base:d._base||"/jobs/",ver:d.ver||""};JB.loading=false;jbScoreAll();if(S.stab==="jobs")renderJobs()};
   if(window.JOBS_DEMO){setTimeout(()=>done(window.JOBS_DEMO),60);return}
   const get=b=>fetch(b+"index.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error("missing");return r.json()}).then(d=>{d._base=b;return d});
@@ -4230,34 +4230,45 @@ function jbDesc(j){const n=Math.floor(j.i/JB.data.shard);if(window.JOBS_DEMO)ret
   if(!JB.shards[n])JB.shards[n]=fetch(JB.data.ver?`${JB.data.base}s/${JB.data.ver}/d${n}.json`:`${JB.data.base}d${n}.json`).then(r=>r.ok?r.json():[]).catch(()=>[]);return JB.shards[n].then(a=>a[j.i%JB.data.shard]||"")}
 
 /* ---------- match ---------- */
+/* the feed labels some roles by department: "Production" reads as product and any Analyst as data. Recheck those from the title. */
+const JB_PRODW=/product|\bpm\b|\bapm\b/i,JB_DATAW=/data|analytic|scien|machine learning|\bml\b|\bai\b|statist|intelligence|\bbi\b|quant|insight|reporting/i;
+function jbFixFam(t,f){if(f==="product"&&!JB_PRODW.test(t))return jbFamOf(t)||"other";if(f==="data"&&!JB_DATAW.test(t))return jbFamOf(t)||"other";return f}
 /* same role families the daily job pull uses, so a target title like "Strategy & Operations" maps to ops */
 function jbFamOf(t){t=" "+String(t||"").toLowerCase()+" ";
   if(/\b(sales|solutions?) engineer|account (executive|manager)|business development|\b[bs]dr\b|\bsales\b|customer success|partnerships?\b/.test(t))return"sales";
   if(/\bdesign|\bux\b|\bui\b|user research/.test(t))return"design";
-  if(/data scien|data analy|data engineer|analytics|machine learning|\bml\b|research scientist|statistic|business intelligence|\bbi\b|quantitative|insights/.test(t))return"data";
+  if(/data scien|data analy|data engineer|analytics|product analy|machine learning|\bml\b|research scientist|statistic|business intelligence|\bbi\b|quantitative|insights/.test(t))return"data";
   if(/product manag|\bpm\b|product owner|product lead|head of product|\bapm\b|product strateg|product operations|product associate/.test(t))return"product";
   if(/engineer|developer|software|\bswe\b|devops|infrastructure|front ?end|back ?end|full ?stack|mobile|architect/.test(t))return"eng";
   if(/market|growth|\bseo\b|content|brand|communications|lifecycle|community/.test(t))return"growth";
   if(/operations|\bops\b|strategy|finance|financial|consult|program manag|project manag|business analyst|chief of staff|revops|revenue operations|supply|logistics/.test(t))return"ops";
-  if(/\banalyst\b/.test(t))return"data";return""}
+  if(/\banalyst\b/.test(t))return"ops";return""}
 const JB_TRK2FAM={engineering:["eng"],product:["product"],data:["data"],growth:["growth"],ops:["ops"]};
 const JB_NEAR={product:{data:.45,design:.35,ops:.4,growth:.35},data:{product:.4,eng:.35,ops:.3},growth:{sales:.5,product:.35,ops:.35},ops:{product:.4,growth:.35,sales:.3,data:.3},eng:{data:.4},sales:{growth:.45,ops:.3},design:{product:.45}};
 const JB_HEAD=/\b(manager|analyst|scientist|engineer|designer|developer|associate|strategist|consultant|specialist|lead|director|researcher|marketer|coordinator|architect|owner|representative|executive|officer|recruiter|writer|administrator)s?\b/g;
 const jbHead=t=>{const m=String(t).toLowerCase().match(JB_HEAD);return m?m[m.length-1].replace(/s$/,""):""};
 const jbNorm=t=>String(t).toLowerCase().replace(/\b(senior|sr|junior|jr|associate|lead|staff|principal|i{1,3}|iv|1|2|3)\b/g," ").replace(/[^a-z& ]+/g," ").replace(/\s+/g," ").trim();
+const JB_STOP=new Set("of and & the for to in on at with remote hybrid onsite early career new grad graduate entry level temporary contract".split(" "));
+const jbStem=w=>w.length>4?w.replace(/(ers|er|ing|s)$/,""):w;
+const jbWords=t=>jbNorm(String(t).replace(/\(.*?\)/g," ").split(/[,|\u2013\u2014]| - /)[0]).split(" ").filter(w=>w&&!JB_STOP.has(w)).map(jbStem);
+const JB_SAME={"product owner":"product manag","product lead":"product manag"};
+function jbTitleSim(t,jw,jh,jf){const tw=t.w;if(!tw.length)return 0;const J=new Set(jw);if(tw.every(w=>J.has(w)))return 1;
+  const js=jw.join(" ");for(const k in JB_SAME)if(js.includes(k.split(" ").map(jbStem).join(" "))&&tw.join(" ")===JB_SAME[k])return .85;
+  const shared=tw.filter(w=>J.has(w)).length;if(t.h&&t.h===jh&&t.f&&t.f===jf)return shared>1?.75:.4;if(t.f&&t.f===jf)return shared?.35:.25;return t.h&&t.h===jh?.1:0}
 function jbMe(){const m=S.me||{};const b=S.badges&&m.id&&S.badges[m.id];const proof=(b&&b.proof)||[];
   const ar={};proof.forEach(([pid,intime,lang])=>{const P=typeof AR_BY!=="undefined"&&AR_BY[pid];if(!P)return;const s=new Set(P.skills||[]);if(P.kind==="code")s.add(lang==="js"?"JavaScript":"Python");if(P.kind==="sql"||P.kind==="design")s.add("SQL");
     s.forEach(x=>{ar[x]=ar[x]||{n:0,t:0};ar[x].n++;if(intime)ar[x].t++})});
   const titles=(m.titles||[]).filter(Boolean),fams=new Set();(m.roles||[]).forEach(r=>(JB_TRK2FAM[r]||[]).forEach(f=>fams.add(f)));titles.forEach(t=>{const f=jbFamOf(t);if(f)fams.add(f)});
   const cy=typeof calcYears==="function"?calcYears((m.exp||[]).filter(e=>!/\bintern(ship)?\b/i.test(e.t||""))):null;const yrs=cy!=null?cy:(+m.yrs||0);
-  return{roles:m.roles||[],fams,titles,tn:titles.map(t=>({n:jbNorm(t),h:jbHead(t),f:jbFamOf(t),raw:t})),skills:new Set(m.skills||[]),...(()=>{const raw=(m.locs||[]).map(l=>String(l).toLowerCase().trim()).filter(Boolean),ctry=new Set(),ctryOnly=new Set(),locs=[];
+  return{roles:m.roles||[],fams,titles,tn:titles.map(t=>({n:jbNorm(t),h:jbHead(t),f:jbFamOf(t),w:jbWords(t),raw:t,k:1})),skills:new Set(m.skills||[]),...(()=>{const raw=(m.locs||[]).map(l=>String(l).toLowerCase().trim()).filter(Boolean),ctry=new Set(),ctryOnly=new Set(),locs=[];
     raw.forEach(l=>{const k=JB_CTRY_ALIAS[l]||l;if(JB_CTRY[k]){ctry.add(k);ctryOnly.add(k)}else{locs.push(l.split(",")[0].trim());const c=jbCountryOf(l);if(c)ctry.add(c)}});
     (m.countries||[]).forEach(c=>{const k=JB_CTRY_ALIAS[String(c).toLowerCase()]||String(c).toLowerCase();ctry.add(k);ctryOnly.add(k)});return{locs,ctry,ctryOnly}})(),remote:m.remote!==false,yrs,ar}}
 /* where a job is vs where you want to work: your city is a full fit, your country is a good fit, remote counts if you're open to it */
 const JB_CTRY={"united states":/\b(us|usa|u\.s\.a?|united states|america)\b|,\s*(a[lkzr]|c[aot]|d[ec]|fl|ga|hi|i[adln]|k[sy]|la|m[adeinost]|n[cdehjmvy]|o[hkr]|pa|ri|s[cd]|t[nx]|ut|v[at]|w[aivy])\b|new york|san francisco|seattle|austin|boston|chicago|los angeles|atlanta|denver|miami|dallas|houston|washington,? dc|san jose|san diego|philadelphia|phoenix/,"canada":/\bcanada\b|toronto|vancouver|montreal|ottawa|calgary|,\s*(on|bc|qc|ab)\b/,"united kingdom":/\b(uk|united kingdom|england|scotland)\b|london|manchester|edinburgh/,"india":/\bindia\b|bengaluru|bangalore|mumbai|delhi|gurgaon|gurugram|hyderabad|pune|chennai|noida/,"germany":/germany|berlin|munich|hamburg|frankfurt/,"france":/france|paris/,"netherlands":/netherlands|amsterdam/,"ireland":/ireland|dublin/,"singapore":/singapore/,"australia":/australia|sydney|melbourne/,"spain":/spain|madrid|barcelona/,"poland":/poland|warsaw|krakow/,"mexico":/mexico|ciudad de m/,"brazil":/brazil|s[aã]o paulo/,"japan":/japan|tokyo/,"israel":/israel|tel aviv/,"uae":/\buae\b|dubai|abu dhabi/};
 const JB_CTRY_ALIAS={us:"united states",usa:"united states","united states of america":"united states",america:"united states",uk:"united kingdom",england:"united kingdom","great britain":"united kingdom"};
-function jbCountryOf(l){l=String(l||"").toLowerCase();for(const [c,re] of Object.entries(JB_CTRY))if(re.test(l))return c;return""}
-const JB_ELSE=/\b(south korea|korea|japan|china|taiwan|hong kong|philippines|vietnam|thailand|malaysia|indonesia|pakistan|bangladesh|sri lanka|nepal|saudi|qatar|egypt|nigeria|kenya|south africa|ghana|morocco|turkey|t[uü]rkiye|greece|italy|portugal|belgium|switzerland|austria|sweden|norway|denmark|finland|czech|romania|hungary|ukraine|serbia|croatia|bulgaria|lithuania|latvia|estonia|argentina|chile|colombia|peru|uruguay|costa rica|new zealand|emea|apac|latam|europe|asia|africa|middle east)\b/;
+const JB_CTRY_ORDER=Object.keys(JB_CTRY).filter(c=>c!=="united states").concat("united states");
+function jbCountryOf(l){l=String(l||"").toLowerCase();if(JB_ELSE.test(l))return"elsewhere";for(const c of JB_CTRY_ORDER)if(JB_CTRY[c].test(l))return c;return""}
+const JB_ELSE=/\b(paraguay|bolivia|ecuador|venezuela|guatemala|honduras|el salvador|nicaragua|panama|dominican republic|jamaica|trinidad|luxembourg|slovakia|slovenia|iceland|cyprus|malta|jordan|lebanon|kuwait|bahrain|oman|ethiopia|tanzania|uganda|rwanda|cambodia|myanmar|mongolia|kazakhstan|uzbekistan|georgia, tbilisi|south korea|korea|japan|china|taiwan|hong kong|philippines|vietnam|thailand|malaysia|indonesia|pakistan|bangladesh|sri lanka|nepal|saudi|qatar|egypt|nigeria|kenya|south africa|ghana|morocco|turkey|t[uü]rkiye|greece|italy|portugal|belgium|switzerland|austria|sweden|norway|denmark|finland|czech|romania|hungary|ukraine|serbia|croatia|bulgaria|lithuania|latvia|estonia|argentina|chile|colombia|peru|uruguay|costa rica|new zealand|emea|apac|latam|europe|asia|africa|middle east)\b/;
 function jbLocFit(j,me){if(j.wp==="remote"){if(!me.remote)return .35;const jc=j._c!==undefined?j._c:(j._c=jbCountryOf(j.ll));if(me.ctry.size){if(jc)return me.ctry.has(jc)?1:.15;if(JB_ELSE.test(j.ll))return .15}return 1}if(!me.locs.length&&!me.ctry.size)return .6;
   if(me.locs.some(c=>j.ll.includes(c)))return 1;const jc=j._c!==undefined?j._c:(j._c=jbCountryOf(j.ll));if(jc&&me.ctry.has(jc))return me.ctryOnly.has(jc)?.95:.6;return j.wp==="hybrid"?.1:.05}
 /* most postings don't list years, so estimate from the title: Senior is about 5, Staff or Principal about 8, Director and up about 10, II about 2, Junior or Associate 0 */
@@ -4273,14 +4284,15 @@ function jbEst(j){if(j._e!==undefined)return j._e;const t=" "+String(j.t||"").to
   else if(/ (new grad|graduate|junior|jr\.?|entry level|early career|associate|i|1) /.test(t)||j.lvl==="entry")e=0;
   else if(j.lvl==="senior")e=5;
   return j._e=e}
+const JB_GENERIC=new Set(["Excel","Git","Jira","Agile","Communication","Microsoft Office","PowerPoint","Google Sheets","Project management"]);
 function jbParts(j,me){
   /* 1. is this the kind of role they want */
   let fam=.6;if(me.fams.size){fam=me.fams.has(j.fam)?1:0;me.fams.forEach(f=>{fam=Math.max(fam,(JB_NEAR[f]||{})[j.fam]||0)});if(!fam)fam=.05}
   /* 2. how close the title is to the titles they're targeting */
   let title=me.tn.length?0:fam*.7,tHit="";const jn=jbNorm(j.t),jh=jbHead(j.t);
-  me.tn.forEach(t=>{let v=0;if(t.n&&jn.includes(t.n))v=1;else if(t.h&&t.h===jh&&t.f&&t.f===j.fam)v=.8;else if(t.f&&t.f===j.fam)v=.45;else if(t.h&&t.h===jh)v=.25;if(v>title){title=v;tHit=t.raw}});
+  const jw=j._w||(j._w=jbWords(j.t));me.tn.forEach(t=>{const v=jbTitleSim(t,jw,jh,j.fam)*t.k;if(v>title){title=v;tHit=t.raw}});
   /* 3. skills they list that the member has or has proven */
-  const have=j.sk.filter(s=>me.skills.has(s)||me.ar[s]);const sk=j.sk.length?Math.min(1,have.length/Math.max(2,Math.min(5,Math.ceil(j.sk.length*.6)))):.6;
+  const real=j.sk.filter(s=>!JB_GENERIC.has(s)),have=real.filter(s=>me.skills.has(s)||me.ar[s]);const sk=real.length?Math.min(1,have.length/Math.max(3,Math.min(5,Math.ceil(real.length*.6)))):.5;
   /* 4. experience: years the posting asks for, plus the level in the title */
   const y=me.yrs,lv=j.lvl;const L=(y<=1?{intern:.85,entry:1,mid:.4,senior:.05}:y<=3?{intern:.15,entry:1,mid:.8,senior:.15}:y<=6?{intern:0,entry:.55,mid:1,senior:.75}:{intern:0,entry:.25,mid:.75,senior:1})[lv]??.6;
   let yf=null;const est=j.yrs>0?null:jbEst(j);if(j.yrs>0){const gap=j.yrs-y;yf=gap<=0?(y-j.yrs>8&&lv!=="senior"?.6:1):gap===1?.65:gap===2?.35:.1}
@@ -4291,27 +4303,32 @@ function jbParts(j,me){
   const age=jbDay()-j.day,rec=age<=3?1:age<=10?.7:age<=30?.4:.15;let arw=0;have.forEach(s=>{if(me.ar[s])arw+=me.ar[s].n+me.ar[s].t*.5});const ar=Math.min(1,arw/5);
   exp=Math.max(exp,Math.min(1,ar)*.8*sk); // strong proven work in their skills makes up for fewer years
   return{fam,title,tHit,sk,have,exp,yf,est,loc,rec,ar}}
-function jbScore(j,me){const p=jbParts(j,me);const base=100*(p.fam*.2+p.title*.28+p.sk*.14+p.exp*.16+p.loc*.22);
+function jbScore(j,me){const p=jbParts(j,me);let base=100*(p.fam*.1+p.title*.4+p.sk*.12+p.exp*.16+p.loc*.22);if(me.tn.length&&p.title<.3)base*=.75;
   let s=Math.round(base*.97+p.ar*3+p.rec*1+(j.lvl==="entry"&&me.yrs<=3?1:0)+jbLearnBoost(j,JB.pref)+(jbBrand(j)?2:0));
   /* a big years gap caps the score, so a role asking for far more experience can never read as a top match */
   const need=j.yrs>0?j.yrs:p.est;if(need>0&&need>me.yrs){const g=need-me.yrs,cap=(g>=5?52:g>=3?64:g>=2?76:88)+(j.yrs>0?0:6)+Math.round(p.ar*6);s=Math.min(s,cap)}
-  return Math.max(1,Math.min(98,s))}
+  j.ms=s+base/1000;return Math.max(1,Math.min(98,s))}
 /* score color: green is a strong match, orange is worth a look, red is a stretch */
 const jbTone=m=>m>=80?"hi":m>=60?"md":"lo";
 /* ---------- learning from what you do: apply, save, open, hide ---------- */
 const JB_BW={view:.5,apply:2,applied:3,save:1.5,hide:-3};
 function jbBeh(){if(!JB._beh){try{JB._beh=JSON.parse(jbLs.get("jb_beh")||"[]")}catch(_){JB._beh=[]}}return JB._beh}
 function jbLearn(kind,j){if(!j||!(kind in JB_BW))return;const b=jbBeh();if(kind==="view"&&b.some(e=>e.u===j.url&&e.k==="view"))return;
-  b.push({u:j.url,k:kind,ts:Date.now(),f:j.fam,l:j.lvl,w:j.wp,h:jbHead(j.t),s:(j.sk||[]).slice(0,6),c:j.co});if(b.length>400)b.splice(0,b.length-400);jbLs.set("jb_beh",JSON.stringify(b))}
+  b.push({u:j.url,k:kind,ts:Date.now(),f:j.fam,l:j.lvl,w:j.wp,h:jbHead(j.t),t:j.t,s:(j.sk||[]).slice(0,6),c:j.co});if(b.length>400)b.splice(0,b.length-400);jbLs.set("jb_beh",JSON.stringify(b))}
 function jbPrefs(){const b=jbBeh(),now=Date.now(),P={f:{},l:{},w:{},h:{},s:{},c:{},T:0};
   b.forEach(e=>{const w=JB_BW[e.k]*Math.pow(.5,(now-e.ts)/(14*864e5));if(w>0)P.T+=w;const add=(m,k)=>{if(k)m[k]=(m[k]||0)+w};add(P.f,e.f);add(P.l,e.l);add(P.w,e.w);add(P.h,e.h);(e.s||[]).forEach(x=>add(P.s,x));add(P.c,e.c)});return P}
 function jbLearnBoost(j,P){if(!P||P.T<2)return 0;const T=P.T,sk=j.sk.length?j.sk.reduce((t,x)=>t+(P.s[x]||0),0)/j.sk.length:0;
-  const v=10*(P.f[j.fam]||0)/T+12*(P.h[jbHead(j.t)]||0)/T+4*(P.l[j.lvl]||0)/T+3*(P.w[j.wp]||0)/T+6*sk/T+3*(P.c[j.co]||0)/T;return Math.max(-12,Math.min(12,v))}
+  const v=4*(P.f[j.fam]||0)/T+3*(P.l[j.lvl]||0)/T+2*(P.w[j.wp]||0)/T+3*sk/T+2*(P.c[j.co]||0)/T;return Math.max(-8,Math.min(8,v))}
+/* which of your goal titles you actually open, save and apply to: the busiest goal counts in full, the others a bit less */
+function jbGoalWeights(me){if(!me.tn.length)return;const b=jbBeh(),now=Date.now(),W=me.tn.map(()=>0);let T=0;
+  const add=(t,w)=>{if(!t||w<=0)return;const jw=jbWords(t),jh=jbHead(t),jf=jbFamOf(t);const sims=me.tn.map(g=>jbTitleSim(g,jw,jh,jf)),bv=Math.max(...sims);if(bv<.7)return;sims.forEach((v,i)=>{if(v===bv)W[i]+=w});T+=w};
+  b.forEach(e=>add(e.t,JB_BW[e.k]*Math.pow(.5,(now-e.ts)/(21*864e5))));const inf=jbInfo();Object.values(inf).forEach(x=>add(x.t,3*Math.pow(.5,(now-(x.at||now))/(30*864e5))));
+  if(T<4)return;const mx=Math.max(...W);me.tn.forEach((g,i)=>g.k=.8+.2*(W[i]/mx))}
 /* well known employers get a small lift so people see them in their feed */
 const JB_BRANDS=new Set("oracle salesforce nvidia adobe intel microsoft amazon google apple meta ibm cisco dell hp hpe vmware servicenow workday intuit paypal visa mastercard americanexpress capitalone jpmorganchase jpmorgan goldmansachs morganstanley bankofamerica wellsfargo citi blackrock fidelity charlesschwab deloitte pwc ey kpmg accenture mckinsey bcg bain stripe airbnb uber lyft doordash instacart spotify netflix linkedin snap pinterest reddit dropbox atlassian shopify block coinbase robinhood databricks snowflake datadog cloudflare mongodb twilio zoom hubspot zendesk okta crowdstrike paloaltonetworks fortinet qualcomm amd micron texasinstruments appliedmaterials broadcom tesla spacex boeing lockheedmartin northropgrumman rtx generalmotors ford toyota walmart target costco homedepot nike starbucks disney comcast att verizon tmobile pfizer johnsonandjohnson merck abbvie unitedhealthgroup cvshealth anthropic openai scaleai figma notion canva samsung sony siemens sap adp expedia booking zillow wayfair chewy etsy ebay duolingo ramp plaid brex rippling gusto affirm sofi chime discord roblox epicgames ea riotgames grammarly asana airtable gitlab elastic confluent hashicorp janestreet citadel twosigma hudsonrivertrading point72 bridgewater statestreet pnc truist usbank ally discover synchrony spglobal moodys bloomberg nasdaq mckesson cardinalhealth honeywell 3m generalelectric gehealthcare gevernova geaerospace caterpillar deere johndeere ups fedex deltaairlines unitedairlines marriott hilton nordstrom bestbuy lululemon pepsico cocacola procterandgamble unilever nestle mondelez generalmills mcdonalds tiktok bytedance waymo nuro zoox cruise wiz samsara benchling vercel cursor perplexity harvey linear retool mercury deel vanta clay glean cohere mistral huggingface elevenlabs palantir anduril andurilindustries rivian lucid amgen gilead moderna medtronic abbott stryker elevance cigna humana lilly elililly bristolmyerssquibb redhat zscaler rubrik verkada applovin lattice nextdoor roku twitch warnerbros nbcuniversal paramount".split(" "));
 const jbBrandKey=co=>String(co||"").toLowerCase().replace(/&/g,"and").replace(/\b(inc|corp|corporation|company|co|llc|ltd|group|holdings|technologies|usa|us|services)\b\.?/g,"").replace(/[^a-z0-9]/g,"");
 const jbBrand=j=>j._b!==undefined?j._b:(j._b=JB_BRANDS.has(jbBrandKey(j.co)));
-function jbScoreAll(){if(!JB.data)return;const me=jbMe();JB.me=me;JB.pref=jbPrefs();JB.data.jobs.forEach(j=>j.m=jbScore(j,me));JB.top=null}
+function jbScoreAll(){if(!JB.data)return;const me=jbMe();jbGoalWeights(me);JB.me=me;JB.pref=jbPrefs();JB.data.jobs.forEach(j=>j.m=jbScore(j,me));JB.top=null}
 function jbWhy(j){const me=JB.me||jbMe(),p=jbParts(j,me),out=[];
   if(p.title>=.8&&p.tHit)out.push(`It's the role you're after: ${p.tHit}`);else if(p.fam>=1)out.push(`It's a ${JB_FAMN[j.fam].toLowerCase()} role, which is what you're looking for`);
   if(j.yrs>0){if(p.yf>=1)out.push(`They ask for ${j.yrs}+ years and you have ${me.yrs}`)}
@@ -4330,11 +4347,11 @@ function jbShort(j){const me=JB.me||jbMe(),p=jbParts(j,me),list=a=>a.length<2?a[
   const bits=[];if(p.title>=.8&&p.tHit)bits.push(`Matches your goal of ${p.tHit}`);if(j.yrs>0&&p.yf>=1)bits.push(`asks for ${j.yrs}+ years, you have ${me.yrs}`);
   if(p.have.length>=2)bits.push(`you have ${list(p.have.slice(0,3))}`);
   if(bits.length)return bits.join(", ").replace(/^./,c=>c.toUpperCase())+".";const w=jbWhy(j);return w.good[0]||"Matches your role and level"}
-function jbTop(){if(JB.top)return JB.top;const uid=(S.me&&S.me.id)||"x",key="jb_top4_"+uid+"_"+jbDay();let ids=null;try{ids=JSON.parse(jbLs.get(key)||"null")}catch(_){}
+function jbTop(){if(JB.top)return JB.top;const uid=(S.me&&S.me.id)||"x",key="jb_top5_"+uid+"_"+jbDay();let ids=null;try{ids=JSON.parse(jbLs.get(key)||"null")}catch(_){}
   const byUrl=new Map(JB.data.jobs.map(j=>[j.url,j]));let t=[];if(ids){t=ids.map(u=>byUrl.get(u)).filter(Boolean);if(t.length>=10){JB.top=t;return t}}
   // today's 10 stay fixed all day; only a role that closed gets replaced
   const me=JB.me||jbMe(),have=new Set(t.map(j=>j.url)),per={};t.forEach(j=>per[j.co]=(per[j.co]||0)+1);
-  const pool=JB.data.jobs.filter(j=>!have.has(j.url)&&jbDay()-j.day<=30&&(!me.fams.size||jbParts(j,me).fam>=1)&&jbLocFit(j,me)>=.6).sort((a,b)=>b.m-a.m);for(const j of pool){if(t.length>=10)break;if((per[j.co]||0)>=2)continue;per[j.co]=(per[j.co]||0)+1;t.push(j)}
+  let pool=JB.data.jobs.filter(j=>!have.has(j.url)&&jbDay()-j.day<=30&&(!me.fams.size||jbParts(j,me).fam>=1)&&jbLocFit(j,me)>=.6);if(me.tn.length){const near=pool.filter(j=>jbParts(j,me).title>=.7);if(near.length>=10)pool=near}pool.sort((a,b)=>(b.ms||b.m)-(a.ms||a.m));for(const j of pool){if(t.length>=10)break;if((per[j.co]||0)>=2)continue;per[j.co]=(per[j.co]||0)+1;t.push(j)}
   JB.top=t;jbLs.set(key,JSON.stringify(t.map(j=>j.url)));return t}
 
 
@@ -4423,7 +4440,7 @@ function jbFiltered(){const q=JB.q.toLowerCase().split(/\s+/).filter(Boolean),lo
   let a=JB.data.jobs.filter(j=>(!mine||jbLocFit(j,me)>=.6)&&!hid.has(j.url)&&(!ap||ap.has(j.url))&&(!JB.fam||j.fam===JB.fam)&&(!JB.lvl||j.lvl===JB.lvl)&&(!JB.wp.length||JB.wp.includes(j.wp))&&(!JB.days||today-j.day<=JB.days)&&(!sv||sv.has(j.url))
     &&q.every(w=>j.tl.includes(w))&&(!locs.length||(wantRemote&&j.wp==="remote")||pms.some(f=>f(j))));
   const ca=j=>(JB.cnt[j.url]||{}).a||0,cc=j=>(JB.cnt[j.url]||{}).c||0;
-  return JB.sort==="new"?a.sort((x,y)=>y.day-x.day||y.m-x.m):JB.sort==="pop"?a.sort((x,y)=>ca(y)-ca(x)||cc(y)-cc(x)||y.m-x.m):a.sort((x,y)=>y.m-x.m||y.day-x.day)}
+  return JB.sort==="new"?a.sort((x,y)=>y.day-x.day||y.m-x.m):JB.sort==="pop"?a.sort((x,y)=>ca(y)-ca(x)||cc(y)-cc(x)||y.m-x.m):a.sort((x,y)=>(y.ms||y.m)-(x.ms||x.m)||y.day-x.day)}
 function jbCities(){if(JB.cities)return JB.cities;const c={};JB.data.jobs.forEach(j=>{j.loc.split(/[\/;|]/).forEach(p=>{const k=p.replace(/\(.*?\)/g,"").trim();if(k&&k.length<40&&!/remote/i.test(k))c[k]=(c[k]||0)+1})});
   return JB.cities=Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,60).map(x=>x[0])}
 
