@@ -2866,19 +2866,19 @@ document.addEventListener("dragend",()=>{dragFrom=null;document.querySelectorAll
 
 
 /* ================= Photos, logos, school + company pickers ================= */
-const FAV=d=>d?`https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128`:"";
+const FAV=d=>d?`https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=64`:"";
 const hostOf=u=>{try{u=String(u||"").trim();if(!u)return"";if(!/^https?:/i.test(u))u="https://"+u;return new URL(u).hostname.replace(/^www\./,"")}catch(_){return""}};
 const isAutoLogo=u=>!u||/s2\/favicons/.test(u);
 /* A logo tile: real image when we have one, initials (or an icon) underneath as the fallback */
 /* several places to find a logo: Google, DuckDuckGo, then the site's own touch icon. A tiny or broken image moves to the next one */
 function logoAlts(url){const m=/[?&]domain=([^&]+)/.exec(url||"");if(!m)return[];const d=decodeURIComponent(m[1]).replace(/^www\./,"");
-  return[`https://www.google.com/s2/favicons?domain=${encodeURIComponent("www."+d)}&sz=128`,`https://unavatar.io/${d}?fallback=false`,`https://${d}/apple-touch-icon.png`,`https://www.${d}/apple-touch-icon.png`,`https://${d}/favicon.ico`]}
+  return[`https://www.google.com/s2/favicons?domain=${encodeURIComponent("www."+d)}&sz=64`,`https://${d}/apple-touch-icon.png`,`https://www.${d}/apple-touch-icon.png`,`https://${d}/favicon.ico`]}
 function lgNext(img,bad){const alts=(img.dataset.alts||"").split("|").filter(Boolean);
-  if(!bad&&img.naturalWidth>16)return;
+  if(!bad&&img.naturalWidth>=16)return;
   if(alts.length){img.dataset.alts=alts.slice(1).join("|");img.src=alts[0];return}
-  if(bad||img.naturalWidth<=16){const p=img.parentNode;p&&p.classList.remove("hasimg");img.remove()}}
+  {const p=img.parentNode;p&&p.classList.remove("hasimg");img.remove()}}
 function logoBox(name,url,cls,fallback){const alts=isAutoLogo(url)?logoAlts(url).join("|"):"";
-  return `<span class="logo ${cls||""} ${url?"hasimg":""}">${fallback||`<em>${esc(ini(name||"?"))}</em>`}${url?`<img src="${esc(url)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-alts="${esc(alts)}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`}
+  return `<span class="logo ${cls||""} ${url?"hasimg":""}">${fallback||`<em>${esc(ini(name||"?"))}</em>`}${url?`<img src="${esc(url)}" alt="" loading="lazy" data-alts="${esc(alts)}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`}
 const coLogoUrl=n=>n&&S.logos?S.logos[n]||"":"";
 const coLogo=(n,cls)=>logoBox(n,coLogoUrl(n),cls);
 /* someone else's avatar: photo, else initials, else their code */
@@ -4213,7 +4213,7 @@ const JB_COL=["#4C6BF5","#12A38A","#F2643D","#8B5CF6","#222","#0EA5E9","#D97706"
 const jbColor=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return JB_COL[h%JB_COL.length]};
 const jbInit=s=>{const w=String(s).replace(/[^\w\s&.]/g,"").split(/\s+/).filter(Boolean);return((w[0]||"?")[0]+((w[1]||w[0]||"")[w[1]?0:1]||"")).toUpperCase()};
 const jbGuessDom=co=>{if(window.JOBS_DEMO)return"";const k=String(co||"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");return k?k+".com":""};
-const jbLogo=(co,cls,dom)=>{const direct=/^https?:/.test(dom||""),u=direct?dom:dom&&typeof FAV==="function"?FAV(dom):"";return `<span class="jblg ${cls||""} ${u?"hasimg":""}" style="background:${jbColor(co)}"><em>${esc(jbInit(co))}</em>${u?`<img src="${esc(u)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-alts="${direct?"":esc(logoAlts(u).join("|"))}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`};
+const jbLogo=(co,cls,dom)=>{const direct=/^https?:/.test(dom||""),u=direct?dom:dom&&typeof FAV==="function"?FAV(dom):"";return `<span class="jblg ${cls||""} ${u?"hasimg":""}" style="background:${jbColor(co)}"><em>${esc(jbInit(co))}</em>${u?`<img src="${esc(u)}" alt="" loading="lazy" data-alts="${direct?"":esc(logoAlts(u).join("|"))}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`};
 const jbAgo=d=>{const n=jbDay()-d;return n<=0?"Today":n===1?"1d":n<30?n+"d":Math.round(n/30)+"mo"};
 const jbAgoLong=d=>{const n=jbDay()-d;return n<=0?"Posted today":n===1?"Posted yesterday":`Posted ${n} days ago`};
 
