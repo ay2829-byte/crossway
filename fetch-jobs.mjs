@@ -21,7 +21,10 @@ const decode=s=>String(s||"").replace(/&(#x?[0-9a-f]+|\w+);/gi,(m,e)=>e[0]==="#"
 const strip=h=>decode(decode(String(h||"")).replace(/<(br|\/p|\/li|\/h\d|\/div)[^>]*>/gi," . ").replace(/<[^>]+>/g," ")).replace(/\s+/g," ").replace(/( \.)+/g,".").replace(/ ([,.;:!?])/g,"$1").replace(/\.{2,}/g,".").replace(/^\. ?/,"").trim();
 const snippet=t=>{t=t.replace(/^\W+/,"");if(t.length<=SNIP)return t;const c=t.slice(0,SNIP);return c.slice(0,Math.max(c.lastIndexOf(" "),SNIP-40))+"…"};
 const ATS=/(^|\.)(greenhouse\.io|lever\.co|ashbyhq\.com|smartrecruiters\.com|myworkdayjobs\.com|workable\.com|jobvite\.com|icims\.com|bamboohr\.com|recruitee\.com|breezy\.hr|gem\.com|rippling-ats\.com|rippling\.com|oraclecloud\.com|simplify\.jobs|themuse\.com|arbeitnow\.com|himalayas\.app|remotive\.com|jobicy\.com|adzuna\.[a-z.]+|eightfold\.ai|taleo\.net|successfactors\.com)$/i;
-export function domainOf(tok,url,co){if(tok in DOMAINS)return DOMAINS[tok];try{const h=new URL(url).hostname.toLowerCase();if(!ATS.test(h))return h.replace(/^(www|careers|jobs|boards|job-boards|apply|work|talent|join)\./,"")}catch{}if(tok&&/^[a-z0-9]+$/i.test(tok)&&!(tok in DISC))return tok.toLowerCase()+".com";return nameDom(co)}
+export const CO_DOM={"TikTok":"tiktok.com","ByteDance":"bytedance.com","Jerry":"getjerry.com","Blackhawk Network Holdings":"blackhawknetwork.com","Amazon":"amazon.com","Amazon Web Services":"aws.amazon.com","Meta":"meta.com","Google":"google.com","Alphabet":"abc.xyz","Microsoft":"microsoft.com","Apple":"apple.com"};
+const JOB_HOST=/jibeapply|paylocity|icims|myworkdaysite|myworkdayjobs|taleo|ultipro|dayforcehcm|successfactors|workable|bamboohr|recruitee|teamtailor|breezy\.hr|applytojob|pinpointhq|arbeitnow|jobvite|eightfold|phenompeople|avature|oraclecloud|adp\.com|rippling|gem\.com|dover\.com|wellfound|ycombinator/;
+export function cleanHost(h){h=String(h||"").toLowerCase().replace(/^(www\d?|careers|jobs|boards|job-boards|apply|work|talent|join|hiring)\./,"");const m=h.match(/^(?:lifeat|careersat|workat|joinus|jobsat)([a-z0-9-]{3,})\.(com|co|io)$/);if(m)return m[1]+"."+m[2];if(/\.jobs$/.test(h))return h.replace(/\.jobs$/,".com");return JOB_HOST.test(h)?"":h}
+export function domainOf(tok,url,co){if(CO_DOM[co])return CO_DOM[co];if(tok in DOMAINS)return DOMAINS[tok];try{const h=new URL(url).hostname.toLowerCase();if(!ATS.test(h)){const c=cleanHost(h);if(c)return c}}catch{}if(tok&&/^[a-z0-9]+$/i.test(tok)&&!(tok in DISC))return tok.toLowerCase()+".com";return nameDom(co)}
 export const cleanCo=co=>String(co||"").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/\(.*?\)/g," ").replace(/[-_](jobs|careers|english|us|usa|global)\b/gi," ").replace(/\b(inc|llc|l\.l\.c|ltd|limited|corp|corporation|co|plc|gmbh|ag|sa|se|nv|bv|ab|as|oy|spa|s\.a|s\.p\.a|pty|pvt|private|group|holdings?|technologies|technology|company|industries|international|jobs|careers|usa|us|global|worldwide|enterprises?)\b\.?/gi," ").replace(/\s+/g," ").trim()||String(co||"");
 const nameDom=co=>{const k=cleanCo(co).toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");return k?"?"+k+".com":""}
 const DISC={};
@@ -229,7 +232,7 @@ const WD_API="https://www.wikidata.org/w/api.php?format=json&origin=*&";
 export function plausible(name,host){const lab=String(host||"").replace(/^www\./,"").split(".")[0].replace(/[^a-z0-9]/g,"");if(lab.length<2)return false;
   const w=cleanCo(name).toLowerCase().replace(/&/g," ").split(/[^a-z0-9]+/).filter(Boolean);if(!w.length)return false;
   const ac=w.map(x=>x[0]).join(""),all=w.join("");
-  return lab===all||lab===ac||(w[0].length>=3&&(lab.startsWith(w[0])||all.startsWith(lab)))||(lab.length>=4&&all.includes(lab))}
+  return lab===all||lab===ac||(w[0].length>=3&&((lab.startsWith(w[0])&&(lab.length<=all.length+6||/^(service|services|software|group|companies|company|careers|labs|hq|app|apps|tech|health|energy|bank|financial|global|usa|inc|corp|systems|solutions|digital|ai|io|co)+$/.test(lab.slice(all.length))))||all.startsWith(lab)))||(lab.length>=4&&all.includes(lab))}
 async function wikiSite(name){const q=cleanCo(name);if(q.length<2)return"";
   const s=await getJSON(WD_API+"action=query&list=search&srlimit=4&srsearch="+encodeURIComponent(q+" haswbstatement:P856"));const ids=((s&&s.query&&s.query.search)||[]).map(x=>x.title).filter(t=>/^Q\d+$/.test(t));if(!ids.length)return"";
   const e=await getJSON(WD_API+"action=wbgetentities&props=claims&ids="+ids.join("|"));if(!e||!e.entities)return null;
@@ -237,6 +240,8 @@ async function wikiSite(name){const q=cleanCo(name);if(q.length<2)return"";
     for(const x of c){const v=x.mainsnak&&x.mainsnak.datavalue&&x.mainsnak.datavalue.value;let h="";try{h=new URL(v).hostname.toLowerCase().replace(/^(www\d?|careers|jobs|corporate|about|global|group|en|us)\./,"")}catch{}
       if(h&&plausible(name,h))return h}}return""}
 async function resolveDomains(out,today){const cache=readJSON(OUT+"/domains.json")||{};const n={};out.rows.forEach(r=>n[r[0]]=(n[r[0]]||0)+1);
+  for(const k in cache)if(cache[k][0]&&!plausible(k,cache[k][0]))delete cache[k];
+  out.cos.forEach((co,i)=>{if(CO_DOM[co])out.doms[i]=CO_DOM[co];else{const c=cleanHost(out.doms[i]);if(c!==out.doms[i])out.doms[i]=c||nameDom(co).slice(1)}});
   const todo=[];for(const i of out.cos.guess||[]){const co=out.cos[i],c=cache[co];
     if(c&&c[0]){out.doms[i]=c[0];continue}if(LOGO[co]){out.doms[i]=LOGO[co];continue}
     if(!c||today-c[1]>30)todo.push(i)}

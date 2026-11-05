@@ -83,7 +83,7 @@ const foot = `<footer><div class="wrap"><span>© 2026 Crossway</span><span class
 function jobRow(j, k) {
   const [t, co, loc, lvl, wp, day, pay0, yrs, url, sn, sk, dom] = j;
   const pay = String(pay0 || "").replace(/^(\$\d+k) to \1$/, "$1");
-  const logo = `${esc((co || "?")[0])}${dom ? `<img src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(dom)}&sz=64" alt="" loading="lazy" onerror="this.remove()">` : ""}`;
+  const logo = `${esc((co || "?")[0])}${dom ? `<img src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(dom)}&sz=64" alt="" loading="lazy" onload="if(this.naturalWidth<32)this.remove()" onerror="this.remove()">` : ""}`;
   return `<li class="job"><details${k === 0 ? " open" : ""}><summary><span class="lg" aria-hidden="true">${logo}</span><span class="jt"><b>${esc(t)}</b><span>${esc(co)} · ${esc(loc.slice(0, 60))}</span></span>
 <span class="jm"><span class="tag">${LV[lvl] || "Mid"}</span>${pay ? `<span class="tag pay">${esc(pay)}</span>` : ""}<span class="when">${ago(day)}</span></span></summary>
 <div class="jd"><dl><div><dt>Experience</dt><dd>${yrs > 0 ? `${yrs}+ years` : "Not listed"}</dd></div><div><dt>Work</dt><dd>${WP[wp] || "Onsite"}</dd></div><div><dt>Pay</dt><dd>${esc(pay || "Not listed")}</dd></div><div><dt>Posted</dt><dd>${ago(day)}</dd></div></dl>

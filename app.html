@@ -2921,7 +2921,7 @@ const isAutoLogo=u=>!u||/s2\/favicons/.test(u);
 function logoAlts(url){const m=/[?&]domain=([^&]+)/.exec(url||"");if(!m)return[];const d=decodeURIComponent(m[1]).replace(/^www\./,"");
   return[`https://www.google.com/s2/favicons?domain=${encodeURIComponent("www."+d)}&sz=64`,`https://${d}/apple-touch-icon.png`,`https://www.${d}/apple-touch-icon.png`,`https://${d}/favicon.ico`]}
 function lgNext(img,bad){const alts=(img.dataset.alts||"").split("|").filter(Boolean);
-  if(!bad&&img.naturalWidth>=16)return;
+  if(!bad&&img.naturalWidth>=32)return;
   if(alts.length){img.dataset.alts=alts.slice(1).join("|");img.src=alts[0];return}
   {const p=img.parentNode;p&&p.classList.remove("hasimg");img.remove()}}
 function logoBox(name,url,cls,fallback){const alts=isAutoLogo(url)?logoAlts(url).join("|"):"";
@@ -4259,6 +4259,13 @@ const jbDay=()=>Math.floor(Date.now()/864e5);
 const JB_COL=["#4C6BF5","#12A38A","#F2643D","#8B5CF6","#222","#0EA5E9","#D97706","#DB2777","#059669","#6366F1"];
 const jbColor=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return JB_COL[h%JB_COL.length]};
 const jbInit=s=>{const w=String(s).replace(/[^\w\s&.]/g,"").split(/\s+/).filter(Boolean);return((w[0]||"?")[0]+((w[1]||w[0]||"")[w[1]?0:1]||"")).toUpperCase()};
+const JB_CO_DOM={"TikTok":"tiktok.com","ByteDance":"bytedance.com","Jerry":"getjerry.com","Blackhawk Network Holdings":"blackhawknetwork.com","Amazon":"amazon.com","Amazon Web Services":"aws.amazon.com","Meta":"meta.com","Google":"google.com","Microsoft":"microsoft.com","Apple":"apple.com"};
+const JB_JOBHOST=/jibeapply|paylocity|icims|myworkdaysite|myworkdayjobs|taleo|ultipro|dayforcehcm|successfactors|workable|bamboohr|recruitee|teamtailor|breezy\.hr|applytojob|pinpointhq|arbeitnow|jobvite|eightfold|phenompeople|avature|oraclecloud|adp\.com|rippling|wellfound/;
+/* the feed sometimes has a careers site, an application system or a wrong lookup as the company's website; fix those before asking for a logo */
+function jbFixDom(co,dom){if(JB_CO_DOM[co])return JB_CO_DOM[co];let h=String(dom||"").toLowerCase().replace(/^(www\d?|careers|jobs|boards|apply|talent|join)\./,"");
+  const m=h.match(/^(?:lifeat|careersat|workat|jobsat)([a-z0-9-]{3,})\.(com|co|io)$/);if(m)h=m[1]+"."+m[2];if(/\.jobs$/.test(h))h=h.replace(/\.jobs$/,".com");
+  const k=String(co||"").toLowerCase().replace(/&/g,"and").replace(/\b(inc|llc|ltd|corp|corporation|co|holdings?|group|technologies|company)\b\.?/g,"").replace(/[^a-z0-9]/g,""),lab=h.split(".")[0].replace(/[^a-z0-9]/g,"");
+  if(!h||JB_JOBHOST.test(h)||(k.length>=3&&lab.startsWith(k)&&lab.length>k.length+6&&!/^(service|services|software|group|companies|company|careers|labs|hq|app|apps|tech|health|energy|bank|financial|global|usa|inc|corp|systems|solutions|digital|ai|io|co)+$/.test(lab.slice(k.length))))return jbGuessDom(co);return h}
 const jbGuessDom=co=>{if(window.JOBS_DEMO)return"";const k=String(co||"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");return k?k+".com":""};
 const jbLogo=(co,cls,dom)=>{const direct=/^https?:/.test(dom||""),u=direct?dom:dom&&typeof FAV==="function"?FAV(dom):"";return `<span class="jblg ${cls||""} ${u?"hasimg":""}" style="background:${jbColor(co)}"><em>${esc(jbInit(co))}</em>${u?`<img src="${esc(u)}" alt="" loading="lazy" data-alts="${direct?"":esc(logoAlts(u).join("|"))}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`};
 const jbAgo=d=>{const n=jbDay()-d;return n<=0?"Today":n===1?"1d":n<30?n+"d":Math.round(n/30)+"mo"};
@@ -4268,7 +4275,7 @@ const jbAgoLong=d=>{const n=jbDay()-d;return n<=0?"Posted today":n===1?"Posted y
 // Roles refresh every few hours on the jobs-data branch; the site copy is a fallback
 const JB_LIVE="https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/";
 function jbLoad(){if(JB.data||JB.loading)return;JB.loading=true;
-  const done=d=>{const jobs=d.rows.map((r,i)=>({i,co:d.cos[r[0]],dom:(d.doms||[])[r[0]]||jbGuessDom(d.cos[r[0]]),t:r[1],loc:d.locs[r[2]],fam:jbFixFam(r[1],d.fams[r[3]]||"other"),lvl:["intern","entry","mid","senior"][r[4]]||"mid",wp:["remote","hybrid","onsite"][r[5]]||"onsite",day:r[6],url:Array.isArray(r[7])?d.pres[r[7][0]]+r[7][1]:r[7],src:(d.srcs||[])[r[11]]||"",pay:r[8],sk:r[9].map(k=>d.skills[k]),yrs:typeof r[10]==="number"?r[10]:-1,tl:(r[1]+" "+d.cos[r[0]]).toLowerCase(),ll:(d.locs[r[2]]||"").toLowerCase()}));
+  const done=d=>{const jobs=d.rows.map((r,i)=>({i,co:d.cos[r[0]],dom:jbFixDom(d.cos[r[0]],(d.doms||[])[r[0]]),t:r[1],loc:d.locs[r[2]],fam:jbFixFam(r[1],d.fams[r[3]]||"other"),lvl:["intern","entry","mid","senior"][r[4]]||"mid",wp:["remote","hybrid","onsite"][r[5]]||"onsite",day:r[6],url:Array.isArray(r[7])?d.pres[r[7][0]]+r[7][1]:r[7],src:(d.srcs||[])[r[11]]||"",pay:r[8],sk:r[9].map(k=>d.skills[k]),yrs:typeof r[10]==="number"?r[10]:-1,tl:(r[1]+" "+d.cos[r[0]]).toLowerCase(),ll:(d.locs[r[2]]||"").toLowerCase()}));
     JB.data={jobs,updated:d.updated,shard:d.shard||1000,demo:!!d.demo,base:d._base||"/jobs-feed/",ver:d.ver||""};JB.loading=false;jbScoreAll();if(S.stab==="jobs")renderJobs()};
   if(window.JOBS_DEMO){setTimeout(()=>done(window.JOBS_DEMO),60);return}
   const get=b=>fetch(b+"index.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error("missing");return r.json()}).then(d=>{d._base=b;return d});
