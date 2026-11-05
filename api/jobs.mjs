@@ -81,9 +81,9 @@ ${(ld || []).map(x => `<script type="application/ld+json">${JSON.stringify(x).re
 const foot = `<footer><div class="wrap"><span>© 2026 Crossway</span><span class="sp"></span><a href="/jobs">Jobs</a><a href="/blog">Blog</a><a href="/compare/linkedin-alternative">vs LinkedIn</a><a href="/compare/jobright-alternative">vs Jobright</a><a href="/compare/leetcode-alternative">vs LeetCode</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div><div class="wrap"><p style="font-size:12.5px;color:var(--faint);margin:10px 0 0">Jobs come from company career pages and refresh every few hours. Crossway isn't affiliated with the companies listed.</p></div></footer></body></html>`;
 
 function jobRow(j, k) {
-  const [t, co, loc, lvl, wp, day, pay0, yrs, url, sn, sk, dom] = j;
+  const [t, co, loc, lvl, wp, day, pay0, yrs, url, sn, sk, dom, own] = j;
   const pay = String(pay0 || "").replace(/^(\$\d+k) to \1$/, "$1");
-  const logo = `${esc((co || "?")[0])}${dom ? `<img src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(dom)}&sz=64" alt="" loading="lazy" onload="if(this.naturalWidth<32)this.remove()" onerror="this.remove()">` : ""}`;
+  const logo = `${esc((co || "?")[0])}${dom ? `<img src="${own ? `https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/logos/${encodeURIComponent(dom)}.png` : `https://www.google.com/s2/favicons?domain=${encodeURIComponent(dom)}&sz=64`}" alt="" loading="lazy" onload="if(this.naturalWidth<32)this.remove()" onerror="this.remove()">` : ""}`;
   return `<li class="job"><details${k === 0 ? " open" : ""}><summary><span class="lg" aria-hidden="true">${logo}</span><span class="jt"><b>${esc(t)}</b><span>${esc(co)} · ${esc(loc.slice(0, 60))}</span></span>
 <span class="jm"><span class="tag">${LV[lvl] || "Mid"}</span>${pay ? `<span class="tag pay">${esc(pay)}</span>` : ""}<span class="when">${ago(day)}</span></span></summary>
 <div class="jd"><dl><div><dt>Experience</dt><dd>${yrs > 0 ? `${yrs}+ years` : "Not listed"}</dd></div><div><dt>Work</dt><dd>${WP[wp] || "Onsite"}</dd></div><div><dt>Pay</dt><dd>${esc(pay || "Not listed")}</dd></div><div><dt>Posted</dt><dd>${ago(day)}</dd></div></dl>
