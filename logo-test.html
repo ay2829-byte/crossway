@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset="utf-8"><title>logo test</title></head><body><pre id="out">running</pre><div id="box"></div>
+<script>
+const doms=["okta.com","reddit.com","plaid.com","jpmorganchase.com","chime.com","doordash.com","wonderschool.com","copeland.com","nytimes.com","roblox.com"];
+const variants=[["s128_noref","https://www.google.com/s2/favicons?domain=D&sz=128",true],["s128_ref","https://www.google.com/s2/favicons?domain=D&sz=128",false],["s64_noref","https://www.google.com/s2/favicons?domain=D&sz=64",true],["s64_ref","https://www.google.com/s2/favicons?domain=D&sz=64",false]];
+const res={};let left=doms.length*variants.length;
+for(const [k,u,nr] of variants){res[k]=[];for(const d of doms){const i=new Image();if(nr)i.referrerPolicy="no-referrer";const t=performance.now();
+ i.onload=()=>{res[k].push(d+":"+i.naturalWidth);done()};i.onerror=()=>{res[k].push(d+":ERR");done()};i.src=u.replace("D",encodeURIComponent(d));document.getElementById("box").appendChild(i)}}
+function done(){if(--left===0)document.getElementById("out").textContent=JSON.stringify(res,null,1)}
+setTimeout(()=>{if(left)document.getElementById("out").textContent="TIMEOUT "+left+" "+JSON.stringify(res)},12000);
+</script></body></html>
