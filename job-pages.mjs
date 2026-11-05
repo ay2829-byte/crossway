@@ -66,6 +66,7 @@ const LV = ["intern", "entry", "mid", "senior"], WP = ["remote", "hybrid", "onsi
 
 function load() {
   const d = JSON.parse(fs.readFileSync(path.join(OUT, "index.json"), "utf8"));
+  let own = new Set(); try { own = new Set(JSON.parse(fs.readFileSync(path.join(OUT, "logos", "_index.json"), "utf8")).have) } catch {}
   const urlOf = r => Array.isArray(r[7]) ? d.pres[r[7][0]] + r[7][1] : r[7];
   const shardCache = {};
   const snip = i => {
@@ -77,6 +78,7 @@ function load() {
     return (shardCache[n][i % d.shard] || "").slice(0, 320);
   };
   const jobs = d.rows.map((r, i) => ({ i, co: d.cos[r[0]], dom: (d.doms || [])[r[0]] || "", t: r[1], loc: d.locs[r[2]] || "", lvl: r[4], wp: r[5], day: r[6], url: urlOf(r), pay: r[8] || "", sk: (r[9] || []).map(k => d.skills[k]), yrs: typeof r[10] === "number" ? r[10] : -1 }));
+  jobs.forEach(j => { j.own = own.has(j.dom) ? 1 : 0 });
   return { d, jobs, snip };
 }
 
@@ -129,7 +131,7 @@ function build() {
     const data = {
       slug: p.slug, kind: p.kind, role: p.role, roleName: roleName[p.role], city: p.city, cityName: p.city === "remote" ? "Remote" : cityName[p.city] || "", fam: famOf(p.role),
       h1: p.h1, title: p.title, updated: d.updated, ...s,
-      jobs: list.slice(0, SHOW).map(j => [j.t, j.co, j.loc.slice(0, 90), j.lvl, j.wp, j.day, j.pay, j.yrs, j.url, snip(j.i), j.sk.slice(0, 5), j.dom]),
+      jobs: list.slice(0, SHOW).map(j => [j.t, j.co, j.loc.slice(0, 90), j.lvl, j.wp, j.day, j.pay, j.yrs, j.url, snip(j.i), j.sk.slice(0, 5), j.dom, j.own]),
       related: { roles, cities, narrow },
     };
     fs.writeFileSync(path.join(outDir, p.slug + ".json"), JSON.stringify(data));

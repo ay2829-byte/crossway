@@ -4269,7 +4269,7 @@ function jbFixDom(co,dom){if(JB_CO_DOM[co])return JB_CO_DOM[co];let h=String(dom
   const k=String(co||"").toLowerCase().replace(/&/g,"and").replace(/\b(inc|llc|ltd|corp|corporation|co|holdings?|group|technologies|company)\b\.?/g,"").replace(/[^a-z0-9]/g,""),lab=h.split(".")[0].replace(/[^a-z0-9]/g,"");
   if(!h||JB_JOBHOST.test(h)||(k.length>=3&&lab.startsWith(k)&&lab.length>k.length+6&&!/^(service|services|software|group|companies|company|careers|labs|hq|app|apps|tech|health|energy|bank|financial|global|usa|inc|corp|systems|solutions|digital|ai|io|co)+$/.test(lab.slice(k.length))))return jbGuessDom(co);return h}
 const jbGuessDom=co=>{if(window.JOBS_DEMO)return"";const k=String(co||"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");return k?k+".com":""};
-const jbLogo=(co,cls,dom)=>{const direct=/^https?:/.test(dom||""),u=direct?dom:dom&&typeof FAV==="function"?FAV(dom):"";return `<span class="jblg ${cls||""} ${u?"hasimg":""}" style="background:${jbColor(co)}"><em>${esc(jbInit(co))}</em>${u?`<img src="${esc(u)}" alt="" loading="lazy" data-alts="${direct?"":esc(logoAlts(u).join("|"))}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`};
+const jbLogo=(co,cls,dom)=>{const own=!!(dom&&JB.logos&&JB.logos.has(dom)),direct=!own&&/^https?:/.test(dom||""),u=own?JB_LIVE+"logos/"+dom+".png":direct?dom:dom&&typeof FAV==="function"?FAV(dom):"";return `<span class="jblg ${cls||""} ${u?"hasimg":""}" style="background:${jbColor(co)}"><em>${esc(jbInit(co))}</em>${u?`<img src="${esc(u)}" alt="" loading="lazy" data-alts="${direct?"":esc((own?[FAV(dom),...logoAlts(FAV(dom))]:logoAlts(u)).join("|"))}" onload="lgNext(this,false)" onerror="lgNext(this,true)">`:""}</span>`};
 const jbAgo=d=>{const n=jbDay()-d;return n<=0?"Today":n===1?"1d":n<30?n+"d":Math.round(n/30)+"mo"};
 const jbAgoLong=d=>{const n=jbDay()-d;return n<=0?"Posted today":n===1?"Posted yesterday":`Posted ${n} days ago`};
 
@@ -4281,6 +4281,7 @@ function jbLoad(){if(JB.data||JB.loading)return;JB.loading=true;
     JB.data={jobs,updated:d.updated,shard:d.shard||1000,demo:!!d.demo,base:d._base||"/jobs-feed/",ver:d.ver||""};JB.loading=false;jbScoreAll();if(S.stab==="jobs")renderJobs()};
   if(window.JOBS_DEMO){setTimeout(()=>done(window.JOBS_DEMO),60);return}
   const get=b=>fetch(b+"index.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error("missing");return r.json()}).then(d=>{d._base=b;return d});
+  fetch(JB_LIVE+"logos/_index.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(x=>{if(x&&x.have){JB.logos=new Set(x.have);if(JB.data&&S.stab==="jobs")renderJobs()}}).catch(()=>{});
   get(JB_LIVE).catch(()=>get("/jobs-feed/")).then(done).catch(()=>{JB.loading=false;JB.err="none";if(S.stab==="jobs")renderJobs()})}
 function jbDesc(j){const n=Math.floor(j.i/JB.data.shard);if(window.JOBS_DEMO)return Promise.resolve(window.JOBS_DEMO.desc[j.i]||"");
   if(!JB.shards[n])JB.shards[n]=fetch(JB.data.ver?`${JB.data.base}s/${JB.data.ver}/d${n}.json`:`${JB.data.base}d${n}.json`).then(r=>r.ok?r.json():[]).catch(()=>[]);return JB.shards[n].then(a=>a[j.i%JB.data.shard]||"")}

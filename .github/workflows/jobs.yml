@@ -5,7 +5,7 @@ on:
   workflow_dispatch: {}
   push:
     branches: [main]
-    paths: [fetch-jobs.mjs, companies.mjs, job-pages.mjs, .github/workflows/jobs.yml]   # refresh right away when the job readers change
+    paths: [fetch-jobs.mjs, companies.mjs, job-pages.mjs, logos.mjs, .github/workflows/jobs.yml]   # refresh right away when the job readers change
 permissions:
   contents: write
 concurrency: refresh-jobs
@@ -29,6 +29,14 @@ jobs:
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
         run: node fetch-jobs.mjs
+      - name: Store company logos
+        continue-on-error: true   # a logo problem should never block the jobs refresh
+        env:
+          OUT: out
+          LOGO_ART_MINUTES: 12
+        run: |
+          npm i --no-save --no-audit --no-fund sharp@0.33.5
+          node logos.mjs
       - name: Build the job search pages
         env:
           OUT: out
