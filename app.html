@@ -1778,7 +1778,54 @@ h1,h2,h3{letter-spacing:-.03em!important;font-weight:600!important}
 .tabs,.prod,.seg{background:var(--bg)!important;border-color:transparent!important;box-shadow:none!important}
 .jbr{border-radius:16px;margin:2px 6px}
 input,select,textarea{border-radius:14px}
-</style><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap"><style id="logofont">.top .brand,a.brand{font-family:"Bricolage Grotesque","Inter",ui-sans-serif,system-ui,sans-serif!important;font-weight:800!important;letter-spacing:-.04em!important}</style></head>
+</style><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap"><style id="logofont">.top .brand,a.brand{font-family:"Bricolage Grotesque","Inter",ui-sans-serif,system-ui,sans-serif!important;font-weight:800!important;letter-spacing:-.04em!important}</style><style id="jbpolish">
+/* jobs list and detail polish */
+.jbr .p i{font-style:normal;display:inline-block;padding:1px 7px;border-radius:7px;background:var(--m-hi-s)}
+.jbr .p.md i{background:var(--m-md-s)}.jbr .p.lo i{background:var(--m-lo-s)}
+.jbr.sel{background:var(--bg);box-shadow:inset 3px 0 var(--accent),inset 0 0 0 1px color-mix(in srgb,var(--accent) 22%,transparent),0 6px 18px -12px color-mix(in srgb,var(--accent) 60%,transparent);position:relative;z-index:1}
+.jbr .tg .ar::before{content:"⚡";font-size:10px;margin-right:3px}
+.jbdh{align-items:flex-start}.jbdh>div{flex:1;min-width:0}
+.jbstar{flex:none;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);background:var(--bg);transition:color .12s,border-color .12s}
+.jbstar svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.jbstar:hover{color:var(--ink);border-color:var(--faint)}
+.jbstar.on{color:#D99A00;border-color:#F1D27C;background:#FFF8E1}.jbstar.on svg{fill:currentColor}
+.jbdm{gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.jbdm div{border:0;border-radius:0;border-left:1px solid var(--line);padding:11px 14px}.jbdm div:first-child{border-left:0}
+.jbdm span{display:flex;align-items:center;gap:6px}
+.jbdm span svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.jbdm b{font-size:15px;font-weight:600;display:block;margin-top:2px}
+.jbfit{padding:16px 18px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 7%,var(--bg)),color-mix(in srgb,var(--good) 6%,var(--bg)))}
+.jbfh{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.jbfh h4{margin:0}
+.jbscore{display:inline-flex;align-items:baseline;gap:5px;padding:5px 11px;border-radius:10px;background:var(--m-hi-s);color:var(--m-hi)}
+.jbscore b{font-size:18px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.jbscore span{font-size:12px;font-weight:600;opacity:.85}
+.jbscore.md{background:var(--m-md-s);color:var(--m-md)}.jbscore.lo{background:var(--m-lo-s);color:var(--m-lo)}
+.jbfit ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:6px;line-height:1.5}
+.jbfit li{position:relative;padding-left:24px}
+.jbfit li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;background:var(--m-hi-s) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M4.5 8.3l2.2 2.2 4.8-5' fill='none' stroke='%230B8A6F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/12px no-repeat}
+.jbfit li.miss{color:#B26A00}
+.jbfit li.miss::before{background:rgba(217,138,11,.16) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M8 4.5v4.2M8 11.3v.01' fill='none' stroke='%23B26A00' stroke-width='1.9' stroke-linecap='round'/></svg>") center/12px no-repeat}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .jbfit li.miss{color:#F5B547}:root:not([data-theme="light"]) .jbstar.on{background:rgba(217,154,0,.15);border-color:rgba(217,154,0,.4)}}
+:root[data-theme="dark"] .jbfit li.miss{color:#F5B547}:root[data-theme="dark"] .jbstar.on{background:rgba(217,154,0,.15);border-color:rgba(217,154,0,.4)}
+.jbsk span{padding:5px 12px;font-weight:500;border-style:dashed;color:var(--muted)}
+.jbsk .have{border-style:solid;background:var(--m-hi-s);border-color:transparent;color:var(--m-hi)}
+.jbsk .have::before{content:"✓ ";font-weight:700}
+.jbsoc{margin-top:0}
+.jbdesc h5{margin:0 0 8px;font-size:13px;font-weight:500;color:var(--muted)}
+.jbdesc p{position:relative;max-height:5em;overflow:hidden;margin:0}
+.jbdesc p::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2.2em;background:linear-gradient(transparent,var(--bg))}
+.jbdesc.open p{max-height:none}.jbdesc.open p::after{display:none}
+.jbdl{display:flex;gap:16px;align-items:center;margin-top:8px}
+.jbdl button{font-weight:600;color:var(--accent);font-size:13.5px;padding:0}
+.jbask{margin-top:0}
+.jbcta{position:sticky;bottom:0;z-index:2;margin:4px -34px -34px;padding:14px 34px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.jbcta small{margin-left:auto}
+@media (max-width:1100px){.jbdm div:nth-child(3){border-left:0}.jbdm div:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:640px){.jbcta{margin:4px -16px -16px;padding:12px 16px}.jbcta small{margin-left:0;width:100%}}
+.jb.mdet .jbcta{margin:4px 0 0;padding:12px 0}.jb.mdet .jbcta small{margin-left:0;width:100%}
+</style>
+</head>
 <body>
 <header class="top" id="top"></header>
 <main id="main"><div class="loading">Loading…</div></main>
@@ -4446,19 +4493,19 @@ function jbCities(){if(JB.cities)return JB.cities;const c={};JB.data.jobs.forEac
 
 /* ---------- render ---------- */
 const JI={search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',pin:'<path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',out:'<path d="M14 5h5v5M19 5l-8 8M18 14v5H5V6h5"/>',back:'<path d="M15 6l-6 6 6 6"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',star:'<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>'};
-function jbRow(j,sel){return `<button class="jbr ${sel?"sel":""}" data-act="jbsel" data-i="${j.i}">${jbLogo(j.co,"",j.dom)}<b>${esc(j.t)}</b><span class="p ${jbTone(j.m)}">${j.m}%</span><span class="c">${esc(j.co)} · ${esc(j.loc||"Location not listed")}</span><span class="tm">${jbAgo(j.day)}</span>
+function jbRow(j,sel){return `<button class="jbr ${sel?"sel":""}" data-act="jbsel" data-i="${j.i}">${jbLogo(j.co,"",j.dom)}<b>${esc(j.t)}</b><span class="p ${jbTone(j.m)}"><i>${j.m}%</i></span><span class="c">${esc(j.co)} · ${esc(j.loc||"Location not listed")}</span><span class="tm">${jbAgo(j.day)}</span>
   <span class="tg">${JB.me&&j.sk.some(s=>JB.me.ar[s])?`<span class="ar">Fits your Arena</span>`:""}<span>${JB_LVLN[j.lvl]}</span>${j.wp!=="onsite"?`<span>${j.wp==="remote"?"Remote":"Hybrid"}</span>`:""}${j.pay?`<span>${esc(j.pay)}</span>`:""}${jbApplied().has(j.url)?`<span class="apd">Applied</span>`:""}${(JB.cnt[j.url]||{}).a?`<span class="ppl">${JB.cnt[j.url].a} applied</span>`:""}</span></button>`}
 function jbDetail(j){if(!j)return `<div class="jbdet empty"><p class="hint">Pick a job to see why it fits.</p></div>`;const w=jbWhy(j),sv=jbSaved().has(j.url),ap=jbApplied().has(j.url),host=(()=>{try{return new URL(j.url).hostname.replace(/^www\./,"")}catch(_){return""}})();
   return `<div class="jbdet">${JB.mobileDetail?`<button class="jbback" data-act="jbback">${svg(JI.back)}Back to jobs</button>`:""}
-    <div class="jbdh">${jbLogo(j.co,"big",j.dom)}<div><h2>${esc(j.t)}</h2><small>${esc(j.co)} · ${esc(j.loc||"Location not listed")} · ${jbAgoLong(j.day)}</small></div></div>
-    <div class="jbdm"><div><span>Level</span><b>${JB_LVLN[j.lvl]}</b></div><div><span>Team</span><b>${JB_FAMN[j.fam]}</b></div><div><span>Where</span><b>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</b></div><div><span>Pay</span><b>${esc(j.pay||"Not listed")}</b></div></div>
-    <div class="jbfit"><h4>${j.m>=60?"Why this fits you":"Why it's a stretch"} · <span class="jbsc ${jbTone(j.m)}">${j.m}%</span></h4><ul>${w.good.map(x=>`<li>${esc(x)}</li>`).join("")||`<li>Matches the role and level you set in your profile</li>`}${w.miss?`<li class="miss">${esc(w.miss)}</li>`:""}</ul></div>
+    <div class="jbdh">${jbLogo(j.co,"big",j.dom)}<div><h2>${esc(j.t)}</h2><small>${esc(j.co)} · ${esc(j.loc||"Location not listed")} · ${jbAgoLong(j.day)}</small></div><button class="jbstar ${sv?"on":""}" data-act="jbsave" data-u="${esc(j.url)}" aria-label="${sv?"Saved":"Save"}" title="${sv?"Saved":"Save"}"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></button></div>
+    <div class="jbdm"><div><span><svg viewBox="0 0 24 24"><path d="M5 20v-5M12 20V10M19 20V4"/></svg>Level</span><b>${JB_LVLN[j.lvl]}</b></div><div><span><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c.6-3 3-5 6-5s5.4 2 6 5M16 5a3 3 0 0 1 0 6M18 14c1.7.6 2.8 2.4 3 5"/></svg>Team</span><b>${JB_FAMN[j.fam]}</b></div><div><span><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Where</span><b>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</b></div><div><span><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>Pay</span><b>${esc(j.pay||"Not listed")}</b></div></div>
+    <div class="jbfit"><div class="jbfh"><h4>${j.m>=60?"Why this fits you":"Why it's a stretch"}</h4><span class="jbscore ${jbTone(j.m)}"><b>${j.m}%</b><span>match</span></span></div><ul>${w.good.map(x=>`<li>${esc(x)}</li>`).join("")||`<li>Matches the role and level you set in your profile</li>`}${w.miss?`<li class="miss">${esc(w.miss)}</li>`:""}</ul></div>
     ${j.sk.length?`<div class="jbsk">${j.sk.slice(0,10).map(s=>`<span class="${JB.me&&(JB.me.skills.has(s)||JB.me.ar[s])?"have":""}">${esc(s)}</span>`).join("")}</div>`:""}
     ${(()=>{const c=JB.cnt[j.url]||{c:0,a:0};return `<div class="jbsoc"><div><b>${c.c}</b><span>clicked apply</span></div><div><b>${c.a}</b><span>applied</span></div><p>${c.c||c.a?"From people on Crossway.":"Nobody on Crossway has applied yet. Be the first."}</p></div>`})()}
     <div class="jbdesc" id="jbDesc"><span class="hint">Loading the description…</span></div>
     ${JB.ask===j.url&&!ap?`<div class="jbask"><span>Did you finish applying at ${esc(j.co)}?</span><button class="btn" data-act="jbyes" data-u="${esc(j.url)}">Yes, I applied</button><button class="btn line" data-act="jbnotyet">Not yet</button></div>`:""}
     <div class="jbcta">${ap?`<button class="btn jbdone" data-act="jbunapp" data-u="${esc(j.url)}">${svg(JI.check)}Applied</button><a class="btn line" href="${esc(j.url)}" target="_blank" rel="noopener">Open posting ${svg(JI.out)}</a>`:`<a class="btn jbapply" href="${esc(j.url)}" target="_blank" rel="noopener">${j.src?"Apply":"Apply on "+esc(j.co)} ${svg(JI.out)}</a><button class="btn line" data-act="jbyes" data-u="${esc(j.url)}">I applied</button>`}<button class="btn line" data-act="jbsave" data-u="${esc(j.url)}">${sv?"Saved":"Save"}</button><button class="btn ghost jbnot" data-act="jbhide" data-u="${esc(j.url)}">Not for me</button><small>Opens ${esc(host||"their careers page")}${j.src?" · via "+esc(j.src):""}</small></div></div>`}
-function jbFillDesc(j){if(!j)return;jbDesc(j).then(t=>{const el=document.getElementById("jbDesc");if(!el||JB.sel!==j.i)return;el.innerHTML=t?`<p>${esc(t)}</p><a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting ${svg(JI.out)}</a>`:`<a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting on ${esc(j.co)} ${svg(JI.out)}</a>`})}
+function jbFillDesc(j){if(!j)return;jbDesc(j).then(t=>{const el=document.getElementById("jbDesc");if(!el||JB.sel!==j.i)return;el.innerHTML=t?`<h5>About the role</h5><p>${esc(t)}</p><div class="jbdl">${t.length>320?`<button type="button" onclick="var d=this.closest('.jbdesc');d.classList.toggle('open');this.textContent=d.classList.contains('open')?'Show less':'Read more'">Read more</button>`:""}<a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting ${svg(JI.out)}</a></div>`:`<a href="${esc(j.url)}" target="_blank" rel="noopener">Read the full posting on ${esc(j.co)} ${svg(JI.out)}</a>`})}
 const JB_POS="jb_pos";
 function jbSavePos(){if(S.stab!=="jobs"||!document.querySelector(".jb")||JB.view==="stats")return;const l=document.querySelector(".jblist");try{sessionStorage.setItem(JB_POS,JSON.stringify({y:scrollY,ly:l?l.scrollTop:0,show:JB.show,sel:JB.sel,at:Date.now()}))}catch(_){}}
 addEventListener("scroll",()=>{clearTimeout(JB._pt);JB._pt=setTimeout(jbSavePos,120)},{passive:true,capture:true});
