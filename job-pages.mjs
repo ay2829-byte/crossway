@@ -101,6 +101,18 @@ function stats(list) {
   };
 }
 
+// newest first, but no company takes over the page: at most 2 per company in the first pass, 4 in the second, then fill
+function mix(list, n) {
+  const out = [], used = new Set();
+  for (const cap of [2, 4, Infinity]) {
+    const per = {};
+    out.forEach(j => per[j.co] = (per[j.co] || 0) + 1);
+    for (const j of list) { if (out.length >= n) break; if (used.has(j)) continue; if ((per[j.co] || 0) >= cap) continue; per[j.co] = (per[j.co] || 0) + 1; used.add(j); out.push(j); }
+    if (out.length >= n) break;
+  }
+  return out;
+}
+
 function build() {
   const { d, jobs, snip } = load();
   const recent = jobs.filter(j => today - j.day <= 45);
@@ -124,6 +136,7 @@ function build() {
   const index = [];
   for (const p of pages) {
     const list = [...p.list].sort((a, b) => b.day - a.day || (b.pay ? 1 : 0) - (a.pay ? 1 : 0));
+    const shown = mix(list, SHOW);
     const s = stats(list);
     const roles = FAMILY[famOf(p.role)].filter(r => r !== p.role).map(r => p.city && p.city !== "remote" ? `${r}-jobs-in-${p.city}` : `${r}-jobs`).filter(x => have.has(x)).map(x => [x, x.includes("-jobs-in-") ? `${roleName[x.split("-jobs-in-")[0]]} jobs in ${cityName[p.city]}` : `${roleName[x.replace(/-jobs$/, "")]} jobs`]);
     const cities = CITIES.map(c => c[0]).filter(c => c !== p.city).map(c => `${p.role}-jobs-in-${c}`).filter(x => have.has(x)).slice(0, 10).map(x => [x, `${roleName[p.role]} jobs in ${cityName[x.split("-jobs-in-")[1]]}`]);
@@ -131,7 +144,7 @@ function build() {
     const data = {
       slug: p.slug, kind: p.kind, role: p.role, roleName: roleName[p.role], city: p.city, cityName: p.city === "remote" ? "Remote" : cityName[p.city] || "", fam: famOf(p.role),
       h1: p.h1, title: p.title, updated: d.updated, ...s,
-      jobs: list.slice(0, SHOW).map(j => [j.t, j.co, j.loc.slice(0, 90), j.lvl, j.wp, j.day, j.pay, j.yrs, j.url, snip(j.i), j.sk.slice(0, 5), j.dom, j.own]),
+      jobs: shown.map(j => [j.t, j.co, j.loc.slice(0, 90), j.lvl, j.wp, j.day, j.pay, j.yrs, j.url, snip(j.i), j.sk.slice(0, 5), j.dom, j.own]),
       related: { roles, cities, narrow },
     };
     fs.writeFileSync(path.join(outDir, p.slug + ".json"), JSON.stringify(data));
