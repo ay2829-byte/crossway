@@ -194,7 +194,10 @@ export function boardOf(u){u=String(u||"");let m;
 const isUS=l=>/\b(US|USA|U\.S\.|United States|America)\b|,\s*(A[LKZR]|C[AOT]|D[EC]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])\b|New York|San Francisco|Seattle|Austin|Boston|Chicago|Los Angeles|Atlanta|Denver|Miami/.test(l||"");
 
 /* ---------- pack ---------- */
-export const urlKey=u=>"u:"+String(u||"").replace(/[?#].*$/,"").replace(/\/[a-z]{2}-[A-Z]{2}\//,"/").replace(/^https?:\/\/(www\.)?/,"").replace(/\/+$/,"").toLowerCase();
+// keep the query parts that identify the job (Stripe, Databricks and Pinterest links differ only by ?gh_jid=), drop tracking parts
+const ID_Q=/^(gh_jid|jid|job_?id|jobid|id|req|reqid|requisition_?id|posting_?id|pid|p|lever-via|ashby_jid|jobreq)$/i;
+const keepQ=u=>{const i=u.indexOf("?");if(i<0)return"";const q=u.slice(i+1).split("#")[0].split("&").map(x=>x.split("=")).filter(([k,v])=>k&&v&&ID_Q.test(k)).map(([k,v])=>k.toLowerCase()+"="+v).sort().join("&");return q?"?"+q:""};
+export const urlKey=u=>"u:"+String(u||"").replace(/[?#].*$/,"").replace(/\/[a-z]{2}-[A-Z]{2}\//,"/").replace(/^https?:\/\/(www\.)?/,"").replace(/\/+$/,"").toLowerCase()+keepQ(String(u||""));
 const HINT=new Map();   // url -> level from lists that know it is new grad or intern
 const LVS="iems";
 const LOGO={};
@@ -219,7 +222,7 @@ export function pack(raw){const now=Date.now();const seen=new Set();const cos=[]
     let si=0;if(r.src){si=srcs.indexOf(r.src);if(si<0){si=srcs.length;srcs.push(r.src)}}
     rows.push([coIx[co],t,locIx[loc],FAMS.indexOf(fam),LVS.indexOf(lv[0]),"rho".indexOf(workplace(loc,r.wp)[0]),isNaN(at)?0:Math.round(at/864e5),[preIx[pre],r.url.slice(cut)],p,(r.skp?[...new Set([...skillsOf(t+" "+txt),...r.skp])]:skillsOf(t+" "+txt)),(r.yp!=null&&!(minYears(txt)>0)?r.yp:minYears(txt)),si,snippet(txt)])}
   // keep every intern, entry and 2 to 4 year role first, then US, then the newest senior roles
-  const today=Math.round(now/864e5),score=r=>{const yrs=r[10],early=r[4]<=1||(r[4]===2&&(yrs<0||yrs<=4));return(BR[r[0]]?-3000:0)+(FAMS[r[3]]==="other"?500:0)+(early?0:r[4]===2?1:2)*1000+(isUS(locs[r[2]])||r[5]===0?0:300)+Math.min(299,r[6]?today-r[6]:60)};const BR=cos.map(isBrand);
+  const today=Math.round(now/864e5),score=r=>{const yrs=r[10],early=r[4]<=1||(r[4]===2&&(yrs<0||yrs<=4));return(BR[r[0]]?-3000:0)+(FAMS[r[3]]==="other"?500:0)+(early?0:r[4]===2?1:2)*1000+(isUS(locs[r[2]])||r[5]===0?0:1500)+Math.min(299,r[6]?today-r[6]:60)};const BR=cos.map(isBrand);
   // no single company floods the board: keep each company's best PER_CO roles
   {const by={};rows.map(r=>[score(r),r]).sort((a,b)=>a[0]-b[0]).forEach(([,r])=>{(by[r[0]]=by[r[0]]||[]).push(r)});rows.length=0;Object.values(by).forEach(a=>{for(const r of a.slice(0,BR[a[0][0]]?BRAND_CO:PER_CO))rows.push(r)})}
   let keep=rows;if(rows.length>MAX_JOBS)keep=rows.map(r=>[score(r),r]).sort((a,b)=>a[0]-b[0]).slice(0,MAX_JOBS).map(x=>x[1]);
