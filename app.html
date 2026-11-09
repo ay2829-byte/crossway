@@ -2376,7 +2376,14 @@ const skGrid=q=>{const sel=D.skills.filter(s=>!ALLSK.includes(s));return [...ALL
 /* ---------- render + events ---------- */
 /* the open tab lives in the address (#jobs, #arena), so a refresh lands on the same page */
 const TAB_S=["today","jobs","arena","community","profile"],TAB_C=["roles","challenges"];
-let wantTab=(()=>{const h=location.hash.slice(1);return TAB_S.includes(h)||TAB_C.includes(h)?h:null})();
+/* links from the public job pages (/app?q=product+manager&loc=new+york&lvl=entry&job=...) open the Jobs tab with that search.
+   Kept for a day in localStorage, so it still applies after someone signs up and comes back from the email link */
+const JOBLINK=(()=>{const p=new URLSearchParams(location.search),K=["q","loc","lvl","wp","job","from"];let v=null;
+  if(p.get("q")||p.get("loc")||p.get("lvl")||p.get("wp")||p.get("job")){v={at:Date.now()};K.forEach(k=>v[k]=(p.get(k)||"").slice(0,600));try{localStorage.setItem("cw_joblink",JSON.stringify(v))}catch(_){}
+    K.forEach(k=>p.delete(k));try{history.replaceState(null,"",location.pathname+(p.toString()?"?"+p:"")+location.hash)}catch(_){}}
+  else{try{v=JSON.parse(localStorage.getItem("cw_joblink")||"null");if(!v||Date.now()-v.at>864e5){v=null;localStorage.removeItem("cw_joblink")}}catch(_){v=null}}
+  return v})();
+let wantTab=(()=>{const h=location.hash.slice(1);return TAB_S.includes(h)||TAB_C.includes(h)?h:JOBLINK?"jobs":null})();
 function syncTab(){if(!S.user||!S.role||/access_token|error/.test(location.hash))return;
   if(wantTab){if(S.role==="company"&&TAB_C.includes(wantTab))S.ctab=wantTab;else if(S.role!=="company"&&TAB_S.includes(wantTab))S.stab=wantTab;wantTab=null}
   const t=S.role==="company"?(S.ctab||"roles"):(S.stab||"today");if(location.hash!=="#"+t)history.replaceState(null,"",location.pathname+location.search+"#"+t)}
@@ -4520,10 +4527,14 @@ const JB_POS="jb_pos";
 function jbSavePos(){if(S.stab!=="jobs"||!document.querySelector(".jb")||JB.view==="stats")return;const l=document.querySelector(".jblist");try{sessionStorage.setItem(JB_POS,JSON.stringify({y:scrollY,ly:l?l.scrollTop:0,show:JB.show,sel:JB.sel,at:Date.now()}))}catch(_){}}
 addEventListener("scroll",()=>{clearTimeout(JB._pt);JB._pt=setTimeout(jbSavePos,120)},{passive:true,capture:true});
 addEventListener("pagehide",jbSavePos);document.addEventListener("visibilitychange",()=>{if(document.hidden)jbSavePos()});
-function renderJobs(){const M=$("#main");jbLoad();
+function jbTakeLink(){const L=JOBLINK;if(!L||L.used||S.role!=="seeker")return;L.used=1;try{localStorage.removeItem("cw_joblink")}catch(_){}
+  Object.assign(JB,{q:L.q||"",loc:L.loc||"",lvl:JB_LVLN[L.lvl]?L.lvl:"",wp:["remote","hybrid","onsite"].includes(L.wp)?[L.wp]:[],fam:"",saved:false,applied:false,days:0,show:40,sel:null,view:null});
+  if(L.job)JB._wantJob=L.job;if(L.q||L.loc)jbLog("search",null,{q:(L.q+(L.loc?" @ "+L.loc:"")).slice(0,120),src:"page:"+(L.from||"")})}
+function renderJobs(){const M=$("#main");jbTakeLink();jbLoad();
   let jbPos=null;if(!JB._keeping&&JB.data&&JB.view!=="stats"){try{jbPos=JSON.parse(sessionStorage.getItem(JB_POS)||"null")}catch(_){}if(jbPos&&Date.now()-jbPos.at<6*36e5){if(jbPos.show>JB.show)JB.show=jbPos.show;if(jbPos.sel!=null&&JB.data.jobs[jbPos.sel])JB.sel=jbPos.sel}else jbPos=null}
   if(!JB.data){M.innerHTML=JB.err?`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div></div><div class="state"><h2>Jobs are on their way</h2><p>The first daily refresh hasn't run yet. Check back in a little while.</p></div></div>`:`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Loading thousands of open roles…</p></div></div><div class="jbskel"></div></div>`;return}
   if(!JB.me)jbScoreAll();jbCounts();jbLog("open");if(JB.view==="stats"){M.innerHTML=jbStatsView();return}const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
+  if(JB._wantJob){const w=JB.data.jobs.find(x=>x.url===JB._wantJob);delete JB._wantJob;if(w){JB.sel=w.i;if(matchMedia("(max-width:900px)").matches)JB.mobileDetail=true}}
   if(JB.sel==null||!JB.data.jobs[JB.sel])JB.sel=(list[0]||top[0]||{}).i;const sel=JB.data.jobs[JB.sel];
   const upd=new Date(JB.data.updated),updH=Math.max(0,Math.round((Date.now()-upd)/36e5)),updS=updH<1?"updated just now":updH<24?"updated "+updH+"h ago":"updated "+upd.toLocaleDateString(undefined,{month:"short",day:"numeric"});
   const mc=j=>`<button class="jbmc" data-act="jbsel" data-i="${j.i}" data-top="1"><div class="mt">${jbLogo(j.co,"",j.dom)}<div><div class="co">${esc(j.co)} · ${esc((j.wp==="remote"?"Remote":j.loc.split(/[\/;,]/)[0])||"")}</div><div class="ro">${esc(j.t)}</div></div><span class="pct ${jbTone(j.m)}">${j.m}%</span></div><div class="why"><b>Why you:</b> ${esc(jbShort(j))}</div><div class="meta"><span>${JB_LVLN[j.lvl]}</span><span>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</span><span>${jbAgo(j.day)}</span></div></button>`;
@@ -4634,7 +4645,7 @@ async function obSave(light){const o=S.ob,D=JSON.parse(JSON.stringify(S.me||{}))
     const L=o.locs.filter(l=>l!=="Remote");D.locs=[...new Set(L)];D.remote=o.wp.includes("Remote");D.wp=o.wp.slice()}
   try{await API.saveSeeker(D);const extra={onboarded_at:new Date().toISOString()};if(o.dob)extra.birthdate=o.dob;
     if(sb&&S.user)await sb.from("paths_seekers").update(extra).eq("user_id",S.user.id);D._onb=extra.onboarded_at;D._dob=o.dob;S.me=D;if(typeof JB!=="undefined")JB.me=null,JB.top=null}catch(err){toast(friendly(err));throw err}}
-function obClose(tab){const el=$("#obWrap");if(el)el.remove();document.body.classList.remove("obopen");S.ob=null;S.stab=tab||"today";render();renderTop();window.scrollTo(0,0)}
+function obClose(tab){const el=$("#obWrap");if(el)el.remove();document.body.classList.remove("obopen");S.ob=null;S.stab=tab||(JOBLINK&&!JOBLINK.used?"jobs":"today");render();renderTop();window.scrollTo(0,0)}
 /* LinkedIn profile PDF: read the text in the browser and pull out experience, education and skills */
 async function obLinkedIn(){const f=await new Promise(res=>{const i=document.createElement("input");i.type="file";i.accept="application/pdf";i.onchange=()=>res(i.files[0]||null);i.click()});if(!f)return;
   toast("Reading your LinkedIn PDF…");

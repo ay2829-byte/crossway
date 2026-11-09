@@ -6,6 +6,8 @@ import path from "path";
 
 const OUT = process.env.OUT || "jobs";
 const MIN_JOBS = +(process.env.PAGE_MIN || 8);   // fewer than this and the page would be thin, so it isn't made
+const CO_MIN = +(process.env.CO_PAGE_MIN || 12);  // a company page needs at least this many open roles
+const CO_MAX = +(process.env.CO_PAGE_MAX || 700); // biggest employers first, so the site doesn't fill with thin pages
 const SHOW = 60;                                 // jobs listed on each page, newest first
 
 // role pages: slug, name, title pattern, and what to leave out
@@ -37,6 +39,8 @@ export const ROLES = [
   ["sales-development-representative", "Sales Development Rep", /\bsdr\b|\bbdr\b|sales development|business development rep/i, null],
   ["solutions-engineer", "Solutions Engineer", /solutions? engineer|sales engineer|solutions consultant/i, null],
 ];
+// what to type in the app's Jobs search so a page opens the same list there
+export const APPQ = { "associate-product-manager": "associate product manager", "machine-learning-engineer": "machine learning", "frontend-engineer": "frontend", "backend-engineer": "backend", "devops-engineer": "devops", "product-marketing-manager": "product marketing", "growth-marketing-manager": "growth", "strategy-and-operations": "strategy", "customer-success-manager": "customer success", "sales-development-representative": "sales development", "ux-researcher": "researcher" };
 export const CITIES = [
   ["new-york", "New York", /new york|, ny\b|\bnyc\b|brooklyn|manhattan|jersey city|hoboken/i],
   ["san-francisco", "San Francisco Bay Area", /san francisco|bay area|palo alto|mountain view|sunnyvale|menlo park|san jose|santa clara|oakland|redwood city|san mateo|cupertino|foster city|south san francisco|berkeley/i],
@@ -77,7 +81,7 @@ function load() {
     }
     return (shardCache[n][i % d.shard] || "").slice(0, 320);
   };
-  const jobs = d.rows.map((r, i) => ({ i, co: d.cos[r[0]], dom: (d.doms || [])[r[0]] || "", t: r[1], loc: d.locs[r[2]] || "", lvl: r[4], wp: r[5], day: r[6], url: urlOf(r), pay: r[8] || "", sk: (r[9] || []).map(k => d.skills[k]), yrs: typeof r[10] === "number" ? r[10] : -1 }));
+  const jobs = d.rows.map((r, i) => ({ i, co: d.cos[r[0]], dom: (d.doms || [])[r[0]] || "", t: r[1], loc: d.locs[r[2]] || "", lvl: r[4], wp: r[5], day: r[6], url: urlOf(r), pay: r[8] || "", fam: (d.fams || [])[r[3]] || "ops", sk: (r[9] || []).map(k => d.skills[k]), yrs: typeof r[10] === "number" ? r[10] : -1 }));
   jobs.forEach(j => { j.own = own.has(j.dom) ? 1 : 0 });
   return { d, jobs, snip };
 }
@@ -96,6 +100,7 @@ function stats(list) {
     years: yb, yearsN: yrs.length,
     lv: [0, 1, 2, 3].map(k => list.filter(j => j.lvl === k).length),
     remote: list.filter(j => j.wp === 0).length,
+    places: count(list.map(j => j.wp === 0 ? "Remote" : j.loc.split(/[;|]/)[0].replace(/,\s*(united states|usa|us)$/i, "").trim())).slice(0, 6),
     cos: count(list.map(j => j.co)).slice(0, 8),
     skills: count(list.flatMap(j => j.sk)).slice(0, 10),
   };
@@ -113,45 +118,94 @@ function mix(list, n) {
   return out;
 }
 
+export const slugify = s => String(s || "").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+const NEWGRAD = /new grad|graduate|university|campus|early career|entry[ -]level|\bjunior\b|\bjr\.?\b|associate\b|\b(?:i|1)$|\b(?:i|1)\b(?=[ ,(-])|rotational|residency|apprentice/i;
+const SENIORT = /\b(senior|sr\.?|lead|staff|principal|manager ii|director|head)\b/i;
+const FAMILY = { product: ["product-manager", "associate-product-manager", "technical-product-manager", "product-analyst", "product-marketing-manager"], data: ["data-analyst", "data-scientist", "data-engineer", "product-analyst", "business-analyst", "machine-learning-engineer"], eng: ["software-engineer", "frontend-engineer", "backend-engineer", "devops-engineer", "machine-learning-engineer", "data-engineer"], design: ["product-designer", "ux-researcher"], growth: ["growth-marketing-manager", "product-marketing-manager", "marketing-manager"], ops: ["business-analyst", "financial-analyst", "strategy-and-operations", "program-manager", "technical-program-manager"], sales: ["account-executive", "customer-success-manager", "sales-development-representative", "solutions-engineer"] };
+const famOf = rs => Object.keys(FAMILY).find(f => FAMILY[f].includes(rs)) || "ops";
+const topFam = list => { const c = {}; list.forEach(j => c[j.fam] = (c[j.fam] || 0) + 1); return (Object.entries(c).filter(([f]) => FAMILY[f]).sort((a, b) => b[1] - a[1])[0] || ["ops"])[0] };
+
 function build() {
   const { d, jobs, snip } = load();
   const recent = jobs.filter(j => today - j.day <= 45);
+  const inUS = j => usLoc(j.loc) || (j.wp === 0 && !ELSE.test(j.loc));
   const pages = [];
-  const byRole = {};
-  for (const [rs, rn, re, ex] of ROLES) byRole[rs] = recent.filter(j => re.test(j.t) && !(ex && ex.test(j.t)));
-  const add = (slug, kind, role, city, list, h1, title) => { if (list.length >= MIN_JOBS) pages.push({ slug, kind, role, city, list, h1, title }) };
+  const byRole = {}, roleOf = new Map();
+  for (const [rs, rn, re, ex] of ROLES) byRole[rs] = recent.filter(j => { const ok = re.test(j.t) && !(ex && ex.test(j.t)); if (ok && !roleOf.has(j)) roleOf.set(j, rs); return ok });
+  const add = (slug, kind, role, city, list, h1, title, extra) => { if (list.length >= MIN_JOBS) pages.push({ slug, kind, role, city, list, h1, title, ...extra }) };
+  const roleName = Object.fromEntries(ROLES.map(r => [r[0], r[1]])), cityName = Object.fromEntries(CITIES.map(c => [c[0], c[1]]));
   for (const [rs, rn] of ROLES) {
-    const all = byRole[rs], us = all.filter(j => usLoc(j.loc) || (j.wp === 0 && !ELSE.test(j.loc)));
+    const all = byRole[rs], us = all.filter(inUS);
+    const entry = j => j.lvl <= 1 || (j.yrs > 0 && j.yrs <= 2);
     add(`${rs}-jobs`, "role", rs, null, us, `${rn} jobs`, `${rn} Jobs in the US`);
     add(`remote-${rs}-jobs`, "remote", rs, "remote", us.filter(j => j.wp === 0), `Remote ${rn} jobs`, `Remote ${rn} Jobs`);
-    add(`entry-level-${rs}-jobs`, "entry", rs, null, us.filter(j => j.lvl <= 1 || (j.yrs > 0 && j.yrs <= 2)), `Entry level ${rn} jobs`, `Entry Level ${rn} Jobs`);
-    for (const [cs, cn, cre] of CITIES) add(`${rs}-jobs-in-${cs}`, "city", rs, cs, all.filter(j => cre.test(j.loc)), `${rn} jobs in ${cn}`, `${rn} Jobs in ${cn}`);
+    add(`entry-level-${rs}-jobs`, "entry", rs, null, us.filter(entry), `Entry level ${rn} jobs`, `Entry Level ${rn} Jobs`);
+    add(`${rs}-internships`, "intern", rs, null, us.filter(j => j.lvl === 0), `${rn} internships`, `${rn} Internships`);
+    add(`new-grad-${rs}-jobs`, "newgrad", rs, null, us.filter(j => j.lvl === 1 && !SENIORT.test(j.t) && j.yrs <= 2 && (NEWGRAD.test(j.t) || j.yrs >= 0)), `New grad ${rn} jobs`, `New Grad ${rn} Jobs`);
+    for (const [cs, cn, cre] of CITIES) {
+      const here = all.filter(j => cre.test(j.loc));
+      add(`${rs}-jobs-in-${cs}`, "city", rs, cs, here, `${rn} jobs in ${cn}`, `${rn} Jobs in ${cn}`);
+      add(`entry-level-${rs}-jobs-in-${cs}`, "entrycity", rs, cs, here.filter(entry), `Entry level ${rn} jobs in ${cn}`, `Entry Level ${rn} Jobs in ${cn}`);
+    }
+  }
+  // company pages: "Stripe jobs" and "Stripe software engineer jobs". Every row in the feed is open right now,
+  // so these use all of a company's jobs, not only the recent ones (some boards never say when a job was posted)
+  const taken = new Set(pages.map(p => p.slug));
+  // same company spelled two ways ("Figma" and "figma") becomes one page, named the way it's spelled most
+  const coKey = co => slugify(String(co).replace(/[,.]?\s+(usa|us|inc\.?|llc|corp\.?|corporation|group,? inc\.?|holdings|co\.?|ltd\.?|plc)$/i, ""));
+  const byCo = Object.create(null); jobs.forEach(j => { const k = coKey(j.co); if (k.length >= 2) (byCo[k] = byCo[k] || []).push(j) });
+  const cos = Object.entries(byCo).filter(([, l]) => l.length >= CO_MIN).sort((a, b) => b[1].length - a[1].length).slice(0, CO_MAX);
+  const coSlugs = {};
+  for (const [cs, list] of cos) {
+    if (taken.has(`${cs}-jobs`)) continue;
+    const names = Object.create(null); list.forEach(j => names[j.co] = (names[j.co] || 0) + 1);
+    const variants = Object.keys(names), co = variants.sort((a, b) => names[b] - names[a])[0];
+    variants.forEach(v => coSlugs[v] = cs); taken.add(`${cs}-jobs`);
+    const dom = (list.find(j => j.dom) || {}).dom || "";
+    add(`${cs}-jobs`, "company", null, null, list, `${co} jobs`, `${co} Jobs`, { co, coSlug: cs, dom, fam: topFam(list) });
+    for (const [rs, rn, re, ex] of ROLES) {
+      const l = list.filter(j => roleOf.has(j) ? roleOf.get(j) === rs : re.test(j.t) && !(ex && ex.test(j.t)));
+      if (!taken.has(`${cs}-${rs}-jobs`)) { add(`${cs}-${rs}-jobs`, "corole", rs, null, l, `${co} ${rn} jobs`, `${co} ${rn} Jobs`, { co, coSlug: cs, dom }); taken.add(`${cs}-${rs}-jobs`) }
+    }
   }
   const have = new Set(pages.map(p => p.slug));
-  const roleName = Object.fromEntries(ROLES.map(r => [r[0], r[1]])), cityName = Object.fromEntries(CITIES.map(c => [c[0], c[1]]));
-  // nearby roles share a family, so related links stay useful
-  const FAMILY = { product: ["product-manager", "associate-product-manager", "technical-product-manager", "product-analyst", "product-marketing-manager"], data: ["data-analyst", "data-scientist", "data-engineer", "product-analyst", "business-analyst", "machine-learning-engineer"], eng: ["software-engineer", "frontend-engineer", "backend-engineer", "devops-engineer", "machine-learning-engineer", "data-engineer"], design: ["product-designer", "ux-researcher"], growth: ["growth-marketing-manager", "product-marketing-manager", "marketing-manager"], ops: ["business-analyst", "financial-analyst", "strategy-and-operations", "program-manager", "technical-program-manager"], sales: ["account-executive", "customer-success-manager", "sales-development-representative", "solutions-engineer"] };
-  const famOf = rs => Object.keys(FAMILY).find(f => FAMILY[f].includes(rs)) || "ops";
   const outDir = path.join(OUT, "pages"); fs.rmSync(outDir, { recursive: true, force: true }); fs.mkdirSync(outDir, { recursive: true });
   const index = [];
+  const roleLink = (r, city) => city && city !== "remote" ? [`${r}-jobs-in-${city}`, `${roleName[r]} jobs in ${cityName[city]}`] : [`${r}-jobs`, `${roleName[r]} jobs`];
   for (const p of pages) {
     const list = [...p.list].sort((a, b) => b.day - a.day || (b.pay ? 1 : 0) - (a.pay ? 1 : 0));
-    const shown = mix(list, SHOW);
+    const shown = p.kind === "company" || p.kind === "corole" ? [...list].sort((a, b) => (inUS(b) ? 1 : 0) - (inUS(a) ? 1 : 0) || b.day - a.day).slice(0, SHOW) : mix(list, SHOW);
     const s = stats(list);
-    const roles = FAMILY[famOf(p.role)].filter(r => r !== p.role).map(r => p.city && p.city !== "remote" ? `${r}-jobs-in-${p.city}` : `${r}-jobs`).filter(x => have.has(x)).map(x => [x, x.includes("-jobs-in-") ? `${roleName[x.split("-jobs-in-")[0]]} jobs in ${cityName[p.city]}` : `${roleName[x.replace(/-jobs$/, "")]} jobs`]);
-    const cities = CITIES.map(c => c[0]).filter(c => c !== p.city).map(c => `${p.role}-jobs-in-${c}`).filter(x => have.has(x)).slice(0, 10).map(x => [x, `${roleName[p.role]} jobs in ${cityName[x.split("-jobs-in-")[1]]}`]);
-    const narrow = [[`${p.role}-jobs`, `All US`], [`entry-level-${p.role}-jobs`, "Entry level"], [`remote-${p.role}-jobs`, "Remote"]].filter(([x]) => have.has(x) && x !== p.slug);
+    const fam = p.fam || famOf(p.role);
+    let roles = [], cities = [], narrow = [];
+    if (p.kind === "company") {
+      roles = ROLES.map(r => r[0]).filter(r => have.has(`${p.coSlug}-${r}-jobs`)).map(r => [`${p.coSlug}-${r}-jobs`, `${roleName[r]} at ${p.co}`]);
+    } else if (p.kind === "corole") {
+      roles = ROLES.map(r => r[0]).filter(r => r !== p.role && have.has(`${p.coSlug}-${r}-jobs`)).map(r => [`${p.coSlug}-${r}-jobs`, `${roleName[r]} at ${p.co}`]);
+      narrow = [[`${p.coSlug}-jobs`, `All ${p.co} jobs`], [`${p.role}-jobs`, `${roleName[p.role]} jobs everywhere`]].filter(([x]) => have.has(x));
+    } else {
+      const c = p.kind === "entrycity" ? p.city : p.city;
+      roles = FAMILY[fam].filter(r => r !== p.role).map(r => roleLink(r, c)).filter(([x]) => have.has(x));
+      cities = CITIES.map(c => c[0]).filter(c => c !== p.city).map(c => p.kind === "entrycity" ? [`entry-level-${p.role}-jobs-in-${c}`, `Entry level ${roleName[p.role]} jobs in ${cityName[c]}`] : [`${p.role}-jobs-in-${c}`, `${roleName[p.role]} jobs in ${cityName[c]}`]).filter(([x]) => have.has(x)).slice(0, 10);
+      narrow = [[`${p.role}-jobs`, "All US"], [`entry-level-${p.role}-jobs`, "Entry level"], [`new-grad-${p.role}-jobs`, "New grad"], [`${p.role}-internships`, "Internships"], [`remote-${p.role}-jobs`, "Remote"]];
+      if (p.city && p.city !== "remote") narrow.push(p.kind === "entrycity" ? [`${p.role}-jobs-in-${p.city}`, `All in ${cityName[p.city]}`] : [`entry-level-${p.role}-jobs-in-${p.city}`, `Entry level in ${cityName[p.city]}`]);
+      narrow = narrow.filter(([x]) => have.has(x) && x !== p.slug);
+    }
+    // companies with their own page, so the side list can link to them
+    const coPages = s.cos.map(([c]) => c).filter(c => coSlugs[c] && have.has(`${coSlugs[c]}-jobs`)).map(c => [c, `${coSlugs[c]}-jobs`]);
     const data = {
-      slug: p.slug, kind: p.kind, role: p.role, roleName: roleName[p.role], city: p.city, cityName: p.city === "remote" ? "Remote" : cityName[p.city] || "", fam: famOf(p.role),
-      h1: p.h1, title: p.title, updated: d.updated, ...s,
+      slug: p.slug, kind: p.kind, role: p.role, roleName: roleName[p.role] || "", city: p.city, cityName: p.city === "remote" ? "Remote" : cityName[p.city] || "", fam,
+      co: p.co || "", coSlug: p.coSlug || "", dom: p.dom || "", q: p.co ? (p.role ? `${APPQ[p.role] || roleName[p.role].toLowerCase()} ${p.co.toLowerCase()}` : p.co.toLowerCase()) : APPQ[p.role] || (roleName[p.role] || "").toLowerCase(),
+      h1: p.h1, title: p.title, updated: d.updated, ...s, coPages: Object.fromEntries(coPages),
       jobs: shown.map(j => [j.t, j.co, j.loc.slice(0, 90), j.lvl, j.wp, j.day, j.pay, j.yrs, j.url, snip(j.i), j.sk.slice(0, 5), j.dom, j.own]),
       related: { roles, cities, narrow },
     };
     fs.writeFileSync(path.join(outDir, p.slug + ".json"), JSON.stringify(data));
-    index.push([p.slug, p.kind, p.role, p.city, s.n]);
+    index.push([p.slug, p.kind, p.role, p.city, s.n, p.co || ""]);
   }
-  fs.writeFileSync(path.join(outDir, "_index.json"), JSON.stringify({ updated: d.updated, roles: Object.fromEntries(ROLES.map(r => [r[0], r[1]])), cities: Object.fromEntries(CITIES.map(c => [c[0], c[1]])), pages: index }));
-  console.log(`::notice title=Job pages::${pages.length} pages from ${jobs.length} jobs`);
+  fs.writeFileSync(path.join(outDir, "_index.json"), JSON.stringify({ updated: d.updated, roles: roleName, cities: cityName, pages: index }));
+  const kinds = {}; pages.forEach(p => kinds[p.kind] = (kinds[p.kind] || 0) + 1);
+  console.log(`::notice title=Job pages::${pages.length} pages from ${jobs.length} jobs (${Object.entries(kinds).map(([k, n]) => `${n} ${k}`).join(", ")})`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) build();

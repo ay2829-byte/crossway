@@ -61,7 +61,7 @@ h1{font:700 clamp(28px,3.4vw,40px)/1.1 Inter,sans-serif;letter-spacing:-.035em;m
 .card h2{font-size:17px;margin:0 0 6px;letter-spacing:-.01em}.card p{font-size:14px;color:var(--ink2);line-height:1.55;margin:0 0 14px}
 .cta{background:linear-gradient(160deg,color-mix(in srgb,#4C6BF5 12%,var(--card)),var(--card))}
 .br{display:grid;grid-template-columns:62px minmax(0,1fr) 30px;gap:10px;align-items:center;font-size:13.5px;margin-top:8px}.bt{height:8px;border-radius:9px;background:var(--soft2);overflow:hidden}.bt i{display:block;height:100%;border-radius:9px}.br b{text-align:right;font-variant-numeric:tabular-nums}
-.cos{list-style:none;padding:0;margin:0}.cos li{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:7px 0;border-top:1px solid var(--line)}.cos li:first-child{border-top:0}.cos span{color:var(--muted);white-space:nowrap}
+.cos{list-style:none;padding:0;margin:0}.cos li{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:7px 0;border-top:1px solid var(--line)}.cos li:first-child{border-top:0}.cos span{color:var(--muted);white-space:nowrap}.cos a{text-decoration:none}.cos a:hover{color:var(--brand)}
 .guide{max-width:760px;margin:56px 0 0}.guide h2{font-size:26px;letter-spacing:-.03em;margin:40px 0 10px}.guide p,.guide li{font-size:16.5px;line-height:1.7;color:var(--ink2)}.guide a{color:var(--brand)}
 .rel{display:flex;flex-wrap:wrap;gap:8px}.rel a{font-size:14px;text-decoration:none;padding:8px 14px;border-radius:99px;background:var(--soft);color:var(--ink)}
 details.q{border-top:1px solid var(--line);padding:14px 0}details.q summary{font-weight:600;font-size:16px;cursor:pointer}details.q p{margin:8px 0 0}
@@ -80,81 +80,124 @@ ${(ld || []).map(x => `<script type="application/ld+json">${JSON.stringify(x).re
 <nav class="links"><a href="/jobs" class="on">Jobs</a><a href="/compare/leetcode-alternative">Arena</a><a href="/blog">Blog</a></nav><span class="sp"></span><a class="btn line" href="/app">Log in</a><a class="btn dark" href="/app?join=seeker">Get my matches</a></div></header>`;
 const foot = `<footer><div class="wrap"><span>© 2026 Crossway</span><span class="sp"></span><a href="/jobs">Jobs</a><a href="/blog">Blog</a><a href="/compare/linkedin-alternative">vs LinkedIn</a><a href="/compare/jobright-alternative">vs Jobright</a><a href="/compare/leetcode-alternative">vs LeetCode</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div><div class="wrap"><p style="font-size:12.5px;color:var(--faint);margin:10px 0 0">Jobs come from company career pages and refresh every few hours. Crossway isn't affiliated with the companies listed.</p></div></footer></body></html>`;
 
-function jobRow(j, k) {
-  const [t, co, loc, lvl, wp, day, pay0, yrs, url, sn, sk, dom, own] = j;
-  const pay = String(pay0 || "").replace(/^(\$\d+k) to \1$/, "$1");
-  const logo = `${esc((co || "?")[0])}${dom ? `<img src="${own ? `https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/logos/${encodeURIComponent(dom)}.png` : `https://www.google.com/s2/favicons?domain=${encodeURIComponent(dom)}&sz=64`}" alt="" loading="lazy" onload="if(this.naturalWidth<32)this.remove()" onerror="this.remove()">` : ""}`;
-  return `<li class="job"><details${k === 0 ? " open" : ""}><summary><span class="lg" aria-hidden="true">${logo}</span><span class="jt"><b>${esc(t)}</b><span>${esc(co)} · ${esc(loc.slice(0, 60))}</span></span>
+// every button on a page opens the same search inside Crossway's Jobs tab, after sign up if needed
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const CITYQ = { "san-francisco": "san francisco", "washington-dc": "washington", "raleigh": "raleigh", "salt-lake-city": "salt lake" };
+function appLink(p, url) {
+  const q = new URLSearchParams({ join: "seeker" });
+  if (p.q) q.set("q", p.q);
+  if (p.city === "remote") q.set("wp", "remote");
+  else if (p.city) q.set("loc", CITYQ[p.city] || p.cityName.toLowerCase());
+  if (p.kind === "entry" || p.kind === "entrycity" || p.kind === "newgrad") q.set("lvl", "entry");
+  if (p.kind === "intern") q.set("lvl", "intern");
+  if (url) q.set("job", url);
+  q.set("from", p.slug);
+  return "/app?" + q.toString();
+}
+function jobRow(p) {
+  return (j, k) => {
+    const [t, co, loc, lvl, wp, day, pay0, yrs, url, sn, sk, dom, own] = j;
+    const pay = String(pay0 || "").replace(/^(\$\d+k) to \1$/, "$1");
+    const logo = `${esc((co || "?")[0])}${dom ? `<img src="${own ? `https://raw.githubusercontent.com/ay2829-byte/crossway/jobs-data/logos/${encodeURIComponent(dom)}.png` : `https://www.google.com/s2/favicons?domain=${encodeURIComponent(dom)}&sz=64`}" alt="" loading="lazy" onload="if(this.naturalWidth<32)this.remove()" onerror="this.remove()">` : ""}`;
+    return `<li class="job"><details${k === 0 ? " open" : ""}><summary><span class="lg" aria-hidden="true">${logo}</span><span class="jt"><b>${esc(t)}</b><span>${esc(co)} · ${esc(loc.slice(0, 60))}</span></span>
 <span class="jm"><span class="tag">${LV[lvl] || "Mid"}</span>${pay ? `<span class="tag pay">${esc(pay)}</span>` : ""}<span class="when">${ago(day)}</span></span></summary>
 <div class="jd"><dl><div><dt>Experience</dt><dd>${yrs > 0 ? `${yrs}+ years` : "Not listed"}</dd></div><div><dt>Work</dt><dd>${WP[wp] || "Onsite"}</dd></div><div><dt>Pay</dt><dd>${esc(pay || "Not listed")}</dd></div><div><dt>Posted</dt><dd>${ago(day)}</dd></div></dl>
 ${sn ? `<p class="sn">${esc(sn.slice(0, 300))}${sn.length > 300 ? "…" : ""}</p>` : ""}${sk && sk.length ? `<div class="sk">${sk.map(s => `<span>${esc(s)}</span>`).join("")}</div>` : ""}
-<div class="ja"><a class="btn dark" href="${esc(url)}" target="_blank" rel="noopener nofollow">Apply on ${esc(co)}'s site</a><a class="btn line" href="/app?join=seeker">See your match score</a></div></div></details></li>`;
+<div class="ja"><a class="btn dark" href="${esc(url)}" target="_blank" rel="noopener nofollow">Apply on ${esc(co)}'s site</a><a class="btn line" href="${esc(appLink(p, url))}" rel="nofollow">See your match score</a></div></div></details></li>`;
+  };
 }
 const bar = (label, n, tot, col) => `<div class="br"><span>${label}</span><span class="bt"><i style="width:${tot ? Math.round(n / tot * 100) : 0}%;background:${col}"></i></span><b>${n}</b></div>`;
 
+// the words each kind of page uses, so one template reads naturally for all of them
+function words(p) {
+  const role = p.roleName, rl = role.toLowerCase(), co = p.co;
+  const where = p.kind === "city" || p.kind === "entrycity" ? ` in ${p.cityName}` : p.kind === "remote" ? " you can do remotely" : p.kind === "company" || p.kind === "corole" ? "" : " in the US";
+  const what = {
+    role: `${rl} jobs`, remote: `remote ${rl} jobs`, entry: `entry level ${rl} jobs`, entrycity: `entry level ${rl} jobs`, city: `${rl} jobs`,
+    intern: `${rl} internships`, newgrad: `new grad ${rl} jobs`, company: `jobs at ${co}`, corole: `${rl} jobs at ${co}`,
+  }[p.kind] || `${rl} jobs`;
+  const crumb = p.kind === "company" ? [["Companies", "/jobs#companies"], [co, null]]
+    : p.kind === "corole" ? [[co, `/jobs/${p.coSlug}-jobs`], [role, null]]
+    : [[role, p.kind === "role" ? null : `/jobs/${p.role}-jobs`], ...(p.kind === "role" ? [] : [[{ entry: "Entry level", intern: "Internships", newgrad: "New grad", remote: "Remote", entrycity: `Entry level in ${p.cityName}` }[p.kind] || p.cityName, null]])];
+  return { role, rl, co, where, what, crumb };
+}
+
 function page(p) {
   const canon = `${SITE}/jobs/${p.slug}`;
-  const where = p.kind === "city" ? ` in ${p.cityName}` : p.kind === "remote" ? " you can do remotely" : " in the US";
-  const role = p.roleName, rl = role.toLowerCase();
+  const { role, rl, co, where, what, crumb } = words(p);
+  const isCo = p.kind === "company" || p.kind === "corole";
   const Y = p.years, yN = p.yearsN, early = p.lv[0] + p.lv[1], senior = p.lv[3];
   const payTxt = p.pay.n ? `$${p.pay.lo}k to $${p.pay.hi}k` : "";
-  const title = `${p.n} ${p.title} (Updated Today) | Crossway`;
-  const desc = `Browse ${p.n} ${rl} jobs${where} from company career pages, updated every few hours.${payTxt ? ` Typical posted pay ${payTxt}.` : ""} See years asked, pay and skills, then apply direct.`;
-  const fam = FAM[p.fam] || FAM.ops;
+  const now = new Date(), month = `${MONTHS[now.getUTCMonth()]} ${now.getUTCFullYear()}`, mon = `${MONTHS[now.getUTCMonth()].slice(0, 3)} ${now.getUTCFullYear()}`;
   const top = p.cos.slice(0, 3).map(c => c[0]);
+  const N = p.n.toLocaleString("en-US");
+  const title = `${N} ${p.title} (${mon}) | Crossway`;
+  const young = yN ? Y["0 to 2"] : 0;
+  const desc = isCo
+    ? `${N} open ${what}, straight from ${co}'s career site and updated ${month}.${payTxt ? ` Typical posted pay ${payTxt}.` : ""} See years asked, team, location and apply direct.`
+    : `${N} open ${what}${where}${top.length ? ` at ${top.join(", ")} and more` : ""}, updated ${month}.${young ? ` ${young} accept 0 to 2 years.` : ""}${payTxt ? ` Typical pay ${payTxt}.` : ""} Apply direct.`;
+  const fam = FAM[p.fam] || FAM.ops;
+  const places = (p.places || []).filter(([x]) => x).slice(0, 5);
   const faq = [
-    [`How many ${rl} jobs are open${where} right now?`, `${p.n} ${rl} roles${where} are open on Crossway today, pulled from company career pages. ${p.new7} were posted in the last 7 days.`],
-    p.pay.n ? [`How much do ${rl} roles${where} pay?`, `Across the ${p.pay.n} postings that list pay, the typical posted range runs from $${p.pay.lo}k to $${p.pay.hi}k a year. Senior and staff roles sit above that, and entry level roles below it.`] : null,
-    yN ? [`How many years of experience do ${rl} jobs${where} ask for?`, `Of the ${yN} postings that state it, ${Y["0 to 2"]} (${pct(Y["0 to 2"], yN)}%) accept 0 to 2 years, ${Y["3 to 4"]} ask for 3 to 4, ${Y["5 to 6"]} ask for 5 to 6 and ${Y["7+"]} ask for 7 or more.`] : null,
-    [`Which companies are hiring the most ${rl}s${where}?`, `Right now: ${list(p.cos.slice(0, 5).map(([c, n]) => `${c} (${n})`))}.`],
-    [`Can I get a ${rl} job${where} with little experience?`, early ? `Yes. ${early} of the ${p.n} open roles are entry level or junior. Filter for entry level, and show proof of work: a project, a solved case or a work sample gets you further than a resume line.` : `It's hard here: almost every open role is mid level or above. Look at the entry level ${rl} page for the whole US, and build proof of work you can show.`],
+    [`How many ${what}${where} are open right now?`, `${p.n} ${what}${where} are open on Crossway today, pulled from ${isCo ? `${co}'s own career site` : "company career pages"}. ${p.new7} were posted in the last 7 days.`],
+    p.pay.n ? [`How much do ${what}${where} pay?`, `Across the ${p.pay.n} postings that list pay, the typical posted range runs from $${p.pay.lo}k to $${p.pay.hi}k a year. Senior and staff roles sit above that, and entry level roles below it.`] : null,
+    yN ? [`How many years of experience do ${what}${where} ask for?`, `Of the ${yN} postings that state it, ${Y["0 to 2"]} (${pct(Y["0 to 2"], yN)}%) accept 0 to 2 years, ${Y["3 to 4"]} ask for 3 to 4, ${Y["5 to 6"]} ask for 5 to 6 and ${Y["7+"]} ask for 7 or more.`] : null,
+    isCo ? (places.length ? [`Where are ${what} located?`, `Most are in ${list(places.map(([c, n]) => `${c} (${n})`))}. ${p.remote} of the ${p.n} are fully remote.`] : null)
+      : [`Which companies are hiring the most for ${what}${where}?`, `Right now: ${list(p.cos.slice(0, 5).map(([c, n]) => `${c} (${n})`))}.`],
+    p.kind === "intern" ? [`When do ${rl} internships open?`, `Most summer internships open between August and October of the year before, and many fill by December. Some companies keep a second, smaller round in January and February. Apply early and in batches.`]
+      : [`Can I get ${isCo ? `a job at ${co}` : `a ${rl} job${where}`} with little experience?`, early ? `Yes. ${early} of the ${p.n} open roles are entry level or junior. Show proof of work: a project, a solved case or a work sample gets you further than a resume line.` : `It's hard here: almost every open role is mid level or above. Look at entry level and new grad pages, and build proof of work you can show.`],
   ].filter(Boolean);
   const ld = [
-    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Jobs", item: `${SITE}/jobs` }, { "@type": "ListItem", position: 2, name: `${role} jobs`, item: `${SITE}/jobs/${p.role}-jobs` }, ...(p.kind !== "role" ? [{ "@type": "ListItem", position: 3, name: p.h1, item: canon }] : [])] },
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Jobs", item: `${SITE}/jobs` }, ...crumb.map(([n, u], k) => ({ "@type": "ListItem", position: k + 2, name: n, item: u ? SITE + u.replace(/#.*/, "") : canon }))] },
     { "@context": "https://schema.org", "@type": "ItemList", name: p.h1, numberOfItems: p.n, itemListElement: p.jobs.slice(0, 20).map((j, k) => ({ "@type": "ListItem", position: k + 1, name: `${j[0]} at ${j[1]}`, url: j[8] })) },
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) },
   ];
-  const chips = [[p.slug, `All ${p.n}`], ...p.related.narrow];
+  const chips = p.related.narrow.length ? [[p.slug, `All ${N}`], ...p.related.narrow] : [];
+  const coLink = c => p.coPages && p.coPages[c] && p.coPages[c] !== p.slug ? `<a href="/jobs/${p.coPages[c]}">${esc(c)}</a>` : esc(c);
   const guide = [
-    `<h2>What it takes to land a ${rl} job${where}</h2>`,
+    `<h2>${isCo ? `What ${co} is hiring for` : `What it takes to land ${p.kind === "intern" ? `a ${rl} internship` : `a ${rl} job`}${where}`}</h2>`,
     yN ? `<p>${Y["5 to 6"] + Y["7+"] > Y["0 to 2"] + Y["3 to 4"] ? "Hiring here leans experienced." : "There's real room here for people earlier in their careers."} Of the ${yN} postings that state years, ${Y["5 to 6"] + Y["7+"]} ask for 5 or more and ${Y["0 to 2"]} accept 0 to 2. ${early} of all ${p.n} roles are entry level or junior and ${senior} are senior or above.</p>` : `<p>Most postings here don't state years of experience, so read the level in the title. ${early} of the ${p.n} roles are entry level or junior and ${senior} are senior or above.</p>`,
     p.pay.n ? `<p>Pay: ${p.pay.n} of the ${p.n} postings list a range, and the typical posted range is $${p.pay.lo}k to $${p.pay.hi}k. Pay transparency laws in states like New York, California, Colorado and Washington mean more postings list pay there, so use those as a guide when a posting doesn't.</p>` : "",
-    top.length ? `<p>${list(top)} ${top.length > 1 ? "are" : "is"} posting the most right now. ${p.remote} of the ${p.n} roles are fully remote.</p>` : "",
-    p.skills.length ? `<p>The skills that come up most in these postings: ${list(p.skills.slice(0, 8).map(s => s[0]))}.</p>` : "",
+    isCo ? (places.length ? `<p>Most of these roles are in ${list(places.map(([c]) => esc(c)))}. ${p.remote} of the ${p.n} are fully remote.</p>` : "") : top.length ? `<p>${list(top.map(coLink))} ${top.length > 1 ? "are" : "is"} posting the most right now. ${p.remote} of the ${p.n} roles are fully remote.</p>` : "",
+    p.skills.length ? `<p>The skills that come up most in these postings: ${list(p.skills.slice(0, 8).map(s => esc(s[0])))}.</p>` : "",
     `<h2>How to stand out</h2><p>${fam.tip}</p><p>You can practice on <a href="/compare/leetcode-alternative">Crossway Arena</a>, which has timed ${fam.arena}. Companies on Crossway can replay how you solved them, which counts for more than a line on a resume.</p>`,
-    `<p>Further reading: ${fam.prep.map(([s, t]) => `<a href="/blog/${s}">${t}</a>`).join(" and ")}.</p>`,
-    p.related.roles.length ? `<h2>Related roles</h2><div class="rel">${p.related.roles.map(([s, t]) => `<a href="/jobs/${s}">${esc(t)}</a>`).join("")}</div>` : "",
-    p.related.cities.length ? `<h2>${role} jobs in other cities</h2><div class="rel">${p.related.cities.map(([s, t]) => `<a href="/jobs/${s}">${esc(t)}</a>`).join("")}</div>` : "",
+    `<p>Further reading: ${fam.prep.map(([s, t]) => `<a href="/blog/${s}">${t}</a>`).join(" and ")}${p.kind === "intern" || p.kind === "newgrad" || p.role === "associate-product-manager" ? `, <a href="/blog/apm-programs-guide">APM programs</a> and <a href="/blog/h1b-sponsorship-new-grads">H1B sponsorship for new grads</a>` : ""}.</p>`,
+    p.related.roles.length ? `<h2>${isCo ? `More roles at ${esc(co)}` : "Related roles"}</h2><div class="rel">${p.related.roles.map(([s, t]) => `<a href="/jobs/${s}">${esc(t)}</a>`).join("")}</div>` : "",
+    p.related.cities.length ? `<h2>${p.kind === "entrycity" ? `Entry level ${esc(role)} jobs` : `${esc(role)} jobs`} in other cities</h2><div class="rel">${p.related.cities.map(([s, t]) => `<a href="/jobs/${s}">${esc(t)}</a>`).join("")}</div>` : "",
     `<h2>Questions</h2>${faq.map(([q, a]) => `<details class="q"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}`,
   ].join("\n");
-  const ytot = yN || 1;
+  const ytot = yN || 1, go = appLink(p);
+  const lede = isCo ? `Every open ${p.kind === "corole" ? rl + " role" : "role"} from ${esc(co)}'s career site, refreshed every few hours. Open one to see pay and years asked, then apply on ${esc(co)}'s site.` : "Straight from company career pages, refreshed every few hours. Open a role to see pay and years asked, then apply on the company's site.";
+  const sideList = isCo && p.kind === "company"
+    ? (p.related.roles.length ? `<div class="card"><h2>Teams hiring</h2><ul class="cos">${p.related.roles.slice(0, 8).map(([s, t]) => `<li><a href="/jobs/${s}" style="text-decoration:none">${esc(t.replace(/ at .*$/, ""))}</a><span>${ARROW.replace("<svg", '<svg width="13" height="13"')}</span></li>`).join("")}</ul></div>` : "")
+    : isCo ? "" : `<div class="card"><h2>Hiring the most</h2><ul class="cos">${p.cos.slice(0, 7).map(([c, n]) => `<li>${coLink(c)}<span>${n} ${n === 1 ? "role" : "roles"}</span></li>`).join("")}</ul></div>`;
   return head(title, desc, canon, ld) + `<section class="hero"><i class="lane l1"></i><i class="lane l2"></i><div class="wrap">
-<div class="crumb"><a href="/jobs">Jobs</a> / <a href="/jobs/${p.role}-jobs">${esc(role)}</a>${p.kind !== "role" ? ` / ${esc(p.kind === "entry" ? "Entry level" : p.cityName)}` : ""}</div>
-<h1>${esc(p.h1)}</h1><p class="lede">Straight from company career pages, refreshed every few hours. Open a role to see pay and years asked, then apply on the company's site.</p>
-<p class="facts"><span><b>${p.n}</b> open</span><span><b>${p.new7}</b> new this week</span>${payTxt ? `<span>Typical pay <b>${payTxt}</b></span>` : ""}<span><b>${early}</b> entry level</span>${p.remote && p.kind !== "remote" ? `<span><b>${p.remote}</b> remote</span>` : ""}</p>
-<nav class="chips" aria-label="Narrow this list">${chips.map(([s, t], k) => `<a${k === 0 ? ' class="on" aria-current="page"' : ""} href="/jobs/${s}">${esc(t)}</a>`).join("")}</nav></div></section>
-<main class="wrap"><div class="grid"><div><ul class="list">${p.jobs.map(jobRow).join("")}</ul>${p.n > p.jobs.length ? `<div class="more"><a class="btn line" href="/app?join=seeker">See all ${p.n}, ranked for you ${ARROW}</a></div>` : ""}</div>
-<aside class="side"><div class="card cta"><h2>Which of these fit you?</h2><p>Add your skills and years once. Crossway scores every role against your profile and sends your 10 best every morning. Free, no resume.</p><a class="btn brand" style="width:100%" href="/app?join=seeker">Get my match scores</a></div>
-${yN ? `<div class="card"><h2>Years these roles ask for</h2><p style="margin-bottom:4px">From the ${yN} postings that state it.</p>${bar("0 to 2", Y["0 to 2"], ytot, "#12A38A")}${bar("3 to 4", Y["3 to 4"], ytot, "#4C6BF5")}${bar("5 to 6", Y["5 to 6"], ytot, "#8B5CF6")}${bar("7+", Y["7+"], ytot, "#F2643D")}</div>` : ""}
-<div class="card"><h2>Hiring the most</h2><ul class="cos">${p.cos.slice(0, 7).map(([c, n]) => `<li>${esc(c)}<span>${n} ${n === 1 ? "role" : "roles"}</span></li>`).join("")}</ul></div></aside></div>
+<div class="crumb"><a href="/jobs">Jobs</a>${crumb.map(([n, u]) => ` / ${u ? `<a href="${u}">${esc(n)}</a>` : esc(n)}`).join("")}</div>
+<h1>${esc(p.h1)}</h1><p class="lede">${lede}</p>
+<p class="facts"><span><b>${N}</b> open</span><span><b>${p.new7}</b> new this week</span>${payTxt ? `<span>Typical pay <b>${payTxt}</b></span>` : ""}${p.kind !== "intern" ? `<span><b>${early}</b> entry level</span>` : ""}${p.remote && p.kind !== "remote" ? `<span><b>${p.remote}</b> remote</span>` : ""}</p>
+${chips.length ? `<nav class="chips" aria-label="Narrow this list">${chips.map(([s, t], k) => `<a${k === 0 ? ' class="on" aria-current="page"' : ""} href="/jobs/${s}">${esc(t)}</a>`).join("")}</nav>` : ""}</div></section>
+<main class="wrap"><div class="grid"><div><ul class="list">${p.jobs.map(jobRow(p)).join("")}</ul>${p.n > p.jobs.length ? `<div class="more"><a class="btn line" href="${esc(go)}" rel="nofollow">See all ${p.n}, ranked for you ${ARROW}</a></div>` : ""}</div>
+<aside class="side"><div class="card cta"><h2>Which of these fit you?</h2><p>Add your skills and years once. Crossway scores ${p.n > 1 ? `all ${N}` : "every"} ${what}${where} against your profile and sends your 10 best every morning. Free, no resume.</p><a class="btn brand" style="width:100%" href="${esc(go)}" rel="nofollow">Get my match scores</a></div>
+${yN >= 8 ? `<div class="card"><h2>Years these roles ask for</h2><p style="margin-bottom:4px">From the ${yN} postings that state it.</p>${bar("0 to 2", Y["0 to 2"], ytot, "#12A38A")}${bar("3 to 4", Y["3 to 4"], ytot, "#4C6BF5")}${bar("5 to 6", Y["5 to 6"], ytot, "#8B5CF6")}${bar("7+", Y["7+"], ytot, "#F2643D")}</div>` : ""}
+${sideList}</aside></div>
 <article class="guide">${guide}</article></main>` + foot;
 }
 
 function hub(ix) {
-  const title = "Jobs by role and city, from company career pages | Crossway";
-  const desc = "Browse open jobs by role and city: product, data, engineering, design, marketing, ops and sales. Pulled from company career pages and refreshed every few hours.";
-  const by = (k) => ix.pages.filter(p => p[1] === k);
-  const roles = by("role").sort((a, b) => b[4] - a[4]);
+  const title = "Jobs by role, city and company, from career pages | Crossway";
+  const desc = "Browse open jobs by role, city and company: product, data, engineering, design, marketing, ops and sales, plus internships and new grad roles. Refreshed every few hours.";
+  const by = (k) => ix.pages.filter(p => p[1] === k).sort((a, b) => b[4] - a[4]);
   const cities = {};
-  by("city").forEach(p => { (cities[p[3]] = cities[p[3]] || []).push(p) });
+  ix.pages.filter(p => p[1] === "city" || p[1] === "entrycity").forEach(p => { (cities[p[3]] = cities[p[3]] || []).push(p) });
   const cityOrder = Object.keys(cities).sort((a, b) => cities[b].reduce((s, p) => s + p[4], 0) - cities[a].reduce((s, p) => s + p[4], 0));
-  const link = (p, label) => `<a href="/jobs/${p[0]}">${esc(label)}<span>${p[4]}</span></a>`;
-  return head(title, desc, `${SITE}/jobs`, [{ "@context": "https://schema.org", "@type": "CollectionPage", name: "Jobs by role and city", url: `${SITE}/jobs` }]) + `<section class="hero"><i class="lane l1"></i><i class="lane l2"></i><div class="wrap">
-<h1>Jobs by role and city</h1><p class="lede">Open roles from company career pages, refreshed every few hours. Pick a role to see every opening, what it pays and how many years it asks for.</p></div></section>
-<main class="wrap hub"><h2>By role, across the US</h2><div class="hubg">${roles.map(p => link(p, ix.roles[p[2]])).join("")}</div>
-<h2>Entry level</h2><div class="hubg">${by("entry").sort((a, b) => b[4] - a[4]).map(p => link(p, `Entry level ${ix.roles[p[2]]}`)).join("")}</div>
-<h2>Remote</h2><div class="hubg">${by("remote").sort((a, b) => b[4] - a[4]).map(p => link(p, `Remote ${ix.roles[p[2]]}`)).join("")}</div>
-${cityOrder.map(c => `<h2>${esc(ix.cities[c])}</h2><div class="hubg">${cities[c].sort((a, b) => b[4] - a[4]).map(p => link(p, ix.roles[p[2]])).join("")}</div>`).join("")}</main>` + foot;
+  const link = (p, label) => `<a href="/jobs/${p[0]}">${esc(label)}<span>${p[4].toLocaleString("en-US")}</span></a>`;
+  const sec = (h, ps, label, id) => ps.length ? `<h2${id ? ` id="${id}"` : ""}>${h}</h2><div class="hubg">${ps.map(p => link(p, label(p))).join("")}</div>` : "";
+  const R = p => ix.roles[p[2]];
+  return head(title, desc, `${SITE}/jobs`, [{ "@context": "https://schema.org", "@type": "CollectionPage", name: "Jobs by role, city and company", url: `${SITE}/jobs` }]) + `<section class="hero"><i class="lane l1"></i><i class="lane l2"></i><div class="wrap">
+<h1>Jobs by role, city and company</h1><p class="lede">Open roles from company career pages, refreshed every few hours. Pick a role to see every opening, what it pays and how many years it asks for.</p></div></section>
+<main class="wrap hub">${sec("By role, across the US", by("role"), R)}${sec("Internships", by("intern"), p => `${R(p)} internships`)}${sec("New grad", by("newgrad"), p => `New grad ${R(p)}`)}${sec("Entry level", by("entry"), p => `Entry level ${R(p)}`)}${sec("Remote", by("remote"), p => `Remote ${R(p)}`)}
+${sec("Companies hiring the most", by("company").slice(0, 120), p => p[5], "companies")}
+${cityOrder.map(c => sec(esc(ix.cities[c]), cities[c].sort((a, b) => b[4] - a[4]), p => p[1] === "entrycity" ? `Entry level ${R(p)}` : R(p))).join("")}</main>` + foot;
 }
 
 export default async function handler(req, res) {
