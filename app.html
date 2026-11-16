@@ -1827,6 +1827,13 @@ input,select,textarea{border-radius:14px}
 @media (max-width:640px){.jbcta{margin:4px -16px -16px;padding:12px 16px}.jbcta small{margin-left:0;width:100%}}
 .jb.mdet .jbcta{margin:4px 0 0;padding:12px 0}.jb.mdet .jbcta small{margin-left:0;width:100%}
 </style>
+<style id="jbguest">
+.jbguest{display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap;margin:0 0 16px;padding:16px 20px;border-radius:18px;border:1px solid color-mix(in srgb,var(--accent) 25%,var(--line));background:color-mix(in srgb,var(--accent) 6%,var(--bg))}
+.jbguest b{display:block;font-size:16px;font-weight:600;letter-spacing:-.02em}.jbguest span{display:block;color:var(--muted);font-size:14px;margin-top:2px;max-width:62ch}
+.jbguest .gb{display:flex;gap:8px;flex:none}
+.jb.guest .jbr .p{visibility:hidden}
+.jb.guest .jbfit,.jb.guest .jbstb,.jb.guest #jbSort option[value="match"],.jb.guest [data-act="jbhere"]{display:none}
+</style>
 </head>
 <body>
 <header class="top" id="top"></header>
@@ -2087,6 +2094,7 @@ function authSheet(role,view,msg){if(!PREVIEW&&role){setIntent(role);try{if(wind
 const here=()=>location.origin+location.pathname;
 /* remember where to come back to, in case the sign in returns to the Crossway page */
 const markNext=role=>{try{localStorage.setItem("cw_next",JSON.stringify({to:location.pathname.replace(/\/[^/]*$/,"/")+"app?as="+role,at:Date.now()}))}catch(_){}};
+var GUESTJ=(()=>{try{const p=new URLSearchParams(location.search);if(!p.has("jobs"))return null;const g={};["q","loc","fam","lvl"].forEach(k=>{const v=p.get(k);if(v)g[k]=v.slice(0,80)});const w=(p.get("wp")||"").split(",").filter(x=>["remote","hybrid","onsite"].includes(x));if(w.length)g.wp=w;try{sessionStorage.setItem("cw_guestj",JSON.stringify(g))}catch(_){}return g}catch(_){return null}})();
 function setIntent(r){try{localStorage.setItem("paths_intent",r)}catch(_){}}
 function takeIntent(){let r=new URLSearchParams(location.search).get("as");try{r=r||localStorage.getItem("paths_intent");localStorage.removeItem("paths_intent")}catch(_){}
   if(location.search)history.replaceState(null,"",here()+location.hash);return r==="company"||r==="seeker"?r:null}
@@ -2127,7 +2135,7 @@ async function onSession(sess,intentOverride){try{if(sess&&sess.user)localStorag
   if(S.recover)return;
   const u=sess&&sess.user;
   if(!u&&!PREVIEW&&!S.signingOut&&hasStoredLogin()&&!S.reauth){S.reauth=true;try{const r=await sb.auth.refreshSession();if(r.data&&r.data.session){S.reauth=false;return onSession(r.data.session,intentOverride)}}catch(_){}S.reauth=false}
-  if(!u){resetUserCaches();S.user=null;S.role=null;S.loading=false;stopPoll();renderTop();renderLanding();
+  if(!u){resetUserCaches();S.user=null;S.role=null;S.loading=false;stopPoll();renderTop();if(GUESTJ)guestJobs();else renderLanding();
     const jn=new URLSearchParams(location.search).get("join");if(jn==="company"||jn==="seeker"){history.replaceState(null,"",here()+location.hash);authSheet(jn,"signup")}return}
   if(S.user&&S.user.id===u.id&&(S.role||S.loading))return;
   if(!S.user||S.user.id!==u.id)resetUserCaches();
@@ -2139,7 +2147,7 @@ async function onSession(sess,intentOverride){try{if(sess&&sess.user)localStorag
     if(!role){S.role=null;renderTop();renderChoose();return}
     S.role=role;try{localStorage.setItem("cw_role_"+u.id,role)}catch(_){}reportGeo();
     if(intent&&intent!==role)toast(`This email is set up as a ${role==="company"?"company":"member"} account, so we opened that side.`);
-    await load();S.loading=false;closeSheet();render();startPoll();if(typeof needsOnboard==="function"&&needsOnboard())obStart();
+    await load();S.loading=false;closeSheet();if(role==="seeker")jbTakeGuest();render();startPoll();if(typeof needsOnboard==="function"&&needsOnboard())obStart();
     if(role==="company"&&!(S.co&&S.co.name))coSheet(true);
   }catch(err){$("#main").innerHTML=`<div class="state"><h2>Crossway isn't set up yet</h2><p>${esc(friendly(err))}</p><p class="hint">If you just added Crossway, run supabase-junction.sql in your Supabase SQL editor, then reload.</p></div>`}
 }
@@ -2384,7 +2392,7 @@ function render(){
   if(S.user&&S.role&&!S.loading)syncTab();
   renderTop();
   if(S.loading&&S.user)return;
-  if(!S.user)renderLanding();else if(!S.role)renderChoose();else if(S.role==="company"){if(S.ctab==="challenges")renderCoChallenges();else{renderCo();if(S.sheet&&S.mode==="view")renderSheet()}}else renderS();
+  if(!S.user){if(GUESTJ)guestJobs();else renderLanding()}else if(!S.role)renderChoose();else if(S.role==="company"){if(S.ctab==="challenges")renderCoChallenges();else{renderCo();if(S.sheet&&S.mode==="view")renderSheet()}}else renderS();
 }
 async function act(fn,okMsg){try{const r=await fn();if(okMsg)toast(okMsg);return r}catch(err){toast(friendly(err));throw err}}
 document.addEventListener("keydown",e=>{
@@ -2470,7 +2478,7 @@ document.addEventListener("visibilitychange",async()=>{if(document.visibilitySta
 
 async function boot(){
   renderTop();
-  if(PREVIEW){S.loading=false;if(window.PATHS_AUTO){DEMO.demoRole=window.PATHS_AUTO;onSession({user:{id:window.PATHS_AUTO==="company"?"co":"me",email:window.PATHS_AUTO==="company"?"hiring@fieldnote.co":"jordan@example.com"}},window.PATHS_AUTO)}else renderLanding();return}
+  if(PREVIEW){S.loading=false;if(window.PATHS_AUTO){DEMO.demoRole=window.PATHS_AUTO;onSession({user:{id:window.PATHS_AUTO==="company"?"co":"me",email:window.PATHS_AUTO==="company"?"hiring@fieldnote.co":"jordan@example.com"}},window.PATHS_AUTO)}else if(GUESTJ)setTimeout(guestJobs,0);else renderLanding();return}
   const cfg=window.WORKBOARD_CONFIG||{};
   if(!window.supabase||!cfg.supabaseUrl){$("#main").innerHTML=`<div class="state"><h2>Almost ready</h2><p>Add your Supabase URL and anon key to config.js, then reload.</p></div>`;return}
   sb=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
@@ -4250,6 +4258,10 @@ document.addEventListener("keydown",e=>{if(e.target&&e.target.id==="msgIn"&&e.ke
 
 /* ===== Jobs: real openings from public company boards, matched to the member ===== */
 const JB={data:null,loading:false,err:null,shards:{},sel:null,q:"",loc:"",fam:"",lvl:"",wp:[],days:0,sort:"match",show:40,saved:false,applied:false,all10:false,mobileDetail:false,cnt:{},ask:null};
+function guestJobs(){if(!JB.guest){JB.guest=true;jbApplyGuest(GUESTJ||{});JB.sort="new"}S.stab="jobs";renderJobs()}
+function jbApplyGuest(g){if(g.q!=null)JB.q=g.q;if(g.loc!=null)JB.loc=g.loc;if(JB_FAM.some(x=>x[0]===g.fam))JB.fam=g.fam;if(JB_LVL.some(x=>x[0]===g.lvl))JB.lvl=g.lvl;if(g.wp)JB.wp=g.wp;JB.show=40;JB.sel=null}
+function jbTakeGuest(){let g=null;try{g=JSON.parse(sessionStorage.getItem("cw_guestj")||"null");sessionStorage.removeItem("cw_guestj")}catch(_){}
+  if(!g&&!JB.guest)return;if(!JB.guest&&g)jbApplyGuest(g);JB.guest=false;GUESTJ=null;JB.sort="match";JB.me=null;JB.top=null;S.stab="jobs";try{history.replaceState(null,"",location.pathname+"#jobs")}catch(_){}}
 const JB_FAM=[["","All roles"],["eng","Engineering"],["product","Product"],["data","Data"],["design","Design"],["growth","Marketing"],["sales","Sales"],["ops","Ops"]];
 const JB_LVL=[["intern","Intern"],["entry","Entry & junior"],["mid","Mid"],["senior","Senior"]];
 const JB_LVLN={intern:"Intern",entry:"Entry",mid:"Mid",senior:"Senior"},JB_FAMN={eng:"Engineering",product:"Product",data:"Data",design:"Design",growth:"Marketing",sales:"Sales",ops:"Operations",other:"Other"};
@@ -4523,13 +4535,14 @@ addEventListener("pagehide",jbSavePos);document.addEventListener("visibilitychan
 function renderJobs(){const M=$("#main");jbLoad();
   let jbPos=null;if(!JB._keeping&&JB.data&&JB.view!=="stats"){try{jbPos=JSON.parse(sessionStorage.getItem(JB_POS)||"null")}catch(_){}if(jbPos&&Date.now()-jbPos.at<6*36e5){if(jbPos.show>JB.show)JB.show=jbPos.show;if(jbPos.sel!=null&&JB.data.jobs[jbPos.sel])JB.sel=jbPos.sel}else jbPos=null}
   if(!JB.data){M.innerHTML=JB.err?`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div></div><div class="state"><h2>Jobs are on their way</h2><p>The first daily refresh hasn't run yet. Check back in a little while.</p></div></div>`:`<div class="cpage tpage jb"><div class="jbhd"><div><h1>Jobs</h1><p>Loading thousands of open roles…</p></div></div><div class="jbskel"></div></div>`;return}
-  if(!JB.me)jbScoreAll();jbCounts();jbLog("open");if(JB.view==="stats"){M.innerHTML=jbStatsView();return}const list=jbFiltered(),top=jbTop(),total=JB.data.jobs.length;
+  if(!JB.me)jbScoreAll();jbCounts();jbLog("open");if(JB.view==="stats"){M.innerHTML=jbStatsView();return}const GU=JB.guest&&!S.user,list=jbFiltered(),top=GU?[]:jbTop(),total=JB.data.jobs.length;
   if(JB.sel==null||!JB.data.jobs[JB.sel])JB.sel=(list[0]||top[0]||{}).i;const sel=JB.data.jobs[JB.sel];
   const upd=new Date(JB.data.updated),updH=Math.max(0,Math.round((Date.now()-upd)/36e5)),updS=updH<1?"updated just now":updH<24?"updated "+updH+"h ago":"updated "+upd.toLocaleDateString(undefined,{month:"short",day:"numeric"});
   const mc=j=>`<button class="jbmc" data-act="jbsel" data-i="${j.i}" data-top="1"><div class="mt">${jbLogo(j.co,"",j.dom)}<div><div class="co">${esc(j.co)} · ${esc((j.wp==="remote"?"Remote":j.loc.split(/[\/;,]/)[0])||"")}</div><div class="ro">${esc(j.t)}</div></div><span class="pct ${jbTone(j.m)}">${j.m}%</span></div><div class="why"><b>Why you:</b> ${esc(jbShort(j))}</div><div class="meta"><span>${JB_LVLN[j.lvl]}</span><span>${j.wp==="remote"?"Remote":j.wp==="hybrid"?"Hybrid":"Onsite"}</span><span>${jbAgo(j.day)}</span></div></button>`;
   const shown=JB.all10?top:top.slice(0,3);const chips=(arr,key,multi)=>arr.map(([k,l])=>`<button class="ch ${multi?(JB[key].includes(k)?"on":""):(JB[key]===k?"on":"")}" data-act="jbf" data-k="${key}" data-v="${k}">${l}</button>`).join("");
-  M.innerHTML=`<div class="cpage tpage jb ${JB.mobileDetail?"mdet":""}">
+  M.innerHTML=`<div class="cpage tpage jb ${JB.mobileDetail?"mdet":""} ${GU?"guest":""}">
     <div class="jbhd"><div><h1>Jobs</h1><p>Real openings from company career pages, matched to what you've proven.</p></div><div class="jbhr"><span class="upd"><i></i>${total.toLocaleString()} open roles · ${updS}</span><button class="btn line jbstb" data-act="jbstats">${svg(JI.chart)}Your stats${jbApplied().size?` · ${jbApplied().size}`:""}</button></div></div>
+    ${GU?`<section class="jbguest"><div><b>See your match score on every job</b><span>Sign up free and Crossway ranks these roles for you, explains why each one fits, and sends your 10 best every morning. No resume.</span></div><div class="gb"><button class="btn line" data-act="auth" data-r="seeker" data-v="signin">Log in</button><button class="btn dark" data-act="auth" data-r="seeker" data-v="signup">Sign up free</button></div></section>`:""}
     ${top.length?`<section class="jbten"><div class="th"><div><span class="tk">Your 10 for today</span><b>Picked from your Arena solves, projects and skills</b></div><span>New 10 tomorrow morning</span></div>
       <div class="strip ${JB.all10?"all":""}">${shown.map(mc).join("")}${JB.all10?"":`<button class="jbmc more" data-act="jball10"><b>+${top.length-3}</b>See all ${top.length} matches</button>`}</div>${JB.all10?`<button class="jbless" data-act="jball10">Show fewer</button>`:""}</section>`:""}
     <form class="jbsbar" id="jbForm"><label class="in q">${svg(JI.search)}<input id="jbQ" value="${esc(JB.q)}" placeholder="Role, skill or company" aria-label="Search jobs"></label><label class="in l">${svg(JI.pin)}<input id="jbL" value="${esc(JB.loc)}" placeholder="City, or Remote" list="jbCities" aria-label="Location"></label><datalist id="jbCities"><option value="Remote">${jbCities().map(c=>`<option value="${esc(c)}">`).join("")}</datalist><button class="go" type="submit">Search</button></form>

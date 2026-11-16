@@ -78,7 +78,7 @@ const head = (title, desc, canon, ld, robots) => `<!doctype html><html lang="en"
 ${(ld || []).map(x => `<script type="application/ld+json">${JSON.stringify(x).replace(/</g, "\\u003c")}</script>`).join("")}<style>${CSS}</style></head><body>
 <header class="nav"><div class="wrap"><a class="brand" href="/" aria-label="Crossway home"><span class="bars3" aria-hidden="true"><i style="width:19px;background:#4C6BF5"></i><i style="width:12px;background:#F2643D"></i><i style="width:23px;background:#12A38A"></i></span><span class="wordmark">crossway<span class="dot">.</span></span></a>
 <nav class="links"><a href="/jobs" class="on">Jobs</a><a href="/compare/leetcode-alternative">Arena</a><a href="/blog">Blog</a></nav><span class="sp"></span><a class="btn line" href="/app">Log in</a><a class="btn dark" href="/app?join=seeker">Get my matches</a></div></header>`;
-const foot = `<footer><div class="wrap"><span>© 2026 Crossway</span><span class="sp"></span><a href="/jobs">Jobs</a><a href="/blog">Blog</a><a href="/compare/linkedin-alternative">vs LinkedIn</a><a href="/compare/jobright-alternative">vs Jobright</a><a href="/compare/leetcode-alternative">vs LeetCode</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div><div class="wrap"><p style="font-size:12.5px;color:var(--faint);margin:10px 0 0">Jobs come from company career pages and refresh every few hours. Crossway isn't affiliated with the companies listed.</p></div></footer></body></html>`;
+const foot = `<footer><div class="wrap"><span>© 2026 Crossway</span><span class="sp"></span><a href="/jobs">Jobs</a><a href="/blog">Blog</a><a href="/compare/linkedin-alternative">vs LinkedIn</a><a href="/compare/jobright-alternative">vs Jobright</a><a href="/compare/handshake-alternative">vs Handshake</a><a href="/compare/indeed-alternative">vs Indeed</a><a href="/compare/wellfound-alternative">vs Wellfound</a><a href="/compare/otta-alternative">vs Otta</a><a href="/compare/leetcode-alternative">vs LeetCode</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div><div class="wrap"><p style="font-size:12.5px;color:var(--faint);margin:10px 0 0">Jobs come from company career pages and refresh every few hours. Crossway isn't affiliated with the companies listed.</p></div></footer></body></html>`;
 
 function jobRow(j, k) {
   const [t, co, loc, lvl, wp, day, pay0, yrs, url, sn, sk, dom, own] = j;
@@ -88,11 +88,21 @@ function jobRow(j, k) {
 <span class="jm"><span class="tag">${LV[lvl] || "Mid"}</span>${pay ? `<span class="tag pay">${esc(pay)}</span>` : ""}<span class="when">${ago(day)}</span></span></summary>
 <div class="jd"><dl><div><dt>Experience</dt><dd>${yrs > 0 ? `${yrs}+ years` : "Not listed"}</dd></div><div><dt>Work</dt><dd>${WP[wp] || "Onsite"}</dd></div><div><dt>Pay</dt><dd>${esc(pay || "Not listed")}</dd></div><div><dt>Posted</dt><dd>${ago(day)}</dd></div></dl>
 ${sn ? `<p class="sn">${esc(sn.slice(0, 300))}${sn.length > 300 ? "…" : ""}</p>` : ""}${sk && sk.length ? `<div class="sk">${sk.map(s => `<span>${esc(s)}</span>`).join("")}</div>` : ""}
-<div class="ja"><a class="btn dark" href="${esc(url)}" target="_blank" rel="noopener nofollow">Apply on ${esc(co)}'s site</a><a class="btn line" href="/app?join=seeker">See your match score</a></div></div></details></li>`;
+<div class="ja"><a class="btn dark" href="${esc(url)}" target="_blank" rel="noopener nofollow">Apply on ${esc(co)}'s site</a><a class="btn line" href="${esc(APP_LINK)}">See your match score</a></div></div></details></li>`;
 }
 const bar = (label, n, tot, col) => `<div class="br"><span>${label}</span><span class="bt"><i style="width:${tot ? Math.round(n / tot * 100) : 0}%;background:${col}"></i></span><b>${n}</b></div>`;
 
+let APP_LINK = "/app?jobs=1#jobs";
+// the same search inside the Crossway app, so people land on the jobs tab with these filters on and can change them
+function appLink(p) {
+  const qs = new URLSearchParams({ jobs: "1", q: p.roleName });
+  if (p.kind === "remote" || p.city === "remote") qs.set("loc", "Remote");
+  else if (p.cityName) qs.set("loc", p.cityName.replace(/ Bay Area$/, "").replace(/,.*$/, "").replace(/ and /g, " or "));
+  if (p.kind === "entry") qs.set("lvl", "entry");
+  return "/app?" + qs.toString() + "#jobs";
+}
 function page(p) {
+  APP_LINK = appLink(p);
   const canon = `${SITE}/jobs/${p.slug}`;
   const where = p.kind === "city" ? ` in ${p.cityName}` : p.kind === "remote" ? " you can do remotely" : " in the US";
   const role = p.roleName, rl = role.toLowerCase();
@@ -133,8 +143,8 @@ function page(p) {
 <h1>${esc(p.h1)}</h1><p class="lede">Straight from company career pages, refreshed every few hours. Open a role to see pay and years asked, then apply on the company's site.</p>
 <p class="facts"><span><b>${p.n}</b> open</span><span><b>${p.new7}</b> new this week</span>${payTxt ? `<span>Typical pay <b>${payTxt}</b></span>` : ""}<span><b>${early}</b> entry level</span>${p.remote && p.kind !== "remote" ? `<span><b>${p.remote}</b> remote</span>` : ""}</p>
 <nav class="chips" aria-label="Narrow this list">${chips.map(([s, t], k) => `<a${k === 0 ? ' class="on" aria-current="page"' : ""} href="/jobs/${s}">${esc(t)}</a>`).join("")}</nav></div></section>
-<main class="wrap"><div class="grid"><div><ul class="list">${p.jobs.map(jobRow).join("")}</ul>${p.n > p.jobs.length ? `<div class="more"><a class="btn line" href="/app?join=seeker">See all ${p.n}, ranked for you ${ARROW}</a></div>` : ""}</div>
-<aside class="side"><div class="card cta"><h2>Which of these fit you?</h2><p>Add your skills and years once. Crossway scores every role against your profile and sends your 10 best every morning. Free, no resume.</p><a class="btn brand" style="width:100%" href="/app?join=seeker">Get my match scores</a></div>
+<main class="wrap"><div class="grid"><div><ul class="list">${p.jobs.map(jobRow).join("")}</ul>${p.n > p.jobs.length ? `<div class="more"><a class="btn line" href="${esc(APP_LINK)}">See all ${p.n} on Crossway ${ARROW}</a></div>` : ""}</div>
+<aside class="side"><div class="card cta"><h2>Search these on Crossway</h2><p>Open this search in Crossway Jobs, change the role, level, city or remote filters, and sign up free to get a match score on every role and your 10 best each morning.</p><a class="btn brand" style="width:100%" href="${esc(APP_LINK)}">Open in Crossway Jobs</a><a class="btn line" style="width:100%;margin-top:8px" href="/app?join=seeker">Get my match scores</a></div>
 ${yN ? `<div class="card"><h2>Years these roles ask for</h2><p style="margin-bottom:4px">From the ${yN} postings that state it.</p>${bar("0 to 2", Y["0 to 2"], ytot, "#12A38A")}${bar("3 to 4", Y["3 to 4"], ytot, "#4C6BF5")}${bar("5 to 6", Y["5 to 6"], ytot, "#8B5CF6")}${bar("7+", Y["7+"], ytot, "#F2643D")}</div>` : ""}
 <div class="card"><h2>Hiring the most</h2><ul class="cos">${p.cos.slice(0, 7).map(([c, n]) => `<li>${esc(c)}<span>${n} ${n === 1 ? "role" : "roles"}</span></li>`).join("")}</ul></div></aside></div>
 <article class="guide">${guide}</article></main>` + foot;
