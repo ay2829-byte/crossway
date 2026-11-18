@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SQL Practice Board: run SQL online, free | Crossway</title>
+<meta name="description" content="A free SQL playground in your browser. Paste your tables and data, write a query, and run it instantly. Import CSV, share a link, no sign up.">
+<link rel="canonical" href="https://crosswayhq.com/sql">
+<meta property="og:title" content="SQL Practice Board | Crossway">
+<meta property="og:description" content="Paste your data, write SQL, run it instantly. Free, in your browser.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap">
+<style>
+:root{--bg:#F6F6F8;--card:#fff;--line:#E7E7EB;--line2:#F0F0F3;--ink:#141418;--ink2:#3A3A44;--mut:#6E6E7A;--faint:#A0A0AB;--accent:#3B5BDB;--good:#15803D;--bad:#C2410C;--code:#FBFBFC;--sel:#EEF1FD;
+--f:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#0C0C0F;--card:#16161B;--line:#27272E;--line2:#1F1F25;--ink:#F2F2F5;--ink2:#D0D0D8;--mut:#9A9AA6;--faint:#6A6A75;--accent:#8EA2FF;--good:#4ADE80;--bad:#FB923C;--code:#111115;--sel:#1B2140;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f);letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}button,select{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+svg.i{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.nav{border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);position:sticky;top:0;z-index:5}
+.nav .wrap{max-width:1400px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:8px;font:800 19px/1 "Bricolage Grotesque",var(--f);letter-spacing:-.04em}
+.bars3{display:inline-flex;flex-direction:column;gap:3px}.bars3 i{display:block;height:3.5px;border-radius:3px}
+.brand .dot{color:#F2643D}
+.links{display:flex;gap:20px;font-size:14px;color:var(--mut)}.links a:hover,.links a.on{color:var(--ink)}
+.sp{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 13px;font-weight:500;font-size:14px;white-space:nowrap}
+.btn:hover{border-color:var(--faint)}
+.btn.dark{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.run{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;padding:9px 16px}
+.btn.plain{border:0;background:none}
+.btn small{font-family:var(--mono);font-size:11px;opacity:.75;font-weight:400}
+
+.page{max-width:1400px;margin:0 auto;padding:20px}
+.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.hd h1{margin:0;font-size:26px;font-weight:600;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;color:var(--mut)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.selw{position:relative}
+.selw select{appearance:none;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 32px 8px 12px;font-size:14px;font-weight:500}
+.selw svg{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--mut)}
+
+.board{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 240px;gap:12px;align-items:stretch}
+.pane{background:var(--card);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.ph{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--line2)}
+.ph b{font-weight:600;font-size:14px}.ph small{color:var(--mut);font-size:12.5px}
+.ph .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.ph .btn{padding:5px 10px;font-size:13px;border-radius:8px}
+.ed{position:relative;display:flex;height:400px;background:var(--code)}
+.gut{padding:12px 0;min-width:42px;text-align:right;font:12px/23px var(--mono);color:var(--faint);user-select:none;border-right:1px solid var(--line2);overflow:hidden}
+.gut div{padding:0 10px 0 6px}
+textarea{flex:1;border:0;outline:0;resize:none;background:transparent;color:var(--ink);font:13.5px/23px var(--mono);padding:12px 14px;white-space:pre;overflow:auto;tab-size:2}
+textarea::placeholder{color:var(--faint)}
+.schema{padding:8px}
+.schema .tb{border-radius:10px;padding:8px 10px}
+.schema .tb+.tb{margin-top:2px}
+.schema .tb:hover{background:var(--bg)}
+.schema .tn{display:flex;align-items:center;gap:7px;font-weight:600;font-size:13.5px;cursor:pointer}
+.schema .tn small{margin-left:auto;font-weight:400;color:var(--faint);font-family:var(--mono);font-size:11.5px}
+.schema ul{list-style:none;margin:6px 0 0;padding:0 0 0 22px;font:12.5px/1.8 var(--mono);color:var(--ink2)}
+.schema ul span{color:var(--faint)}
+.empty{padding:16px;color:var(--mut);font-size:13.5px}
+
+.out{margin-top:12px}
+.res{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.res+.res{margin-top:10px}
+.rh{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--line2);font-size:13.5px}
+.rh .n{font-family:var(--mono);font-size:12px;color:var(--mut)}
+.rh .ok{color:var(--good);font-weight:600}
+.rh .r{margin-left:auto;display:flex;gap:6px}
+.rh .btn{padding:4px 9px;font-size:12.5px;border-radius:8px}
+.tw{overflow:auto;max-height:420px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{position:sticky;top:0;background:var(--card);text-align:left;font-weight:600;padding:8px 14px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:12.5px;color:var(--ink2)}
+td{padding:7px 14px;border-bottom:1px solid var(--line2);white-space:nowrap;font-variant-numeric:tabular-nums}
+td.num{text-align:right;font-family:var(--mono);font-size:12.5px}
+td.nul{color:var(--faint);font-style:italic}
+tr:hover td{background:color-mix(in srgb,var(--sel) 60%,transparent)}
+.err{background:color-mix(in srgb,var(--bad) 8%,var(--card));border:1px solid color-mix(in srgb,var(--bad) 30%,var(--line));color:var(--bad);border-radius:14px;padding:12px 16px;font:13px/1.6 var(--mono)}
+.err b{font-family:var(--f);display:block;margin-bottom:2px}
+.msg{color:var(--mut);font-size:13.5px;padding:14px 16px}
+.hint{display:flex;gap:14px;flex-wrap:wrap;color:var(--faint);font-size:12.5px;margin-top:10px}
+.hint kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--mut);background:var(--card)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:10px;font-size:14px;opacity:0;transition:.2s;pointer-events:none;z-index:20}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.seo{max-width:760px;margin:40px auto 0;color:var(--ink2)}
+.seo h2{font-size:20px;letter-spacing:-.03em;margin:28px 0 8px;color:var(--ink)}
+.seo p{margin:0 0 10px}
+.cta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:24px;padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.cta b{display:block;font-size:16px;font-weight:600}.cta span{color:var(--mut);font-size:14px}
+footer{max-width:1400px;margin:40px auto 0;padding:20px;border-top:1px solid var(--line);color:var(--mut);font-size:13px;display:flex;gap:16px;flex-wrap:wrap}
+footer a:hover{color:var(--ink)}
+@media (max-width:1100px){.board{grid-template-columns:1fr 1fr}.board .side{grid-column:1/-1}}
+@media (max-width:760px){.board{grid-template-columns:1fr}.links{display:none}.ed{height:260px}.hd h1{font-size:22px}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap"><a class="brand" href="/" aria-label="Crossway home"><span class="bars3" aria-hidden="true"><i style="width:19px;background:#4C6BF5"></i><i style="width:12px;background:#F2643D"></i><i style="width:23px;background:#12A38A"></i></span><span>crossway<span class="dot">.</span></span></a><nav class="links"><a href="/">Crossway</a><a href="/jobs">Jobs</a><a href="/sql" class="on">SQL board</a><a href="/projects">Projects</a><a href="/blog">Blog</a></nav><span class="sp"></span><a class="btn plain" href="/app">Log in</a><a class="btn dark" href="/app?join=seeker">Start free</a></div></header>
+
+<main class="page">
+  <div class="hd">
+    <div><h1>SQL practice board</h1><p>Put your tables and data on the left, your query in the middle, and run it. Everything runs in your browser.</p></div>
+    <div class="tools">
+      <span class="selw"><select id="sample" aria-label="Load a sample"><option value="">Load a sample</option><option value="shop">Online store: customers and orders</option><option value="hr">Company: employees and departments</option><option value="app">App: users and events</option><option value="blank">Start blank</option></select><svg class="i" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+      <button class="btn" id="csvBtn"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V4M7 9l5-5 5 5M5 15v5h14v-5"/></svg>Import CSV</button>
+      <input type="file" id="csv" accept=".csv,text/csv" hidden multiple>
+      <button class="btn" id="share"><svg class="i" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>Copy link</button>
+      <button class="btn run" id="run"><svg class="i" viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M7 5l12 7-12 7z"/></svg>Run <small>Ctrl ↵</small></button>
+    </div>
+  </div>
+
+  <div class="board">
+    <section class="pane"><div class="ph"><b>Tables and data</b><small>CREATE and INSERT</small><div class="r"><button class="btn" id="clrS">Clear</button></div></div>
+      <div class="ed"><div class="gut" id="gS"></div><textarea id="setup" spellcheck="false" placeholder="CREATE TABLE people (id INTEGER, name TEXT);&#10;INSERT INTO people VALUES (1, 'Ana'), (2, 'Ben');"></textarea></div></section>
+    <section class="pane"><div class="ph"><b>Your query</b><small>one or more statements</small><div class="r"><button class="btn" id="fmt">Tidy</button><button class="btn" id="clrQ">Clear</button></div></div>
+      <div class="ed"><div class="gut" id="gQ"></div><textarea id="query" spellcheck="false" placeholder="SELECT * FROM people;"></textarea></div></section>
+    <aside class="pane side"><div class="ph"><b>Schema</b><small id="tcount"></small></div><div class="schema" id="schema"><div class="empty">Run once to see your tables here.</div></div></aside>
+  </div>
+  <div class="hint"><span><kbd>Ctrl</kbd> <kbd>Enter</kbd> runs</span><span><kbd>Tab</kbd> indents</span><span>Saves on this device as you type</span><span>SQLite syntax</span></div>
+
+  <div class="out" id="out"></div>
+
+  <div class="cta"><div><b>Want to be graded?</b><span>Arena has timed SQL problems from real work. Every solve shows up on your profile for companies.</span></div><a class="btn dark" href="/app?join=seeker">Try Arena free</a></div>
+
+  <section class="seo">
+    <h2>A free SQL playground in your browser</h2>
+    <p>This board works like an online SQL fiddle. Write your CREATE TABLE and INSERT statements, or import a CSV, then write any query and run it. Each run starts from a fresh database built from your tables, so you can experiment without breaking anything.</p>
+    <h2>What SQL does it run?</h2>
+    <p>It runs SQLite, so joins, GROUP BY, window functions like ROW_NUMBER and LAG, common table expressions and date functions all work. Nothing is sent to a server.</p>
+    <h2>Can I share my work?</h2>
+    <p>Yes. Copy link puts your tables and query into the address, so anyone who opens it sees exactly what you wrote.</p>
+  </section>
+</main>
+<footer><span>© 2026 Crossway</span><a href="/jobs">Jobs</a><a href="/blog">Blog</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+const SQL_URL="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/";
+const $=id=>document.getElementById(id);
+const S={setup:$("setup"),query:$("query")};
+const SAMPLES={
+shop:{setup:`CREATE TABLE customers (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  city TEXT,
+  signup_date DATE
+);
+INSERT INTO customers VALUES
+  (1, 'Ana Lopez', 'Austin', '2026-01-04'),
+  (2, 'Ben Carter', 'New York', '2026-01-19'),
+  (3, 'Chen Wei', 'Austin', '2026-02-02'),
+  (4, 'Dana Kim', 'Seattle', '2026-02-20'),
+  (5, 'Eli Brooks', 'New York', '2026-03-11');
+
+CREATE TABLE orders (
+  id INTEGER PRIMARY KEY,
+  customer_id INTEGER,
+  order_date DATE,
+  amount REAL,
+  status TEXT
+);
+INSERT INTO orders VALUES
+  (101, 1, '2026-01-10', 42.50, 'paid'),
+  (102, 1, '2026-02-14', 18.00, 'paid'),
+  (103, 2, '2026-01-25', 120.00, 'refunded'),
+  (104, 3, '2026-02-05', 64.25, 'paid'),
+  (105, 3, '2026-03-01', 15.75, 'paid'),
+  (106, 3, '2026-03-22', 89.99, 'paid'),
+  (107, 4, '2026-03-02', 33.10, 'cancelled'),
+  (108, 5, '2026-03-15', 250.00, 'paid');`,
+query:`-- Revenue per city from paid orders
+SELECT c.city,
+       COUNT(o.id)            AS orders,
+       ROUND(SUM(o.amount), 2) AS revenue
+FROM customers c
+JOIN orders o ON o.customer_id = c.id
+WHERE o.status = 'paid'
+GROUP BY c.city
+ORDER BY revenue DESC;`},
+hr:{setup:`CREATE TABLE departments (id INTEGER PRIMARY KEY, name TEXT);
+INSERT INTO departments VALUES (1, 'Product'), (2, 'Engineering'), (3, 'Sales');
+
+CREATE TABLE employees (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  dept_id INTEGER,
+  manager_id INTEGER,
+  salary INTEGER,
+  hired DATE
+);
+INSERT INTO employees VALUES
+  (1, 'Maya', 1, NULL, 165000, '2021-03-01'),
+  (2, 'Omar', 1, 1, 128000, '2023-06-12'),
+  (3, 'Priya', 2, NULL, 190000, '2020-01-15'),
+  (4, 'Sam', 2, 3, 142000, '2022-09-30'),
+  (5, 'Tess', 2, 3, 151000, '2024-02-05'),
+  (6, 'Luis', 3, NULL, 120000, '2022-04-18'),
+  (7, 'Zoe', 3, 6, 88000, '2025-07-01');`,
+query:`-- Top earner in each department
+SELECT dept, name, salary
+FROM (
+  SELECT d.name AS dept, e.name, e.salary,
+         ROW_NUMBER() OVER (PARTITION BY d.id ORDER BY e.salary DESC) AS rk
+  FROM employees e
+  JOIN departments d ON d.id = e.dept_id
+)
+WHERE rk = 1;`},
+app:{setup:`CREATE TABLE users (user_id INTEGER PRIMARY KEY, signup_date DATE, plan TEXT);
+INSERT INTO users VALUES
+  (1, '2026-10-01', 'free'), (2, '2026-10-01', 'pro'), (3, '2026-10-02', 'free'),
+  (4, '2026-10-03', 'free'), (5, '2026-10-03', 'pro');
+
+CREATE TABLE events (user_id INTEGER, event TEXT, event_date DATE);
+INSERT INTO events VALUES
+  (1, 'login', '2026-10-01'), (1, 'login', '2026-10-08'),
+  (2, 'login', '2026-10-01'), (2, 'export', '2026-10-02'), (2, 'login', '2026-10-09'),
+  (3, 'login', '2026-10-02'),
+  (4, 'login', '2026-10-03'), (4, 'login', '2026-10-10'),
+  (5, 'login', '2026-10-03');`,
+query:`-- Day 7 retention by signup date
+SELECT u.signup_date,
+       COUNT(*) AS signups,
+       SUM(EXISTS (
+         SELECT 1 FROM events e
+         WHERE e.user_id = u.user_id
+           AND julianday(e.event_date) - julianday(u.signup_date) >= 7
+       )) AS came_back
+FROM users u
+GROUP BY u.signup_date
+ORDER BY u.signup_date;`},
+blank:{setup:"",query:""}};
+
+/* gutters */
+function gut(t,g){const n=Math.max(1,t.value.split("\n").length);if(g._n!==n){g.innerHTML=Array.from({length:n},(_,i)=>"<div>"+(i+1)+"</div>").join("");g._n=n}g.scrollTop=t.scrollTop}
+[[S.setup,$("gS")],[S.query,$("gQ")]].forEach(([t,g])=>{t.addEventListener("input",()=>{gut(t,g);save()});t.addEventListener("scroll",()=>g.scrollTop=t.scrollTop);
+  t.addEventListener("keydown",e=>{if(e.key==="Tab"&&!e.shiftKey){e.preventDefault();const a=t.selectionStart,b=t.selectionEnd;t.setRangeText("  ",a,b,"end");gut(t,g);save()}
+    if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();run()}})});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)&&!e.target.closest("textarea")){e.preventDefault();run()}});
+function refreshGut(){gut(S.setup,$("gS"));gut(S.query,$("gQ"))}
+
+/* save on this device */
+let st=null;function save(){clearTimeout(st);st=setTimeout(()=>{try{localStorage.setItem("cw_sqlboard",JSON.stringify({s:S.setup.value,q:S.query.value}))}catch(_){}},300)}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),1800)}
+
+/* share link: compressed into the hash */
+async function pack(o){const b=new Blob([JSON.stringify(o)]).stream().pipeThrough(new CompressionStream("deflate-raw"));const u=new Uint8Array(await new Response(b).arrayBuffer());let s="";u.forEach(x=>s+=String.fromCharCode(x));return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+async function unpack(h){const s=atob(h.replace(/-/g,"+").replace(/_/g,"/"));const u=Uint8Array.from(s,c=>c.charCodeAt(0));const b=new Blob([u]).stream().pipeThrough(new DecompressionStream("deflate-raw"));return JSON.parse(await new Response(b).text())}
+$("share").onclick=async()=>{try{const h=await pack({s:S.setup.value,q:S.query.value});const url=location.origin+location.pathname+"#b="+h;history.replaceState(null,"","#b="+h);await navigator.clipboard.writeText(url);toast("Link copied")}catch(_){toast("Copy the address bar to share")}};
+
+/* SQL engine */
+let libP=null;function lib(){if(libP)return libP;libP=new Promise((res,rej)=>{const s=document.createElement("script");s.src=SQL_URL+"sql-wasm.js";s.onload=()=>window.initSqlJs({locateFile:f=>SQL_URL+f}).then(res,rej);s.onerror=()=>{libP=null;rej(new Error("SQL could not load. Check your connection and try again."))};document.head.appendChild(s)});return libP}
+lib().catch(()=>{});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+let last=[];
+async function run(){const out=$("out");out.innerHTML='<div class="msg">Running…</div>';let SQL;try{SQL=await lib()}catch(e){out.innerHTML=errBox("Couldn't start SQL",e.message);return}
+  const db=new SQL.Database();last=[];
+  try{
+    try{if(S.setup.value.trim())db.exec(S.setup.value)}catch(e){out.innerHTML=errBox("Error in your tables and data",e.message);schema(db);db.close();return}
+    schema(db);
+    const q=S.query.value.trim();if(!q){out.innerHTML='<div class="msg">Write a query in the middle box and press Run.</div>';db.close();return}
+    const t0=performance.now();let r;
+    try{r=db.exec(q)}catch(e){out.innerHTML=errBox("Error in your query",e.message);db.close();return}
+    const ms=performance.now()-t0,ch=db.getRowsModified();
+    if(!r.length){out.innerHTML='<div class="res"><div class="rh"><span class="ok">✓ Ran</span><span class="n">'+ch+' row'+(ch===1?"":"s")+' changed · '+ms.toFixed(1)+' ms</span></div><div class="msg">No rows to show. Add a SELECT to see results.</div></div>';schema(db);db.close();return}
+    last=r;out.innerHTML=r.map((x,i)=>table(x,i,r.length,ms)).join("");schema(db);
+  }finally{try{db.close()}catch(_){}}
+}
+function errBox(t,m){const line=(m.match(/near "([^"]+)"/)||[])[1];return '<div class="err"><b>'+esc(t)+'</b>'+esc(m)+(line?'<br><span style="opacity:.8">Look near <u>'+esc(line)+'</u></span>':"")+'</div>'}
+function table(x,i,n,ms){const rows=x.values,cap=1000;const num=x.columns.map((_,c)=>rows.length&&rows.slice(0,50).every(r=>r[c]==null||typeof r[c]==="number"));
+  return '<div class="res"><div class="rh"><span class="ok">✓ '+(n>1?"Result "+(i+1):"Result")+'</span><span class="n">'+rows.length.toLocaleString()+' row'+(rows.length===1?"":"s")+' · '+x.columns.length+' column'+(x.columns.length===1?"":"s")+(i===n-1?' · '+ms.toFixed(1)+' ms':"")+'</span><div class="r"><button class="btn" data-csv="'+i+'">Download CSV</button><button class="btn" data-copy="'+i+'">Copy</button></div></div>'+
+  '<div class="tw"><table><thead><tr>'+x.columns.map((c,k)=>"<th"+(num[k]?' style="text-align:right"':"")+">"+esc(c)+"</th>").join("")+'</tr></thead><tbody>'+rows.slice(0,cap).map(r=>"<tr>"+r.map((v,c)=>v==null?'<td class="nul">NULL</td>':'<td'+(num[c]?' class="num"':"")+'>'+esc(v)+"</td>").join("")+"</tr>").join("")+'</tbody></table></div>'+(rows.length>cap?'<div class="msg">Showing the first '+cap+' rows.</div>':"")+'</div>'}
+function schema(db){let r=[];try{r=db.exec("SELECT name, type FROM sqlite_master WHERE type IN ('table','view') AND name NOT LIKE 'sqlite_%' ORDER BY name")}catch(_){}
+  const list=r.length?r[0].values:[];$("tcount").textContent=list.length?list.length+(list.length===1?" table":" tables"):"";
+  if(!list.length){$("schema").innerHTML='<div class="empty">No tables yet. Add CREATE TABLE on the left, or import a CSV.</div>';return}
+  $("schema").innerHTML=list.map(([t,ty])=>{let cols=[],n="";try{cols=db.exec('PRAGMA table_info("'+t.replace(/"/g,'""')+'")')[0].values;n=db.exec('SELECT COUNT(*) FROM "'+t.replace(/"/g,'""')+'"')[0].values[0][0]}catch(_){}
+    return '<div class="tb"><div class="tn" data-t="'+esc(t)+'" title="Insert a SELECT for this table"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg>'+esc(t)+(ty==="view"?" (view)":"")+'<small>'+(n!==""?n+" rows":"")+'</small></div><ul>'+cols.map(c=>'<li>'+esc(c[1])+' <span>'+esc((c[2]||"").toLowerCase())+'</span></li>').join("")+'</ul></div>'}).join("")}
+$("schema").addEventListener("click",e=>{const t=e.target.closest(".tn");if(!t)return;const q=S.query;const add="SELECT * FROM "+t.dataset.t+" LIMIT 20;";q.value=q.value.trim()?q.value.replace(/\s*$/,"\n\n")+add:add;refreshGut();save();q.focus()});
+$("out").addEventListener("click",async e=>{const b=e.target.closest("[data-csv],[data-copy]");if(!b)return;const x=last[+(b.dataset.csv??b.dataset.copy)];if(!x)return;
+  const cell=v=>v==null?"":/[",\n]/.test(String(v))?'"'+String(v).replace(/"/g,'""')+'"':String(v);
+  const csv=[x.columns.map(cell).join(","),...x.values.map(r=>r.map(cell).join(","))].join("\n");
+  if(b.dataset.csv!=null){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="result.csv";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+  else{const tsv=[x.columns.join("\t"),...x.values.map(r=>r.map(v=>v==null?"":v).join("\t"))].join("\n");try{await navigator.clipboard.writeText(tsv);toast("Copied, paste into a sheet")}catch(_){toast("Couldn't copy")}}});
+
+/* CSV import: turns a file into CREATE TABLE and INSERT */
+function parseCSV(t){const rows=[];let row=[],f="",q=false;for(let i=0;i<t.length;i++){const c=t[i];if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}else if(c==='"')q=true;else if(c===","){row.push(f);f=""}else if(c==="\n"||c==="\r"){if(c==="\r"&&t[i+1]==="\n")i++;row.push(f);f="";if(row.length>1||row[0]!=="")rows.push(row);row=[]}else f+=c}
+  if(f!==""||row.length){row.push(f);rows.push(row)}return rows}
+function ident(s,i){let x=String(s||"").trim().toLowerCase().replace(/[^a-z0-9_]+/g,"_").replace(/^_+|_+$/g,"");if(!x)x="col"+(i+1);if(/^\d/.test(x))x="c_"+x;return x}
+function csvToSQL(name,text){const rows=parseCSV(text.replace(/^\uFEFF/,""));if(rows.length<1)return"";const head=rows[0].map(ident);const seen={};head.forEach((h,i)=>{if(seen[h])head[i]=h+"_"+(++seen[h]);else seen[h]=1});
+  const body=rows.slice(1).filter(r=>r.some(v=>v!==""));const types=head.map((_,c)=>{const vals=body.map(r=>r[c]).filter(v=>v!==""&&v!=null);if(!vals.length)return"TEXT";if(vals.every(v=>/^-?\d+$/.test(v)))return"INTEGER";if(vals.every(v=>/^-?\d*\.?\d+(e[+-]?\d+)?$/i.test(v)))return"REAL";return"TEXT"});
+  const lit=(v,t)=>v===""||v==null?"NULL":t==="TEXT"?"'"+String(v).replace(/'/g,"''")+"'":v;
+  let s="CREATE TABLE "+name+" (\n"+head.map((h,i)=>"  "+h+" "+types[i]).join(",\n")+"\n);\n";
+  for(let i=0;i<body.length;i+=200){s+="INSERT INTO "+name+" VALUES\n"+body.slice(i,i+200).map(r=>"  ("+head.map((_,c)=>lit(r[c],types[c])).join(", ")+")").join(",\n")+";\n"}
+  return {sql:s,n:body.length}}
+$("csvBtn").onclick=()=>$("csv").click();
+$("csv").onchange=async e=>{const files=[...e.target.files];let added=0;for(const f of files){if(f.size>5e6){toast(f.name+" is over 5 MB");continue}const name=ident(f.name.replace(/\.csv$/i,""),0);const r=csvToSQL(name,await f.text());if(!r)continue;
+    S.setup.value=(S.setup.value.trim()?S.setup.value.replace(/\s*$/,"\n\n"):"")+"DROP TABLE IF EXISTS "+name+";\n"+r.sql;added++;
+    if(!S.query.value.trim())S.query.value="SELECT * FROM "+name+" LIMIT 20;";toast("Imported "+r.n.toLocaleString()+" rows into "+name)}
+  e.target.value="";if(added){refreshGut();save();run()}};
+
+/* buttons */
+$("run").onclick=run;
+$("clrS").onclick=()=>{S.setup.value="";refreshGut();save();S.setup.focus()};
+$("clrQ").onclick=()=>{S.query.value="";refreshGut();save();S.query.focus()};
+$("fmt").onclick=()=>{const K=["SELECT","FROM","WHERE","GROUP BY","ORDER BY","HAVING","LIMIT","LEFT JOIN","RIGHT JOIN","INNER JOIN","JOIN","UNION ALL","UNION","WITH"];
+  let q=S.query.value;K.forEach(k=>{q=q.replace(new RegExp("\\s+"+k.replace(" ","\\s+")+"\\b","gi"),"\n"+k)});q=q.replace(/\b(select|from|where|and|or|on|as|group by|order by|having|limit|join|left|inner|with|case|when|then|else|end|distinct|count|sum|avg|min|max|round|over|partition by|desc|asc|not|null|is|in|exists|between|like)\b/gi,m=>m.toUpperCase());
+  S.query.value=q.replace(/^\n+/,"");refreshGut();save()};
+$("sample").onchange=e=>{const s=SAMPLES[e.target.value];if(!s)return;S.setup.value=s.setup;S.query.value=s.query;e.target.value="";refreshGut();save();run()};
+
+/* start: shared link, then this device, then a sample */
+(async()=>{let d=null;const m=location.hash.match(/#b=([\w-]+)/);if(m){try{d=await unpack(m[1])}catch(_){}}
+  if(!d){try{d=JSON.parse(localStorage.getItem("cw_sqlboard")||"null")}catch(_){}}
+  if(!d||(!d.s&&!d.q))d={s:SAMPLES.shop.setup,q:SAMPLES.shop.query};
+  S.setup.value=d.s||"";S.query.value=d.q||"";refreshGut();run()})();
+})();
+</script>
+</body>
+</html>
