@@ -1834,6 +1834,35 @@ input,select,textarea{border-radius:14px}
 .jb.guest .jbr .p{visibility:hidden}
 .jb.guest .jbfit,.jb.guest .jbstb,.jb.guest #jbSort option[value="match"],.jb.guest [data-act="jbhere"]{display:none}
 </style>
+<style id="pgcss">
+.pgtopsw{display:flex;justify-content:flex-end;margin:0 0 14px}
+.pghd{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:8px 0 20px}
+.pghd h1{font-size:40px;font-weight:700;letter-spacing:-.04em;margin:0;line-height:1.05}
+.pghd p{margin:6px 0 0;color:var(--muted)}
+.pgsw{width:auto}
+.pg .arsplit{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+.pgleft{display:flex;flex-direction:column;gap:12px}
+.pgbh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pgbh b{font-size:15px;font-weight:600}.pgbh span{display:flex;gap:14px}
+.pged{flex:1;min-width:0;height:460px;resize:vertical;border:0;outline:0;background:transparent;color:#E8E9EE;caret-color:#9DB0FF;padding:16px 16px 16px 14px;font:13.5px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace;tab-size:4;white-space:pre;overflow:auto;position:relative;z-index:1;width:100%;color:transparent;-webkit-text-fill-color:transparent}
+.pged::selection{background:rgba(110,130,255,.35);-webkit-text-fill-color:transparent}
+.pgset .pged{height:300px}.pgset .argut{max-height:300px}
+.pg .arschema{margin-top:0}
+.pg .arschema div{display:flex;flex-direction:column;gap:1px}
+.pg .arschema div span{font-size:12.5px;color:var(--muted)}
+.pgtip span{font-size:13.5px;color:var(--ink2)}
+.pgtip code,.pgnone code{font-size:12.5px}
+.pgfiles{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.pgfiles div{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}
+.pgfiles div:first-child{border-top:0}
+.pgfiles span{color:var(--muted);font-size:13px;margin-left:auto}
+.pgnone{margin:0;padding:16px;border:1px dashed var(--line);border-radius:14px}
+.pgres{display:flex;flex-direction:column;gap:8px}
+.pgrh{display:flex;align-items:baseline;gap:10px}.pgrh b{font-size:14px;font-weight:600}.pgrh span{font-size:12.5px;color:var(--muted)}
+.pg .artbl{max-height:420px}
+.pglog{margin:0;padding:12px 14px;border-radius:12px;background:#15161A;color:#E8E9EE;font:13px/1.6 ui-monospace,"SF Mono",Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:360px;overflow:auto}
+@media (max-width:900px){.pg .arsplit{grid-template-columns:1fr}.pg .arleft{position:static;max-height:none}.pghd h1{font-size:30px}.pged{height:320px}.pgset .pged{height:220px}.pgtopsw{justify-content:flex-start}}
+</style>
 </head>
 <body>
 <header class="top" id="top"></header>
@@ -3631,7 +3660,193 @@ function arPane(p,m){if(!p)return `<div class="aqpane empty"><p class="hint">Pic
     <div class="aqmsg">${arMd(txt.length>520?txt.slice(0,520)+"…":txt)}</div>
     <div class="aqmeta"><div><span>Time box</span><b>${p.mins} min</b></div><div><span>Level</span><b>${p.diff}</b></div><div><span>Type</span><b>${arTaskLabel(p)}</b></div><div><span>${p.ai?"AI":"Status"}</span><b>${p.ai?"Allowed":done?"Solved":m?"In progress":"Open"}</b></div></div>
     <div class="aqcta"><button class="aqgo" data-act="aropen" data-p="${p.id}">${AR_ICO.play}${done?"Open again":m?"Continue":"Pick up ticket"}</button>${done?`<span class="aqok">${AR_ICO.check}Solved${t?" in "+arMins(m.secs):""}</span>`:`<small>Clock starts when you press start.</small>`}</div></div>`}
-function renderArena(){const A=S.ar;if(A.open){clearInterval(A.cd);renderArProblem();return}clearInterval(A.timer);
+/* ---------- Arena playground: your own data and code, SQL, Python and JavaScript, nothing graded ---------- */
+const PG_EX={sql:{setup:`CREATE TABLE customers (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  city TEXT
+);
+INSERT INTO customers VALUES
+  (1, 'Ana Lopez', 'Austin'),
+  (2, 'Ben Carter', 'New York'),
+  (3, 'Chen Wei', 'Austin'),
+  (4, 'Dana Kim', 'Seattle');
+
+CREATE TABLE orders (
+  id INTEGER PRIMARY KEY,
+  customer_id INTEGER,
+  amount REAL,
+  status TEXT
+);
+INSERT INTO orders VALUES
+  (101, 1, 42.50, 'paid'),
+  (102, 1, 18.00, 'paid'),
+  (103, 2, 120.00, 'refunded'),
+  (104, 3, 64.25, 'paid'),
+  (105, 3, 15.75, 'paid'),
+  (106, 4, 33.10, 'paid');`,code:`-- Revenue per city from paid orders
+SELECT c.city,
+       COUNT(o.id)             AS orders,
+       ROUND(SUM(o.amount), 2) AS revenue
+FROM customers c
+JOIN orders o ON o.customer_id = c.id
+WHERE o.status = 'paid'
+GROUP BY c.city
+ORDER BY revenue DESC;`},
+py:`import pandas as pd
+
+orders = pd.DataFrame({
+    "city":   ["Austin", "New York", "Austin", "Seattle", "Austin"],
+    "amount": [42.50, 120.00, 64.25, 33.10, 15.75],
+})
+
+print("Orders:", len(orders))
+
+# The last line is shown as a table
+orders.groupby("city", as_index=False)["amount"].sum().sort_values("amount", ascending=False)`,
+js:`const orders = [
+  { city: "Austin", amount: 42.5 },
+  { city: "New York", amount: 120 },
+  { city: "Austin", amount: 64.25 },
+  { city: "Seattle", amount: 33.1 },
+];
+
+const byCity = {};
+for (const o of orders) byCity[o.city] = (byCity[o.city] || 0) + o.amount;
+
+console.log(byCity);`};
+function pgState(){const A=S.ar;if(A.pg)return A.pg;let d={};try{d=JSON.parse(localStorage.getItem("cw_pg")||"{}")||{}}catch(_){}
+  return A.pg={lang:["sql","py","js"].includes(d.lang)?d.lang:"sql",setup:d.setup!=null?d.setup:PG_EX.sql.setup,code:{sql:PG_EX.sql.code,py:PG_EX.py,js:PG_EX.js,...(d.code||{})},files:d.files||{}}}
+let pgSaveT=null;function pgSave(){clearTimeout(pgSaveT);pgSaveT=setTimeout(()=>{const P=S.ar.pg;if(!P)return;const big=Object.values(P.files).reduce((a,t)=>a+t.length,0)>1.5e6;
+  try{localStorage.setItem("cw_pg",JSON.stringify({lang:P.lang,setup:P.setup,code:P.code,files:big?{}:P.files}))}catch(_){}},300)}
+function pgSwitch(on){return `<div class="aqfields pgsw"><button class="${on!=="play"?"on":""}" data-act="pgview" data-v="queue">The queue</button><button class="${on==="play"?"on":""}" data-act="pgview" data-v="play">Playground</button></div>`}
+function pgEditor(id,code,lang,cls){return `<div class="ared ${cls||""}"><div class="argut" id="${id}Gut"></div><div class="arcw"><pre class="arhl" id="${id}Hl" aria-hidden="true"></pre><textarea id="${id}" class="pged" data-lang="${lang}" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="${lang==="sql"&&id==="pgSet"?"Tables and data":"Code editor"}">${esc(code)}</textarea></div></div>`}
+function pgPaint(id){const ed=$("#"+id),h=$("#"+id+"Hl"),g=$("#"+id+"Gut");if(!ed)return;if(h){h.innerHTML=arHi(ed.value,ed.dataset.lang)+"\n";h.scrollTop=ed.scrollTop;h.scrollLeft=ed.scrollLeft}
+  if(g){const n=ed.value.split("\n").length;if(g._n!==n){g.innerHTML=Array.from({length:n},(_,i)=>`<span>${i+1}</span>`).join("");g._n=n}g.scrollTop=ed.scrollTop}}
+function pgFiles(P){const f=Object.keys(P.files);return f.length?`<div class="pgfiles">${f.map(n=>`<div><code>${esc(n)}</code><span>${(P.files[n].split("\n").length-1).toLocaleString()} rows</span><button class="ulink" data-act="pgrm" data-n="${esc(n)}">Remove</button></div>`).join("")}</div>`:`<p class="hint pgnone">No files yet. Import a CSV to work with your own data.</p>`}
+function renderPlay(){const P=pgState(),L=P.lang;
+  const left=L==="sql"?`<div class="pgbh"><b>Tables and data</b><span><button class="ulink" data-act="pgcsv">Import CSV</button><button class="ulink" data-act="pgsetreset">Example</button></span></div>
+      ${pgEditor("pgSet",P.setup,"sql","pgset")}<div class="arschema" id="pgSchema"><b>Tables</b><span class="hint">Run once to see your tables here.</span></div>`
+    :`<div class="pgbh"><b>Data files</b><button class="ulink" data-act="pgcsv">Import CSV</button></div>${pgFiles(P)}
+      <div class="arschema pgtip"><b>How to use them</b>${L==="py"?`<span>Read a file with <code>pd.read_csv("orders.csv")</code>. pandas and numpy load the first time you import them, which takes a few seconds.</span><span>The last line of your code is shown as a table when it's a DataFrame.</span>`
+        :`<span>Each file is ready as <code>files["orders.csv"]</code>, a list of row objects.</span><span>Use <code>console.log</code> to see values.</span>`}</div>`;
+  $("#main").innerHTML=`<div class="cpage tpage arpage pg">
+    <div class="pghd"><div><h1>Playground</h1><p>Your own data, your own code. Nothing here is graded or goes on your profile.</p></div>${pgSwitch("play")}</div>
+    <div class="arsplit"><div class="arleft pgleft">${left}</div>
+      <div class="pgright"><div class="aredh"><div class="arlangs">${[["sql","SQL"],["py","Python"],["js","JavaScript"]].map(([k,l])=>`<button class="${L===k?"on":""}" data-act="pglang" data-v="${k}">${l}</button>`).join("")}</div><button class="ulink" data-act="pgreset">Reset to example</button></div>
+        ${pgEditor("pgEd",P.code[L],L)}
+        <div class="arbtns"><span id="pgStat" class="hint">${L==="sql"?"SQLite. Every run starts fresh from your tables.":L==="py"?"Python 3 in your browser, with pandas and numpy.":"JavaScript in your browser."} Ctrl Enter runs.</span><button class="btn brand" data-act="pgrun">${AR_ICO.play} Run</button></div>
+        <div class="arout" id="pgOut">${S.ar.pgOut&&S.ar.pgOut.lang===L?S.ar.pgOut.html:""}</div></div></div>
+    <p class="axnote">Want it graded? Pick a ticket from the queue. Solves count toward your league and show up on your profile.</p></div>`;
+  pgPaint("pgEd");pgPaint("pgSet");if(L==="sql"&&S.ar.pgSchema)$("#pgSchema").innerHTML=S.ar.pgSchema}
+function pgStat(t){const s=$("#pgStat");if(s)s.textContent=t}
+function pgShow(L,html){S.ar.pgOut={lang:L,html};const o=$("#pgOut");if(o){o.innerHTML=html;o.scrollIntoView({block:"nearest",behavior:"smooth"})}}
+function pgLogs(logs){return logs&&logs.length?`<div class="arlogs"><h4>Output</h4><pre class="pglog">${esc(logs.join("\n"))}</pre></div>`:""}
+function pgErr(t,m){return arVerdict(false,t,esc(String(m||"Something went wrong.")))}
+async function pgRunSQL(P){const q=P.code.sql;let SQL;try{SQL=await arSqlLib()}catch(err){return pgErr("SQL couldn't load",err.message)}
+  const db=new SQL.Database();try{
+    let setErr=null;try{if(P.setup.trim())db.exec(P.setup)}catch(err){setErr=err.message}
+    let sch=[];try{const r=db.exec("SELECT name FROM sqlite_master WHERE type IN ('table','view') AND name NOT LIKE 'sqlite_%' ORDER BY name");sch=r.length?r[0].values.map(v=>v[0]):[]}catch(_){}
+    S.ar.pgSchema=`<b>Tables</b>${sch.length?sch.map(t=>{let c=[],n=0;try{c=db.exec(`PRAGMA table_info("${t.replace(/"/g,'""')}")`)[0].values.map(x=>x[1]);n=db.exec(`SELECT COUNT(*) FROM "${t.replace(/"/g,'""')}"`)[0].values[0][0]}catch(_){}
+      return `<div><code>${esc(t)}</code><span>${esc(c.join(", "))} · ${n.toLocaleString()} ${n===1?"row":"rows"}</span></div>`}).join(""):`<span class="hint">No tables yet.</span>`}`;
+    const sc=$("#pgSchema");if(sc)sc.innerHTML=S.ar.pgSchema;
+    if(setErr)return pgErr("Error in your tables and data",setErr);
+    if(!q.trim())return `<p class="hint">Write a query and press Run.</p>`;
+    const t0=performance.now();let r;try{r=db.exec(q)}catch(err){return pgErr("Error in your query",err.message)}const ms=performance.now()-t0;
+    if(!r.length){const ch=db.getRowsModified();return arVerdict(true,"Ran",`${ch} ${ch===1?"row":"rows"} changed. Add a SELECT to see rows.`)}
+    return r.map((x,i)=>`<div class="pgres"><div class="pgrh"><b>${r.length>1?"Result "+(i+1):"Result"}</b><span>${x.values.length.toLocaleString()} ${x.values.length===1?"row":"rows"}${i===r.length-1?` · ${ms.toFixed(1)} ms`:""}</span></div>${arTable(x.columns,x.values,200)}</div>`).join("")}
+  finally{try{db.close()}catch(_){}}}
+const PG_PY_WORKER=`importScripts("${PY_URL}pyodide.js");
+let py=null;const ready=loadPyodide({indexURL:"${PY_URL}"}).then(async p=>{py=p;await py.runPythonAsync(\`
+import json
+from pyodide.code import eval_code_async
+def __show(v):
+    try:
+        import sys
+        pd = sys.modules.get("pandas")
+        if pd is not None:
+            if isinstance(v, pd.Series):
+                v = v.to_frame()
+            if isinstance(v, pd.DataFrame):
+                d = v if isinstance(v.index, pd.RangeIndex) else v.reset_index()
+                h = d.head(200)
+                return json.dumps({"cols": [str(c) for c in h.columns], "rows": json.loads(h.to_json(orient="values", date_format="iso")), "n": len(d)})
+    except Exception:
+        pass
+    return json.dumps({"repr": repr(v)[:20000]}) if v is not None else "null"
+async def __run(src):
+    import io, contextlib, traceback
+    ns = {"__name__": "__main__"}
+    buf = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
+            v = await eval_code_async(src, ns, filename="<your code>")
+        return json.dumps({"show": __show(v), "out": buf.getvalue()[-50000:]})
+    except BaseException as ex:
+        tb = [f for f in traceback.extract_tb(ex.__traceback__) if f.filename == "<your code>"]
+        line = getattr(ex, "lineno", None) if isinstance(ex, SyntaxError) else (tb[-1].lineno if tb else None)
+        msg = ("SyntaxError: " + str(ex.msg)) if isinstance(ex, SyntaxError) else "".join(traceback.format_exception_only(type(ex), ex)).strip().splitlines()[-1]
+        return json.dumps({"err": (("Line " + str(line) + ": ") if line else "") + msg, "out": buf.getvalue()[-50000:]})
+\`);postMessage({ready:true})}).catch(err=>postMessage({ready:false,err:String(err)}));
+self.onmessage=async e=>{await ready;if(!py){postMessage({err:"Python could not load. Check your connection and try again."});return}
+  const{code,files}=e.data;const logs=[];py.setStdout({batched:s=>logs.length<500&&logs.push(s)});py.setStderr({batched:s=>logs.length<500&&logs.push(s)});
+  try{for(const n in files||{})py.FS.writeFile(n,files[n]);await py.loadPackagesFromImports(code);py.globals.set("__code",code);
+    const r=JSON.parse(await py.runPythonAsync("await __run(__code)"));const o=(r.out||"").replace(/\\n$/,"");if(o)logs.unshift(...o.split("\\n"));if(r.err)postMessage({err:r.err,logs});else postMessage({v:r.show,logs})}
+  catch(err){const m=String(err&&err.message||err).trim().split("\\n");const i=m.findIndex(l=>l.includes('File "<exec>"'));postMessage({err:(i>=0?m.slice(i):m.slice(-3)).join("\\n"),logs})}};`;
+let pgPy=null;
+function pgPyRun(code,files){return new Promise(res=>{if(!pgPy){const w=new Worker(URL.createObjectURL(new Blob([PG_PY_WORKER],{type:"text/javascript"})));pgPy={w,ready:new Promise(r=>{w.addEventListener("message",function f(e){if("ready" in e.data){w.removeEventListener("message",f);r(e.data.ready)}})})}}
+  const P=pgPy;P.ready.then(ok=>{if(!ok){pgPy=null;res({err:"Python could not load. Check your connection and try again."});return}
+    pgStat(/\b(pandas|numpy)\b/.test(code)?"Running. The first pandas import takes a few seconds.":"Running");
+    const to=setTimeout(()=>{P.w.terminate();pgPy=null;res({err:"Time limit exceeded (30 seconds). Check for an infinite loop."})},30000);
+    const f=e=>{if("ready" in e.data)return;clearTimeout(to);P.w.removeEventListener("message",f);res(e.data)};P.w.addEventListener("message",f);P.w.postMessage({code,files})})})}
+const PG_JS_WORKER=`self.onmessage=async e=>{const{code,files}=e.data;const logs=[];const fmt=a=>a.map(x=>typeof x==="string"?x:(()=>{try{return JSON.stringify(x,null,2)}catch(_){return String(x)}})()).join(" ");
+  self.console={log:(...a)=>logs.length<500&&logs.push(fmt(a)),error:(...a)=>logs.length<500&&logs.push(fmt(a)),warn:(...a)=>logs.length<500&&logs.push(fmt(a)),table:(...a)=>logs.length<500&&logs.push(fmt(a))};
+  try{await (new Function("files","return (async()=>{\\n"+code+"\\n})()"))(files);postMessage({logs})}catch(err){postMessage({err:String(err&&err.message||err),logs})}};`;
+function pgJsRun(code,files){return new Promise(res=>{const w=new Worker(URL.createObjectURL(new Blob([PG_JS_WORKER],{type:"text/javascript"})));
+  const to=setTimeout(()=>{w.terminate();res({err:"Time limit exceeded (10 seconds). Check for an infinite loop."})},10000);
+  w.onmessage=e=>{clearTimeout(to);w.terminate();res(e.data)};w.onerror=e=>{clearTimeout(to);w.terminate();res({err:e.message||"Your code crashed."})};w.postMessage({code,files})})}
+function pgCSVrows(t){const rows=[];let row=[],f="",q=false;for(let i=0;i<t.length;i++){const c=t[i];if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}else if(c==='"')q=true;else if(c===","){row.push(f);f=""}else if(c==="\n"||c==="\r"){if(c==="\r"&&t[i+1]==="\n")i++;row.push(f);f="";if(row.length>1||row[0]!=="")rows.push(row);row=[]}else f+=c}if(f!==""||row.length){row.push(f);rows.push(row)}return rows}
+function pgIdent(s,i){let x=String(s||"").trim().toLowerCase().replace(/[^a-z0-9_]+/g,"_").replace(/^_+|_+$/g,"");if(!x)x="col"+(i+1);if(/^\d/.test(x))x="c_"+x;return x}
+function pgCSVsql(name,text){const rows=pgCSVrows(text.replace(/^﻿/,""));if(!rows.length)return null;const head=rows[0].map(pgIdent),seen={};head.forEach((h,i)=>{if(seen[h])head[i]=h+"_"+(++seen[h]);else seen[h]=1});
+  const body=rows.slice(1).filter(r=>r.some(v=>v!==""));const ty=head.map((_,c)=>{const v=body.map(r=>r[c]).filter(x=>x!==""&&x!=null);if(!v.length)return"TEXT";if(v.every(x=>/^-?\d+$/.test(x)))return"INTEGER";if(v.every(x=>/^-?\d*\.?\d+(e[+-]?\d+)?$/i.test(x)))return"REAL";return"TEXT"});
+  const lit=(v,t)=>v===""||v==null?"NULL":t==="TEXT"?"'"+String(v).replace(/'/g,"''")+"'":v;
+  let s=`DROP TABLE IF EXISTS ${name};\nCREATE TABLE ${name} (\n${head.map((h,i)=>"  "+h+" "+ty[i]).join(",\n")}\n);\n`;
+  for(let i=0;i<body.length;i+=200)s+=`INSERT INTO ${name} VALUES\n${body.slice(i,i+200).map(r=>"  ("+head.map((_,c)=>lit(r[c],ty[c])).join(", ")+")").join(",\n")};\n`;
+  return{sql:s,n:body.length}}
+function pgJsFiles(P){const o={};for(const n in P.files){const r=pgCSVrows(P.files[n].replace(/^﻿/,""));const h=(r[0]||[]).map(x=>x.trim());o[n]=r.slice(1).map(v=>Object.fromEntries(h.map((k,i)=>{const x=v[i];return[k,x!==""&&x!=null&&!isNaN(x)?+x:x]})))}return o}
+async function pgRun(){const P=pgState(),L=P.lang,ed=$("#pgEd");if(ed)P.code[L]=ed.value;const se=$("#pgSet");if(se)P.setup=se.value;pgSave();
+  const b=document.querySelector('[data-act="pgrun"]');if(b)b.disabled=true;pgStat("Running");let html;
+  try{if(L==="sql")html=await pgRunSQL(P);
+    else{if(L==="py"&&!pgPy)pgStat("Loading Python. This takes a few seconds the first time.");
+      const r=L==="py"?await pgPyRun(P.code.py,P.files):await pgJsRun(P.code.js,pgJsFiles(P));
+      if(r.err)html=pgErr("Error",r.err)+pgLogs(r.logs);
+      else{let v=null;try{v=r.v?JSON.parse(r.v):null}catch(_){}
+        html=pgLogs(r.logs)+(v&&v.cols?`<div class="pgres"><div class="pgrh"><b>Result</b><span>${v.n.toLocaleString()} ${v.n===1?"row":"rows"}${v.n>200?", showing 200":""}</span></div>${arTable(v.cols,v.rows,200)}</div>`:v&&v.repr!=null?`<div class="arlogs"><h4>Last value</h4><pre class="pglog">${esc(v.repr)}</pre></div>`:"");
+        if(!html)html=arVerdict(true,"Ran",L==="js"?"Nothing printed. Use console.log to see values.":"Nothing printed. Use print() or end with a value to see it.")}}}
+  catch(err){html=pgErr("Error",err&&err.message)}
+  if(b)b.disabled=false;pgStat("Done. Ctrl Enter runs again.");pgShow(L,html)}
+document.addEventListener("input",e=>{const t=e.target;if(!t||!t.classList||!t.classList.contains("pged"))return;pgPaint(t.id);const P=S.ar.pg;if(!P)return;if(t.id==="pgSet")P.setup=t.value;else P.code[P.lang]=t.value;pgSave()});
+document.addEventListener("scroll",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("pged"))pgPaint(t.id)},true);
+document.addEventListener("keydown",e=>{const ed=e.target;if(!ed||!ed.classList||!ed.classList.contains("pged"))return;
+  if((e.metaKey||e.ctrlKey)&&e.key==="Enter"){e.preventDefault();pgRun();return}
+  if(e.key==="Tab"&&!e.shiftKey){e.preventDefault();ed.setRangeText(ed.dataset.lang==="py"?"    ":"  ",ed.selectionStart,ed.selectionEnd,"end");ed.dispatchEvent(new Event("input",{bubbles:true}));return}
+  if(e.key==="Enter"&&!e.shiftKey&&!e.altKey){const v=ed.value,s=ed.selectionStart,ls=v.lastIndexOf("\n",s-1)+1,ind=(v.slice(ls,s).match(/^[ \t]*/)||[""])[0]+(ed.dataset.lang==="py"&&/:\s*$/.test(v.slice(ls,s))?"    ":"");
+    if(ind){e.preventDefault();ed.setRangeText("\n"+ind,s,ed.selectionEnd,"end");ed.dispatchEvent(new Event("input",{bubbles:true}))}}});
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act^=pg]");if(!el)return;const a=el.dataset.act,A=S.ar;
+  if(a==="pgview"){A.view=el.dataset.v;A.open=null;renderArena();window.scrollTo(0,0);return}
+  const P=pgState();
+  if(a==="pglang"){const ed=$("#pgEd");if(ed)P.code[P.lang]=ed.value;P.lang=el.dataset.v;pgSave();renderPlay();if(P.lang==="py"&&!pgPy)pgPyRun("pass",{}).then(()=>pgStat("Python is ready. Ctrl Enter runs."));return}
+  if(a==="pgrun"){pgRun();return}
+  if(a==="pgreset"){P.code[P.lang]=P.lang==="sql"?PG_EX.sql.code:PG_EX[P.lang];pgSave();renderPlay();return}
+  if(a==="pgsetreset"){P.setup=PG_EX.sql.setup;pgSave();renderPlay();return}
+  if(a==="pgrm"){delete P.files[el.dataset.n];pgSave();renderPlay();return}
+  if(a==="pgcsv"){const inp=document.createElement("input");inp.type="file";inp.accept=".csv,text/csv";inp.multiple=true;
+    inp.onchange=async()=>{let last=null;for(const f of inp.files){if(f.size>5e6){toast(f.name+" is over 5 MB");continue}const text=await f.text(),base=pgIdent(f.name.replace(/\.csv$/i,""),0)||"data";
+      if(P.lang==="sql"){const r=pgCSVsql(base,text);if(!r)continue;const se=$("#pgSet");if(se)P.setup=se.value;P.setup=(P.setup.trim()?P.setup.replace(/\s*$/,"\n\n"):"")+r.sql;last=`SELECT * FROM ${base} LIMIT 20;`;toast(`Imported ${r.n.toLocaleString()} rows into ${base}`)}
+      else{const n=base+".csv";P.files[n]=text;last=P.lang==="py"?`import pandas as pd\n\ndf = pd.read_csv("${n}")\ndf.head(20)`:`const rows = files["${n}"];\nconsole.log(rows.length, "rows");\nconsole.log(rows.slice(0, 5));`;toast(`Added ${n}`)}}
+      if(last){const cur=(P.code[P.lang]||"").trim();if(!cur||cur===(P.lang==="sql"?PG_EX.sql.code:PG_EX[P.lang]).trim())P.code[P.lang]=last;pgSave();renderPlay();pgRun()}};inp.click()}});
+
+function renderArena(){const A=S.ar;if(A.open){clearInterval(A.cd);renderArProblem();return}clearInterval(A.timer);if(A.view==="play"){clearInterval(A.cd);renderPlay();return}
   if(!A.stats&&!A.err){arLoad();$("#main").innerHTML=`<div class="cpage tpage arpage aq"><div class="aqhd"><h1>Arena</h1><p>Loading your tickets</p></div></div>`;return}
   if(A.track===undefined)A.track=arDefTrack();if(A.type===undefined)A.type="";
   const st0=A.stats||{solved:0,easy:0,medium:0,hard:0,total:AR_ALL.length,bank:{},topics:[],mine:{}},mine=st0.mine||{};
@@ -3648,6 +3863,7 @@ function renderArena(){const A=S.ar;if(A.open){clearInterval(A.cd);renderArProbl
     return `<div class="aqd ${isT?"td":n?"dn":"ms"}"><span>${isT?"Today":d.toLocaleDateString(undefined,{weekday:"short"})}</span><b>${d.getDate()}</b><em>${n?AR_ICO.check+n+" solved":isT?(ddone?"Done":"Open"):"Rest"}</em></div>`}).join("");
   const row=p=>{const m=mine[p.id],done=m&&m.passed;return `<button class="aqt ${A.sel===p.id?"sel":""} ${done?"done":""}" data-act="arsel" data-p="${p.id}"><code>${arTid(p)}</code><b>${esc(p.title)}</b><small>${arTaskLabel(p)} · ${p.mins} min${p.ai?" · AI allowed":""}</small><span class="ardf ${arDiffCls(p.diff)}">${p.diff}</span>${done?`<i class="aqck">${AR_ICO.check}</i>`:m?`<i class="aqip"></i>`:""}</button>`};
   $("#main").innerHTML=`<div class="cpage tpage arpage aq">
+    <div class="pgtopsw">${pgSwitch("queue")}</div>
     <div class="aqtop">
       ${dl?`<div class="aqday"><div class="aqglow"></div><span class="aqk">Ticket of the day · ${esc(TRACK[dl.track]||dl.track)}</span><h1>${esc(dl.title)}</h1><p>${esc(arPlain(dl.prompt).slice(0,170))}${arPlain(dl.prompt).length>170?"…":""}</p>
         <div class="aqchips"><span><code>${arTid(dl)}</code></span><span>${arTaskLabel(dl)}</span><span>${dl.mins} min</span><span>${dl.diff}</span>${dl.ai?`<span>AI allowed</span>`:""}</div>
