@@ -1834,6 +1834,61 @@ input,select,textarea{border-radius:14px}
 .jb.guest .jbr .p{visibility:hidden}
 .jb.guest .jbfit,.jb.guest .jbstb,.jb.guest #jbSort option[value="match"],.jb.guest [data-act="jbhere"]{display:none}
 </style>
+<style id="pgcss">
+.pgtopsw{display:flex;justify-content:flex-end;margin:0 0 14px}
+.pghd{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:8px 0 20px}
+.pghd h1{font-size:40px;font-weight:700;letter-spacing:-.04em;margin:0;line-height:1.05}
+.pghd p{margin:6px 0 0;color:var(--muted)}
+.pgsw{width:auto}
+.pg .arsplit{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+.pgleft{display:flex;flex-direction:column;gap:12px}
+.pgbh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pgbh b{font-size:15px;font-weight:600}.pgbh span{display:flex;gap:14px}
+.pged{flex:1;min-width:0;height:460px;resize:vertical;border:0;outline:0;background:transparent;color:#E8E9EE;caret-color:#9DB0FF;padding:16px 16px 16px 14px;font:13.5px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace;tab-size:4;white-space:pre;overflow:auto;position:relative;z-index:1;width:100%;color:transparent;-webkit-text-fill-color:transparent}
+.pged::selection{background:rgba(110,130,255,.35);-webkit-text-fill-color:transparent}
+.pgset .pged{height:300px}.pgset .argut{max-height:300px}
+.pg .arschema{margin-top:0}
+.pg .arschema div{display:flex;flex-direction:column;gap:1px}
+.pg .arschema div span{font-size:12.5px;color:var(--muted)}
+.pgtip span{font-size:13.5px;color:var(--ink2)}
+.pgtip code,.pgnone code{font-size:12.5px}
+.pgfiles{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.pgfiles div{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}
+.pgfiles div:first-child{border-top:0}
+.pgfiles span{color:var(--muted);font-size:13px;margin-left:auto}
+.pgnone{margin:0;padding:16px;border:1px dashed var(--line);border-radius:14px}
+.pgres{display:flex;flex-direction:column;gap:8px}
+.pgrh{display:flex;align-items:baseline;gap:10px}.pgrh b{font-size:14px;font-weight:600}.pgrh span{font-size:12.5px;color:var(--muted)}
+.pg .artbl{max-height:420px}
+.pglog{margin:0;padding:12px 14px;border-radius:12px;background:#15161A;color:#E8E9EE;font:13px/1.6 ui-monospace,"SF Mono",Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:360px;overflow:auto}
+@media (max-width:900px){.pg .arsplit{grid-template-columns:1fr}.pg .arleft{position:static;max-height:none}.pghd h1{font-size:30px}.pged{height:320px}.pgset .pged{height:220px}.pgtopsw{justify-content:flex-start}}
+.pgdsl{display:flex;flex-direction:column;gap:6px}.pgdsl span{font-size:13px;font-weight:600;color:var(--muted)}
+.pgdsl select{appearance:none;border:1px solid var(--line);background:var(--bg) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>") right 12px center/14px no-repeat;border-radius:12px;padding:11px 36px 11px 14px;font:inherit;font-weight:500;color:var(--ink)}
+.pgdcard{border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.pgdcard>p{margin:0;font-size:14px;color:var(--ink2)}
+.pgtabs{display:flex;flex-direction:column;gap:6px}
+.pgtab{display:flex;flex-direction:column;gap:3px;text-align:left;border:1px solid var(--line);border-radius:12px;padding:9px 12px;background:var(--surface)}
+.pgtab:hover{border-color:var(--accent)}
+.pgtab span{display:flex;align-items:center;justify-content:space-between;gap:8px}.pgtab em{font-style:normal;font-size:12px;color:var(--muted)}
+.pgtab small{font:11.5px/1.5 ui-monospace,"SF Mono",Menlo,monospace;color:var(--ink2)}.pgtab small i{font-style:normal;color:var(--muted)}
+.pgfh{margin:0;font-size:12.5px}
+.pgprobs{display:flex;flex-direction:column;gap:4px}
+.pgp{display:grid;grid-template-columns:26px minmax(0,1fr) auto;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:12px;border:1px solid transparent}
+.pgp:hover{background:var(--surface)}
+.pgp.on{border-color:color-mix(in srgb,var(--accent) 35%,var(--line));background:color-mix(in srgb,var(--accent) 6%,var(--bg))}
+.pgp .n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;background:var(--surface);color:var(--muted)}
+.pgp.done .n{background:color-mix(in srgb,var(--good) 15%,transparent);color:var(--good)}.pgp .n svg{width:13px;height:13px}
+.pgp b{font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pgright{min-width:0;display:flex;flex-direction:column}
+.pgq{border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:14px;background:var(--bg)}
+.pgqh{display:flex;align-items:center;gap:10px}.pgqh b{font-size:16px;font-weight:600;letter-spacing:-.02em}.pgqh .ulink{margin-left:auto}
+.pgq p{margin:8px 0 0;color:var(--ink2);line-height:1.55}
+.pgqa{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap}
+.pgreveal{margin-top:10px}div.pgreveal{padding:10px 12px;border-radius:10px;background:var(--surface);font-size:14px;color:var(--ink2)}
+.pgqx b{font-size:15px}
+.pgtips{margin:8px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink2);display:flex;flex-direction:column;gap:4px}
+@media (max-width:900px){.pgp b{white-space:normal}}
+</style>
 </head>
 <body>
 <header class="top" id="top"></header>
@@ -3631,7 +3686,426 @@ function arPane(p,m){if(!p)return `<div class="aqpane empty"><p class="hint">Pic
     <div class="aqmsg">${arMd(txt.length>520?txt.slice(0,520)+"…":txt)}</div>
     <div class="aqmeta"><div><span>Time box</span><b>${p.mins} min</b></div><div><span>Level</span><b>${p.diff}</b></div><div><span>Type</span><b>${arTaskLabel(p)}</b></div><div><span>${p.ai?"AI":"Status"}</span><b>${p.ai?"Allowed":done?"Solved":m?"In progress":"Open"}</b></div></div>
     <div class="aqcta"><button class="aqgo" data-act="aropen" data-p="${p.id}">${AR_ICO.play}${done?"Open again":m?"Continue":"Pick up ticket"}</button>${done?`<span class="aqok">${AR_ICO.check}Solved${t?" in "+arMins(m.secs):""}</span>`:`<small>Clock starts when you press start.</small>`}</div></div>`}
-function renderArena(){const A=S.ar;if(A.open){clearInterval(A.cd);renderArProblem();return}clearInterval(A.timer);
+/* ---------- Arena playground: ready datasets with checked practice problems, or your own data, in SQL, Python and JavaScript ---------- */
+const PG_EX={sql:{setup:`CREATE TABLE customers (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  city TEXT
+);
+INSERT INTO customers VALUES
+  (1, 'Ana Lopez', 'Austin'),
+  (2, 'Ben Carter', 'New York'),
+  (3, 'Chen Wei', 'Austin'),
+  (4, 'Dana Kim', 'Seattle');
+
+CREATE TABLE orders (
+  id INTEGER PRIMARY KEY,
+  customer_id INTEGER,
+  amount REAL,
+  status TEXT
+);
+INSERT INTO orders VALUES
+  (101, 1, 42.50, 'paid'),
+  (102, 1, 18.00, 'paid'),
+  (103, 2, 120.00, 'refunded'),
+  (104, 3, 64.25, 'paid'),
+  (105, 3, 15.75, 'paid'),
+  (106, 4, 33.10, 'paid');`,code:`-- Revenue per city from paid orders
+SELECT c.city,
+       COUNT(o.id)             AS orders,
+       ROUND(SUM(o.amount), 2) AS revenue
+FROM customers c
+JOIN orders o ON o.customer_id = c.id
+WHERE o.status = 'paid'
+GROUP BY c.city
+ORDER BY revenue DESC;`},
+py:`import pandas as pd
+
+orders = pd.DataFrame({
+    "city":   ["Austin", "New York", "Austin", "Seattle", "Austin"],
+    "amount": [42.50, 120.00, 64.25, 33.10, 15.75],
+})
+
+print("Orders:", len(orders))
+
+# The last line is shown as a table
+orders.groupby("city", as_index=False)["amount"].sum().sort_values("amount", ascending=False)`,
+js:`const orders = [
+  { city: "Austin", amount: 42.5 },
+  { city: "New York", amount: 120 },
+  { city: "Austin", amount: 64.25 },
+  { city: "Seattle", amount: 33.1 },
+];
+
+const byCity = {};
+for (const o of orders) byCity[o.city] = (byCity[o.city] || 0) + o.amount;
+
+console.log(byCity);`};
+/* ---------- Playground datasets: built in the browser from a fixed seed, so everyone gets the same rows ---------- */
+function pgRng(seed){let a=seed>>>0;return()=>{a=a+0x6D2B79F5>>>0;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+function pgTools(seed){const r=pgRng(seed);const T={r,int:(a,b)=>a+Math.floor(r()*(b-a+1)),pick:a=>a[Math.floor(r()*a.length)],
+  wpick:(a,w)=>{let s=w.reduce((x,y)=>x+y,0),x=r()*s;for(let i=0;i<a.length;i++){x-=w[i];if(x<0)return a[i]}return a[a.length-1]},
+  money:(a,b)=>Math.round((a+r()*(b-a))*100)/100,day:(start,off)=>{const d=new Date(start+"T00:00:00Z");d.setUTCDate(d.getUTCDate()+off);return d.toISOString().slice(0,10)}};return T}
+const PG_FIRST=["Ana","Ben","Chen","Dana","Eli","Fatima","Gabe","Hana","Ivan","Jade","Kofi","Lena","Marco","Nia","Omar","Priya","Quinn","Rosa","Sam","Tara","Uma","Victor","Wen","Xavi","Yara","Zane","Ava","Leo","Maya","Noah","Iris","Ravi","Sofia","Tom","Aisha","Diego","Elena","Felix","Grace","Hugo"];
+const PG_LAST=["Lopez","Carter","Wei","Kim","Brooks","Khan","Silva","Sato","Petrov","Nguyen","Mensah","Fischer","Rossi","Okafor","Haddad","Shah","Murphy","Garcia","Cohen","Patel","Reyes","Novak","Li","Torres","Ali","Morgan","Bell","Park","Singh","Diaz"];
+const pgName=T=>T.pick(PG_FIRST)+" "+T.pick(PG_LAST);
+const PG_DS=[
+{id:"shelter",name:"Animal shelter",size:"Tiny",blurb:"10 pets waiting for homes. A good first dataset for SELECT, WHERE and GROUP BY.",
+ build(){return{pets:{cols:["id","name","species","breed","age","weight_kg","adopted","intake_date"],rows:[
+  [1,"Biscuit","dog","Beagle",3,11.2,1,"2025-11-02"],[2,"Luna","cat","Siamese",2,4.1,0,"2026-01-15"],[3,"Max","dog","Labrador",7,30.5,0,"2025-08-20"],
+  [4,"Pepper","cat","Tabby",5,5.3,1,"2026-02-03"],[5,"Rocky","dog","Boxer",4,27.0,1,"2026-03-11"],[6,"Mochi","rabbit","Lionhead",1,1.6,0,"2026-04-01"],
+  [7,"Daisy","dog","Poodle",9,8.4,0,"2025-12-24"],[8,"Shadow","cat","Bombay",7,4.8,0,"2026-05-19"],[9,"Hazel","rabbit","Rex",2,2.9,1,"2026-02-28"],[10,"Bruno","dog","Beagle",1,9.7,0,"2026-06-07"]]}}},
+ probs:[
+  {t:"Every dog, oldest first",d:"Easy",q:"List the name and age of every dog, oldest first. Break ties by name.",o:1,hint:"Filter with WHERE species = 'dog', then ORDER BY age DESC, name.",sql:"SELECT name, age FROM pets WHERE species = 'dog' ORDER BY age DESC, name"},
+  {t:"Pets per species",d:"Easy",q:"How many pets are there of each species? Return species and count.",hint:"GROUP BY species and COUNT(*).",sql:"SELECT species, COUNT(*) FROM pets GROUP BY species"},
+  {t:"Still waiting",d:"Easy",q:"Which pets have not been adopted yet? Return name and species.",hint:"adopted is 1 or 0.",sql:"SELECT name, species FROM pets WHERE adopted = 0"},
+  {t:"Average weight",d:"Easy",q:"What is the average weight per species, rounded to 2 decimals? Return species and the average.",hint:"ROUND(AVG(weight_kg), 2) with GROUP BY.",sql:"SELECT species, ROUND(AVG(weight_kg), 2) FROM pets GROUP BY species"},
+  {t:"Adopted in 2026",d:"Medium",q:"Name every pet that arrived in 2026 and has already been adopted.",hint:"intake_date is text like 2026-02-03, so compare it to '2026-01-01'.",sql:"SELECT name FROM pets WHERE intake_date >= '2026-01-01' AND adopted = 1"},
+  {t:"Heaviest of each kind",d:"Medium",q:"For each species, return the species, name and weight of its heaviest pet.",hint:"Find the max weight per species, then join back, or use ROW_NUMBER().",sql:"SELECT species, name, weight_kg FROM pets p WHERE weight_kg = (SELECT MAX(weight_kg) FROM pets q WHERE q.species = p.species)"}]},
+{id:"cafe",name:"Neighborhood cafe",size:"Small",blurb:"A week of orders at a small cafe, with a menu table. Practice joins and revenue math.",
+ build(){const T=pgTools(11);const menu=[["Espresso","coffee",3.25],["Latte","coffee",4.75],["Cappuccino","coffee",4.5],["Cold brew","coffee",4.95],["Green tea","tea",3.5],["Chai latte","tea",4.85],
+  ["Croissant","bakery",3.95],["Blueberry muffin","bakery",3.6],["Banana bread","bakery",4.1],["Avocado toast","food",9.5],["Breakfast burrito","food",10.25],["Oat cookie","bakery",2.75]];
+  const sold=menu.slice(0,11).map(m=>m[0]);const orders=[];for(let i=1;i<=48;i++){const it=T.wpick(sold,[9,14,8,6,4,5,7,5,3,3,3]);orders.push([i,it,T.wpick([1,2,3],[7,2,1]),T.day("2026-11-02",T.int(0,6)),T.wpick([7,8,9,10,11,12,13,14,15,16],[6,10,9,6,4,5,4,3,2,2])])}
+  return{menu:{cols:["item","category","price"],rows:menu},orders:{cols:["id","item","qty","order_date","hour"],rows:orders}}},
+ probs:[
+  {t:"Revenue by category",d:"Easy",q:"Total revenue per menu category (qty × price), highest first. Return category and revenue rounded to 2 decimals.",o:1,hint:"Join orders to menu on item, then SUM(qty * price).",sql:"SELECT m.category, ROUND(SUM(o.qty * m.price), 2) AS revenue FROM orders o JOIN menu m ON m.item = o.item GROUP BY m.category ORDER BY revenue DESC"},
+  {t:"Top 3 sellers",d:"Easy",q:"The 3 items with the most units sold. Return item and total quantity, most first, ties broken by item name.",o:1,hint:"SUM(qty) per item, ORDER BY total DESC, item, LIMIT 3.",sql:"SELECT item, SUM(qty) AS units FROM orders GROUP BY item ORDER BY units DESC, item LIMIT 3"},
+  {t:"Never ordered",d:"Easy",q:"Which menu items were never ordered this week? Return the item.",hint:"LEFT JOIN menu to orders and keep rows where the order is NULL, or use NOT IN.",sql:"SELECT item FROM menu WHERE item NOT IN (SELECT item FROM orders)"},
+  {t:"Busiest hour",d:"Medium",q:"Which hour had the most orders? Return the hour and the number of orders. If there's a tie, pick the earlier hour.",o:1,hint:"COUNT(*) per hour, ORDER BY count DESC, hour, LIMIT 1.",sql:"SELECT hour, COUNT(*) AS n FROM orders GROUP BY hour ORDER BY n DESC, hour LIMIT 1"},
+  {t:"Revenue each day",d:"Medium",q:"Revenue for each day, in date order. Return order_date and revenue rounded to 2 decimals.",o:1,hint:"Join to menu for the price and GROUP BY order_date.",sql:"SELECT o.order_date, ROUND(SUM(o.qty * m.price), 2) FROM orders o JOIN menu m ON m.item = o.item GROUP BY o.order_date ORDER BY o.order_date"},
+  {t:"Average order value",d:"Medium",q:"What is the average value of one order (qty × price), rounded to 2 decimals? Return a single number.",hint:"Each row in orders is one order. AVG(qty * price).",sql:"SELECT ROUND(AVG(o.qty * m.price), 2) FROM orders o JOIN menu m ON m.item = o.item"}]},
+{id:"company",name:"Company org chart",size:"Small",blurb:"40 employees across 5 departments, with managers and salaries. Practice self joins and window functions.",
+ build(){const T=pgTools(23);const depts=[[1,"Product","Austin"],[2,"Engineering","Austin"],[3,"Sales","New York"],[4,"Marketing","New York"],[5,"Finance","Chicago"]];
+  const titles={1:["Product Manager","Senior PM","APM"],2:["Engineer","Senior Engineer","Staff Engineer"],3:["Account Executive","SDR","Sales Manager"],4:["Marketing Manager","Content Lead","Growth Analyst"],5:["Analyst","Controller","Accountant"]};
+  const base={1:150000,2:165000,3:105000,4:110000,5:115000};const emp=[];let id=1;const heads={};
+  for(const [d] of depts){heads[d]=id;emp.push([id,pgName(T),d,"Head of "+depts[d-1][1],base[d]+22000,T.day("2019-01-07",T.int(0,900)),null]);id++}
+  const counts={1:6,2:12,3:9,4:5,5:3};for(const d of [1,2,3,4,5])for(let k=0;k<counts[d];k++){emp.push([id,pgName(T),d,T.pick(titles[d]),Math.round((base[d]*(0.7+T.r()*0.75))/1000)*1000,T.day("2020-02-03",T.int(0,2200)),heads[d]]);id++}
+  return{departments:{cols:["id","name","location"],rows:depts},employees:{cols:["id","name","dept_id","title","salary","hire_date","manager_id"],rows:emp}}},
+ probs:[
+  {t:"Headcount",d:"Easy",q:"Headcount per department name, biggest first, ties by name. Return department name and headcount.",o:1,hint:"Join employees to departments and COUNT(*).",sql:"SELECT d.name, COUNT(*) AS n FROM employees e JOIN departments d ON d.id = e.dept_id GROUP BY d.name ORDER BY n DESC, d.name"},
+  {t:"Recent hires",d:"Easy",q:"Everyone hired on or after 2024-01-01. Return name and hire_date, earliest first, ties by name.",o:1,hint:"hire_date is text, so compare to '2024-01-01'.",sql:"SELECT name, hire_date FROM employees WHERE hire_date >= '2024-01-01' ORDER BY hire_date, name"},
+  {t:"Top earner per department",d:"Medium",q:"The highest paid person in each department. Return department name, employee name and salary.",hint:"ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC), keep rank 1.",sql:"SELECT dn, name, salary FROM (SELECT d.name AS dn, e.name, e.salary, ROW_NUMBER() OVER (PARTITION BY e.dept_id ORDER BY e.salary DESC, e.name) AS rk FROM employees e JOIN departments d ON d.id = e.dept_id) WHERE rk = 1"},
+  {t:"Paid more than the boss",d:"Medium",q:"Which employees earn more than their manager? Return their name.",hint:"Join employees to itself: e.manager_id = m.id.",sql:"SELECT e.name FROM employees e JOIN employees m ON m.id = e.manager_id WHERE e.salary > m.salary"},
+  {t:"Big department pay",d:"Medium",q:"Average salary for departments with more than 5 people, rounded to 2 decimals. Return department name and the average.",hint:"GROUP BY then HAVING COUNT(*) > 5.",sql:"SELECT d.name, ROUND(AVG(e.salary), 2) FROM employees e JOIN departments d ON d.id = e.dept_id GROUP BY d.name HAVING COUNT(*) > 5"},
+  {t:"Second highest salary",d:"Hard",q:"What is the second highest distinct salary in the company? Return one number.",hint:"Sort DISTINCT salaries descending and skip the first, or take MAX below the MAX.",sql:"SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary) FROM employees)"}]},
+{id:"school",name:"School report cards",size:"Small",blurb:"60 students and their scores in 4 subjects. Practice averages, ranking and comparing a row to its group.",
+ build(){const T=pgTools(37);const st=[],sc=[];const subj=["math","science","english","history"];
+  for(let i=1;i<=60;i++){st.push([i,pgName(T),T.wpick([9,10,11,12],[1,1,1,1])]);const skill=T.int(45,90);for(const s of subj)sc.push([i,s,Math.max(20,Math.min(100,skill+T.int(-22,20)+(s==="math"?T.int(-6,6):0)))])}
+  return{students:{cols:["id","name","grade_level"],rows:st},scores:{cols:["student_id","subject","score"],rows:sc}}},
+ probs:[
+  {t:"Students per grade",d:"Easy",q:"How many students are in each grade level? Return grade_level and the count, in grade order.",o:1,hint:"GROUP BY grade_level ORDER BY grade_level.",sql:"SELECT grade_level, COUNT(*) FROM students GROUP BY grade_level ORDER BY grade_level"},
+  {t:"Subject averages",d:"Easy",q:"Average score per subject, highest first, rounded to 2 decimals. Return subject and the average.",o:1,hint:"ROUND(AVG(score), 2) per subject.",sql:"SELECT subject, ROUND(AVG(score), 2) AS a FROM scores GROUP BY subject ORDER BY a DESC"},
+  {t:"Needs support",d:"Easy",q:"Students who scored below 50 in at least one subject. Return each name once.",hint:"Join scores to students, filter score < 50, use DISTINCT.",sql:"SELECT DISTINCT s.name FROM students s JOIN scores c ON c.student_id = s.id WHERE c.score < 50"},
+  {t:"Top 5 overall",d:"Medium",q:"The 5 students with the highest average score across all subjects. Return name and average rounded to 2 decimals, best first, ties by name.",o:1,hint:"GROUP BY student, ORDER BY the average DESC, then name, LIMIT 5.",sql:"SELECT s.name, ROUND(AVG(c.score), 2) AS a FROM students s JOIN scores c ON c.student_id = s.id GROUP BY s.id ORDER BY AVG(c.score) DESC, s.name LIMIT 5"},
+  {t:"Best in each subject",d:"Medium",q:"The top scorer in each subject. If two students tie, pick the one whose name comes first. Return subject, name and score.",hint:"ROW_NUMBER() OVER (PARTITION BY subject ORDER BY score DESC, name).",sql:"SELECT subject, name, score FROM (SELECT c.subject, s.name, c.score, ROW_NUMBER() OVER (PARTITION BY c.subject ORDER BY c.score DESC, s.name) AS rk FROM scores c JOIN students s ON s.id = c.student_id) WHERE rk = 1"},
+  {t:"Math above their own average",d:"Hard",q:"Students whose math score is higher than their own average across all 4 subjects. Return name.",hint:"Compute each student's average in a subquery, then compare it to their math row.",sql:"SELECT s.name FROM students s JOIN scores m ON m.student_id = s.id AND m.subject = 'math' WHERE m.score > (SELECT AVG(score) FROM scores x WHERE x.student_id = s.id)"}]},
+{id:"movies",name:"Movie catalog",size:"Medium",blurb:"150 movies with genre, year, rating and box office. Practice GROUP BY, HAVING and top N per group.",
+ build(){const T=pgTools(41);const g=["Drama","Comedy","Action","Horror","Sci-Fi","Animation","Thriller","Romance"];const w1=["The","Last","Silent","Midnight","Golden","Broken","Hidden","Electric","Lost","Wild","Paper","Iron","Velvet","Crimson","Northern"];
+  const w2=["River","Signal","Garden","Empire","Code","Harbor","Promise","Station","Kingdom","Echo","Frontier","Machine","Letter","Storm","Orbit","Summer","Mirror","Heist"];const seen=new Set(),rows=[];
+  for(let i=1;i<=150;i++){let t;do{t=T.pick(w1)+" "+T.pick(w2)}while(seen.has(t));seen.add(t);const ge=T.pick(g),y=T.int(1985,2026);
+   rows.push([i,t,y,ge,Math.round((5+T.r()*4.4+(ge==="Animation"?0.3:0)-(ge==="Horror"?0.4:0))*10)/10,Math.round(T.r()**2*(ge==="Action"||ge==="Animation"?900:400)*10)/10])}
+  return{movies:{cols:["id","title","year","genre","rating","box_office_m"],rows}}},
+ probs:[
+  {t:"Movies per genre",d:"Easy",q:"How many movies are in each genre? Most first, ties by genre. Return genre and count.",o:1,hint:"GROUP BY genre ORDER BY count DESC, genre.",sql:"SELECT genre, COUNT(*) AS n FROM movies GROUP BY genre ORDER BY n DESC, genre"},
+  {t:"Box office top 10",d:"Easy",q:"The 10 highest grossing movies. Return title and box_office_m, highest first, ties by title.",o:1,hint:"ORDER BY box_office_m DESC, title LIMIT 10.",sql:"SELECT title, box_office_m FROM movies ORDER BY box_office_m DESC, title LIMIT 10"},
+  {t:"Ratings by decade",d:"Medium",q:"Average rating by decade (1980, 1990, ...), rounded to 2 decimals, in decade order. Return decade and the average.",o:1,hint:"The decade is (year / 10) * 10 with integer division.",sql:"SELECT (year / 10) * 10 AS decade, ROUND(AVG(rating), 2) FROM movies GROUP BY decade ORDER BY decade"},
+  {t:"Well rated genres",d:"Medium",q:"Genres whose average rating is above 7. Return genre and the average rounded to 2 decimals.",hint:"Use HAVING AVG(rating) > 7.",sql:"SELECT genre, ROUND(AVG(rating), 2) FROM movies GROUP BY genre HAVING AVG(rating) > 7"},
+  {t:"Best of each year",d:"Hard",q:"For every year from 2015 on, the highest rated movie. Ties go to the title that comes first. Return year, title and rating, in year order.",o:1,hint:"ROW_NUMBER() OVER (PARTITION BY year ORDER BY rating DESC, title).",sql:"SELECT year, title, rating FROM (SELECT year, title, rating, ROW_NUMBER() OVER (PARTITION BY year ORDER BY rating DESC, title) AS rk FROM movies WHERE year >= 2015) WHERE rk = 1 ORDER BY year"},
+  {t:"Share rated 8+",d:"Medium",q:"What percent of all movies have a rating of 8 or more? Round to 2 decimals and return one number.",hint:"100.0 * SUM(rating >= 8) / COUNT(*). Watch out for integer division.",sql:"SELECT ROUND(100.0 * SUM(rating >= 8) / COUNT(*), 2) FROM movies"}]},
+{id:"store",name:"Online store",size:"Medium",blurb:"300 customers and 2,000 orders across 2026. Practice joins, monthly trends and customer metrics.",
+ build(){const T=pgTools(53);const cities=["Austin","New York","Seattle","Chicago","Denver","Miami","Boston"];const cu=[],or=[];
+  for(let i=1;i<=300;i++)cu.push([i,pgName(T),T.wpick(cities,[5,6,3,3,2,2,2]),T.day("2025-10-01",T.int(0,330))]);
+  for(let i=1;i<=2000;i++){const c=T.int(1,262),sd=cu[c-1][3];const off=T.r()<.25?T.int(0,6):T.int(0,320);let od=T.day(sd,off);if(od>"2026-10-31")od=T.day("2026-01-01",T.int(0,303));if(od<"2026-01-01")od=T.day("2026-01-01",T.int(0,60));
+   or.push([i,c,od,T.money(8,240),T.wpick(["paid","refunded","cancelled"],[88,7,5])])}
+  return{customers:{cols:["id","name","city","signup_date"],rows:cu},orders:{cols:["id","customer_id","order_date","amount","status"],rows:or}}},
+ probs:[
+  {t:"Revenue by city",d:"Easy",q:"Revenue from paid orders per customer city, highest first. Return city and revenue rounded to 2 decimals.",o:1,hint:"Join orders to customers, filter status = 'paid', SUM(amount).",sql:"SELECT c.city, ROUND(SUM(o.amount), 2) AS r FROM orders o JOIN customers c ON c.id = o.customer_id WHERE o.status = 'paid' GROUP BY c.city ORDER BY r DESC"},
+  {t:"Never bought",d:"Easy",q:"How many customers have never placed an order? Return one number.",hint:"LEFT JOIN customers to orders and count the rows with no order.",sql:"SELECT COUNT(*) FROM customers WHERE id NOT IN (SELECT customer_id FROM orders)"},
+  {t:"Top 5 customers",d:"Medium",q:"The 5 customers who spent the most on paid orders. Return name and total rounded to 2 decimals, highest first.",o:1,hint:"GROUP BY customer id, not name, since names can repeat.",sql:"SELECT c.name, ROUND(SUM(o.amount), 2) AS t FROM orders o JOIN customers c ON c.id = o.customer_id WHERE o.status = 'paid' GROUP BY c.id ORDER BY SUM(o.amount) DESC LIMIT 5"},
+  {t:"Monthly revenue",d:"Medium",q:"Paid revenue for each month of 2026. Return the month as YYYY-MM and revenue rounded to 2 decimals, in month order.",o:1,hint:"substr(order_date, 1, 7) or strftime('%Y-%m', order_date) gives the month.",sql:"SELECT substr(order_date, 1, 7) AS m, ROUND(SUM(amount), 2) FROM orders WHERE status = 'paid' GROUP BY m ORDER BY m"},
+  {t:"Refund rate by city",d:"Medium",q:"Percent of orders that were refunded, per city, highest first, ties by city. Return city and the percent rounded to 2 decimals.",o:1,hint:"100.0 * SUM(status = 'refunded') / COUNT(*).",sql:"SELECT c.city, ROUND(100.0 * SUM(o.status = 'refunded') / COUNT(*), 2) AS r FROM orders o JOIN customers c ON c.id = o.customer_id GROUP BY c.city ORDER BY r DESC, c.city"},
+  {t:"Fast first purchase",d:"Hard",q:"How many customers placed their first order within 7 days of signing up? Return one number.",hint:"Find each customer's MIN(order_date), then compare with julianday() to signup_date.",sql:"SELECT COUNT(*) FROM (SELECT c.id FROM customers c JOIN orders o ON o.customer_id = c.id GROUP BY c.id HAVING julianday(MIN(o.order_date)) - julianday(c.signup_date) <= 7)"},
+  {t:"Repeat buyers",d:"Medium",q:"How many customers have 10 or more paid orders? Return one number.",hint:"GROUP BY customer_id HAVING COUNT(*) >= 10, then count those.",sql:"SELECT COUNT(*) FROM (SELECT customer_id FROM orders WHERE status = 'paid' GROUP BY customer_id HAVING COUNT(*) >= 10)"}]},
+{id:"app",name:"Mobile app analytics",size:"Large",blurb:"800 users and about 8,000 events in October 2026. Practice active users, retention and funnels.",
+ build(){const T=pgTools(67);const us=[],ev=[];const ctry=["US","India","UK","Brazil","Germany","Canada","Mexico"];
+  for(let i=1;i<=800;i++){const sd=T.day("2026-10-01",T.int(0,20));const plan=T.wpick(["free","pro","team"],[70,22,8]);us.push([i,sd,plan,T.wpick(ctry,[30,20,10,10,8,7,6])]);
+   if(T.r()<.08)continue;const stick=plan==="free"?.45:.7;let day=0;ev.push([i,"signup",sd]);
+   for(let k=0;k<30;k++){day+=T.int(0,3);const d=T.day(sd,day);if(d>"2026-10-31")break;ev.push([i,T.wpick(["open","search","save","share","purchase"],[50,25,12,8,5]),d]);if(T.r()>stick&&k>1)break}}
+  return{users:{cols:["user_id","signup_date","plan","country"],rows:us},events:{cols:["user_id","event","event_date"],rows:ev}}},
+ probs:[
+  {t:"Users per plan",d:"Easy",q:"How many users are on each plan? Return plan and count, most first.",o:1,hint:"GROUP BY plan ORDER BY count DESC.",sql:"SELECT plan, COUNT(*) AS n FROM users GROUP BY plan ORDER BY n DESC"},
+  {t:"Most common event",d:"Easy",q:"Which event happens most often, not counting signup? Return the event and how many times.",o:1,hint:"Filter out 'signup', GROUP BY event, take the top one.",sql:"SELECT event, COUNT(*) AS n FROM events WHERE event <> 'signup' GROUP BY event ORDER BY n DESC LIMIT 1"},
+  {t:"Daily active users",d:"Medium",q:"Daily active users (distinct users with any event) for October 1 to 7. Return event_date and the count, in date order.",o:1,hint:"COUNT(DISTINCT user_id) per event_date.",sql:"SELECT event_date, COUNT(DISTINCT user_id) FROM events WHERE event_date BETWEEN '2026-10-01' AND '2026-10-07' GROUP BY event_date ORDER BY event_date"},
+  {t:"Ghost signups",d:"Medium",q:"How many users have no events at all? Return one number.",hint:"Users with no rows in events. NOT EXISTS or LEFT JOIN works.",sql:"SELECT COUNT(*) FROM users u WHERE NOT EXISTS (SELECT 1 FROM events e WHERE e.user_id = u.user_id)"},
+  {t:"Day 7 retention by plan",d:"Hard",q:"For each plan, the percent of users who had any event 7 or more days after they signed up. Return plan and the percent rounded to 2 decimals.",hint:"Use EXISTS with julianday(event_date) - julianday(signup_date) >= 7, then 100.0 * SUM(...) / COUNT(*).",sql:"SELECT plan, ROUND(100.0 * SUM(EXISTS (SELECT 1 FROM events e WHERE e.user_id = u.user_id AND julianday(e.event_date) - julianday(u.signup_date) >= 7)) / COUNT(*), 2) FROM users u GROUP BY plan"},
+  {t:"Paying countries",d:"Medium",q:"The 3 countries with the most users who made a purchase. Return country and the number of distinct purchasing users, most first.",o:1,hint:"Join events (event = 'purchase') to users and COUNT(DISTINCT user_id).",sql:"SELECT u.country, COUNT(DISTINCT u.user_id) AS n FROM users u JOIN events e ON e.user_id = u.user_id WHERE e.event = 'purchase' GROUP BY u.country ORDER BY n DESC, u.country LIMIT 3"}]},
+{id:"rides",name:"Ride sharing",size:"Large",blurb:"120 drivers and 5,000 rides in 5 cities. Practice time of day analysis, ratings and per driver stats.",
+ build(){const T=pgTools(79);const cities=["Austin","Chicago","New York","Seattle","Miami"];const dr=[],ri=[];
+  for(let i=1;i<=120;i++)dr.push([i,pgName(T),T.pick(cities),T.day("2022-01-03",T.int(0,1300))]);
+  for(let i=1;i<=5000;i++){const d=T.int(1,112),city=dr[d-1][2],h=T.wpick([7,8,9,12,13,17,18,19,22,23,1],[6,9,6,5,5,9,10,7,5,4,3]);const mins=T.int(6,48);
+   ri.push([i,d,city,T.day("2026-09-01",T.int(0,29))+" "+String(h).padStart(2,"0")+":"+String(T.int(0,59)).padStart(2,"0"),mins,Math.round((2.5+mins*(city==="New York"?1.35:1.05)+T.r()*4)*100)/100,T.wpick([5,4,3,2,1],[62,25,8,3,2])])}
+  return{drivers:{cols:["id","name","city","joined"],rows:dr},rides:{cols:["id","driver_id","city","start_time","minutes","fare","rating"],rows:ri}}},
+ probs:[
+  {t:"Rides and revenue by city",d:"Easy",q:"Number of rides and total fares per city, highest revenue first. Return city, rides and revenue rounded to 2 decimals.",o:1,hint:"COUNT(*) and SUM(fare) GROUP BY city.",sql:"SELECT city, COUNT(*), ROUND(SUM(fare), 2) AS r FROM rides GROUP BY city ORDER BY r DESC"},
+  {t:"Idle drivers",d:"Easy",q:"How many drivers gave no rides in September? Return one number.",hint:"Drivers whose id never shows up in rides.",sql:"SELECT COUNT(*) FROM drivers WHERE id NOT IN (SELECT driver_id FROM rides)"},
+  {t:"Busiest hour",d:"Medium",q:"Which hour of the day has the most rides? Return the hour as a number and the ride count.",o:1,hint:"CAST(substr(start_time, 12, 2) AS INTEGER) gives the hour.",sql:"SELECT CAST(substr(start_time, 12, 2) AS INTEGER) AS h, COUNT(*) AS n FROM rides GROUP BY h ORDER BY n DESC, h LIMIT 1"},
+  {t:"Price per minute",d:"Medium",q:"Average fare per minute in each city, highest first, rounded to 2 decimals. Return city and the value.",o:1,hint:"SUM(fare) / SUM(minutes) per city.",sql:"SELECT city, ROUND(SUM(fare) / SUM(minutes), 2) AS v FROM rides GROUP BY city ORDER BY v DESC"},
+  {t:"Best rated drivers",d:"Hard",q:"Top 5 drivers by average rating among drivers with at least 40 rides. Return name, average rating rounded to 2 decimals and ride count, best first, ties by name.",o:1,hint:"GROUP BY driver, HAVING COUNT(*) >= 40, ORDER BY the average.",sql:"SELECT d.name, ROUND(AVG(r.rating), 2), COUNT(*) FROM rides r JOIN drivers d ON d.id = r.driver_id GROUP BY d.id HAVING COUNT(*) >= 40 ORDER BY AVG(r.rating) DESC, d.name LIMIT 5"},
+  {t:"Five star share",d:"Medium",q:"Percent of rides rated 5 in each city, rounded to 2 decimals, ties by city. Return city and the percent, highest first.",o:1,hint:"100.0 * SUM(rating = 5) / COUNT(*).",sql:"SELECT city, ROUND(100.0 * SUM(rating = 5) / COUNT(*), 2) AS p FROM rides GROUP BY city ORDER BY p DESC, city"}]},
+{id:"subs",name:"Subscription business",size:"Large",blurb:"3 plans, 1,500 subscriptions and their monthly payments across 2025 and 2026. Practice MRR, churn and lifetime.",
+ build(){const T=pgTools(97);const plans=[["basic",9],["plus",19],["business",49]];const su=[],pa=[];let pid=1;
+  for(let i=1;i<=1500;i++){const cust=T.int(1,1250),pl=T.wpick(plans,[55,33,12]),st=T.day("2025-01-01",T.int(0,640));const life=T.r()<.42?T.int(20,420):null;let en=life==null?null:T.day(st,life);if(en&&en>"2026-10-31")en=null;
+   su.push([i,cust,pl[0],st,en]);for(let m=0;m<24;m++){const d=new Date(st+"T00:00:00Z");d.setUTCMonth(d.getUTCMonth()+m);const ds=d.toISOString().slice(0,10);if(ds>"2026-10-31"||(en&&ds>=en))break;pa.push([pid++,i,ds,pl[1]])}}
+  return{plans:{cols:["plan","monthly_price"],rows:plans},subscriptions:{cols:["id","customer_id","plan","start_date","end_date"],rows:su},payments:{cols:["id","subscription_id","paid_date","amount"],rows:pa}}},
+ probs:[
+  {t:"Revenue per plan",d:"Easy",q:"Total payments collected per plan, highest first. Return plan and the total.",o:1,hint:"Join payments to subscriptions to get the plan.",sql:"SELECT s.plan, SUM(p.amount) AS t FROM payments p JOIN subscriptions s ON s.id = p.subscription_id GROUP BY s.plan ORDER BY t DESC"},
+  {t:"Monthly revenue",d:"Medium",q:"Payments collected each month in 2026. Return the month as YYYY-MM and the total, in month order.",o:1,hint:"substr(paid_date, 1, 7) and filter to 2026.",sql:"SELECT substr(paid_date, 1, 7) AS m, SUM(amount) FROM payments WHERE paid_date >= '2026-01-01' GROUP BY m ORDER BY m"},
+  {t:"Active on June 30",d:"Medium",q:"How many subscriptions were active on 2026-06-30, per plan? Active means it started on or before that day and has no end_date or ends after it. Return plan and count.",hint:"start_date <= '2026-06-30' AND (end_date IS NULL OR end_date > '2026-06-30').",sql:"SELECT plan, COUNT(*) FROM subscriptions WHERE start_date <= '2026-06-30' AND (end_date IS NULL OR end_date > '2026-06-30') GROUP BY plan"},
+  {t:"Churn by month",d:"Medium",q:"How many subscriptions ended in each month of 2026? Return the month as YYYY-MM and the count, in month order.",o:1,hint:"Group the end_date by month, skipping NULLs.",sql:"SELECT substr(end_date, 1, 7) AS m, COUNT(*) FROM subscriptions WHERE end_date >= '2026-01-01' GROUP BY m ORDER BY m"},
+  {t:"Average lifetime",d:"Hard",q:"For subscriptions that have ended, the average number of days between start_date and end_date, rounded to 2 decimals. Return one number.",hint:"AVG(julianday(end_date) - julianday(start_date)) where end_date IS NOT NULL.",sql:"SELECT ROUND(AVG(julianday(end_date) - julianday(start_date)), 2) FROM subscriptions WHERE end_date IS NOT NULL"},
+  {t:"Came back for more",d:"Medium",q:"How many customers have more than one subscription? Return one number.",hint:"GROUP BY customer_id HAVING COUNT(*) > 1.",sql:"SELECT COUNT(*) FROM (SELECT customer_id FROM subscriptions GROUP BY customer_id HAVING COUNT(*) > 1)"}]},
+{id:"web",name:"Website traffic",size:"Huge",blurb:"20,000 sessions over 60 days with source, device, pages and revenue. Practice conversion funnels at scale.",
+ build(){const T=pgTools(113);const src=["google","direct","instagram","newsletter","tiktok","referral"],dev=["mobile","desktop","tablet"];const rows=[];
+  for(let i=1;i<=20000;i++){const s=T.wpick(src,[36,22,14,8,12,8]),d=T.wpick(dev,[58,36,6]);const pages=Math.max(1,Math.round(T.r()**1.6*14));
+   const cr={google:.035,direct:.05,instagram:.02,newsletter:.07,tiktok:.012,referral:.045}[s]*(d==="desktop"?1.4:1)*(pages>4?1.8:.6);const conv=T.r()<cr?1:0;
+   rows.push([i,T.int(1,6500),T.day("2026-08-01",T.int(0,59)),s,d,pages,conv,conv?T.money(15,220):0])}
+  return{sessions:{cols:["session_id","user_id","day","source","device","pages","converted","revenue"],rows}}},
+ probs:[
+  {t:"Conversion by source",d:"Easy",q:"Conversion rate (percent of sessions with converted = 1) per source, highest first, rounded to 2 decimals. Return source and the rate.",o:1,hint:"100.0 * SUM(converted) / COUNT(*).",sql:"SELECT source, ROUND(100.0 * SUM(converted) / COUNT(*), 2) AS r FROM sessions GROUP BY source ORDER BY r DESC"},
+  {t:"Revenue by device",d:"Easy",q:"Total revenue per device, highest first, rounded to 2 decimals. Return device and revenue.",o:1,hint:"SUM(revenue) GROUP BY device.",sql:"SELECT device, ROUND(SUM(revenue), 2) AS r FROM sessions GROUP BY device ORDER BY r DESC"},
+  {t:"Last week of traffic",d:"Medium",q:"Sessions per day for the last 7 days in the data. Return day and session count, in date order.",o:1,hint:"Find MAX(day) first, then keep days within 6 days of it.",sql:"SELECT day, COUNT(*) FROM sessions WHERE day > date((SELECT MAX(day) FROM sessions), '-7 day') GROUP BY day ORDER BY day"},
+  {t:"Do buyers browse more?",d:"Medium",q:"Average pages per session for converted and non converted sessions, rounded to 2 decimals. Return converted (0 or 1) and the average.",hint:"GROUP BY converted.",sql:"SELECT converted, ROUND(AVG(pages), 2) FROM sessions GROUP BY converted"},
+  {t:"Best value source",d:"Medium",q:"The 3 sources with the highest revenue per session, rounded to 2 decimals. Return source and the value, highest first.",o:1,hint:"SUM(revenue) / COUNT(*) per source.",sql:"SELECT source, ROUND(SUM(revenue) / COUNT(*), 2) AS v FROM sessions GROUP BY source ORDER BY v DESC LIMIT 3"},
+  {t:"Loyal visitors",d:"Medium",q:"How many users had 6 or more sessions? Return one number.",hint:"GROUP BY user_id HAVING COUNT(*) >= 6, then count.",sql:"SELECT COUNT(*) FROM (SELECT user_id FROM sessions GROUP BY user_id HAVING COUNT(*) >= 6)"},
+  {t:"Mobile share by source",d:"Hard",q:"For each source, the percent of its sessions that came from mobile, rounded to 2 decimals, ties by source. Return source and the percent, highest first.",o:1,hint:"100.0 * SUM(device = 'mobile') / COUNT(*).",sql:"SELECT source, ROUND(100.0 * SUM(device = 'mobile') / COUNT(*), 2) AS p FROM sessions GROUP BY source ORDER BY p DESC, source"}]}
+];
+
+const PG_PY_WORKER=`importScripts("${PY_URL}pyodide.js");
+let py=null;const ready=loadPyodide({indexURL:"${PY_URL}"}).then(async p=>{py=p;await py.runPythonAsync(\`
+import json
+from pyodide.code import eval_code_async
+def __show(v):
+    try:
+        import sys
+        pd = sys.modules.get("pandas")
+        if pd is not None:
+            if isinstance(v, pd.Series):
+                v = v.to_frame()
+            if isinstance(v, pd.DataFrame):
+                d = v if isinstance(v.index, pd.RangeIndex) else v.reset_index()
+                h = d.head(2000)
+                return json.dumps({"cols": [str(c) for c in h.columns], "rows": json.loads(h.to_json(orient="values", date_format="iso")), "n": len(d)})
+    except Exception:
+        pass
+    if v is None:
+        return "null"
+    out = {"repr": repr(v)[:20000]}
+    try:
+        out["val"] = json.loads(json.dumps(v, default=lambda o: o.tolist() if hasattr(o, "tolist") else list(o) if isinstance(o, (set, tuple)) else str(o)))
+    except Exception:
+        pass
+    return json.dumps(out)
+async def __run(src):
+    import io, contextlib, traceback
+    ns = {"__name__": "__main__"}
+    buf = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
+            v = await eval_code_async(src, ns, filename="<your code>")
+        return json.dumps({"show": __show(v), "out": buf.getvalue()[-50000:]})
+    except BaseException as ex:
+        tb = [f for f in traceback.extract_tb(ex.__traceback__) if f.filename == "<your code>"]
+        line = getattr(ex, "lineno", None) if isinstance(ex, SyntaxError) else (tb[-1].lineno if tb else None)
+        msg = ("SyntaxError: " + str(ex.msg)) if isinstance(ex, SyntaxError) else "".join(traceback.format_exception_only(type(ex), ex)).strip().splitlines()[-1]
+        return json.dumps({"err": (("Line " + str(line) + ": ") if line else "") + msg, "out": buf.getvalue()[-50000:]})
+\`);postMessage({ready:true})}).catch(err=>postMessage({ready:false,err:String(err)}));
+self.onmessage=async e=>{await ready;if(!py){postMessage({err:"Python could not load. Check your connection and try again."});return}
+  const{code,files}=e.data;const logs=[];py.setStdout({batched:s=>logs.length<500&&logs.push(s)});py.setStderr({batched:s=>logs.length<500&&logs.push(s)});
+  try{for(const n in files||{})py.FS.writeFile(n,files[n]);await py.loadPackagesFromImports(code);py.globals.set("__code",code);
+    const r=JSON.parse(await py.runPythonAsync("await __run(__code)"));const o=(r.out||"").replace(/\\n$/,"");if(o)logs.unshift(...o.split("\\n"));if(r.err)postMessage({err:r.err,logs});else postMessage({v:r.show,logs})}
+  catch(err){const m=String(err&&err.message||err).trim().split("\\n");const i=m.findIndex(l=>l.includes('File "<exec>"'));postMessage({err:(i>=0?m.slice(i):m.slice(-3)).join("\\n"),logs})}};`;
+let pgPy=null;
+function pgPyRun(code,files){return new Promise(res=>{if(!pgPy){const w=new Worker(URL.createObjectURL(new Blob([PG_PY_WORKER],{type:"text/javascript"})));pgPy={w,ready:new Promise(r=>{w.addEventListener("message",function f(e){if("ready" in e.data){w.removeEventListener("message",f);r(e.data.ready)}})})}}
+  const P=pgPy;P.ready.then(ok=>{if(!ok){pgPy=null;res({err:"Python could not load. Check your connection and try again."});return}
+    pgStat(/\b(pandas|numpy)\b/.test(code)?"Running. The first pandas import takes a few seconds.":"Running");
+    const to=setTimeout(()=>{P.w.terminate();pgPy=null;res({err:"Time limit exceeded (30 seconds). Check for an infinite loop."})},30000);
+    const f=e=>{if("ready" in e.data)return;clearTimeout(to);P.w.removeEventListener("message",f);res(e.data)};P.w.addEventListener("message",f);P.w.postMessage({code,files})})})}
+const PG_JS_WORKER=`self.onmessage=async e=>{const{code,files}=e.data;const logs=[];const fmt=a=>a.map(x=>typeof x==="string"?x:(()=>{try{return JSON.stringify(x,null,2)}catch(_){return String(x)}})()).join(" ");
+  self.console={log:(...a)=>logs.length<500&&logs.push(fmt(a)),error:(...a)=>logs.length<500&&logs.push(fmt(a)),warn:(...a)=>logs.length<500&&logs.push(fmt(a)),table:(...a)=>logs.length<500&&logs.push(fmt(a))};
+  try{const v=await (new Function("files","return (async()=>{\\n"+code+"\\n})()"))(files);let val=null;try{val=v===undefined?null:JSON.stringify(v)}catch(_){val=JSON.stringify(String(v))}postMessage({logs,val})}catch(err){postMessage({err:String(err&&err.message||err),logs})}};`;
+function pgJsRun(code,files){return new Promise(res=>{const w=new Worker(URL.createObjectURL(new Blob([PG_JS_WORKER],{type:"text/javascript"})));
+  const to=setTimeout(()=>{w.terminate();res({err:"Time limit exceeded (10 seconds). Check for an infinite loop."})},10000);
+  w.onmessage=e=>{clearTimeout(to);w.terminate();res(e.data)};w.onerror=e=>{clearTimeout(to);w.terminate();res({err:e.message||"Your code crashed."})};w.postMessage({code,files})})}
+function pgCSVrows(t){const rows=[];let row=[],f="",q=false;for(let i=0;i<t.length;i++){const c=t[i];if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}else if(c==='"')q=true;else if(c===","){row.push(f);f=""}else if(c==="\n"||c==="\r"){if(c==="\r"&&t[i+1]==="\n")i++;row.push(f);f="";if(row.length>1||row[0]!=="")rows.push(row);row=[]}else f+=c}if(f!==""||row.length){row.push(f);rows.push(row)}return rows}
+function pgIdent(s,i){let x=String(s||"").trim().toLowerCase().replace(/[^a-z0-9_]+/g,"_").replace(/^_+|_+$/g,"");if(!x)x="col"+(i+1);if(/^\d/.test(x))x="c_"+x;return x}
+function pgCSVsql(name,text){const rows=pgCSVrows(text.replace(/^﻿/,""));if(!rows.length)return null;const head=rows[0].map(pgIdent),seen={};head.forEach((h,i)=>{if(seen[h])head[i]=h+"_"+(++seen[h]);else seen[h]=1});
+  const body=rows.slice(1).filter(r=>r.some(v=>v!==""));const ty=head.map((_,c)=>{const v=body.map(r=>r[c]).filter(x=>x!==""&&x!=null);if(!v.length)return"TEXT";if(v.every(x=>/^-?\d+$/.test(x)))return"INTEGER";if(v.every(x=>/^-?\d*\.?\d+(e[+-]?\d+)?$/i.test(x)))return"REAL";return"TEXT"});
+  const lit=(v,t)=>v===""||v==null?"NULL":t==="TEXT"?"'"+String(v).replace(/'/g,"''")+"'":v;
+  let s=`DROP TABLE IF EXISTS ${name};\nCREATE TABLE ${name} (\n${head.map((h,i)=>"  "+h+" "+ty[i]).join(",\n")}\n);\n`;
+  for(let i=0;i<body.length;i+=200)s+=`INSERT INTO ${name} VALUES\n${body.slice(i,i+200).map(r=>"  ("+head.map((_,c)=>lit(r[c],ty[c])).join(", ")+")").join(",\n")};\n`;
+  return{sql:s,n:body.length}}
+function pgJsFiles(P){const o={};for(const n in P.files){const r=pgCSVrows(P.files[n].replace(/^﻿/,""));const h=(r[0]||[]).map(x=>x.trim());o[n]=r.slice(1).map(v=>Object.fromEntries(h.map((k,i)=>{const x=v[i];return[k,x!==""&&x!=null&&!isNaN(x)?+x:x]})))}return o}
+const PG_DSBY=Object.fromEntries(PG_DS.map(d=>[d.id,d]));
+const pgData={},pgExp={};
+function pgDS(id){if(!pgData[id]){const t=PG_DSBY[id].build();pgData[id]={t,rows:Object.values(t).reduce((a,x)=>a+x.rows.length,0)}}return pgData[id]}
+function pgType(x){const v=x.rows.map(r=>r).find(()=>true);return x.cols.map((_,i)=>{const s=x.rows.slice(0,50).map(r=>r[i]).filter(v=>v!=null);return!s.length?"text":s.every(v=>Number.isInteger(v))?"integer":s.every(v=>typeof v==="number")?"real":"text"})}
+function pgCSV(cols,rows){const c=v=>v==null?"":/[",\n]/.test(String(v))?'"'+String(v).replace(/"/g,'""')+'"':String(v);return [cols.join(","),...rows.map(r=>r.map(c).join(","))].join("\n")+"\n"}
+function pgDsFiles(id){const D=pgDS(id);if(!D.csv){D.csv={};for(const n in D.t)D.csv[n+".csv"]=pgCSV(D.t[n].cols,D.t[n].rows)}return D.csv}
+function pgDsObjs(id){const D=pgDS(id);if(!D.obj){D.obj={};for(const n in D.t){const x=D.t[n];D.obj[n+".csv"]=x.rows.map(r=>Object.fromEntries(x.cols.map((c,i)=>[c,r[i]])))}}return JSON.parse(JSON.stringify(D.obj))}
+function pgDsDb(SQL,id){const D=pgDS(id);if(!D.bytes){const db=new SQL.Database();db.run("BEGIN");for(const n in D.t){const x=D.t[n],ty=pgType(x);db.run(`CREATE TABLE ${n} (${x.cols.map((c,i)=>c+" "+ty[i].toUpperCase()).join(", ")})`);
+  const st=db.prepare(`INSERT INTO ${n} VALUES (${x.cols.map(()=>"?").join(",")})`);x.rows.forEach(r=>st.run(r));st.free()}db.run("COMMIT");D.bytes=db.export();db.close()}return new SQL.Database(D.bytes)}
+async function pgExpected(ds,i){const k=ds+":"+i;if(pgExp[k])return pgExp[k];const SQL=await arSqlLib(),db=pgDsDb(SQL,ds);try{const r=db.exec(PG_DSBY[ds].probs[i].sql);pgExp[k]=r.length?{cols:r[0].columns,rows:r[0].values}:{cols:[],rows:[]}}finally{db.close()}return pgExp[k]}
+function pgSolved(){try{return new Set(JSON.parse(localStorage.getItem("cw_pg_solved")||"[]"))}catch(_){return new Set()}}
+function pgMark(k){const s=pgSolved();s.add(k);try{localStorage.setItem("cw_pg_solved",JSON.stringify([...s]))}catch(_){}}
+
+function pgState(){const A=S.ar;if(A.pg)return A.pg;let d={};try{d=JSON.parse(localStorage.getItem("cw_pg")||"{}")||{}}catch(_){}
+  return A.pg={lang:["sql","py","js"].includes(d.lang)?d.lang:"sql",ds:PG_DSBY[d.ds]?d.ds:(d.ds===""?"":"shelter"),pi:Number.isInteger(d.pi)?d.pi:0,setup:d.setup!=null?d.setup:PG_EX.sql.setup,code:{sql:PG_EX.sql.code,py:PG_EX.py,js:PG_EX.js,...(d.code||{})},pcode:d.pcode||{},files:d.files||{},tries:{}}}
+let pgSaveT=null;function pgSave(){clearTimeout(pgSaveT);pgSaveT=setTimeout(()=>{const P=S.ar.pg;if(!P)return;const big=Object.values(P.files).reduce((a,t)=>a+t.length,0)>1.5e6;
+  try{localStorage.setItem("cw_pg",JSON.stringify({lang:P.lang,ds:P.ds,pi:P.pi,setup:P.setup,code:P.code,pcode:P.pcode,files:big?{}:P.files}))}catch(_){}},300)}
+function pgProb(P){return P.ds&&P.pi!=null?PG_DSBY[P.ds].probs[P.pi]:null}
+function pgKey(P){return P.ds?`${P.ds}:${P.pi==null?"x":P.pi}:${P.lang}`:null}
+function pgStarter(P){const tabs=Object.keys(pgDS(P.ds).t),pr=pgProb(P),L=P.lang;
+  if(L==="sql")return pr?`-- ${pr.t}\n\nSELECT\n  \nFROM ${tabs[0]};`:tabs.map(t=>`SELECT * FROM ${t} LIMIT 10;`).join("\n");
+  if(L==="py")return `import pandas as pd\n\n${tabs.map(t=>`${t} = pd.read_csv("${t}.csv")`).join("\n")}\n\n`+(pr?`# ${pr.t}\n# End with your answer: a DataFrame, a list or a number\n`:`${tabs[0]}.head(10)`);
+  return `${tabs.map(t=>`const ${t} = files["${t}.csv"];`).join("\n")}\n\n`+(pr?`// ${pr.t}\n// Return your answer: an array of rows, an object or a number\nreturn [];`:`console.log(${tabs[0]}.length, "rows");\nreturn ${tabs[0]}.slice(0, 10);`)}
+function pgGet(P){const k=pgKey(P);if(!k)return P.code[P.lang];return P.pcode[k]!=null?P.pcode[k]:pgStarter(P)}
+function pgPut(P,v){const k=pgKey(P);if(!k)P.code[P.lang]=v;else P.pcode[k]=v}
+function pgSwitch(on){return `<div class="aqfields pgsw"><button class="${on!=="play"?"on":""}" data-act="pgview" data-v="queue">The queue</button><button class="${on==="play"?"on":""}" data-act="pgview" data-v="play">Playground</button></div>`}
+function pgEditor(id,code,lang,cls){return `<div class="ared ${cls||""}"><div class="argut" id="${id}Gut"></div><div class="arcw"><pre class="arhl" id="${id}Hl" aria-hidden="true"></pre><textarea id="${id}" class="pged" data-lang="${lang}" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="${id==="pgSet"?"Tables and data":"Code editor"}">${esc(code)}</textarea></div></div>`}
+function pgPaint(id){const ed=$("#"+id),h=$("#"+id+"Hl"),g=$("#"+id+"Gut");if(!ed)return;if(h){h.innerHTML=arHi(ed.value,ed.dataset.lang)+"\n";h.scrollTop=ed.scrollTop;h.scrollLeft=ed.scrollLeft}
+  if(g){const n=ed.value.split("\n").length;if(g._n!==n){g.innerHTML=Array.from({length:n},(_,i)=>`<span>${i+1}</span>`).join("");g._n=n}g.scrollTop=ed.scrollTop}}
+function pgFiles(P){const f=Object.keys(P.files);return f.length?`<div class="pgfiles">${f.map(n=>`<div><code>${esc(n)}</code><span>${(P.files[n].split("\n").length-1).toLocaleString()} rows</span><button class="ulink" data-act="pgrm" data-n="${esc(n)}">Remove</button></div>`).join("")}</div>`:`<p class="hint pgnone">No files yet. Import a CSV to work with your own data.</p>`}
+function pgDsPick(P){return `<label class="pgdsl"><span>Dataset</span><select id="pgDs" aria-label="Dataset"><option value=""${P.ds?"":" selected"}>Your own data</option>${PG_DS.map(d=>`<option value="${d.id}"${P.ds===d.id?" selected":""}>${esc(d.name)} · ${d.size}</option>`).join("")}</select></label>`}
+function pgLeft(P){const L=P.lang;
+  if(P.ds){const D=PG_DSBY[P.ds],X=pgDS(P.ds),sv=pgSolved(),done=D.probs.filter((_,i)=>sv.has(D.id+":"+i)).length;
+    return `${pgDsPick(P)}<div class="pgdcard"><p>${esc(D.blurb)}</p><div class="pgtabs">${Object.entries(X.t).map(([n,x])=>{const ty=pgType(x);return `<button class="pgtab" data-act="pgtab" data-t="${n}" title="Peek at ${n}"><span><code>${n}</code><em>${x.rows.length.toLocaleString()} rows</em></span><small>${x.cols.map((c,i)=>`${esc(c)} <i>${ty[i]}</i>`).join(", ")}</small></button>`}).join("")}</div>
+      <p class="hint pgfh">${L==="sql"?"Query the tables by name.":L==="py"?`Each table is a file, like <code>pd.read_csv("${Object.keys(X.t)[0]}.csv")</code>.`:`Each table is ready as <code>files["${Object.keys(X.t)[0]}.csv"]</code>, a list of row objects.`}</p></div>
+      <div class="pgbh"><b>Practice problems</b><span class="hint">${done} of ${D.probs.length} solved</span></div>
+      <div class="pgprobs">${D.probs.map((p,i)=>{const ok=sv.has(D.id+":"+i);return `<button class="pgp ${P.pi===i?"on":""} ${ok?"done":""}" data-act="pgprob" data-i="${i}"><span class="n">${ok?AR_ICO.check:i+1}</span><b>${esc(p.t)}</b><span class="ardf ${arDiffCls(p.d)}">${p.d}</span></button>`}).join("")}</div>`}
+  if(L==="sql")return `${pgDsPick(P)}<div class="pgbh"><b>Tables and data</b><span><button class="ulink" data-act="pgcsv">Import CSV</button><button class="ulink" data-act="pgsetreset">Example</button></span></div>
+      ${pgEditor("pgSet",P.setup,"sql","pgset")}<div class="arschema" id="pgSchema"><b>Tables</b><span class="hint">Run once to see your tables here.</span></div>`;
+  return `${pgDsPick(P)}<div class="pgbh"><b>Data files</b><button class="ulink" data-act="pgcsv">Import CSV</button></div>${pgFiles(P)}
+      <div class="arschema pgtip"><b>How to use them</b>${L==="py"?`<span>Read a file with <code>pd.read_csv("orders.csv")</code>. pandas and numpy load the first time you import them, which takes a few seconds.</span><span>The last line of your code is shown as a table when it's a DataFrame.</span>`
+        :`<span>Each file is ready as <code>files["orders.csv"]</code>, a list of row objects.</span><span>Use <code>console.log</code> or <code>return</code> a value to see it.</span>`}</div>`}
+function renderPlay(){const P=pgState(),L=P.lang,pr=pgProb(P),tries=P.tries[pgKey(P)]||0;
+  $("#main").innerHTML=`<div class="cpage tpage arpage pg">
+    <div class="pghd"><div><h1>Playground</h1><p>Practice on ready datasets or your own data. Nothing here is graded or goes on your profile.</p></div>${pgSwitch("play")}</div>
+    <div class="arsplit"><div class="arleft pgleft">${pgLeft(P)}</div>
+      <div class="pgright">
+        ${pr?`<div class="pgq"><div class="pgqh"><span class="ardf ${arDiffCls(pr.d)}">${pr.d}</span><b>${P.pi+1}. ${esc(pr.t)}</b><button class="ulink" data-act="pgexplore">Just explore</button></div><p>${esc(pr.q)}</p>
+          <div class="pgqa"><button class="ulink" data-act="pghint">Hint</button>${tries?`<button class="ulink" data-act="pgans">Show the SQL answer</button>`:""}${P.pi<PG_DSBY[P.ds].probs.length-1?`<button class="ulink" data-act="pgnext">Next problem</button>`:""}</div>
+          <div class="pgreveal" id="pgHint" hidden>${esc(pr.hint)}</div><pre class="pglog pgreveal" id="pgAns" hidden>${esc(pr.sql.replace(/ (FROM|WHERE|GROUP BY|HAVING|ORDER BY|LIMIT|JOIN|LEFT JOIN) /g,"\n$1 "))}</pre></div>`
+          :P.ds?`<div class="pgq pgqx"><b>Exploring ${esc(PG_DSBY[P.ds].name)}</b><p>Write anything you like. Pick a problem on the left to get your answer checked.</p></div>`:""}
+        <div class="aredh"><div class="arlangs">${[["sql","SQL"],["py","Python"],["js","JavaScript"]].map(([k,l])=>`<button class="${L===k?"on":""}" data-act="pglang" data-v="${k}">${l}</button>`).join("")}</div><button class="ulink" data-act="pgreset">${pr?"Start over":"Reset to example"}</button></div>
+        ${pgEditor("pgEd",pgGet(P),L)}
+        <div class="arbtns"><span id="pgStat" class="hint">${L==="sql"?(P.ds?"SQLite.":"SQLite. Every run starts fresh from your tables."):L==="py"?"Python 3 with pandas and numpy.":"JavaScript in your browser."} Ctrl Enter runs.</span><button class="btn brand" data-act="pgrun">${AR_ICO.play} ${pr?"Run and check":"Run"}</button></div>
+        <div class="arout" id="pgOut">${S.ar.pgOut&&S.ar.pgOut.key===pgKey(P)+"|"+(P.ds?"":"free")?S.ar.pgOut.html:""}</div></div></div>
+    <p class="axnote">Want it graded? Pick a ticket from the queue. Solves count toward your league and show up on your profile.</p></div>`;
+  pgPaint("pgEd");pgPaint("pgSet");if(!P.ds&&L==="sql"&&S.ar.pgSchema)$("#pgSchema").innerHTML=S.ar.pgSchema;
+  const sel=$("#pgDs");if(sel)sel.onchange=()=>{P.ds=sel.value;P.pi=sel.value?0:null;pgSave();renderPlay()}}
+function pgStat(t){const s=$("#pgStat");if(s)s.textContent=t}
+function pgShow(P,html){S.ar.pgOut={key:pgKey(P)+"|"+(P.ds?"":"free"),html};const o=$("#pgOut");if(o){o.innerHTML=html;o.scrollIntoView({block:"nearest",behavior:"smooth"})}}
+function pgLogs(logs){return logs&&logs.length?`<div class="arlogs"><h4>Output</h4><pre class="pglog">${esc(logs.join("\n"))}</pre></div>`:""}
+function pgErr(t,m){return arVerdict(false,t,esc(String(m||"Something went wrong.")))}
+function pgResTable(cols,rows,label){return `<div class="pgres"><div class="pgrh"><b>${label||"Result"}</b><span>${rows.length.toLocaleString()} ${rows.length===1?"row":"rows"}</span></div>${arTable(cols,rows,200)}</div>`}
+/* turn whatever came back into rows: a table, a list of rows, a dict or a single value */
+function pgNorm(v){if(v==null)return[];if(Array.isArray(v)){if(!v.length)return[];if(v.every(Array.isArray))return v;if(v.every(x=>x&&typeof x==="object"))return v.map(o=>Object.values(o));return v.map(x=>[x])}
+  if(typeof v==="object"){const vals=Object.values(v);if(vals.length&&vals.every(Array.isArray)&&vals.every(a=>a.length===vals[0].length))return vals[0].map((_,i)=>vals.map(a=>a[i]));return Object.entries(v)}return[[v]]}
+function pgColsOf(v,rows){if(Array.isArray(v)&&v.length&&v[0]&&typeof v[0]==="object"&&!Array.isArray(v[0]))return Object.keys(v[0]);return(rows[0]||[]).map((_,i)=>"col "+(i+1))}
+function pgCell(x){if(typeof x==="boolean")return x?1:0;if(typeof x==="string"){const t=x.trim();if(t!==""&&!isNaN(t))return+t;return t}return x==null?null:x}
+function pgEq(a,b){a=pgCell(a);b=pgCell(b);if(typeof a==="number"&&typeof b==="number")return Math.abs(a-b)<=0.0105+Math.abs(b)*1e-9;return String(a)===String(b)}
+function pgRowEq(a,b){return a.length===b.length&&a.every((v,i)=>pgEq(v,b[i]))}
+function pgKeyRow(r){return r.map(v=>{v=pgCell(v);return v==null?"\u0000":typeof v==="number"?(Math.round(v*100)/100).toFixed(2):String(v)}).join("\u0001")}
+function pgFmt(r){return r.map(v=>{v=pgCell(v);return v==null?"NULL":typeof v==="number"?String(Math.round(v*100)/100):String(v)}).join(", ")}
+function pgCheck(got,exp,pr,lang){const E=exp.rows,G=got||[],n=E.length,tip=[];
+  if(!G.length)return{ok:false,t:"No answer yet",s:`Your code didn't return any rows. The answer has ${n} ${n===1?"row":"rows"}.`,tip:[lang==="py"?"End with your answer on the last line, like a DataFrame, a list or a number.":lang==="js"?"Use return at the end, like return rows.":"Check your WHERE filter and joins, they may remove everything."]};
+  const ec=(E[0]||exp.cols).length,gc=Math.max(...G.map(r=>r.length));
+  if(gc!==ec){return{ok:false,t:"Wrong number of columns",s:`The answer has ${ec} ${ec===1?"column":"columns"} and you returned ${gc}.`,tip:[ec===1&&n===1?"The answer is a single value.":"Return exactly what the problem asks for, in that order.",lang==="py"&&gc===ec+1?"An extra column is often the index. Try .reset_index() or as_index=False.":""].filter(Boolean)}}
+  if(G.length!==n){const more=G.length>n;return{ok:false,t:"Not quite yet",s:`You returned ${G.length.toLocaleString()} ${G.length===1?"row":"rows"}, the answer has ${n}.`,tip:[more?"You have extra rows. Check for a missing filter, a missing GROUP BY, or a join that repeats rows.":"Some rows are missing. A filter may be too strict, or an inner join may be dropping rows.",/LIMIT/i.test(pr.sql)&&more?"The problem only wants the top "+n+".":""].filter(Boolean)}}
+  const gs=G.map(r=>[pgKeyRow(r),r]).sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0).map(x=>x[1]),es=E.map(r=>[pgKeyRow(r),r]).sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0).map(x=>x[1]);
+  const sameSet=gs.every((r,i)=>pgRowEq(r,es[i]));
+  if(sameSet&&(!pr.o||G.every((r,i)=>pgRowEq(r,E[i]))))return{ok:true};
+  if(sameSet)return{ok:false,t:"Right rows, wrong order",s:"Every row is correct, but the order isn't.",tip:["Sort the way the problem asks: "+((pr.q.match(/(highest first|most first|oldest first|best first|earliest first|in [a-z]+ order|biggest first)[^.]*/i)||[""])[0]||"check the ORDER BY")+"."]};
+  let bad=-1;const A=pr.o?G:gs,B=pr.o?E:es;for(let i=0;i<B.length;i++)if(!pgRowEq(A[i],B[i])){bad=i;break}
+  const a=A[bad],b=B[bad];const nums=a.map((v,i)=>[pgCell(v),pgCell(b[i])]).filter(([x,y])=>typeof x==="number"&&typeof y==="number"&&!pgEq(x,y));
+  const textOff=a.some((v,i)=>!pgEq(v,b[i])&&!(typeof pgCell(v)==="number"&&typeof pgCell(b[i])==="number"));
+  if(!textOff&&nums.length&&nums.every(([x,y])=>Math.abs(x-y)<1))tip.push(nums.some(([x,y])=>Number.isInteger(x)&&!Number.isInteger(y))?"This looks like integer division. Multiply by 100.0 or use a decimal so you keep the fraction.":"Very close. Check your rounding: the problem wants 2 decimals.");
+  else if(!textOff&&nums.length)tip.push("The numbers are off. Check what you're summing or averaging, and whether a join is counting rows twice.");
+  else tip.push("Some values don't match. Re-read which rows to keep and which columns to return.");
+  if(pr.hint)tip.push("Hint: "+pr.hint);
+  return{ok:false,t:"Not quite yet",s:`${pr.o?"Row "+(bad+1):"One row"} doesn't match. You have ${esc(pgFmt(a))}${pr.o?`, the answer has ${esc(pgFmt(b))}`:""}.`,tip}}
+function pgVerdict(c,n){if(c.ok)return arVerdict(true,"Correct",`${n} ${n===1?"row matches":"rows match"}. Nice work.`);return `<div class="arv bad"><span>${AR_ICO.x}</span><div><b>${esc(c.t)}</b><small>${c.s}</small>${c.tip&&c.tip.length?`<ul class="pgtips">${c.tip.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>`:""}</div></div>`}
+
+async function pgRunSQL(P){const q=P.code.sql;let SQL;try{SQL=await arSqlLib()}catch(err){return pgErr("SQL couldn't load",err.message)}
+  const db=new SQL.Database();try{
+    let setErr=null;try{if(P.setup.trim())db.exec(P.setup)}catch(err){setErr=err.message}
+    let sch=[];try{const r=db.exec("SELECT name FROM sqlite_master WHERE type IN ('table','view') AND name NOT LIKE 'sqlite_%' ORDER BY name");sch=r.length?r[0].values.map(v=>v[0]):[]}catch(_){}
+    S.ar.pgSchema=`<b>Tables</b>${sch.length?sch.map(t=>{let c=[],n=0;try{c=db.exec(`PRAGMA table_info("${t.replace(/"/g,'""')}")`)[0].values.map(x=>x[1]);n=db.exec(`SELECT COUNT(*) FROM "${t.replace(/"/g,'""')}"`)[0].values[0][0]}catch(_){}
+      return `<div><code>${esc(t)}</code><span>${esc(c.join(", "))} · ${n.toLocaleString()} ${n===1?"row":"rows"}</span></div>`}).join(""):`<span class="hint">No tables yet.</span>`}`;
+    const sc=$("#pgSchema");if(sc)sc.innerHTML=S.ar.pgSchema;
+    if(setErr)return pgErr("Error in your tables and data",setErr);
+    if(!q.trim())return `<p class="hint">Write a query and press Run.</p>`;
+    const t0=performance.now();let r;try{r=db.exec(q)}catch(err){return pgErr("Error in your query",err.message)}const ms=performance.now()-t0;
+    if(!r.length){const ch=db.getRowsModified();return arVerdict(true,"Ran",`${ch} ${ch===1?"row":"rows"} changed. Add a SELECT to see rows.`)}
+    return r.map((x,i)=>`<div class="pgres"><div class="pgrh"><b>${r.length>1?"Result "+(i+1):"Result"}</b><span>${x.values.length.toLocaleString()} ${x.values.length===1?"row":"rows"}${i===r.length-1?` · ${ms.toFixed(1)} ms`:""}</span></div>${arTable(x.columns,x.values,200)}</div>`).join("")}
+  finally{try{db.close()}catch(_){}}}
+/* runs the code and returns {html, rows} so problems can be checked the same way in every language */
+async function pgExec(P,code){const L=P.lang;
+  if(L==="sql"){let SQL;try{SQL=await arSqlLib()}catch(err){return{html:pgErr("SQL couldn't load",err.message)}}const db=pgDsDb(SQL,P.ds);
+    try{if(!code.trim())return{html:`<p class="hint">Write a query and press Run.</p>`};const t0=performance.now();let r;try{r=db.exec(code)}catch(err){return{html:pgErr("Error in your query",err.message)}}const ms=performance.now()-t0;
+      if(!r.length)return{html:arVerdict(true,"Ran","No rows to show. End with a SELECT."),rows:[]};
+      return{html:r.map((x,i)=>`<div class="pgres"><div class="pgrh"><b>${r.length>1?"Result "+(i+1):"Your result"}</b><span>${x.values.length.toLocaleString()} ${x.values.length===1?"row":"rows"}${i===r.length-1?` · ${ms.toFixed(1)} ms`:""}</span></div>${arTable(x.columns,x.values,200)}</div>`).join(""),rows:r[r.length-1].values}}
+    finally{try{db.close()}catch(_){}}}
+  if(L==="py"&&!pgPy)pgStat("Loading Python. This takes a few seconds the first time.");
+  const r=L==="py"?await pgPyRun(code,P.ds?pgDsFiles(P.ds):P.files):await pgJsRun(code,P.ds?pgDsObjs(P.ds):pgJsFiles(P));
+  if(r.err)return{html:pgErr("Error",r.err)+pgLogs(r.logs)};
+  let v=null;try{v=r.v!=null?JSON.parse(r.v):r.val!=null?{val:JSON.parse(r.val)}:null}catch(_){}
+  let rows=null,html=pgLogs(r.logs);
+  if(v&&v.cols){rows=v.rows;html+=pgResTable(v.cols,v.rows,v.n>v.rows.length?`Your result (first ${v.rows.length.toLocaleString()} of ${v.n.toLocaleString()})`:"Your result")}
+  else if(v&&"val" in v&&v.val!=null){rows=pgNorm(v.val);const tab=Array.isArray(v.val)||(typeof v.val==="object");html+=tab&&rows.length?pgResTable(pgColsOf(v.val,rows),rows,"Your result"):`<div class="arlogs"><h4>${L==="py"?"Last value":"Returned"}</h4><pre class="pglog">${esc(v.repr!=null?v.repr:JSON.stringify(v.val,null,2))}</pre></div>`}
+  else if(v&&v.repr!=null)html+=`<div class="arlogs"><h4>Last value</h4><pre class="pglog">${esc(v.repr)}</pre></div>`;
+  if(!html)html=arVerdict(true,"Ran",L==="js"?"Nothing to show. Use console.log or return a value.":"Nothing to show. Use print() or end with a value.");
+  return{html,rows}}
+async function pgRun(){const P=pgState(),L=P.lang,ed=$("#pgEd");if(ed)pgPut(P,ed.value);const se=$("#pgSet");if(se)P.setup=se.value;pgSave();
+  const b=document.querySelector('[data-act="pgrun"]');if(b)b.disabled=true;pgStat("Running");let html;
+  try{if(!P.ds&&L==="sql")html=await pgRunSQL(P);
+    else if(!P.ds){P.code[L]=pgGet(P);html=(await pgExec(P,P.code[L])).html}
+    else{const pr=pgProb(P),x=await pgExec(P,pgGet(P));html=x.html;
+      if(pr&&x.rows){const exp=await pgExpected(P.ds,P.pi),c=pgCheck(x.rows,exp,pr,L),k=pgKey(P);
+        if(c.ok){pgMark(P.ds+":"+P.pi);setTimeout(()=>{const n=document.querySelector(`.pgp[data-i="${P.pi}"]`);if(n){n.classList.add("done");n.querySelector(".n").innerHTML=AR_ICO.check}},50)}else P.tries[k]=(P.tries[k]||0)+1;
+        html=pgVerdict(c,exp.rows.length)+html;if(!c.ok&&P.tries[k]===1){const qa=document.querySelector(".pgqa");if(qa&&!qa.querySelector('[data-act="pgans"]'))qa.insertAdjacentHTML("beforeend",`<button class="ulink" data-act="pgans">Show the SQL answer</button>`)}}}}
+  catch(err){html=pgErr("Error",err&&err.message)}
+  if(b)b.disabled=false;pgStat("Done. Ctrl Enter runs again.");pgShow(P,html);const o=$("#pgOut");if(o&&html.includes("arv ok")){o.classList.remove("pop");void o.offsetWidth;o.classList.add("pop")}}
+document.addEventListener("input",e=>{const t=e.target;if(!t||!t.classList||!t.classList.contains("pged"))return;pgPaint(t.id);const P=S.ar.pg;if(!P)return;if(t.id==="pgSet")P.setup=t.value;else pgPut(P,t.value);pgSave()});
+document.addEventListener("scroll",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("pged"))pgPaint(t.id)},true);
+document.addEventListener("keydown",e=>{const ed=e.target;if(!ed||!ed.classList||!ed.classList.contains("pged"))return;
+  if((e.metaKey||e.ctrlKey)&&e.key==="Enter"){e.preventDefault();pgRun();return}
+  if(e.key==="Tab"&&!e.shiftKey){e.preventDefault();ed.setRangeText(ed.dataset.lang==="py"?"    ":"  ",ed.selectionStart,ed.selectionEnd,"end");ed.dispatchEvent(new Event("input",{bubbles:true}));return}
+  if(e.key==="Enter"&&!e.shiftKey&&!e.altKey){const v=ed.value,s=ed.selectionStart,ls=v.lastIndexOf("\n",s-1)+1,ind=(v.slice(ls,s).match(/^[ \t]*/)||[""])[0]+(ed.dataset.lang==="py"&&/:\s*$/.test(v.slice(ls,s))?"    ":"");
+    if(ind){e.preventDefault();ed.setRangeText("\n"+ind,s,ed.selectionEnd,"end");ed.dispatchEvent(new Event("input",{bubbles:true}))}}});
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act^=pg]");if(!el)return;const a=el.dataset.act,A=S.ar;
+  if(a==="pgview"){A.view=el.dataset.v;A.open=null;renderArena();window.scrollTo(0,0);return}
+  const P=pgState();const keep=()=>{const ed=$("#pgEd");if(ed)pgPut(P,ed.value);const se=$("#pgSet");if(se)P.setup=se.value};
+  if(a==="pglang"){keep();P.lang=el.dataset.v;pgSave();renderPlay();if(P.lang==="py"&&!pgPy)pgPyRun("pass",{}).then(()=>pgStat("Python is ready. Ctrl Enter runs."));return}
+  if(a==="pgrun"){pgRun();return}
+  if(a==="pgprob"){keep();P.pi=+el.dataset.i;pgSave();renderPlay();if(window.matchMedia("(max-width:900px)").matches)$(".pgq")?.scrollIntoView({behavior:"smooth",block:"start"});return}
+  if(a==="pgnext"){keep();P.pi=Math.min(P.pi+1,PG_DSBY[P.ds].probs.length-1);pgSave();renderPlay();return}
+  if(a==="pgexplore"){keep();P.pi=null;pgSave();renderPlay();return}
+  if(a==="pghint"){const h=$("#pgHint");if(h)h.hidden=!h.hidden;return}
+  if(a==="pgans"){const h=$("#pgAns");if(h)h.hidden=!h.hidden;return}
+  if(a==="pgtab"){keep();const t=el.dataset.t,L=P.lang,add=L==="sql"?`SELECT * FROM ${t} LIMIT 10;`:L==="py"?`pd.read_csv("${t}.csv").head(10)`:`return files["${t}.csv"].slice(0, 10);`;
+    if(pgProb(P)){P.pi=null}const cur=pgGet(P);pgPut(P,L==="sql"?(cur.trim()?cur.replace(/\s*$/,"\n\n"):"")+add:(L==="py"?(cur.includes("import pandas")?cur.replace(/\s*$/,"\n\n"):"import pandas as pd\n\n")+add:add));pgSave();renderPlay();pgRun();return}
+  if(a==="pgreset"){const k=pgKey(P);if(k){delete P.pcode[k];delete P.tries[k]}else P.code[P.lang]=P.lang==="sql"?PG_EX.sql.code:PG_EX[P.lang];pgSave();renderPlay();return}
+  if(a==="pgsetreset"){P.setup=PG_EX.sql.setup;pgSave();renderPlay();return}
+  if(a==="pgrm"){delete P.files[el.dataset.n];pgSave();renderPlay();return}
+  if(a==="pgcsv"){const inp=document.createElement("input");inp.type="file";inp.accept=".csv,text/csv";inp.multiple=true;
+    inp.onchange=async()=>{let last=null;for(const f of inp.files){if(f.size>5e6){toast(f.name+" is over 5 MB");continue}const text=await f.text(),base=pgIdent(f.name.replace(/\.csv$/i,""),0)||"data";
+      if(P.lang==="sql"){const r=pgCSVsql(base,text);if(!r)continue;const se=$("#pgSet");if(se)P.setup=se.value;P.setup=(P.setup.trim()?P.setup.replace(/\s*$/,"\n\n"):"")+r.sql;last=`SELECT * FROM ${base} LIMIT 20;`;toast(`Imported ${r.n.toLocaleString()} rows into ${base}`)}
+      else{const n=base+".csv";P.files[n]=text;last=P.lang==="py"?`import pandas as pd\n\ndf = pd.read_csv("${n}")\ndf.head(20)`:`const rows = files["${n}"];\nconsole.log(rows.length, "rows");\nreturn rows.slice(0, 10);`;toast(`Added ${n}`)}}
+      if(last){const cur=(P.code[P.lang]||"").trim();if(!cur||cur===(P.lang==="sql"?PG_EX.sql.code:PG_EX[P.lang]).trim())P.code[P.lang]=last;pgSave();renderPlay();pgRun()}};inp.click()}});
+
+
+function renderArena(){const A=S.ar;if(A.open){clearInterval(A.cd);renderArProblem();return}clearInterval(A.timer);if(A.view==="play"){clearInterval(A.cd);renderPlay();return}
   if(!A.stats&&!A.err){arLoad();$("#main").innerHTML=`<div class="cpage tpage arpage aq"><div class="aqhd"><h1>Arena</h1><p>Loading your tickets</p></div></div>`;return}
   if(A.track===undefined)A.track=arDefTrack();if(A.type===undefined)A.type="";
   const st0=A.stats||{solved:0,easy:0,medium:0,hard:0,total:AR_ALL.length,bank:{},topics:[],mine:{}},mine=st0.mine||{};
@@ -3648,6 +4122,7 @@ function renderArena(){const A=S.ar;if(A.open){clearInterval(A.cd);renderArProbl
     return `<div class="aqd ${isT?"td":n?"dn":"ms"}"><span>${isT?"Today":d.toLocaleDateString(undefined,{weekday:"short"})}</span><b>${d.getDate()}</b><em>${n?AR_ICO.check+n+" solved":isT?(ddone?"Done":"Open"):"Rest"}</em></div>`}).join("");
   const row=p=>{const m=mine[p.id],done=m&&m.passed;return `<button class="aqt ${A.sel===p.id?"sel":""} ${done?"done":""}" data-act="arsel" data-p="${p.id}"><code>${arTid(p)}</code><b>${esc(p.title)}</b><small>${arTaskLabel(p)} · ${p.mins} min${p.ai?" · AI allowed":""}</small><span class="ardf ${arDiffCls(p.diff)}">${p.diff}</span>${done?`<i class="aqck">${AR_ICO.check}</i>`:m?`<i class="aqip"></i>`:""}</button>`};
   $("#main").innerHTML=`<div class="cpage tpage arpage aq">
+    <div class="pgtopsw">${pgSwitch("queue")}</div>
     <div class="aqtop">
       ${dl?`<div class="aqday"><div class="aqglow"></div><span class="aqk">Ticket of the day · ${esc(TRACK[dl.track]||dl.track)}</span><h1>${esc(dl.title)}</h1><p>${esc(arPlain(dl.prompt).slice(0,170))}${arPlain(dl.prompt).length>170?"…":""}</p>
         <div class="aqchips"><span><code>${arTid(dl)}</code></span><span>${arTaskLabel(dl)}</span><span>${dl.mins} min</span><span>${dl.diff}</span>${dl.ai?`<span>AI allowed</span>`:""}</div>
