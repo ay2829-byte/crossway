@@ -108,8 +108,10 @@ function page(p) {
   const role = p.roleName, rl = role.toLowerCase();
   const Y = p.years, yN = p.yearsN, early = p.lv[0] + p.lv[1], senior = p.lv[3];
   const payTxt = p.pay.n ? `$${p.pay.lo}k to $${p.pay.hi}k` : "";
-  const title = `${p.n} ${p.title} (Updated Today) | Crossway`;
-  const desc = `Browse ${p.n} ${rl} jobs${where} from company career pages, updated every few hours.${payTxt ? ` Typical posted pay ${payTxt}.` : ""} See years asked, pay and skills, then apply direct.`;
+  // pay and the count up front: that's what people compare in search results
+  const title = `${p.title}: ${p.n} Open Roles${payTxt ? `, ${payTxt}` : ""} | Crossway`;
+  const hiring = (p.cos || []).slice(0, 3).map(c => c[0]).filter(Boolean);
+  const desc = `${p.n} open ${role} jobs${where}${hiring.length ? ` at ${hiring.join(", ")} and more` : ""}.${payTxt ? ` Typical pay ${payTxt}.` : ""} Updated every few hours from company career pages. See years asked and skills, then apply direct.`;
   const fam = FAM[p.fam] || FAM.ops;
   const top = p.cos.slice(0, 3).map(c => c[0]);
   const faq = [
